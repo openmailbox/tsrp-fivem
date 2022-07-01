@@ -4,5 +4,5 @@ services:
     build: .
     volumes:
       - type: bind
-        source: ./server-data
-        target: /fivem/server-data
+        source: ./server-data/resources
+        target: /fivem/server-data/resources

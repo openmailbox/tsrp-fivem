@@ -9,7 +9,7 @@ RUN mkdir /fivem
 RUN mkdir /fivem/fxserver
 RUN mkdir /fivem/server-data
 
-VOLUME /fivem/server-data
+VOLUME /fivem/server-data/resources
 
 EXPOSE 30120/tcp
 EXPOSE 30120/udp
