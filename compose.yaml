@@ -9,8 +9,8 @@ services:
       - "40125"
     volumes:
       - type: bind
-        source: ./server-data/resources
-        target: /fivem/server-data/resources
+        source: ./src
+        target: /fivem/server-data/resources/[local]
       - type: bind
         source: ./cfx/txData
         target: /fivem/fxserver/txData
