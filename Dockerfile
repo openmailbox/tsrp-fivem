@@ -33,7 +33,7 @@ RUN /bin/bash -c 'sed -i "s/MY_LICENSE_KEY/$(cat /fivem/fivem-key.txt)/" /fivem/
 
 WORKDIR /fivem/server-data
 
-ENTRYPOINT /fivem/fxserver/run.sh +exec server.cfg \ 
+ENTRYPOINT /fivem/fxserver/run.sh \ 
            +set sv_enforceGameBuild $FIVEM_SERVER_BUILD \
            +set serverProfile default \
            +set txAdminPort 40125
