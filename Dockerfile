@@ -12,12 +12,13 @@ RUN mkdir /fivem/server-data
 WORKDIR /fivem/fxserver
 
 # Uncomment to prefer a local server build.
-COPY fx.tar.xz /fivem/fxserver/fx.tar.xz
+#COPY fx.tar.xz /fivem/fxserver/fx.tar.xz
 
 COPY fivem_setup.sh /fivem/fivem_setup.sh
 RUN /fivem/fivem_setup.sh
 
 VOLUME /fivem/server-data/resources
+VOLUME /fivem/fxserver/txData
 
 EXPOSE 30120/tcp
 EXPOSE 30120/udp
@@ -35,5 +36,4 @@ WORKDIR /fivem/server-data
 
 ENTRYPOINT /fivem/fxserver/run.sh \ 
            +set sv_enforceGameBuild $FIVEM_SERVER_BUILD \
-           +set serverProfile default \
            +set txAdminPort 40125
