@@ -4,6 +4,9 @@ services:
     build: .
     stdin_open: true
     tty: true
+    ports:
+      - "30120"
+      - "40125"
     volumes:
       - type: bind
         source: ./server-data/resources
