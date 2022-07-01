@@ -2,6 +2,8 @@ services:
   fivem:
     image: tsrp-fivem:latest
     build: .
+    stdin_open: true
+    tty: true
     volumes:
       - type: bind
         source: ./server-data/resources
