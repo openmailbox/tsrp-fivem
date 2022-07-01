@@ -13,3 +13,7 @@ Contributions are welcome. Here are instructions for setting up a local developm
 1. Inspect the logs of the resulting `tsrp-fivem` container to find the pin number to setup txAdmin.
 1. Complete txAdmin setup and start the FiveM server.
 1. Open your FiveM client and connect to whatever local host port was mapped to container port `30120`.
+
+Resources in `src` are linked into the running container as a volume, meaning changes will be reflected immediately. 
+
+The base [FiveM-provided resources](https://github.com/citizenfx/cfx-server-data/tree/master/resources) are linked at build time, meaning pulling in any new changes is as easy as rebuilding the image. In the future, we will probably need to change this to support a scenario where we want to fork or modify the base resources (i.e. chat). For now, it's a 1 or 0 choice to use or not use any of them which we can control from `server.cfg`.

@@ -27,7 +27,7 @@ EXPOSE 40125/tcp
 # Env var b/c we might want to change at runtime
 ENV FIVEM_SERVER_BUILD=2545
 
-COPY server-data/server.cfg.orig /fivem/server-data/server.cfg
+COPY cfg/server.cfg.orig /fivem/server-data/server.cfg
 COPY fivem-key.txt /fivem/fivem-key.txt
 
 RUN /bin/bash -c 'sed -i "s/MY_LICENSE_KEY/$(cat /fivem/fivem-key.txt)/" /fivem/server-data/server.cfg'
