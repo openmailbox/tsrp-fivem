@@ -12,7 +12,7 @@ RUN mkdir -p /fivem/server-data/resources
 WORKDIR /fivem/fxserver
 
 # Uncomment to prefer a local server build.
-COPY fx.tar.xz /fivem/fxserver/fx.tar.xz
+#COPY fx.tar.xz /fivem/fxserver/fx.tar.xz
 
 COPY fivem_setup.sh /fivem/fivem_setup.sh
 RUN /fivem/fivem_setup.sh
