@@ -26,7 +26,7 @@ ENV FIVEM_SERVER_BUILD=2545
 RUN /bin/bash -c 'wget -v $FIVEM_SERVER_URL'
 RUN /bin/bash -c 'tar xf fx.tar.xz'
 
-COPY server-data/server.cfg.example /fivem/server-data/server.cfg
+COPY server-data/server.cfg.orig /fivem/server-data/server.cfg
 COPY fivem-key.txt /fivem/fivem-key.txt
 
 RUN /bin/bash -c 'sed -i "s/MY_LICENSE_KEY/$(cat /fivem/fivem-key.txt)/" /fivem/server-data/server.cfg'
