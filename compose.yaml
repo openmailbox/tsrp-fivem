@@ -1,0 +1,8 @@
+services:
+  fivem:
+    image: tsrp-fivem:latest
+    build: .
+    volumes:
+      - type: bind
+        source: ./server-data
+        target: /fivem/server-data
