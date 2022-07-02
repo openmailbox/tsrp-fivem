@@ -25,3 +25,7 @@ services:
       MARIADB_DATABASE: tsrp_fivem_development
       MARIADB_USER: tsrp
       MARIADB_PASSWORD: tsrpdev
+    volumes:
+      - type: bind
+        source: ./data/gamedb
+        target: /var/lib/mysql
