@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 LABEL Name=tsrp-fivem Version=0.0.1
 
-RUN apt-get -y update 
+RUN apt-get -y update
 RUN apt-get -y install xz-utils wget curl git
 
 RUN mkdir /fivem
@@ -32,11 +32,16 @@ COPY fivem-key.txt /fivem/fivem-key.txt
 
 RUN /bin/bash -c 'sed -i "s/MY_LICENSE_KEY/$(cat /fivem/fivem-key.txt)/" /fivem/server-data/server.cfg'
 
+# Install and link the default FiveM resources
 RUN git clone https://github.com/citizenfx/cfx-server-data.git /fivem/cfx-server-data
 RUN ln -s /fivem/cfx-server-data/resources '/fivem/server-data/resources/[base]'
 
+# Install and link the FiveM mysql-async resource. Bump tag version as needed.
+RUN git clone --depth 1 --branch 3.3.2 https://github.com/brouznouf/fivem-mysql-async.git /fivem/mysql-async
+RUN ln -s /fivem/mysql-async '/fivem/server-data/resources/mysql-async'
+
 WORKDIR /fivem/server-data
 
-ENTRYPOINT /fivem/fxserver/run.sh \ 
+ENTRYPOINT /fivem/fxserver/run.sh \
            +set sv_enforceGameBuild $FIVEM_SERVER_BUILD \
            +set txAdminPort 40125
