@@ -14,3 +14,14 @@ services:
       - type: bind
         source: ./data/txData
         target: /fivem/fxserver/txData
+  # This config is NOT suitable for running in production
+  database:
+    image: mariadb:10.8
+    ports:
+      - "3306"
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
+      MARIADB_ROOT_HOST: localhost
+      MARIADB_DATABASE: tsrp_fivem_development
+      MARIADB_USER: tsrp
+      MARIADB_PASSWORD: tsrpdev
