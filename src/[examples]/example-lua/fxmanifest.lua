@@ -3,7 +3,7 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Change this description."
+description "This resource does nothing. It's just a template for getting started."
 version "0.0.1"
 
 dependencies {
