@@ -5,8 +5,8 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "30120"
-      - "40125"
+      - "30120:30120"
+      - "40125:40125"
     volumes:
       - type: bind
         source: ./src
