@@ -1,12 +1,6 @@
 Migrate = {}
 
-local COLOR_RED             = { 255, 0, 0 }
 local MIGRATIONS_TABLE_NAME = "migrations"
-
--- Forward declarations
-local fail,
-      run_migrations,
-      validate
 
 local pending_migrations = {}
 
@@ -15,17 +9,6 @@ local pending_migrations = {}
 function AddMigration(name, func)
     pending_migrations[name] = func
 end
-
-function Migrate.initialize(source, args, raw_command)
-    local command = Migrate:new({
-        source      = source,
-        args        = args,
-        raw_command = raw_command
-    })
-
-    command:execute()
-end
-RegisterCommand("migrate", Migrate.initialize, true)
 
 function Migrate:new(o)
     o = o or {}
@@ -37,31 +20,6 @@ function Migrate:new(o)
 end
 
 function Migrate:execute()
-    local succ, msg = validate(self)
-
-    if not succ then
-        fail(self.source, msg)
-        return
-    end
-
-    run_migrations()
-end
-
--- @local
-function fail(source, message)
-    Citizen.Trace(message .. "\n")
-
-    if source and source > 0 then
-        TriggerClientEvent(Events.ADD_CHAT_MESSAGE, source, {
-            color     = COLOR_RED,
-            multiline = true,
-            args      = { GetCurrentResourceName(), message }
-        })
-    end
-end
-
--- @local
-function run_migrations()
     local sorted_keys = {}
 
     for name, _ in pairs(pending_migrations) do
@@ -98,14 +56,5 @@ function run_migrations()
         end
     end
 
-    Citizen.Trace("Finished migrations.\n")
-end
-
--- @local
-function validate(command)
-    if command.source and command.source > 0 then
-        return false, "This command may only be executed from the console."
-    end
-
-    return true
+    Citizen.Trace("Finished applying migrations.\n")
 end

@@ -1,7 +1,7 @@
 AddMigration("20220703_create_migrations", function()
     MySQL.Sync.execute(
-        [[CREATE TABLE migrations
-            (id bigint not null auto_increment primary key,
+        [[CREATE TABLE migrations (
+            id bigint not null auto_increment primary key,
             name varchar(255) not null
         );
 
