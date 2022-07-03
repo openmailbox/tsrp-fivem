@@ -45,4 +45,6 @@ fivem-key.txt
 data/txData
 data/gamedb
 
+# Environment things
 .vscode
+*.code-workspace
