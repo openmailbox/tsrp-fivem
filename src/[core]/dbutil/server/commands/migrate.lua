@@ -25,7 +25,7 @@ function Migrate.initialize(source, args, raw_command)
 
     command:execute()
 end
-RegisterCommand("dbutil setup", Migrate.initialize, true)
+RegisterCommand("migrate", Migrate.initialize, true)
 
 function Migrate:new(o)
     o = o or {}
@@ -77,6 +77,8 @@ function run_migrations()
         existing = MySQL.Sync.fetchAll("SELECT * FROM migrations")
     end
 
+    Citizen.Trace("Checking for pending migrations...\n")
+
     for _, key in pairs(sorted_keys) do
         local exists = false
 
@@ -95,6 +97,8 @@ function run_migrations()
             MySQL.Sync.execute("INSERT INTO migrations (name) VALUES (@name)", { ["@name"] = key })
         end
     end
+
+    Citizen.Trace("Finished migrations.\n")
 end
 
 -- @local
