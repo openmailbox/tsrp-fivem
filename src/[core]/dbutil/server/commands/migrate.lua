@@ -5,13 +5,13 @@ local MIGRATIONS_TABLE_NAME = "migrations"
 
 -- Forward declarations
 local fail,
-      init_migrations,
       run_migrations,
       validate
 
 local pending_migrations = {}
 
 -- Maybe not the best place for this global function to live.
+-- TODO: Refactor this so it's event-driven. Don't load migrations into memory until the command runs.
 function AddMigration(name, func)
     pending_migrations[name] = func
 end
@@ -44,7 +44,6 @@ function Migrate:execute()
         return
     end
 
-    init_migrations()
     run_migrations()
 end
 
@@ -62,15 +61,6 @@ function fail(source, message)
 end
 
 -- @local
-function init_migrations()
-    MySQL.Sync.execute(
-        "CREATE TABLE IF NOT EXISTS " .. MIGRATIONS_TABLE_NAME .. [[
-        (id bigint not null auto_increment primary key,
-        name varchar(255) not null)]]
-    )
-end
-
--- @local
 function run_migrations()
     local sorted_keys = {}
 
@@ -80,7 +70,12 @@ function run_migrations()
 
     table.sort(sorted_keys)
 
-    local existing = MySQL.Sync.fetchAll("SELECT * FROM migrations")
+    local tables   = MySQL.Sync.fetchAll("SHOW TABLES LIKE '" .. MIGRATIONS_TABLE_NAME .. "';")
+    local existing = {}
+
+    if #tables > 0 then
+        existing = MySQL.Sync.fetchAll("SELECT * FROM migrations")
+    end
 
     for _, key in pairs(sorted_keys) do
         local exists = false
