@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 fx_version "cerulean"
 games { "gta5" }
 lua54 "yes"
@@ -38,4 +40,5 @@ server_scripts {
 --server_exports {
 --}
 
+-- Cannot require this resource as a dependency for any other resource that has a client-side component.
 -- server_only 'yes'
