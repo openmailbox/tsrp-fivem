@@ -40,4 +40,5 @@ server_scripts {
 --server_exports {
 --}
 
+-- Cannot require this as a dependency for any resource that has a client-side component.
 -- server_only 'yes'

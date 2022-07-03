@@ -5,39 +5,17 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "This resource does nothing. It's just a template for getting started."
+description "Provides core database utils and API for other resources."
 version "0.0.1"
 
 dependencies {
-    --"mysql-async",
-}
-
-client_scripts {
-    "shared/**/*.lua",
-    "client/**/*.lua"
+    "mysql-async",
 }
 
 server_scripts {
-    --"@mysql-async/lib/MySQL.lua",
-    "shared/**/*.lua",
+    "@mysql-async/lib/MySQL.lua",
     "server/**/*.lua"
 }
 
---ui_page "web/index.html"
---
---files {
---    "web/**/*.html",
---    "web/**/*.js",
---    "web/**/*.css",
---}
-
--- files {
---}
-
---exports {
---}
-
---server_exports {
---}
-
--- server_only 'yes'
+-- Cannot require this as a dependency for any resource that has a client-side component.
+server_only 'yes'
