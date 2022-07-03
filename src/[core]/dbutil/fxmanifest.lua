@@ -14,6 +14,7 @@ dependencies {
 
 server_scripts {
     "@mysql-async/lib/MySQL.lua",
+    "@common/shared/events.lua",
     "server/**/*.lua"
 }
 

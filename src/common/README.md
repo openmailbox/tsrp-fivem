@@ -11,6 +11,6 @@ client_scripts {
 This can be used for client or server-side scripts as needed.
 
 ## Tradeoffs
-The fundamental question is about modularity. Is it better to redefine simple things like constants in every single resource that needs it? Doing so makes each resource more modular in that it can be copy/pasted into a new project without any adjustments. However, it increases the overhead of refactoring in the event that something changes. This resource also saves on memory in the long run, assuming that referencing a script from another resource in FiveM is equivalent to pass-by-reference instead of pass-by-value. I'm not actually sure as of this writing how that works precisely, but the value of centralizing definitions still makes this worthwhile.
+The fundamental question is about modularity. Is it better to redefine simple things like constants in every single resource that needs it? Doing so makes each resource more modular in that it can be copy/pasted into a new project without any adjustments. However, it increases the overhead of refactoring in the event that something changes. This pattern also saves on memory in the long run, assuming that referencing a script from another resource in FiveM is equivalent to pass-by-reference instead of pass-by-value. I'm not actually sure as of this writing how that works precisely, but the value of centralizing definitions still makes this worthwhile.
 
 In short, we are making an intentional choice here to optimize for working on this codebase as a single project. We're not worried about portability.

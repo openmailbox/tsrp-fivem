@@ -1,7 +1,9 @@
 Setup = {}
 
+local COLOR_RED = { 255, 0, 0 }
+
 -- Forward declarations
-local validate
+local fail, validate
 
 function Setup.initialize(source, args, raw_command)
     local command = Setup:new({
@@ -27,8 +29,23 @@ function Setup:execute()
     local succ, msg = validate(self)
 
     if not succ then
-        -- Send msg to enactor
+        fail(self.source, msg)
         return
+    end
+
+    -- Apply schema
+end
+
+-- @local
+function fail(source, message)
+    Citizen.Trace(message .. "\n")
+
+    if source and source > 0 then
+        TriggerClientEvent(Events.ADD_CHAT_MESSAGE, source, {
+            color     = COLOR_RED,
+            multiline = true,
+            args      = { GetCurrentResourceName(), message }
+        })
     end
 end
 
