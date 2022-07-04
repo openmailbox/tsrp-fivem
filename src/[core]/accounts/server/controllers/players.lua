@@ -24,7 +24,9 @@ local function on_disconnect(reason)
     local account_id = account.id or 0
 
     if (account ~= nil) then
-        Citizen.Trace("Unloading Account " .. account_id .. " for Player " .. player_id .. " w/ reason: '" .. reason .. "'.\n")
+        Citizen.Trace("Unloading Account " .. account_id .. " for Player " .. player_id .. " (" .. account.name ..
+                      ") w/ reason: '" .. reason .. "'.\n")
+
         Queue.remove(account)
         account:unload()
     else
