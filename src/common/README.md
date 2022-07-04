@@ -1,7 +1,7 @@
 # Common Definitions
 This resource provides common global definitions primarily so that other resources can refer to constants instead of strings. For example, instead of including `"onResourceStart"` as a string in every server-side event handler, resources can instead reference `Events.ON_RESOURCE_START` or something similar. Retyping the same string repeatedly is prone to user error and makes it exceedingly difficult to change the name of something later.
 
-This resource should _never_ be started directly, and doing so will generate a console warning. Instead, the necessary definitions should be included in other resources by dynamically linking at runtime. Use the event definitions by including them in a different resource's manifest:
+This resource is not designed to "do" anything. Instead, the necessary definitions should be included in other resources by dynamically linking at runtime. Use the event definitions by including them in a different resource's manifest:
 
 ```lua
 client_scripts {

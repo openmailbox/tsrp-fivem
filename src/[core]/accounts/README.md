@@ -1,0 +1,6 @@
+# Player Account Management
+This resource associates each connecting player with a unique account. Each account has one or more identifiers which uniquely identify the individual player. We obtain the identifiers using the `GetPlayerIdentifiers()` global function. We save _all_ of the identifiers associated with the account (not just Steam) so that we aren't relying on a single provider for identifying players. This prevents the undesirable situation where players cannot connect because Steam (or whatever platform) is down.
+
+We save the player IP as an account identifier, but we do not lookup existing accounts using the IP to identify a player. We do this because multiple players may connect from the same IP in various legitimate scenarios (families, roomies, etc.). We don't want one account for each IP. We want an account for each _player_. In these situations, the IP will show up in the database multiple times, once for each associated account.
+
+This resource also provides a basic queue implementation for the (unlikely) scenario where there's actually too much demand for the server. "Basic" is the operative word. It allows numeric prioritization, but all accounts are currently set to the same priority by default. We'll make this more flexible as the need arises.

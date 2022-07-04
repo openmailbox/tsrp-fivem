@@ -20,6 +20,7 @@ ensure hardcap
 ensure rconlog
 
 # TSRP resources
+ensure accounts
 ensure dbutil
 
 # This allows players to use scripthook-based plugins such as the legacy Lambda Menu.
@@ -83,7 +84,7 @@ sv_maxclients 48
 
 # Steam Web API key, if you want to use Steam authentication (https://steamcommunity.com/dev/apikey)
 # -> replace "" with the key
-set steam_webApiKey ""
+set steam_webApiKey "none"
 
 # License key for your server (https://keymaster.fivem.net)
 sv_licenseKey MY_LICENSE_KEY
