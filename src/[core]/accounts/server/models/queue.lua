@@ -1,35 +1,24 @@
 Queue = {}
 
-local MAX_WHITELIST_PLAYERS = GetConvarInt("MAX_WHITELIST_PLAYERS", 64)
-local MAX_PUBLIC_PLAYERS    = GetConvarInt("MAX_PUBLIC_PLAYERS", 30)
+-- whatever the max player count should be before queue goes into effect
+local MAX_PLAYERS = 64
 
 -- Forward declarations
 local process_queue
 
-local ellipsis        = "."
-local running         = false
-local queue_public    = {}
-local queue_whitelist = {}
+local ellipsis = "."
+local running  = false
+local queue    = {}
 
 --- Main entry point for the queue. Either allows the connection to proceed or queue it.
 -- @tparam table defferals the deferral object handed off from playerConnecting
 -- @tparam Account account
 function Queue.add(deferrals, account)
-    local online = GetPlayers()
-    local count  = #online
-    local queue  = queue_public
-    local limit  = MAX_PUBLIC_PLAYERS
-    local label  = "public"
-
-    if account.whitelisted then
-        queue = queue_whitelist
-        limit = MAX_WHITELIST_PLAYERS
-        label = "whitelist"
-    end
-
+    local online   = GetPlayers()
+    local count    = #online
     local position = #queue + 1
 
-    if count < limit then
+    if count < MAX_PLAYERS then
         deferrals.done()
         return
     end
@@ -47,11 +36,7 @@ function Queue.add(deferrals, account)
 
     table.insert(queue, position, waiting)
 
-    local message = "Adding Account #" .. account.id .. "(" .. tostring(account.name) .. ") to the " .. label ..
-                    " queue in position " .. position .. "."
-
-    Citizen.Trace(message .. "\n")
-    TriggerEvent(Events.CREATE_DISCORD_LOG, message)
+    Citizen.Trace("Adding Account #" .. account.id .. "(" .. tostring(account.name) .. ") to the queue in position " .. position .. ".\n")
 
     if not running then Queue.start_check() end
 end
@@ -61,16 +46,9 @@ end
 function Queue.remove(account)
     if not running then return end
 
-    for i, waiting in ipairs(queue_whitelist) do
+    for i, waiting in ipairs(queue) do
         if waiting.account.id == account.id then
-            table.remove(queue_whitelist, i)
-            return
-        end
-    end
-
-    for i, waiting in ipairs(queue_public) do
-        if waiting.account.id == account.id then
-            table.remove(queue_public, i)
+            table.remove(waiting, i)
             return
         end
     end
@@ -82,13 +60,12 @@ function Queue.start_check()
 
     Citizen.CreateThread(function()
         while running do
-            if #queue_whitelist == 0 and #queue_public == 0 then
+            if #queue == 0 then
                 running = false
                 break
             end
 
-            process_queue("whitelist", queue_whitelist, MAX_WHITELIST_PLAYERS)
-            process_queue("public", queue_public, MAX_PUBLIC_PLAYERS)
+            process_queue()
 
             if string.len(ellipsis) == 3 then
                 ellipsis = "."
@@ -102,9 +79,9 @@ function Queue.start_check()
 end
 
 -- @local
-function process_queue(label, queue, limit)
-    local online   = GetPlayers()
-    local spaces   = limit - #online
+function process_queue()
+    local online = GetPlayers()
+    local spaces = MAX_PLAYERS - #online
 
     if spaces > 0 and #queue > 0 then
         for _ = 1, spaces do
@@ -113,8 +90,7 @@ function process_queue(label, queue, limit)
             table.remove(queue, 1)
 
             waiting.deferrals.done()
-            Citizen.Trace("Removing Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) ..
-                          ") from " .. label .. " queue and connecting.\n")
+            Citizen.Trace("Pulling Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) .. ") from queue and connecting.\n")
         end
     end
 
@@ -124,11 +100,9 @@ function process_queue(label, queue, limit)
         local guid = GetPlayerGuid(waiting.account.player_id)
 
         if guid then
-            waiting.deferrals.update("You are in the " .. label .. " queue at position " .. i ..
-                                     " of " .. #queue .. ellipsis)
+            waiting.deferrals.update("You are in queue at position " .. i .. " of " .. #queue .. ellipsis)
         else
-            Citizen.Trace("Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) ..
-                          ") dropped from the " .. label .. " queue.\n")
+            Citizen.Trace("Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) ..  ") dropped from the queue.\n")
             table.insert(removing, i)
         end
     end
