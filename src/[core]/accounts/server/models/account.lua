@@ -83,7 +83,7 @@ function load_account(account, cb)
     end
 
     MySQL.Async.fetchScalar(
-        [[SELECT id FROM accounts
+        [[SELECT accounts.id FROM accounts
           INNER JOIN identifiers ON identifiers.account_id = accounts.id
           WHERE identifiers.value IN (']] .. table.concat(without_ip, "', '") .. [[')
           LIMIT 1;]],
