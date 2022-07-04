@@ -9,19 +9,18 @@ description "Handles player account management in a platform-agnostic way."
 version "0.0.1"
 
 dependencies {
+    "common",
     "mysql-async",
 }
 
-shared_scripts {
-    "@common/shared/events.lua",
-}
-
 client_scripts {
+    "@common/shared/events.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
     "@mysql-async/lib/MySQL.lua",
+    "@common/shared/events.lua",
     "server/**/*.lua"
 }
 

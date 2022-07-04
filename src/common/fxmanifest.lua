@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Provides common global definitions meant to be included in other resources."
-version "0.0.1"
+version "0.0.2"
 
 shared_scripts {
     "shared/**/*.lua",

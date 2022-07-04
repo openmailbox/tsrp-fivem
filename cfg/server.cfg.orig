@@ -20,6 +20,7 @@ ensure hardcap
 ensure rconlog
 
 # TSRP resources
+ensure accounts
 ensure dbutil
 
 # This allows players to use scripthook-based plugins such as the legacy Lambda Menu.
