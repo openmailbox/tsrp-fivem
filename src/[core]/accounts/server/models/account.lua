@@ -147,7 +147,7 @@ function sync_identifiers(account)
 
             for _, value in ipairs(missing) do
                 MySQL.Async.insert(
-                    "INSERT INTO identifiers (account_id, value) VALUES (@id, @value)",
+                    "INSERT INTO identifiers (account_id, value, created_at) VALUES (@id, @value, NOW())",
                     {
                         ["@id"]    = account.id,
                         ["@value"] = value
