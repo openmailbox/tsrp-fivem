@@ -13,12 +13,14 @@ dependencies {
 }
 
 client_scripts {
+    "@common/shared/events.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
     --"@mysql-async/lib/MySQL.lua",
+    "@common/shared/events.lua",
     "shared/**/*.lua",
     "server/**/*.lua"
 }
