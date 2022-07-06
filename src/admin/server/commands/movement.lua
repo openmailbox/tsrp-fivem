@@ -5,9 +5,9 @@ local function cmd_goto(source, args, raw_command)
     end
 
     -- Allow input either as "0 0 0" or "0, 0, 0"
-    local x = tonumber(tostring(args[1]):gsub(',', ''))
-    local y = tonumber(tostring(args[2]):gsub(',', ''))
-    local z = tonumber(tostring(args[3]):gsub(',', ''))
+    local x = tonumber((tostring(args[1]):gsub(',', '')))
+    local y = tonumber((tostring(args[2]):gsub(',', '')))
+    local z = tonumber((tostring(args[3]):gsub(',', '')))
 
     SetEntityCoords(source, x, y, z, 0, false, false, false)
     TellPlayer(source, "Moving you to " .. vector3(x, y, z) .. ".")
