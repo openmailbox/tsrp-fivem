@@ -20,7 +20,10 @@ ensure hardcap
 ensure rconlog
 
 # TSRP resources
+ensure common # this is the one thing where order matters. Start this first
+
 ensure accounts
+ensure admin
 ensure dbutil
 
 # This allows players to use scripthook-based plugins such as the legacy Lambda Menu.
@@ -35,11 +38,11 @@ sv_scriptHookAllowed 0
 # - sets tags "drifting, cars, racing"
 # Or:
 # - sets tags "roleplay, military, tanks"
-sets tags "default"
+#sets tags "default"
 
 # A valid locale identifier for your server's primary language.
 # For example "en-US", "fr-CA", "nl-NL", "de-DE", "en-GB", "pt-BR"
-sets locale "root-AQ"
+sets locale "en-US"
 # please DO replace root-AQ on the line ABOVE with a real language! :)
 
 # Set an optional server info and connecting banner image url.
@@ -48,13 +51,13 @@ sets locale "root-AQ"
 #sets banner_connecting "https://url.to/image.png"
 
 # Set your server's hostname. This is not usually shown anywhere in listings.
-sv_hostname "FXServer, but unconfigured"
+sv_hostname ""
 
 # Set your server's Project Name
-sets sv_projectName "My FXServer Project"
+sets sv_projectName ""
 
 # Set your server's Project Description
-sets sv_projectDesc "Default FXServer requiring configuration"
+sets sv_projectDesc ""
 
 # Nested configs!
 #exec server_internal.cfg
@@ -72,9 +75,9 @@ set temp_convar "hey world!"
 sv_master1 ""
 
 # Add system admins
-add_ace group.admin command allow # allow all commands
-add_ace group.admin command.quit deny # but don't allow quit
-add_principal identifier.fivem:1 group.admin # add the admin to the group
+# add_ace group.admin command allow # allow all commands
+# add_ace group.admin command.quit deny # but don't allow quit
+# add_principal identifier.fivem:1 group.admin # add the admin to the group
 
 # enable OneSync (required for server-side state awareness)
 set onesync on

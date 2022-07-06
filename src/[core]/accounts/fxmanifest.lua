@@ -9,7 +9,6 @@ description "Handles the queue and overall player account management in a platfo
 version "0.0.1"
 
 dependencies {
-    "common",
     "mysql-async",
 }
 
