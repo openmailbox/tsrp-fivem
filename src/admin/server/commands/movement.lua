@@ -1,4 +1,9 @@
 local function cmd_goto(source, args, raw_command)
+    if not source or source == 0 then
+        Citizen.Trace("Invalid console command.\n")
+        return
+    end
+
     if not args[1] or not args[2] or not args[3] then
         TellPlayer(source, "Syntax: /goto <x> <y> <z>")
         return
@@ -16,6 +21,11 @@ end
 RegisterCommand("goto", cmd_goto, true)
 
 local function cmd_join(source, args, raw_command)
+    if not source or source == 0 then
+        Citizen.Trace("Invalid console command.\n")
+        return
+    end
+
     if not args[1] then
         TellPlayer(source, "Syntax: /join <player ID>")
         return

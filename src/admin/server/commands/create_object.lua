@@ -5,7 +5,7 @@ local function create_object(source, args, raw_command)
     end
 
     if not args[1] or args[2] then
-        TellPlayer(source, "Syntax: /createo <name | hash> - Spawn an object from a model.")
+        TellPlayer(source, "Syntax: /createo <model_name> - Spawn an object from a model.")
         return
     end
 

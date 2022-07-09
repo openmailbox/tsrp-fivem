@@ -16,4 +16,7 @@ Events.CREATE_OBJECT_SPAWN = "admin:CreateObjectSpawn"
 Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 
 -- @resource chat
-Events.ADD_CHAT_MESSAGE = "chat:addMessage"
+Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
+Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"
+Events.ADD_CHAT_SUGGESTIONS   = "chat:addSuggestions"
+Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
