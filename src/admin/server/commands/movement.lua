@@ -1,13 +1,18 @@
 local function cmd_goto(source, args, raw_command)
+    if not source or source == 0 then
+        Citizen.Trace("Invalid console command.\n")
+        return
+    end
+
     if not args[1] or not args[2] or not args[3] then
         TellPlayer(source, "Syntax: /goto <x> <y> <z>")
         return
     end
 
     -- Allow input either as "0 0 0" or "0, 0, 0"
-    local x = tonumber(tostring(args[1]):gsub(',', ''))
-    local y = tonumber(tostring(args[2]):gsub(',', ''))
-    local z = tonumber(tostring(args[3]):gsub(',', ''))
+    local x = tonumber((tostring(args[1]):gsub(',', '')))
+    local y = tonumber((tostring(args[2]):gsub(',', '')))
+    local z = tonumber((tostring(args[3]):gsub(',', '')))
 
     SetEntityCoords(source, x, y, z, 0, false, false, false)
     TellPlayer(source, "Moving you to " .. vector3(x, y, z) .. ".")
@@ -15,9 +20,14 @@ local function cmd_goto(source, args, raw_command)
 end
 RegisterCommand("goto", cmd_goto, true)
 
-local function cmd_meet(source, args, raw_command)
+local function cmd_join(source, args, raw_command)
+    if not source or source == 0 then
+        Citizen.Trace("Invalid console command.\n")
+        return
+    end
+
     if not args[1] then
-        TellPlayer(source, "Syntax: /meet <player ID>")
+        TellPlayer(source, "Syntax: /join <player ID>")
         return
     end
 
@@ -43,4 +53,4 @@ local function cmd_meet(source, args, raw_command)
 
     TellPlayer(source, "Invalid player ID.")
 end
-RegisterCommand("meet", cmd_meet, true)
+RegisterCommand("join", cmd_join, true)
