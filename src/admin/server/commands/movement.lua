@@ -15,9 +15,9 @@ local function cmd_goto(source, args, raw_command)
 end
 RegisterCommand("goto", cmd_goto, true)
 
-local function cmd_meet(source, args, raw_command)
+local function cmd_join(source, args, raw_command)
     if not args[1] then
-        TellPlayer(source, "Syntax: /meet <player ID>")
+        TellPlayer(source, "Syntax: /join <player ID>")
         return
     end
 
@@ -43,4 +43,4 @@ local function cmd_meet(source, args, raw_command)
 
     TellPlayer(source, "Invalid player ID.")
 end
-RegisterCommand("meet", cmd_meet, true)
+RegisterCommand("join", cmd_join, true)
