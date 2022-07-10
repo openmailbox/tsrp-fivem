@@ -60,7 +60,6 @@ Config.Relationships = {
         nature = "Respect",
         groups = {
             "PLAYER",
-            "PC_WANTED"
         }
     },
     { -- Regular civilians are disliked by all gangs
