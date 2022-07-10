@@ -7,7 +7,10 @@ local closest_player,
 
 -- Center of a circular area
 local EVENT_LOCATIONS = {
-    vector3(-1109.4373, 4924.5083, 218.5466) -- cultist camp
+    {
+        center = vector3(-1109.4373, 4924.5083, 218.5466), -- cultist camp
+        size   = 100.0
+    }
 }
 
 -- Never generate more than this number of events at one time
@@ -25,10 +28,11 @@ function Event.check_and_init()
     local location = EVENT_LOCATIONS[math.random(#EVENT_LOCATIONS)]
     local event    = Event:new({ location = location, id = next_id })
 
-    Citizen.Trace("Starting Event " .. event.id .. " at " .. location .. ".\n")
+    Citizen.Trace("Starting Event " .. event.id .. " at " .. location.center .. ".\n")
 
     next_id = next_id + 1
     table.insert(events, event)
+    event:initialize()
 
     if is_active then return end
     is_active = true
@@ -48,6 +52,8 @@ function Event.cleanup()
     is_active = false
 
     for _, event in ipairs(events) do
+        RemoveBlip(event.blip)
+
         if DoesEntityExist(event.stash) then
             DeleteEntity(event.stash)
         end
@@ -73,6 +79,12 @@ function Event:new(o)
     self.__index = self
 
     return o
+end
+
+function Event:initialize()
+    TriggerClientEvent(Events.CREATE_STASH_EVENTS, -1, {
+        events = { self }
+    })
 end
 
 function Event:update()
@@ -105,7 +117,7 @@ end
 
 -- @local
 function spawn_stash(event)
-    local player = closest_player(event.location)
+    local player = closest_player(event.location.center)
     if not player then return end
 
     TriggerClientEvent(Events.CREATE_STASH_OBJECT, player, {

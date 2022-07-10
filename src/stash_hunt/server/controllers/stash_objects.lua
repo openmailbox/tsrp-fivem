@@ -3,7 +3,7 @@ local function create(data)
     if not event then return end
 
     local player  = source
-    local x, y, z = table.unpack(event.location)
+    local x, y, z = table.unpack(event.location.center)
     local object  = CreateObject(data.model, x, y, z, true, false, false)
     local timeout = GetGameTimer() + 3000
 
@@ -12,7 +12,7 @@ local function create(data)
     end
 
     if DoesEntityExist(object) then
-        Citizen.Trace("Spawned stash for Event " .. event.id .. " at " .. event.location .. ".\n")
+        Citizen.Trace("Spawned stash for Event " .. event.id .. " at " .. event.location.center .. ".\n")
 
         event.stash = object
 

@@ -22,5 +22,6 @@ Events.ADD_CHAT_SUGGESTIONS   = "chat:addSuggestions"
 Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
 
 -- @resource stash_hunt
-Events.CREATE_STASH_OBJECT     = "stash_hunt:CreateStashObject"
-Events.UPDATE_STASH_OBJECT     = "stash_hunt:UpdateStashObject"
+Events.CREATE_STASH_OBJECT = "stash_hunt:CreateStashObject"
+Events.UPDATE_STASH_OBJECT = "stash_hunt:UpdateStashObject"
+Events.CREATE_STASH_EVENTS = "stash_hunt:CreateEvents"
