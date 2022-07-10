@@ -25,6 +25,7 @@ ensure common # this is the one thing where order matters. Start this first
 ensure accounts
 ensure admin
 ensure dbutil
+ensure relationships
 
 # This allows players to use scripthook-based plugins such as the legacy Lambda Menu.
 # Set this to 1 to allow scripthook. Do note that this does _not_ guarantee players won't be able to use external plugins.

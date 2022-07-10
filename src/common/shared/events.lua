@@ -3,6 +3,7 @@ Events = {}
 -- Base FiveM things
 Events.ON_CLIENT_RESOURCE_START = "onClientResourceStart"
 Events.ON_CLIENT_RESOURCE_STOP  = "onClientResourceStop"
+Events.ON_ENTITY_CREATED        = "entityCreated"
 Events.ON_PLAYER_CONNECTING     = "playerConnecting"
 Events.ON_PLAYER_DROPPED        = "playerDropped"
 Events.ON_RESOURCE_START        = "onResourceStart"
@@ -20,3 +21,6 @@ Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"
 Events.ADD_CHAT_SUGGESTIONS   = "chat:addSuggestions"
 Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
+
+-- @resource relationships
+Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
