@@ -72,6 +72,18 @@ function Event.find_by_id(id)
     return nil
 end
 
+function Event.from_point(x, y)
+    local matches = {}
+
+    for _, event in ipairs(events) do
+        if event:contains(x, y) then
+            table.insert(matches, event)
+        end
+    end
+
+    return matches
+end
+
 function Event:new(o)
     o = o or {}
 
@@ -79,6 +91,24 @@ function Event:new(o)
     self.__index = self
 
     return o
+end
+
+function Event:contains(x, y)
+    local x_min = self.location.center.x - (self.location.size / 2)
+    local x_max = self.location.center.x + (self.location.size / 2)
+
+    if x < x_min or x > x_max then
+        return false
+    end
+
+    local y_min = self.location.center.y - (self.location.size / 2)
+    local y_max = self.location.center.y + (self.location.size / 2)
+
+    if y < y_min or y > y_max then
+        return false
+    end
+
+    return true
 end
 
 function Event:initialize()
