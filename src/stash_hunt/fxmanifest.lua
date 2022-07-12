@@ -10,6 +10,7 @@ version "0.0.1"
 
 dependencies {
     --"mysql-async",
+    "interactions"
 }
 
 client_scripts {

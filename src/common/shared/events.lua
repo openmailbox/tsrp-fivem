@@ -22,6 +22,10 @@ Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"
 Events.ADD_CHAT_SUGGESTIONS   = "chat:addSuggestions"
 Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
 
+-- @resource interactions --
+Events.CREATE_INTERACTIVE_OBJECT = "interactions:CreateObject"
+Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"
+
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 

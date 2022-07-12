@@ -46,7 +46,7 @@ function Interaction.find_target(options)
         --exports.utility:DrawSubtitle("Select a target.", 3000)
 
         while waiting do
-            DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
+            --DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
 
             if IsControlJustPressed(0, 51) then
                 local target = raycast_camera(PlayerPedId(), options.entity_type or 12)
