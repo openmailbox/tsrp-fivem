@@ -1,0 +1,32 @@
+.progress {
+    height: 3.5vh;
+    width: 100%;
+    background-color: #080C11;
+    border:.05rem solid;
+    border-radius:.1rem;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(315deg, #24FAE1, #7635E8);
+}
+
+.progress-bar .title {
+    top: 50%;
+    color: #d4faf5;
+    font-size: 1.7vh;
+    position: absolute;
+    text-align: center;
+    transform: translateY(-55%);
+    width: 100%;
+}
+
+#progress-bars {
+    bottom: 4.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    width: 10vw;
+}
+
+.progress::-webkit-progress-value {
+    background: linear-gradient(315deg, #24FAE1, #7635E8);
+    border-radius: .1rem;
+}
