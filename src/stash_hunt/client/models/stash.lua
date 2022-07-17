@@ -14,6 +14,7 @@ function Stash.initialize()
         prompt = "open the crate"
     }, function(object)
         exports.progress:ShowProgressBar(2000, "Opening")
+        exports.interactions:AddExclusion(object)
 
         Citizen.Wait(1950)
 
@@ -22,5 +23,6 @@ function Stash.initialize()
         local new_b      = balance + 100
 
         StatSetInt(hash, new_b, true)
+        exports.interactions:RemoveExclusion(object)
     end)
 end
