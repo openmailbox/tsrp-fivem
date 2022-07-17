@@ -1,3 +1,7 @@
+body {
+    background-color: transparent;
+}
+
 .progress {
     height: 3.5vh;
     width: 100%;

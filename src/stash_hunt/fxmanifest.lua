@@ -9,8 +9,8 @@ description "An opt-in recurring PvPvE event where players compete to find stash
 version "0.0.1"
 
 dependencies {
-    --"mysql-async",
-    "interactions"
+    "interactions",
+    "progress"
 }
 
 client_scripts {
@@ -20,28 +20,7 @@ client_scripts {
 }
 
 server_scripts {
-    --"@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
     "shared/**/*.lua",
     "server/**/*.lua"
 }
-
---ui_page "web/index.html"
---
---files {
---    "web/**/*.html",
---    "web/**/*.js",
---    "web/**/*.css",
---}
-
--- files {
---}
-
---exports {
---}
-
---server_exports {
---}
-
--- Cannot require this resource as a dependency for any other resource that has a client-side component.
--- server_only 'yes'

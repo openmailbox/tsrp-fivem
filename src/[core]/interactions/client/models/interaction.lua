@@ -90,6 +90,8 @@ function Interaction.interact()
         local succ, error = pcall(beh.callback, showing_object)
 
         if not succ then
+            error = error or "unspecified error"
+
             Citizen.Trace("Error while running interaction '" .. name .. "' with object " .. showing_object .. ": " ..
                           error .. "\n")
         end

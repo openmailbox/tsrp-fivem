@@ -9,6 +9,7 @@ description "Provides an animated progress bar for other resources."
 version "0.0.1"
 
 client_scripts {
+    "@common/shared/events.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
 }

@@ -13,6 +13,6 @@ function Stash.initialize()
         name   = INTERACT_NAME,
         prompt = "open the crate"
     }, function(object)
-        print("TODO: Generate loot.")
+        exports.progress:ShowProgressBar(2000, "Opening")
     end)
 end
