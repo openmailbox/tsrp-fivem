@@ -25,7 +25,6 @@ ui_page "web/index.html"
 
 exports {
     "AddExclusion",
-    "FindTarget",
     "RegisterInteraction",
     "RemoveExclusion",
     "SetTargetDetails",
