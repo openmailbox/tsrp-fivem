@@ -23,6 +23,5 @@ function Stash.initialize()
         local new_b      = balance + 100
 
         StatSetInt(hash, new_b, true)
-        exports.interactions:RemoveExclusion(object)
     end)
 end

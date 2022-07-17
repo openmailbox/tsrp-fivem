@@ -26,6 +26,7 @@ exports("AddExclusion", Interaction.add_exclusion)
 
 function Interaction.initialize()
     AddTextEntry(DEFAULT_PROMPT_LABEL, DEFAULT_PROMPT)
+    SetEntityDrawOutlineColor(0, 200, 0, 100)
     look_for_targets()
 end
 
@@ -188,11 +189,15 @@ function show_target(object_id, distance, prompt)
     if showing then return end
     showing = true
 
+    SetEntityDrawOutline(showing_object, true)
+
     Citizen.CreateThread(function()
         while showing_object > 0 do
             DisplayHelpTextThisFrame(prompt, 0)
             Citizen.Wait(0)
         end
+
+        SetEntityDrawOutline(object_id, false)
 
         showing = false
         SendNUIMessage({ type = Events.DELETE_INTERACTIVE_OBJECT })
