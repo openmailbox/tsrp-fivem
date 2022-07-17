@@ -67,8 +67,9 @@ RegisterKeyMapping("interact", "Interact with the current targetted object", "ke
 -- @tparam function callback behavior to execute when the player interacts with the target.
 -- @treturn boolean success or failure
 function Interaction.register(options, callback)
-    local model_hash = tonumber(options.model)
-    local behaviors  = registrations[model_hash]
+    local model_hash   = tonumber(options.model)
+    local behaviors    = registrations[model_hash]
+    local prompt_label = options.prompt and ("interactions:" .. model_hash .. "_" .. string.lower(options.name))
 
     if not model_hash then
         return false
@@ -81,10 +82,15 @@ function Interaction.register(options, callback)
 
     Citizen.Trace("Registering new interaction for " .. options.model .. ": " .. options.name .. "\n")
 
+    if prompt_label then
+        AddTextEntry(prompt_label, "Press ~INPUT_CONTEXT~ to " .. options.prompt .. ".")
+    end
+
     -- An object can have multiple behaviors as long as they have unique names
     behaviors[options.name] = {
-        options  = options,
-        callback = callback
+        options      = options,
+        callback     = callback,
+        prompt_label = prompt_label
     }
 
     return true
@@ -147,7 +153,7 @@ function look_for_targets()
                 local prompt = nil
 
                 for name, beh in pairs(behaviors) do
-                    prompt = prompt or beh.options.prompt
+                    prompt = prompt or beh.prompt_label
 
                     if beh.options.on_target then
                         local succ, error = pcall(beh.options.on_target, closest_object, target.distance)
@@ -159,7 +165,7 @@ function look_for_targets()
                     end
                 end
 
-                show_target(closest_object, target.distance, prompt)
+                show_target(closest_object, target.distance, prompt or DEFAULT_PROMPT_LABEL)
             elseif closest_object == 0 and showing_object > 0 then
                 showing_object = 0
             end
@@ -184,7 +190,7 @@ function show_target(object_id, distance, prompt)
 
     Citizen.CreateThread(function()
         while showing_object > 0 do
-            DisplayHelpTextThisFrame(DEFAULT_PROMPT_LABEL, 0)
+            DisplayHelpTextThisFrame(prompt, 0)
             Citizen.Wait(0)
         end
 
