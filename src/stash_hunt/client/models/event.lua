@@ -32,7 +32,7 @@ end
 function Event:show()
     local x, y, z = table.unpack(self.location.center)
     self.blip = AddBlipForArea(x, y, z, self.location.size, self.location.size)
-    --SetBlipSprite(self.blip, 4)
+    SetBlipDisplay(self.blip, 3)
     SetBlipRotation(self.blip, 0)
     SetBlipColour(self.blip, 1)
     SetBlipAlpha(self.blip, 128)
