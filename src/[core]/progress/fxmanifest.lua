@@ -5,7 +5,7 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Provides an animated progress bar for other resources."
+description "Provides an animated progress bar for other resources to use."
 version "0.0.1"
 
 client_scripts {
