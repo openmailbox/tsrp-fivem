@@ -20,7 +20,7 @@ local function cmd_set_wallet(source, args, raw_command)
 
     local amount = tonumber(args[2])
 
-    if not amount or amount < 1 then
+    if not amount or amount < 0 then
         TellPlayer(source, "Wallet balance must be an integer greater than 0.")
         return
     end

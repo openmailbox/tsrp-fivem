@@ -14,5 +14,13 @@ function Stash.initialize()
         prompt = "open the crate"
     }, function(object)
         exports.progress:ShowProgressBar(2000, "Opening")
+
+        Citizen.Wait(1950)
+
+        local hash       = GetHashKey("MP0_WALLET_BALANCE")
+        local _, balance = StatGetInt(hash, -1)
+        local new_b      = balance + 100
+
+        StatSetInt(hash, new_b, true)
     end)
 end
