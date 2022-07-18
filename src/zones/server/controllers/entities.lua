@@ -3,7 +3,7 @@ local function create(entity)
     if GetEntityType(entity) ~= 1 then return end
 
     local x, y, _ = table.unpack(GetEntityCoords(entity))
-    local events  = Event.from_point(x, y)
+    local events  = Zone.from_point(x, y)
 
     if #events == 0 then return end
 

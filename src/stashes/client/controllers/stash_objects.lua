@@ -1,8 +1,10 @@
 local function create(data)
-    if not HasModelLoaded(data.model) then
-        RequestModel(data.model)
+    local stash = data.stash
 
-        while not HasModelLoaded(data.model) do
+    if not HasModelLoaded(stash.model) then
+        RequestModel(stash.model)
+
+        while not HasModelLoaded(stash.model) do
             Citizen.Wait(5)
         end
     end

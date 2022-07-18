@@ -35,7 +35,14 @@ Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 
--- @resource stash_hunt
-Events.CREATE_STASH_OBJECT = "stash_hunt:CreateStashObject"
-Events.UPDATE_STASH_OBJECT = "stash_hunt:UpdateStashObject"
-Events.CREATE_STASH_EVENTS = "stash_hunt:CreateEvents"
+-- @resource stashes
+Events.CREATE_STASH_OBJECT = "stashes:CreateStashObject"
+Events.UPDATE_STASH_OBJECT = "stashes:UpdateStashObject"
+
+Events.GET_STASH_MODELS    = "stashes:GetModels"
+Events.UPDATE_STASH_MODELS = "stashes:UpdateModels"
+
+-- @resource zones
+Events.CREATE_ZONES = "zones:CreateZones"
+Events.GET_ZONES    = "zones:GetZones"
+Events.UPDATE_ZONES = "zones:UpdateZones"
