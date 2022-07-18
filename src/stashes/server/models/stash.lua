@@ -6,10 +6,9 @@ local closest_player,
       spawn_stash
 
 local stashes = {} -- Name->Stash map of all stashes in the game
-local models  = {} -- Unique list of all object model hashes used for stashes
 
-function Stash.models()
-    return models
+function Stash.all()
+    return stashes
 end
 
 function Stash.cleanup()
@@ -27,18 +26,10 @@ function Stash.find_by_name(name)
 end
 
 function Stash.initialize()
-    local model_map = {}
-
     for name, data in pairs(Stashes) do
         local stash = Stash:new(data)
         stash.name = name
-
-        model_map[stash.model] = true
-        stashes[name]          = stash
-    end
-
-    for hash, _ in pairs(model_map) do
-        table.insert(models, hash)
+        stashes[name] = stash
     end
 
     Citizen.CreateThread(function()
@@ -51,7 +42,9 @@ function Stash.initialize()
         end
     end)
 
-    TriggerClientEvent(Events.UPDATE_STASH_MODELS, -1, models)
+    TriggerClientEvent(Events.UPDATE_STASHES, -1, {
+        stashes = stashes
+    })
 end
 
 function Stash:new(o)
