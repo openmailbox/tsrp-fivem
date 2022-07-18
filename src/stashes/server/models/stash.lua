@@ -50,6 +50,8 @@ function Stash.initialize()
             Citizen.Wait(10000)
         end
     end)
+
+    TriggerClientEvent(Events.UPDATE_STASH_MODELS, -1, models)
 end
 
 function Stash:new(o)

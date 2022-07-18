@@ -17,7 +17,7 @@ function Stash.initialize(data)
         exports.interactions:RegisterInteraction({
             model  = model,
             name   = INTERACT_NAME,
-            prompt = "open a stash"
+            prompt = "open the stash"
         }, function(object)
             exports.progress:ShowProgressBar(2000, "Opening")
             exports.interactions:AddExclusion(object)
