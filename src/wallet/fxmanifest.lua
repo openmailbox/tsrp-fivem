@@ -5,14 +5,8 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Spawns containers that players can find and loot."
+description "Provides an interface for player cash wallets."
 version "0.0.1"
-
-dependencies {
-    "interactions",
-    "progress",
-    "wallet"
-}
 
 client_scripts {
     "@common/shared/events.lua",
@@ -22,4 +16,8 @@ client_scripts {
 server_scripts {
     "@common/shared/events.lua",
     "server/**/*.lua"
+}
+
+server_exports {
+    "AdjustCash",
 }

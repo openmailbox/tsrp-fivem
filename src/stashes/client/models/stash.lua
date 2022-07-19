@@ -71,7 +71,7 @@ function Stash:show()
     local blip    = AddBlipForCoord(x, y, z)
 
     SetBlipSprite(blip, 587)
-    SetBlipColour(blip, 46)
+    SetBlipColour(blip, 60)
     SetBlipDisplay(blip, 6)
     SetBlipAsShortRange(blip, true)
     SetBlipCategory(blip, 2)

@@ -24,6 +24,14 @@ RegisterNetEvent(Events.CREATE_STASH_OPENING, create)
 
 -- Process a successful stash opening and dole out rewards
 local function update(data)
-    print(source .. " opened a stash containing $" .. data.contents.cash .. ".")
+    local player_id = source
+    local contents  = {}
+
+    if data.contents.cash then
+        exports.wallet:AdjustCash(player_id, data.contents.cash)
+        table.insert(contents, "$" .. data.contents.cash)
+    end
+
+    Citizen.Trace("Player " .. player_id .. " (" .. GetPlayerName(player_id) .. ") opened a stash containing " .. table.concat(contents, ", ") .. ".\n")
 end
 RegisterNetEvent(Events.UPDATE_STASH_OPENING, update)
