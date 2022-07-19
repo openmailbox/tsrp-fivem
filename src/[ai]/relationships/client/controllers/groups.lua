@@ -1,14 +1,12 @@
 local function update(data)
     local entity = NetToPed(data.net_id)
 
-    if entity and entity > 0 then
-        if data.temporary then
-            SetPedRelationshipGroupHash(entity, GetHashKey(data.group))
-        else
-            SetPedRelationshipGroupDefaultHash(entity, GetHashKey(data.group))
-        end
+    if not entity or entity == 0 then return end
+
+    if data.temporary then
+        SetPedRelationshipGroupHash(entity, GetHashKey(data.group))
     else
-        Citizen.Trace("Unable to locate entity for " .. data.net_id .. ".\n")
+        SetPedRelationshipGroupDefaultHash(entity, GetHashKey(data.group))
     end
 end
 RegisterNetEvent(Events.UPDATE_ENTITY_RELGROUP)
