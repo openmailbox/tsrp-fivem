@@ -15,6 +15,7 @@ local function create(data)
         Citizen.Trace("Spawned stash for '" .. stash.name .. "' at " .. stash.location .. ".\n")
 
         stash.object_id = object
+        Entity(object).state.stash_name = stash.name
 
         TriggerClientEvent(Events.UPDATE_STASH_OBJECT, player, {
             net_id = NetworkGetNetworkIdFromEntity(stash.object_id)

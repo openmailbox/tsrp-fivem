@@ -11,6 +11,11 @@ function Stash.all()
     return stashes
 end
 
+function Stash:can_open(player_id)
+    -- TODO: Limit to once per restart per player
+    return true
+end
+
 function Stash.cleanup()
     for _, stash in pairs(stashes) do
         if DoesEntityExist(stash.object_id) then
@@ -54,6 +59,9 @@ function Stash:new(o)
     self.__index = self
 
     return o
+end
+
+function Stash:open(player_id)
 end
 
 function Stash:update()

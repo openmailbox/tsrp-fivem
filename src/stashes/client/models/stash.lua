@@ -1,6 +1,7 @@
 Stash = {}
 
 local INTERACT_NAME = "Open Stash"
+local OPEN_TIME     = 2000 -- ms
 
 local models  = {} -- ModelHash->Boolean map of all the registered object models that can be stashes
 local stashes = {} -- Name->Stash map of all the stashes this player knows about
@@ -33,16 +34,21 @@ function Stash.initialize(data)
             name   = INTERACT_NAME,
             prompt = "open the stash"
         }, function(object)
-            exports.progress:ShowProgressBar(2000, "Opening")
             exports.interactions:AddExclusion(object)
+            exports.progress:ShowProgressBar(OPEN_TIME, "Opening")
 
-            Citizen.Wait(1950)
+            TriggerServerEvent(Events.CREATE_STASH_OPENING, {
+                net_id    = ObjToNet(object),
+                opened_at = GetGameTimer() + OPEN_TIME
+            })
 
-            local wallet     = GetHashKey("MP0_WALLET_BALANCE")
-            local _, balance = StatGetInt(wallet, -1)
-            local new_b      = balance + 100
+            --Citizen.Wait(1950)
 
-            StatSetInt(wallet, new_b, true)
+            --local wallet     = GetHashKey("MP0_WALLET_BALANCE")
+            --local _, balance = StatGetInt(wallet, -1)
+            --local new_b      = balance + 100
+
+            --StatSetInt(wallet, new_b, true)
         end)
     end
 end

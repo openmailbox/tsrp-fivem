@@ -42,6 +42,9 @@ Events.UPDATE_STASHES = "stashes:UpdateStashes"
 Events.CREATE_STASH_OBJECT = "stashes:CreateStashObject"
 Events.UPDATE_STASH_OBJECT = "stashes:UpdateStashObject"
 
+Events.CREATE_STASH_OPENING = "stashes:CreateOpening"
+Events.UPDATE_STASH_OPENING = "stashes:UpdateOpening"
+
 -- @resource zones
 Events.CREATE_ZONES = "zones:CreateZones"
 Events.GET_ZONES    = "zones:GetZones"
