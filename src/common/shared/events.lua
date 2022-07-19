@@ -16,8 +16,6 @@ Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"
 Events.CREATE_OBJECT_SPAWN = "admin:CreateObjectSpawn"
 Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 
-Events.UPDATE_MP_CASH_BALANCE = "admin:UpdateMultiplayerCashBalance"
-
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"

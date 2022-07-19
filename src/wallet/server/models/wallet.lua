@@ -2,15 +2,12 @@ Wallet = {}
 
 local wallets = {} -- All wallets for connected players
 
+-- @treturn number the new balance post-adjustment.
 function Wallet.adjust_cash(player_id, amount)
     if amount == 0 then return true end
 
     local wallet      = Wallet.for_player(player_id)
-    local new_balance = wallet.balance + amount
-
-    if new_balance < 0 then
-        return false
-    end
+    local new_balance = math.max(wallet.balance + amount, 0)
 
     wallet.balance = new_balance
 
@@ -18,7 +15,7 @@ function Wallet.adjust_cash(player_id, amount)
         balance = new_balance
     })
 
-    return true
+    return new_balance
 end
 exports("AdjustCash", Wallet.adjust_cash)
 

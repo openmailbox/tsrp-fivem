@@ -12,7 +12,7 @@ local function create(data)
     end
 
     if DoesEntityExist(object) then
-        Citizen.Trace("Spawned stash for '" .. stash.name .. "' at " .. stash.location .. ".\n")
+        Citizen.Trace("Spawned stash '" .. stash.name .. "' at " .. stash.location .. ".\n")
 
         stash.object_id = object
         Entity(object).state.stash_name = stash.name

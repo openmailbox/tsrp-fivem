@@ -41,14 +41,6 @@ function Stash.initialize(data)
                 net_id    = ObjToNet(object),
                 opened_at = GetGameTimer() + OPEN_TIME
             })
-
-            --Citizen.Wait(1950)
-
-            --local wallet     = GetHashKey("MP0_WALLET_BALANCE")
-            --local _, balance = StatGetInt(wallet, -1)
-            --local new_b      = balance + 100
-
-            --StatSetInt(wallet, new_b, true)
         end)
     end
 end
