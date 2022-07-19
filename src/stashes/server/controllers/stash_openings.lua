@@ -14,8 +14,9 @@ local function create(data)
         TriggerClientEvent(Events.UPDATE_STASH_OPENING, player_id, {
             success    = true,
             stash_name = stash_name,
-            contents   = stash and stash.contents,
-            opened_at  = data.opened_at
+            contents   = (stash and stash.contents) or Stash.generate_contents(),
+            opened_at  = data.opened_at,
+            latency    = GetPlayerPing(player_id)
         })
     end
 end
@@ -23,6 +24,6 @@ RegisterNetEvent(Events.CREATE_STASH_OPENING, create)
 
 -- Process a successful stash opening and dole out rewards
 local function update(data)
-    -- add money to wallet etc.
+    print(source .. " opened a stash containing $" .. data.contents.cash .. ".")
 end
 RegisterNetEvent(Events.UPDATE_STASH_OPENING, update)

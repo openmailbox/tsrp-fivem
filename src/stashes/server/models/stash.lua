@@ -30,6 +30,13 @@ function Stash.find_by_name(name)
     return stashes[name]
 end
 
+-- Come up with some small reward for unnamed stashes that players can find.
+function Stash.generate_contents()
+    return {
+        cash = math.random(5, 75)
+    }
+end
+
 function Stash.initialize()
     for name, data in pairs(Stashes) do
         local stash = Stash:new(data)
