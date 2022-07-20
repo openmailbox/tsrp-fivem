@@ -23,3 +23,11 @@ server_scripts {
     "@common/shared/events.lua",
     "server/**/*.lua"
 }
+
+ui_page "web/index.html"
+
+files {
+    "web/**/*.html",
+    "web/**/*.js",
+    "web/**/*.css",
+}

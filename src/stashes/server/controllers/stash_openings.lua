@@ -14,7 +14,7 @@ local function create(data)
         TriggerClientEvent(Events.UPDATE_STASH_OPENING, player_id, {
             success    = true,
             stash_name = stash_name,
-            contents   = (stash and stash.contents) or Stash.generate_contents(),
+            contents   = Stash.generate_contents(stash),
             opened_at  = data.opened_at,
             latency    = GetPlayerPing(player_id)
         })
@@ -27,9 +27,11 @@ local function update(data)
     local player_id = source
     local contents  = {}
 
-    if data.contents.cash then
-        exports.wallet:AdjustCash(player_id, data.contents.cash)
-        table.insert(contents, "$" .. data.contents.cash)
+    for _, item in ipairs(data.contents) do
+        if item.cash then
+            exports.wallet:AdjustCash(player_id, item.cash)
+            table.insert(contents, "$" .. item.cash)
+        end
     end
 
     Citizen.Trace("Player " .. player_id .. " (" .. GetPlayerName(player_id) .. ") opened a stash containing " .. table.concat(contents, ", ") .. ".\n")

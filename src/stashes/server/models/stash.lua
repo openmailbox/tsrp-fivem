@@ -30,15 +30,31 @@ function Stash.find_by_name(name)
     return stashes[name]
 end
 
--- Come up with some small reward for unnamed stashes that players can find.
-function Stash.generate_contents()
-    return {
-        cash = math.random(5, 75)
-    }
+-- Generates the options that will be presented to the player.
+function Stash.generate_contents(stash)
+    -- Non-placed stashes using the same object models give a minor reward.
+    if not stash then
+        return {
+            { cash = math.random(5, 75) }
+        }
+    end
+
+    local contents = {}
+
+    for _, option in ipairs(stash.contents) do
+        if option.cash then
+            table.insert(contents, option)
+        elseif option.weapon then
+            local selection = option.weapon[math.random(1, #option.weapon)]
+            table.insert(contents, { weapon = selection })
+        end
+    end
+
+    return contents
 end
 
 function Stash.initialize()
-    for name, data in pairs(Stashes) do
+    for name, data in pairs(Stashes.Locations) do
         local stash = Stash:new(data)
         stash.name = name
         stashes[name] = stash
