@@ -1,3 +1,16 @@
 body {
     background-color: transparent;
 }
+
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.3) !important;
+}
+
+.card-image {
+    height: 10vh;
+    margin: auto;
+}
+
+img {
+    padding: 1em;
+}
