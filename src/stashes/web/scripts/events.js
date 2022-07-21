@@ -1,9 +1,8 @@
-window.Stashes = {};
-
 Stashes.Events = (function() {
     const _handle = function(item) {
         switch (item.type) {
-            case "":
+            case "stashes:CreateOpening":
+                Stashes.StashSelection.open(item.data);
                 break;
         }
     }
