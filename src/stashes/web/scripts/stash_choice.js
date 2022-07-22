@@ -20,7 +20,7 @@ export default {
                 <img class="img-responsive" :src="imageUrl" />
             </div>
             <div v-else class="card-body">
-                <div class="title h3 text-center">\${{ this.item.cash }}</div>
+                <div class="title h2 text-center">\${{ this.item.cash }}</div>
             </div>
             <div class="card-footer">
                 <button @click="selectItem" class="btn btn-lg btn-success p-centered">Select</button>

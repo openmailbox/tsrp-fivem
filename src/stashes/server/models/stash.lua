@@ -36,8 +36,6 @@ function Stash.generate_contents(stash)
     if not stash then
         return {
             { cash = math.random(5, 75) },
-            { weapon = Weapons.ADVANCEDRIFLE, label = "advancedrifle" },
-            { weapon = Weapons.GOLFCLUB, label = "golfclub" }
         }
     end
 
