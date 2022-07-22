@@ -32,6 +32,11 @@ local function update(data)
             exports.wallet:AdjustCash(player_id, item.cash)
             table.insert(contents, "$" .. item.cash)
         end
+
+        if item.weapon then
+            GiveWeaponToPed(GetPlayerPed(player_id), item.weapon, 50, false, false)
+            table.insert(contents, item.label)
+        end
     end
 
     Citizen.Trace("Player " .. player_id .. " (" .. GetPlayerName(player_id) .. ") opened a stash containing " .. table.concat(contents, ", ") .. ".\n")

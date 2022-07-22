@@ -6,7 +6,7 @@ body {
     background: rgba(0, 0, 0, 0.3) !important;
 }
 
-.card-image {
+.card-image, .card-body {
     height: 10vh;
     margin: auto;
 }

@@ -35,7 +35,9 @@ function Stash.generate_contents(stash)
     -- Non-placed stashes using the same object models give a minor reward.
     if not stash then
         return {
-            { cash = math.random(5, 75) }
+            { cash = math.random(5, 75) },
+            { weapon = Weapons.ADVANCEDRIFLE, label = "advancedrifle" },
+            { weapon = Weapons.GOLFCLUB, label = "golfclub" }
         }
     end
 
@@ -44,9 +46,12 @@ function Stash.generate_contents(stash)
     for _, option in ipairs(stash.contents) do
         if option.cash then
             table.insert(contents, option)
-        elseif option.weapon then
-            local selection = option.weapon[math.random(1, #option.weapon)]
-            table.insert(contents, { weapon = selection })
+        else
+            local selection = option[math.random(1, #option)]
+            table.insert(contents, {
+                weapon = selection,
+                label  = WeaponLabels[selection]
+            })
         end
     end
 

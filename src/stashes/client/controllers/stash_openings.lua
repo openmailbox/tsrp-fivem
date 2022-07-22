@@ -22,7 +22,7 @@ local function update(data, cb)
     if data.selected.cash then
         description = "You found ~g~$" .. data.selected.cash .. "~s~."
     elseif data.selected.weapon then
-        description = "You found a " .. data.selected.weapon .. "."
+        description = "You found a ~y~" .. data.selected.label .. "~s~."
     end
 
     if description then
