@@ -24,4 +24,9 @@ Zones = {
         height = 100.0,
         width  = 100.0
     },
+    ["Fort Zancudo"] = {
+        center = vector3(-1923.3750, 3068.3000, 74.7825),
+        height = 500.0,
+        width  = 700.0
+    },
 }

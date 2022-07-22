@@ -1,3 +1,4 @@
+-- Find default relationships here: https://gist.github.com/ghermans/30b7e578fca2494b20616f8d4725d05c
 Config = {}
 
 -- Always use custom relationship groups for players instead of built-in to avoid unintended behaviors with
@@ -11,6 +12,8 @@ Config.ModelGroups = {
     [GetHashKey("csb_ballasog")]        = "AMBIENT_GANG_BALLAS",
     [GetHashKey("g_f_y_ballas_01")]     = "AMBIENT_GANG_BALLAS",
     [GetHashKey("g_m_y_ballasout_01")]  = "AMBIENT_GANG_BALLAS",
+    [GetHashKey("g_m_y_ballaeast_01")]  = "AMBIENT_GANG_BALLAS",
+    [GetHashKey("g_m_y_ballaorig_01")]  = "AMBIENT_GANG_BALLAS",
     [GetHashKey("ig_ballasog")]         = "AMBIENT_GANG_BALLAS",
     [GetHashKey("g_f_y_families_01")]   = "AMBIENT_GANG_FAMILY",
     [GetHashKey("g_m_y_famca_01")]      = "AMBIENT_GANG_FAMILY",
@@ -22,6 +25,7 @@ Config.ModelGroups = {
     [GetHashKey("g_m_y_lost_02")]       = "AMBIENT_GANG_LOST",
     [GetHashKey("g_m_y_lost_03")]       = "AMBIENT_GANG_LOST",
     [GetHashKey("g_f_y_vagos_01")]      = "AMBIENT_GANG_MEXICAN",
+    [GetHashKey("g_m_y_mexgang_01")]    = "AMBIENT_GANG_MEXICAN",
     [GetHashKey("g_m_y_mexgoon_01")]    = "AMBIENT_GANG_MEXICAN",
     [GetHashKey("g_m_y_mexgoon_02")]    = "AMBIENT_GANG_MEXICAN",
     [GetHashKey("g_m_y_mexgoon_03")]    = "AMBIENT_GANG_MEXICAN",
@@ -44,25 +48,31 @@ Config.ModelGroups = {
     [GetHashKey("a_m_o_acult_02")]      = "AMBIENT_GANG_CULT",
     [GetHashKey("a_m_y_acult_01")]      = "AMBIENT_GANG_CULT",
     [GetHashKey("a_m_y_acult_02")]      = "AMBIENT_GANG_CULT",
+    [GetHashKey("g_m_y_korean_01")]     = "AMBIENT_GANG_WEICHENG",
+    [GetHashKey("g_m_y_korean_02")]     = "AMBIENT_GANG_WEICHENG",
+    [GetHashKey("g_m_y_korlieut_01")]   = "AMBIENT_GANG_WEICHENG",
+    [GetHashKey("g_m_y_salvaboss_01")]  = "AMBIENT_GANG_SALVA",
+    [GetHashKey("g_m_y_salvagoon_01")]  = "AMBIENT_GANG_SALVA",
+    [GetHashKey("g_m_y_salvagoon_02")]  = "AMBIENT_GANG_SALVA",
+    [GetHashKey("g_m_y_salvagoon_03")]  = "AMBIENT_GANG_SALVA",
 }
 
 Config.Relationships = {
-    { -- All first responders are companions
-        nature = "Companion",
+    { -- Make gangs fight each other
+        nature = "Hate",
         groups = {
-            "COP",
-            "FIREMAN",
-            "SECURITY_GUARD",
-            "MEDIC",
+            "AMBIENT_GANG_BALLAS",
+            "AMBIENT_GANG_FAMILY",
+            "AMBIENT_GANG_LOST",
+            "AMBIENT_GANG_MEXICAN",
+            "AMBIENT_GANG_CULT",
+            "AMBIENT_GANG_MARABUNTE",
+            "AMBIENT_GANG_SALVA",
+            "AMBIENT_GANG_WEICHENG",
+            "AMBIENT_GANG_HILLBILLY"
         }
     },
-    { -- All player groups need to respect each other to prevent car jacking on entry into the same vehicle
-        nature = "Respect",
-        groups = {
-            "PLAYER",
-        }
-    },
-    { -- Regular civilians are disliked by all gangs
+    { -- Make gangs dislike players by default
         nature = "Dislike",
         groups = { "PLAYER", "AMBIENT_GANG_BALLAS" }
     },
@@ -78,56 +88,24 @@ Config.Relationships = {
         nature = "Dislike",
         groups = { "PLAYER", "AMBIENT_GANG_MEXICAN" }
     },
-    { -- Vagos <-> Lost at war
-        nature = "Hate",
-        groups = { "AMBIENT_GANG_MEXICAN", "AMBIENT_GANG_LOST" }
+    {
+        nature = "Dislike",
+        groups = { "PLAYER", "AMBIENT_GANG_SALVA" }
     },
     {
-        nature = "Hate",
-        groups = { "PC_GANG_VAGOS", "AMBIENT_GANG_LOST" }
+        nature = "Dislike",
+        groups = { "PLAYER", "AMBIENT_GANG_WEICHENG" }
     },
     {
-        nature = "Hate",
-        groups = { "PC_GANG_LOST", "AMBIENT_GANG_MEXICAN" }
-    },
-    { -- Vagos <-> Ballas at war
-        nature = "Hate",
-        groups = { "AMBIENT_GANG_MEXICAN", "AMBIENT_GANG_BALLAS" }
+        nature = "Dislike",
+        groups = { "PLAYER", "AMBIENT_GANG_HILLBILLY" }
     },
     {
-        nature = "Hate",
-        groups = { "PC_GANG_VAGOS", "AMBIENT_GANG_BALLAS" }
+        nature = "Dislike",
+        groups = { "PLAYER", "AMBIENT_GANG_CULT" }
     },
     {
-        nature = "Hate",
-        groups = { "PC_GANG_BALLAS", "AMBIENT_GANG_MEXICAN" }
-    },
-    { -- GSF <-> Ballas at war
-        nature = "Hate",
-        groups = { "AMBIENT_GANG_FAMILY", "AMBIENT_GANG_BALLAS" }
-    },
-    {
-        nature = "Hate",
-        groups = { "PC_GANG_FAMILY", "AMBIENT_GANG_BALLAS" }
-    },
-    {
-        nature = "Hate",
-        groups = { "PC_GANG_BALLAS", "AMBIENT_GANG_FAMILY" }
-    },
-    { -- Lost <-> Ballas at war
-        nature = "Hate",
-        groups = { "AMBIENT_GANG_LOST", "AMBIENT_GANG_BALLAS" }
-    },
-    {
-        nature = "Hate",
-        groups = { "PC_GANG_LOST", "AMBIENT_GANG_BALLAS" }
-    },
-    {
-        nature = "Hate",
-        groups = { "PC_GANG_BALLAS", "AMBIENT_GANG_LOST" }
-    },
-    { -- Animal behaviors
-        nature = "Hate",
-        groups = { "COUGAR", "SHARK", "PLAYER" }
+        nature = "Dislike",
+        groups = { "PLAYER", "AMBIENT_GANG_MARABUNTE" }
     },
 }
