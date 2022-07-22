@@ -14,4 +14,14 @@ Zones = {
         height = 25.0,
         width  = 22.0
     },
+    ["Lost MC Clubhouse"] = {
+        center = vector3(988.1619, -120.9615, 88.0096),
+        height = 50.0,
+        width  = 50.0
+    },
+    ["Barrio"] = {
+        center = vector3(352.8543, -2054.8752, 21.7259),
+        height = 100.0,
+        width  = 100.0
+    },
 }
