@@ -20,6 +20,9 @@ Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 Events.CREATE_ATM_SESSION = "atm:CreateSession"
 Events.DELETE_ATM_SESSION = "atm:DeleteSession"
 
+Events.CREATE_ATM_DEPOSIT = "atm:CreateDeposit"
+Events.UPDATE_ATM_DEPOSIT = "atm:UpdateDeposit"
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"

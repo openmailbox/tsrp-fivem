@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="card-footer p-centered">
-                <button @click="createDeposit" class="btn btn-success">Deposit</button>
+                <button @click="createDeposit" :class="{ btn: true,  'btn-success': true, loading: isLoading, disabled: isLoading }">Deposit</button>
                 <button @click="cancel" class="btn btn-error">Cancel</button>
             </div>
         </div>

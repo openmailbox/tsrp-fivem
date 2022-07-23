@@ -10,7 +10,8 @@ Atm.Deposit = (function() {
                 depositAmount: 0,
                 hasError:      false,
                 errorMessage:  '',
-                isActive:      false
+                isActive:      false,
+                isLoading:     false
             }
         },
         methods: {
@@ -24,6 +25,8 @@ Atm.Deposit = (function() {
             },
 
             createDeposit() {
+                if (this.isLoading) return;
+
                 if (this.depositAmount < 1) {
                     this.errorMessage = 'Deposit must be greater than $0.'
                     this.hasError     = true;
@@ -35,6 +38,14 @@ Atm.Deposit = (function() {
                     this.hasError     = true;
                     return
                 }
+
+                this.isLoading = true;
+
+                fetch("https://atm/atm:CreateDeposit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json; charset=UTF-8" },
+                    body: JSON.stringify({ amount: this.depositAmount })
+                });
             },
 
             createSession(cash) {
