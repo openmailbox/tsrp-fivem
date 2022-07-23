@@ -3,7 +3,7 @@ local function create(data)
     local player_id  = data.account.player_id
 
     BankAccount.for_player_account(account_id, function(baccount)
-        TriggerClientEvent(player_id, Events.UPDATE_BANK_BALANCE, {
+        TriggerClientEvent(Events.UPDATE_BANK_BALANCE, player_id, {
             new_balance = baccount.balance
         })
     end)
