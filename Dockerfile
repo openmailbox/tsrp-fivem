@@ -35,6 +35,10 @@ RUN ln -s /fivem/cfx-server-data/resources '/fivem/server-data/resources/[base]'
 RUN git clone --depth 1 --branch 3.3.2 https://github.com/brouznouf/fivem-mysql-async.git /fivem/mysql-async
 RUN ln -s /fivem/mysql-async '/fivem/server-data/resources/mysql-async'
 
+# Install and link widely used resource for patching map holes
+RUN git clone --depth 1 --branch 2.0.15 https://github.com/Bob74/bob74_ipl.git /fivem/bob74_ipl
+RUN ln -s /fivem/bob74_ipl '/fivem/server-data/resources/bob74_ipl'
+
 COPY cfg/server.cfg.orig /fivem/server-data/server.cfg
 COPY fivem-key.txt /fivem/fivem-key.txt
 

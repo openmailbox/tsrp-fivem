@@ -19,6 +19,9 @@ ensure basic-gamemode
 ensure hardcap
 ensure rconlog
 
+# 3rd party
+ensure bob74_ipl
+
 # TSRP resources
 ensure common # this is the one thing where order matters. Start this first
 
