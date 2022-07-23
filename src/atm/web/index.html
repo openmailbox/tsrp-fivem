@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css" />
+        <link rel="stylesheet" type="text/css" href="nui://atm/web/styles/index.css" />
+    </head>
+
+    <body>
+        <script type="importmap">
+          {
+            "imports": {
+              "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+            }
+          }
+        </script>
+
+        <div id="atm">
+        </div>
+
+        <script type="text/javascript">
+            window.Atm = {};
+        </script>
+
+        <script type="text/javascript" src="nui://atm/web/scripts/events.js"></script>
+    </body>
+</html>
