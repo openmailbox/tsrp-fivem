@@ -64,3 +64,5 @@ Events.UPDATE_WALLET_BALANCE = "wallet:UpdateBalance"
 Events.CREATE_ZONES = "zones:CreateZones"
 Events.GET_ZONES    = "zones:GetZones"
 Events.UPDATE_ZONES = "zones:UpdateZones"
+
+Events.ON_NEW_PLAYER_ZONE = "zones:OnNewPlayerZone" -- triggered when a player's zone changes

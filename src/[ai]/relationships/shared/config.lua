@@ -5,6 +5,7 @@ Config = {}
 -- preexisting base game relationships. Set your players to one of these groups with
 -- SetPedRelationshipGroupDefaultHash() and SetPedRelationshipGroupHash() to have NPCs back them up when shot at etc.
 Config.CustomRelationshipGroups = {
+    "PC_TRESPASSING"
 }
 
 -- These models should always go into these groups when they spawn
@@ -58,7 +59,14 @@ Config.ModelGroups = {
 }
 
 Config.Relationships = {
-    { -- Make gangs fight each other
+    { -- All player groups need to respect each other to prevent car jacking on entry into the same vehicle
+        nature = "Respect",
+        groups = {
+            "PLAYER",
+            "PC_TRESPASSING"
+        }
+    },
+    { -- Make gangs fight each other and trespassing players
         nature = "Hate",
         groups = {
             "AMBIENT_GANG_BALLAS",
@@ -69,7 +77,8 @@ Config.Relationships = {
             "AMBIENT_GANG_MARABUNTE",
             "AMBIENT_GANG_SALVA",
             "AMBIENT_GANG_WEICHENG",
-            "AMBIENT_GANG_HILLBILLY"
+            "AMBIENT_GANG_HILLBILLY",
+            "PC_TRESPASSING"
         }
     },
     { -- Make gangs dislike players by default
