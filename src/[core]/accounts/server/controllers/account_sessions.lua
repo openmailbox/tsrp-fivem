@@ -12,6 +12,7 @@ local function create()
 
     if account ~= nil then
         account:set_player_id(player_id)
+        TriggerEvent(Events.ON_ACCOUNT_LOADED, { account = account })
     else
         Citizen.Trace("Unable to find an account for Player " .. player_id .. ".\n")
     end

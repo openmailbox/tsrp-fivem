@@ -12,6 +12,8 @@ Events.ON_RESOURCE_STOP         = "onResourceStop"
 -- @resource accounts
 Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"
 
+Events.ON_ACCOUNT_LOADED = "accounts:OnAccountLoaded" -- Sent by resource after a player account is loaded
+
 -- @resource admin
 Events.CREATE_OBJECT_SPAWN = "admin:CreateObjectSpawn"
 Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
@@ -22,6 +24,8 @@ Events.DELETE_ATM_SESSION = "atm:DeleteSession"
 
 Events.CREATE_ATM_DEPOSIT = "atm:CreateDeposit"
 Events.UPDATE_ATM_DEPOSIT = "atm:UpdateDeposit"
+
+Events.UPDATE_BANK_BALANCE = "atm:UpdateBankBalance"
 
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"

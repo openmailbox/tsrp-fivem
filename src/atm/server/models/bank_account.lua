@@ -1,30 +1,22 @@
 BankAccount = {}
 
 -- Forward declarations
-local save_new_account,
+local lookup_account,
+      save_new_account,
       update_account_balance
+
+function BankAccount.for_player_account(account_id, cb)
+    lookup_account(account_id, function(baccount)
+        cb(baccount)
+    end)
+end
 
 function BankAccount.for_player(player_id, cb)
     local account = exports.accounts:GetPlayerAccount(player_id)
 
-    MySQL.Async.fetchAll(
-        "SELECT * FROM bank_accounts where account_id = @id",
-        { ["@id"] = account.id },
-        function(results)
-            local baccount
-
-            if #results > 0 then
-                baccount = BankAccount:new(results[1])
-            else
-                baccount = BankAccount:new({
-                    account_id = account.id,
-                    balance    = 0
-                })
-            end
-
-            cb(baccount)
-        end
-    )
+    lookup_account(account.id, function(baccount)
+        cb(baccount)
+    end)
 end
 
 function BankAccount:new(o)
@@ -46,6 +38,28 @@ function BankAccount:deposit(amount)
     end
 
     return true
+end
+
+-- @local
+function lookup_account(account_id, cb)
+    MySQL.Async.fetchAll(
+        "SELECT * FROM bank_accounts where account_id = @id",
+        { ["@id"] = account_id },
+        function(results)
+            local baccount
+
+            if #results > 0 then
+                baccount = BankAccount:new(results[1])
+            else
+                baccount = BankAccount:new({
+                    account_id = account_id,
+                    balance    = 0
+                })
+            end
+
+            cb(baccount)
+        end
+    )
 end
 
 -- @local
