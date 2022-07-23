@@ -82,9 +82,9 @@ Stashes.Locations = {
         location = vector3(-1109.4373, 4924.5083, 218.5466),
         model    = GetHashKey('prop_mil_crate_01'),
         contents = {
-            { cash   = 1000 },
-            { weapon = Stashes.Presets.SMGS },
-            { weapon = Stashes.Presets.ASSAULT },
+            { cash = 1000 },
+            Stashes.Presets.SMGS,
+            Stashes.Presets.ASSAULT,
         }
     },
 
