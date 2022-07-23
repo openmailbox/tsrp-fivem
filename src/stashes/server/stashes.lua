@@ -203,5 +203,35 @@ Stashes.Locations = {
             Stashes.Presets.MELEE,
             Stashes.Presets.HANDGUNS,
         }
+    },
+
+    ["Chiliad Homeless Camp"] = {
+        location = vector3(1442.8668, 6334.0396, 23.8301),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 150 },
+            Stashes.Presets.MELEE,
+            Stashes.Presets.HANDGUNS,
+        }
+    },
+
+    ["Tongva Hills Mansion"] = {
+        location = vector3(-2639.8589, 1865.9467, 160.1346),
+        model    = GetHashKey('v_res_smallplasticbox'),
+        contents = {
+            { cash = 150 },
+            Stashes.Presets.SMGS,
+            Stashes.Presets.SHOTGUNS,
+        }
+    },
+
+    ["Observatory"] = {
+        location = vector3(-415.7365, 1080.7606, 327.6819),
+        model    = GetHashKey('v_res_smallplasticbox'),
+        contents = {
+            { cash = 300 },
+            Stashes.Presets.SMGS,
+            Stashes.Presets.HANDGUNS,
+        }
     }
 }
