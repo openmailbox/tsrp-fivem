@@ -193,5 +193,15 @@ Stashes.Locations = {
             Stashes.Presets.MELEE,
             Stashes.Presets.SHOTGUNS,
         }
+    },
+
+    ["Raton Canyon"] = {
+        location = vector3(-526.0565, 4196.2119, 193.1649),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 300 },
+            Stashes.Presets.MELEE,
+            Stashes.Presets.HANDGUNS,
+        }
     }
 }
