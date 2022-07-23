@@ -1,5 +1,5 @@
 local function delete(data, cb)
-    SetNuiFocus(false, false)
+    Atm.stop_showing()
     cb({})
 end
 RegisterNUICallback(Events.DELETE_ATM_SESSION, delete)

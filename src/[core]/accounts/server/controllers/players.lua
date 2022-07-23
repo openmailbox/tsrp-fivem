@@ -21,7 +21,7 @@ AddEventHandler(Events.ON_PLAYER_CONNECTING, on_connect)
 local function on_disconnect(reason)
     local player_id  = source
     local account    = Account.for_player(player_id)
-    local account_id = account.id or 0
+    local account_id = (account and account.id) or 0
 
     if (account ~= nil) then
         Citizen.Trace("Unloading Account " .. account_id .. " for Player " .. player_id .. " (" .. account.name ..
