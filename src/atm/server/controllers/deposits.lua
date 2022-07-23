@@ -1,11 +1,32 @@
 local function create(data)
     local player_id = source
 
-    Citizen.Wait(2000)
+    if data.amount < 1 then
+        TriggerClientEvent(Events.UPDATE_ATM_DEPOSIT, player_id, {
+            success = false,
+            error   = "Deposit must be greater than $0."
+        })
+        return
+    end
 
-    TriggerClientEvent(Events.UPDATE_ATM_DEPOSIT, player_id, {
-        success = false,
-        error   = "Test error."
-    })
+    local wallet = exports.wallet:GetPlayerBalance(player_id)
+
+    if wallet < data.amount then
+        TriggerClientEvent(Events.UPDATE_ATM_DEPOSIT, player_id, {
+            success = false,
+            error   = "Insufficient cash in your wallet."
+        })
+        return
+    end
+
+    BankAccount.for_player(player_id, function(account)
+        account:deposit(data.amount)
+
+        TriggerClientEvent(Events.UPDATE_ATM_DEPOSIT, player_id, {
+            success     = true,
+            amount      = data.amount,
+            new_balance = account.balance
+        })
+    end)
 end
 RegisterNetEvent(Events.CREATE_ATM_DEPOSIT, create)

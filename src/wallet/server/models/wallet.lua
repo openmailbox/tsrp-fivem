@@ -30,6 +30,12 @@ function Wallet.for_player(player_id)
     return wallet
 end
 
+function Wallet.get_balance(player_id)
+    local wallet = wallets[player_id]
+    return (wallet and wallet.balance) or 0
+end
+exports("GetPlayerBalance", Wallet.get_balance)
+
 function Wallet:new(o)
     o = o or {}
 

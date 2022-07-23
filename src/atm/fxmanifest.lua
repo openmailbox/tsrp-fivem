@@ -9,6 +9,7 @@ description "Allows players to use ATMs in the world to deposit cash."
 version "0.0.1"
 
 dependencies {
+    "accounts",
     "interactions",
     "mysql-async",
 }

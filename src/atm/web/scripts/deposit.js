@@ -50,6 +50,10 @@ Atm.Deposit = (function() {
                     this.hasError     = !response.success;
                     this.errorMessage = response.error;
                     this.isLoading    = false;
+
+                    if (this.hasError) return;
+
+                    this.cancel();
                 }.bind(this));
             },
 

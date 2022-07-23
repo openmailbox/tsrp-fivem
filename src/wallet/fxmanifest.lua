@@ -21,4 +21,5 @@ server_scripts {
 
 server_exports {
     "AdjustCash",
+    "GetPlayerBalance"
 }
