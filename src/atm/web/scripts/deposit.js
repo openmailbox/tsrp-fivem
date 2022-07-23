@@ -16,11 +16,11 @@ Atm.Deposit = (function() {
                     headers: { "Content-Type": "application/json; charset=UTF-8" }
                 });
 
-                isActive = false;
+                this.isActive = false;
             },
 
             createSession() {
-                isActive = true;
+                this.isActive = true;
             },
         }
     });

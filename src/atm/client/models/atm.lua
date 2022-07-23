@@ -22,6 +22,7 @@ function Atm.initialize()
             name   = INTERACT_NAME,
             prompt = "use the ATM"
         }, function(object)
+            SetNuiFocus(true, true)
             SendNUIMessage({
                 type = Events.CREATE_ATM_SESSION
             })
