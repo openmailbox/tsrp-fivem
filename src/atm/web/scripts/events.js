@@ -2,7 +2,7 @@ Atm.Events = (function() {
     const _handle = function(item) {
         switch (item.type) {
             case "atm:CreateSession":
-                Atm.Deposit.createSession();
+                Atm.Deposit.createSession(item.cash);
                 break;
         }
     }

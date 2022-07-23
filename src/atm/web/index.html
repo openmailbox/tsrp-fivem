@@ -21,13 +21,14 @@
                 <div class="card-title h5">Deposit Cash</div>
             </div>
             <div class="card-body">
-                <div class="form-group">
+                <div :class="{ 'form-group': true, 'has-error': hasError }">
                     <label class="form-label">Amount</label>
-                    <input class="form-input" type="number" placeholder="0" />
+                    <input class="form-input" type="number" v-model="depositAmount" />
+                    <p v-show="hasError" class="form-input-hint">{{ errorMessage }}</p>
                 </div>
             </div>
             <div class="card-footer p-centered">
-                <button class="btn btn-success">Deposit</button>
+                <button @click="createDeposit" class="btn btn-success">Deposit</button>
                 <button @click="cancel" class="btn btn-error">Cancel</button>
             </div>
         </div>

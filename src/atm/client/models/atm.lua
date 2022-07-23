@@ -26,8 +26,11 @@ function Atm.initialize()
         }, function(_)
             SetNuiFocus(true, true)
 
+            local _, cash = StatGetInt(GetHashKey("MP0_WALLET_BALANCE"), -1)
+
             SendNUIMessage({
-                type = Events.CREATE_ATM_SESSION
+                type = Events.CREATE_ATM_SESSION,
+                cash = cash
             })
 
             is_showing = true
@@ -36,7 +39,7 @@ function Atm.initialize()
                 while is_showing do
                     ShowHudComponentThisFrame(3)
                     ShowHudComponentThisFrame(4)
-                    Citizen.Wait(0)
+                    Citizen.Wait(10)
                 end
             end)
         end)
