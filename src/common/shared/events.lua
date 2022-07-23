@@ -6,6 +6,7 @@ Events.ON_CLIENT_RESOURCE_STOP  = "onClientResourceStop"
 Events.ON_ENTITY_CREATED        = "entityCreated"
 Events.ON_PLAYER_CONNECTING     = "playerConnecting"
 Events.ON_PLAYER_DROPPED        = "playerDropped"
+Events.ON_PLAYER_SPAWNED        = "playerSpawned"
 Events.ON_RESOURCE_START        = "onResourceStart"
 Events.ON_RESOURCE_STOP         = "onResourceStop"
 
@@ -55,6 +56,8 @@ Events.CREATE_STASH_OPENING = "stashes:CreateOpening"
 Events.UPDATE_STASH_OPENING = "stashes:UpdateOpening"
 
 -- @resource wallets
+Events.CREATE_WALLET_RESET = "wallet:CreateReset"
+
 Events.UPDATE_WALLET_BALANCE = "wallet:UpdateBalance"
 
 -- @resource zones
