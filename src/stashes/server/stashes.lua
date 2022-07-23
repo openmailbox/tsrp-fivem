@@ -183,5 +183,15 @@ Stashes.Locations = {
             Stashes.Presets.ASSAULT,
             Stashes.Presets.HANDGUNS,
         }
+    },
+
+    ["Michael's House"] = {
+        location = vector3(-815.8901, 179.7109, 76.7408),
+        model    = GetHashKey('v_res_smallplasticbox'),
+        contents = {
+            { cash = 200 },
+            Stashes.Presets.MELEE,
+            Stashes.Presets.SHOTGUNS,
+        }
     }
 }
