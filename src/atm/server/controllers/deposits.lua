@@ -20,6 +20,8 @@ local function create(data)
     end
 
     BankAccount.for_player(player_id, function(account)
+        exports.wallet:AdjustCash(player_id, -1 * data.amount)
+
         account:deposit(data.amount)
 
         TriggerClientEvent(Events.UPDATE_ATM_DEPOSIT, player_id, {

@@ -67,7 +67,7 @@ function save_new_account(account)
     MySQL.Async.insert(
         "INSERT INTO bank_accounts (created_at, account_id, balance) VALUES (NOW(), @id, @balance);",
         {
-            ["@id"]      = account.id,
+            ["@id"]      = account.account_id,
             ["@balance"] = account.balance
         },
         function(new_id)
