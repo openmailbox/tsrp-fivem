@@ -26,6 +26,7 @@ Atm.Deposit = (function() {
 
             createDeposit() {
                 if (this.isLoading) return;
+                this.hasError = false;
 
                 if (this.depositAmount < 1) {
                     this.errorMessage = 'Deposit must be greater than $0.'
@@ -45,7 +46,11 @@ Atm.Deposit = (function() {
                     method: "POST",
                     headers: { "Content-Type": "application/json; charset=UTF-8" },
                     body: JSON.stringify({ amount: this.depositAmount })
-                });
+                }).then(resp => resp.json()).then(function(response) {
+                    this.hasError     = !response.success;
+                    this.errorMessage = response.error;
+                    this.isLoading    = false;
+                }.bind(this));
             },
 
             createSession(cash) {
