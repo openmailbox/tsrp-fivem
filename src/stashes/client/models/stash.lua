@@ -19,6 +19,18 @@ function Stash.cleanup()
     stashes = {}
 end
 
+function Stash.close_all()
+    for _, stash in pairs(stashes) do
+        if stash.opened then
+            stash:mark_unopened()
+        end
+    end
+end
+
+function Stash.find_by_name(name)
+    return stashes[name]
+end
+
 function Stash.initialize(data)
     for name, d in pairs(data) do
         local stash = Stash:new(d)
@@ -56,6 +68,16 @@ end
 
 function Stash:hide()
     RemoveBlip(self.blip)
+end
+
+function Stash:mark_opened()
+    self.opened = true
+    ShowTickOnBlip(self.blip, true)
+end
+
+function Stash:mark_unopened()
+    self.opened = false
+    ShowTickOnBlip(self.blip, false)
 end
 
 function Stash:show()

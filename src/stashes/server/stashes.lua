@@ -233,5 +233,25 @@ Stashes.Locations = {
             Stashes.Presets.SMGS,
             Stashes.Presets.HANDGUNS,
         }
+    },
+
+    ["Northern Island"] = {
+        location = vector3(18.5089, 7626.9697, 13.0016),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 1000 },
+            Stashes.Presets.ASSAULT,
+            Stashes.Presets.SMGS,
+        }
+    },
+
+    ["El Burro Oil Depot"] = {
+        location = vector3(1734.2998, -1669.6414, 112.5771),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 250 },
+            Stashes.Presets.MELEE,
+            Stashes.Presets.HANDGUNS,
+        }
     }
 }

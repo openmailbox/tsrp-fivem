@@ -12,7 +12,7 @@ function Stash.all()
 end
 
 function Stash:can_open(player_id)
-    -- TODO: Limit to once per restart per player
+    -- TODO: Any needed validations
     return true
 end
 

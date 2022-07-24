@@ -10,6 +10,7 @@ local function respawn()
             skipFade = false
         }, function(_)
             SetPedRandomComponentVariation(PlayerPedId(), 0)
+            SetPedRandomProps(PlayerPedId())
             ClearPedBloodDamage(PlayerPedId())
         end)
     end)

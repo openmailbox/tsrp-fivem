@@ -24,6 +24,10 @@ function Interaction.add_exclusion(entity)
 end
 exports("AddExclusion", Interaction.add_exclusion)
 
+function Interaction.clear_exclusions()
+    exclusions = {}
+end
+
 function Interaction.initialize()
     AddTextEntry(DEFAULT_PROMPT_LABEL, DEFAULT_PROMPT)
     SetEntityDrawOutlineColor(0, 200, 0, 100)

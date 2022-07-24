@@ -18,12 +18,15 @@ local function update(data, cb)
     })
 
     local description = nil
+    local stash       = Stash.find_by_name(data.stash.stash_name)
 
     if data.selected.cash then
         description = "You found ~g~$" .. data.selected.cash .. "~s~."
     elseif data.selected.weapon then
         description = "You found a ~y~" .. data.selected.label .. "~s~."
     end
+
+    stash:mark_opened()
 
     if description then
         BeginTextCommandThefeedPost("STRING")
