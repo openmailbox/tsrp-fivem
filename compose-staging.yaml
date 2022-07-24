@@ -2,6 +2,7 @@ services:
   fivem:
     image: brice/tsrp-fivem:latest
     stdin_open: false
+    network_mode: "host"
     tty: false
     ports:
       - "30120:30120/tcp"
