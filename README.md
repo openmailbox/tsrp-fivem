@@ -11,12 +11,14 @@ Contributions are welcome. Here are instructions for setting up a local developm
 1. `git clone` this repository into a local directory of your choice.
 1. Obtain your own license key from the [Fivem Keymaster](https://keymaster.fivem.net/).
 1. Create your local config by copying `cfg/server.orig.cfg` to `cfg/server.cfg`.
-    1. Do the same for your txAdmin config by copying `cfg/txadmin.orig.json` to `cfg/txadmin.json`.
 1. Modify `cfg/server.cfg` and add your FiveM license key at the bottom where it says `MY_LICENSE_KEY`.
 1. Use [Docker Compose](https://docs.docker.com/compose/) to execute `compose up` on the `compose.yaml` file.
 1. In your browser, navigate to `http://localhost:40125` using the mapped port. You will see the txAdmin setup screen.
 1. Inspect the logs of the resulting `tsrp-fivem` container to find the pin number to setup txAdmin.
 1. Complete txAdmin setup and start the FiveM server.
+    1. Select "Local Server Data" for Deployment Type.
+    1. Input `/fivem/server-data` for Local Server Data.
+    1. Input `config/server.cfg` for Server CFG File.
 1. Open your FiveM client and connect to localhost on port `30120`.
 
 Resources in `src` are linked into the running container as a volume, meaning changes will be reflected immediately.
