@@ -1,3 +1,14 @@
 services:
   fivem:
     image: brice/tsrp-fivem:latest
+    ports:
+      - "30120:30120/tcp"
+      - "30120:30120/udp"
+      - "40125:40125"
+    volumes:
+      - type: bind
+        source: ./data/txData
+        target: /fivem/fxserver/txData
+      - type: bind
+        source: ./cfg
+        target: /fivem/server-data/config
