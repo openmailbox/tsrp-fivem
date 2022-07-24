@@ -1,6 +1,8 @@
 services:
   fivem:
     image: brice/tsrp-fivem:latest
+    stdin_open: false
+    tty: false
     ports:
       - "30120:30120/tcp"
       - "30120:30120/udp"
