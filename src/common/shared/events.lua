@@ -63,6 +63,10 @@ Events.CREATE_WALLET_RESET = "wallet:CreateReset"
 
 Events.UPDATE_WALLET_BALANCE = "wallet:UpdateBalance"
 
+-- @resource welcome
+Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
+Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"
+
 -- @resource zones
 Events.CREATE_ZONES = "zones:CreateZones"
 Events.GET_ZONES    = "zones:GetZones"

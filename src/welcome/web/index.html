@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css" />
+    <link rel="stylesheet" type="text/css" href="nui://welcome/web/styles/index.css" />
+</head>
+
+<body>
+    <div class="modal modal-lg">
+        <a href="#close" class="modal-overlay"></a>
+        <div class="modal-container bg-dark">
+            <div class="modal-header text-light">
+                <div class="modal-title h3">Welcome</div>
+            </div>
+            <div class="modal-body text-large">
+                <p>Gear up by using your map to find and open <span class="text-warning text-bold">stashes</span>. Better loot may be found in <span class="text-error text-bold">restricted areas</span>.</p>
+
+                <p>Find ATMs in the world to deposit your cash. <span class="text-bold">The only thing that survives a respawn is the cash you bank</span>.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-primary p-centered">Dismiss</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.Welcome = {};
+    </script>
+
+    <script type="text/javascript" src="nui://welcome/web/scripts/events.js"></script>
+</body>
+
+</html>

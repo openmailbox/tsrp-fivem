@@ -31,6 +31,7 @@ ensure dbutil
 ensure relationships
 ensure respawn
 ensure stashes
+ensure welcome
 ensure zones
 
 # This allows players to use scripthook-based plugins such as the legacy Lambda Menu.
