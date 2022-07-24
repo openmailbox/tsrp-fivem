@@ -45,6 +45,9 @@ Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 
+-- @resource respawn
+Events.CREATE_RESPAWN = "respawn:CreateSpawn"
+
 -- @resource stashes
 Events.GET_STASHES    = "stashes:UpdateStashes"
 Events.UPDATE_STASHES = "stashes:UpdateStashes"
