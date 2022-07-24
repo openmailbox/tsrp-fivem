@@ -15,6 +15,9 @@ services:
       - type: bind
         source: ./data/txData
         target: /fivem/fxserver/txData
+      - type: bind
+        source: ./cfg
+        target: /fivem/server-data/config
   # This config is NOT suitable for running in production
   database:
     image: mariadb:10.8

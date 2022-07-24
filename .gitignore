@@ -42,8 +42,11 @@ luac.out
 # FiveM
 fx.tar.xz
 fivem-key.txt
-data/txData
+data/txData/**/logs
+data/txData/**/data
+data/txData/admins.json
 data/gamedb
+cfg/server.cfg
 
 # Environment things
 .vscode

@@ -11,21 +11,16 @@ RUN mkdir -p /fivem/server-data/resources
 
 WORKDIR /fivem/fxserver
 
-# Uncomment to prefer a local server build.
-#COPY fx.tar.xz /fivem/fxserver/fx.tar.xz
-
 COPY fivem_setup.sh /fivem/fivem_setup.sh
 RUN /fivem/fivem_setup.sh
 
 VOLUME /fivem/server-data/resources/\[local\]
+VOLUME /fivem/server-data/config
 VOLUME /fivem/fxserver/txData
 
 EXPOSE 30120/tcp
 EXPOSE 30120/udp
 EXPOSE 40125/tcp
-
-# Env var b/c we might want to change at runtime
-ENV FIVEM_SERVER_BUILD=2545
 
 # Install and link the default FiveM resources
 RUN git clone https://github.com/citizenfx/cfx-server-data.git /fivem/cfx-server-data
@@ -39,13 +34,7 @@ RUN ln -s /fivem/mysql-async '/fivem/server-data/resources/mysql-async'
 RUN git clone --depth 1 --branch 2.0.15 https://github.com/Bob74/bob74_ipl.git /fivem/bob74_ipl
 RUN ln -s /fivem/bob74_ipl '/fivem/server-data/resources/bob74_ipl'
 
-COPY cfg/server.cfg.orig /fivem/server-data/server.cfg
-COPY fivem-key.txt /fivem/fivem-key.txt
-
-RUN /bin/bash -c 'sed -i "s/MY_LICENSE_KEY/$(cat /fivem/fivem-key.txt)/" /fivem/server-data/server.cfg'
-
 WORKDIR /fivem/server-data
 
 ENTRYPOINT /fivem/fxserver/run.sh \
-           +set sv_enforceGameBuild $FIVEM_SERVER_BUILD \
-           +set txAdminPort 40125
+           +set txAdminPort 40125 \
