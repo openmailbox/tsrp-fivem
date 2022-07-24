@@ -253,5 +253,25 @@ Stashes.Locations = {
             Stashes.Presets.MELEE,
             Stashes.Presets.HANDGUNS,
         }
+    },
+
+    ["Zancudo Small Hangar"] = {
+        location = vector3(-2116.4426, 3230.4285, 32.8103),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 1500 },
+            Stashes.Presets.ASSAULT,
+            Stashes.Presets.SMGS,
+        }
+    },
+
+    ["Zancudo Big Hangar"] = {
+        location = vector3(-1828.3821, 3014.9189, 32.8103),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 1000 },
+            Stashes.Presets.ASSAULT,
+            Stashes.Presets.SHOTGUNS,
+        }
     }
 }
