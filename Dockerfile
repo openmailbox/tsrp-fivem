@@ -5,7 +5,7 @@ LABEL Name=tsrp-fivem Version=0.0.1
 RUN apt-get -y update
 RUN apt-get -y install xz-utils wget curl git
 
-RUN mkdir -p /fivem/fxserver/txData/default
+RUN mkdir -p /fivem/fxserver/txData
 RUN mkdir -p /fivem/server-data/resources
 
 WORKDIR /fivem/fxserver
