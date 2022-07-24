@@ -17,6 +17,8 @@ VOLUME /fivem/server-data/resources/\[local\]
 VOLUME /fivem/server-data/config
 VOLUME /fivem/fxserver/txData
 
+COPY src /fivem/server-data/resources\[local\]
+
 EXPOSE 30120/tcp
 EXPOSE 30120/udp
 EXPOSE 40125/tcp
