@@ -5,8 +5,7 @@ LABEL Name=tsrp-fivem Version=0.0.1
 RUN apt-get -y update
 RUN apt-get -y install xz-utils wget curl git
 
-RUN mkdir /fivem
-RUN mkdir /fivem/fxserver
+RUN mkdir -p /fivem/fxserver/txData/default
 RUN mkdir -p /fivem/server-data/resources
 
 WORKDIR /fivem/fxserver
@@ -37,4 +36,4 @@ RUN ln -s /fivem/bob74_ipl '/fivem/server-data/resources/bob74_ipl'
 WORKDIR /fivem/server-data
 
 ENTRYPOINT /fivem/fxserver/run.sh \
-           +set txAdminPort 40125 \
+           +set txAdminPort 40125
