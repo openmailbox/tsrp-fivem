@@ -276,5 +276,45 @@ Stashes.Locations = {
             Stashes.Presets.ASSAULT,
             { armor = 100 }
         }
+    },
+
+    ["NOOSE Building Rear"] = {
+        location = vector3(2457.8823, -408.8164, 92.9927),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 500 },
+            Stashes.Presets.SMGS,
+            { armor = 100 }
+        }
+    },
+
+    ["Power Station Concourse"] = {
+        location = vector3(2772.4385, 1584.7662, 30.7919),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 750 },
+            Stashes.Presets.SHOTGUNS,
+            { armor = 50 }
+        }
+    },
+
+    ["Land Act Dam"] = {
+        location = vector3(1659.2395, 25.2569, 168.6142),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 500 },
+            Stashes.Presets.HANDGUNS,
+            { armor = 25 }
+        }
+    },
+
+    ["Rex's Diner"] = {
+        location = vector3(2520.6394, 2623.1357, 37.9400),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            { cash = 350 },
+            Stashes.Presets.MELEE,
+            { armor = 25 }
+        }
     }
 }
