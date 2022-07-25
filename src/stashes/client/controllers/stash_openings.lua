@@ -24,9 +24,13 @@ local function update(data, cb)
         description = "You found ~g~$" .. data.selected.cash .. "~s~."
     elseif data.selected.weapon then
         description = "You found a ~y~" .. data.selected.label .. "~s~."
+    elseif data.selected.armor then
+        description = "You found some ~y~body armor ~s~."
     end
 
-    stash:mark_opened()
+    if stash then
+        stash:mark_opened()
+    end
 
     if description then
         BeginTextCommandThefeedPost("STRING")

@@ -34,15 +34,19 @@ end
 function Stash.generate_contents(stash)
     -- Non-placed stashes using the same object models give a minor reward.
     if not stash then
+        local random_melee = Stashes.Presets.MELEE[math.random(1, #Stashes.Presets.MELEE)]
+
         return {
             { cash = math.random(5, 75) },
+            { armor = 25 },
+            { weapon = random_melee, label = WeaponLabels[random_melee] }
         }
     end
 
     local contents = {}
 
     for _, option in ipairs(stash.contents) do
-        if option.cash then
+        if option.cash or option.armor then
             table.insert(contents, option)
         else
             local selection = option[math.random(1, #option)]

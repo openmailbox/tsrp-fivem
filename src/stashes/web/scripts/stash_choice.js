@@ -20,7 +20,13 @@ export default {
                 <img class="img-responsive" :src="imageUrl" />
             </div>
             <div v-else class="card-body">
-                <div class="title h2 text-center">\${{ this.item.cash }}</div>
+                <div v-if="this.item.cash">
+                    <div class="title h2 text-center">\${{ this.item.cash }}</div>
+                </div>
+                <div v-else-if="this.item.armor" class="text-center">
+                    <i class="fa-solid fa-shield-halved fa-2xl"></i>
+                    <div class="title h2">+{{ this.item.armor }}</div>
+                </div>
             </div>
             <div class="card-footer">
                 <button @click="selectItem" class="btn btn-lg btn-success p-centered">Select</button>

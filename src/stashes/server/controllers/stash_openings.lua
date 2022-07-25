@@ -25,6 +25,7 @@ RegisterNetEvent(Events.CREATE_STASH_OPENING, create)
 -- Process a successful stash opening and dole out rewards
 local function update(data)
     local player_id = source
+    local ped       = GetPlayerPed(player_id)
     local contents  = {}
 
     for _, item in ipairs(data.rewards) do
@@ -34,8 +35,13 @@ local function update(data)
         end
 
         if item.weapon then
-            GiveWeaponToPed(GetPlayerPed(player_id), item.weapon, 50, false, false)
+            GiveWeaponToPed(ped, item.weapon, 50, false, false)
             table.insert(contents, item.label)
+        end
+
+        if item.armor then
+            SetPedArmour(ped, GetPedArmour(ped) + item.armor)
+            table.insert(contents, "+" .. item.armor .. " armor")
         end
     end
 
