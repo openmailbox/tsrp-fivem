@@ -9,20 +9,19 @@ local HEALTH_PER_ITEM = 0.25
 local INTERACT_NAME   = "Search for Food"
 local SEARCH_TIME     = 3000 -- ms
 
-local MODELS = {
-     GetHashKey("prop_cs_dumpster_01a"),
-     GetHashKey("p_dumpster_t"),
-     GetHashKey("prop_snow_dumpster_01"),
-     GetHashKey("prop_dumpster_01a"),
-     GetHashKey("prop_dumpster_02a"),
-     GetHashKey("prop_dumpster_02b"),
-     GetHashKey("prop_dumpster_3a"),
-     GetHashKey("prop_dumpster_4a"),
-     GetHashKey("prop_dumpster_4b"),
-}
+local models = {}
+
+-- Objects defined in @common/shared/objects.lua
+for _, model in ipairs(Objects.DUMPSTERS) do
+    table.insert(models, model)
+end
+
+for _, model in ipairs(Objects.TRASH_BINS) do
+    table.insert(models, model)
+end
 
 function WorldObject.activate()
-    for _, model in ipairs(MODELS) do
+    for _, model in ipairs(models) do
         exports.interactions:RegisterInteraction({
             model  = model,
             name   = INTERACT_NAME,
@@ -47,7 +46,7 @@ function WorldObject.activate()
 end
 
 function WorldObject.deactivate()
-    for _, model in ipairs(MODELS) do
+    for _, model in ipairs(models) do
         exports.interactions:UnregisterInteraction(model, INTERACT_NAME)
     end
 end
