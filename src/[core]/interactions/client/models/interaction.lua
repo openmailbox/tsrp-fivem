@@ -127,6 +127,17 @@ function Interaction.unregister(model, name)
     if not behaviors then return end
 
     behaviors[name] = nil
+
+    local empty = true
+
+    for _, _ in pairs(behaviors) do
+        empty = false
+        break
+    end
+
+    if empty and model_hash then
+        registrations[model_hash] = nil
+    end
 end
 exports("UnregisterInteraction", Interaction.unregister)
 
