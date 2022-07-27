@@ -1,5 +1,7 @@
 Objects = {}
 
+Objects.CASH_PICKUP = GetHashKey("PICKUP_MONEY_VARIABLE")
+
 Objects.DUMPSTERS = {
     GetHashKey("prop_cs_dumpster_01a"),
     GetHashKey("p_dumpster_t"),

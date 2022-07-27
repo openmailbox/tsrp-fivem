@@ -1,5 +1,3 @@
-local MONEY = GetHashKey("PICKUP_MONEY_VARIABLE")
-
 local active  = false
 local timeout = nil
 
@@ -10,8 +8,8 @@ local function create(data)
 
     timeout = GetGameTimer() + ((data.timeout or 0) * 1000)
 
-    ToggleUsePickupsForPlayer(PlayerId(), MONEY, false)
-    CreateMoneyPickups(spot.x, spot.y, spot.z, data.amount, math.ceil(data.amount / 10000), MONEY)
+    ToggleUsePickupsForPlayer(PlayerId(), Objects.CASH_PICKUP, false)
+    CreateMoneyPickups(spot.x, spot.y, spot.z, data.amount, math.ceil(data.amount / 10000), Objects.CASH_PICKUP)
 
     if active then return end
     active = true
@@ -24,7 +22,7 @@ local function create(data)
         active  = false
         timeout = nil
 
-        ToggleUsePickupsForPlayer(PlayerId(), MONEY, true)
+        ToggleUsePickupsForPlayer(PlayerId(), Objects.CASH_PICKUP, true)
     end)
 end
 RegisterNetEvent(Events.CREATE_CASH_PICKUP, create)
