@@ -45,6 +45,11 @@ local function update(data)
         end
     end
 
+    TriggerClientEvent(Events.CREATE_CASH_PICKUP, player_id, {
+        amount   = math.random(50, 200),
+        location = GetEntityCoords(GetPlayerPed(player_id))
+    })
+
     Citizen.Trace("Player " .. player_id .. " (" .. GetPlayerName(player_id) .. ") opened a stash containing " .. table.concat(contents, ", ") .. ".\n")
 end
 RegisterNetEvent(Events.UPDATE_STASH_OPENING, update)
