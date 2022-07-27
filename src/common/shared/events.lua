@@ -13,6 +13,7 @@ Events.ON_RESOURCE_STOP         = "onResourceStop"
 
 -- Low-level game events
 Events.CLIENT_PLAYER_COLLECT_AMBIENT_PICKUP = "CEventNetworkPlayerCollectedAmbientPickup"
+Events.CLIENT_ENTITY_DAMAGE                 = "CEventNetworkEntityDamage"
 
 -- @resource accounts
 Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"
