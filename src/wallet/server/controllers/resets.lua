@@ -1,4 +1,4 @@
--- Triggered by playerSpawned event.
+-- Triggered client-side by playerSpawned event.
 local function create()
     local player_id = source
     local wallet    = Wallet.for_player(player_id)
