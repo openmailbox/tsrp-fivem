@@ -4,11 +4,15 @@ Events = {}
 Events.ON_CLIENT_RESOURCE_START = "onClientResourceStart"
 Events.ON_CLIENT_RESOURCE_STOP  = "onClientResourceStop"
 Events.ON_ENTITY_CREATED        = "entityCreated"
+Events.ON_GAME_EVENT            = "gameEventTriggered"
 Events.ON_PLAYER_CONNECTING     = "playerConnecting"
 Events.ON_PLAYER_DROPPED        = "playerDropped"
 Events.ON_PLAYER_SPAWNED        = "playerSpawned"
 Events.ON_RESOURCE_START        = "onResourceStart"
 Events.ON_RESOURCE_STOP         = "onResourceStop"
+
+-- Low-level game events
+Events.CLIENT_PLAYER_COLLECT_AMBIENT_PICKUP = "CEventNetworkPlayerCollectedAmbientPickup"
 
 -- @resource accounts
 Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"
@@ -62,6 +66,8 @@ Events.UPDATE_STASH_OPENING = "stashes:UpdateOpening"
 Events.CREATE_WALLET_RESET = "wallet:CreateReset"
 
 Events.UPDATE_WALLET_BALANCE = "wallet:UpdateBalance"
+
+Events.CREATE_CASH_PICKUP = "wallet:CreateCashPickup"
 
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
