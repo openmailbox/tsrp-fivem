@@ -70,6 +70,10 @@ Events.UPDATE_WALLET_BALANCE = "wallet:UpdateBalance"
 
 Events.CREATE_CASH_PICKUP = "wallet:CreateCashPickup"
 
+-- @resource weaponsmith
+Events.CREATE_WEAPONSMITH_SESSION = "weaponsmith:CreateSession"
+Events.DELETE_WEAPONSMITH_SESSION = "weaponsmith:DeleteSession"
+
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
 Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"

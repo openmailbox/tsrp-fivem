@@ -1,4 +1,6 @@
 Weapons = {
+    UNARMED = GetHashKey("WEAPON_UNARMED"),
+
     -- Melee
     DAGGER        = GetHashKey("WEAPON_DAGGER"),
     BAT           = GetHashKey("WEAPON_BAT"),
