@@ -46,6 +46,8 @@ data/txData
 data/gamedb
 cfg/server.cfg
 cfg/txadmin.json
+vendor/*
+!vendor/README.md
 
 # Environment things
 .vscode
