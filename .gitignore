@@ -43,7 +43,8 @@ luac.out
 fx.tar.xz
 fivem-key.txt
 data/txData
-data/gamedb
+data/gamedb/*
+!data/gamedb/.gitkeep
 cfg/server.cfg
 cfg/txadmin.json
 vendor/*
