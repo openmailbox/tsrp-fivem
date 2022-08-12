@@ -49,6 +49,8 @@ cfg/server.cfg
 cfg/txadmin.json
 vendor/*
 !vendor/README.md
+**/node_modules
+**/package-lock.json
 
 # Environment things
 .vscode
