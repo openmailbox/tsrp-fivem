@@ -13,32 +13,32 @@ dependencies {
 }
 
 client_scripts {
+    "@common/shared/events.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
     --"@mysql-async/lib/MySQL.lua",
+    "@common/shared/events.lua",
     "shared/**/*.lua",
     "server/**/*.lua"
 }
 
---ui_page "web/index.html"
---
---files {
---    "web/**/*.html",
---    "web/**/*.js",
---    "web/**/*.css",
---}
+ui_page "web/index.html"
 
--- files {
---}
+files {
+    "web/**/*.html",
+    "web/**/*.js",
+    "web/**/*.css",
+}
 
---exports {
---}
+exports {
+}
 
---server_exports {
---}
+server_exports {
+}
 
--- Cannot require this resource as a dependency for any other resource that has a client-side component.
+--  If you uncomment, you cannot require this resource as a dependency for any other 
+-- resource that has a client-side component.
 -- server_only 'yes'
