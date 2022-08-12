@@ -1,11 +1,12 @@
 # Common Definitions
 This resource provides common global definitions primarily so that other resources can refer to constants instead of strings. For example, instead of including `"onResourceStart"` as a string in every server-side event handler, resources can instead reference `Events.ON_RESOURCE_START` or something similar. Retyping the same string repeatedly is prone to user error and makes it exceedingly difficult to change the name of something later.
 
-This resource is not designed to "do" anything. Instead, the necessary definitions should be included in other resources by dynamically linking at runtime. Use the event definitions by including them in a different resource's manifest:
+Use the desired definitions in other resources by including them in the manifest:
 
 ```lua
 client_scripts {
-    "@common/shared/events.lua"
+    "@common/shared/events.lua",
+    "@common/shared/weapons.lua",
 }
 ```
 This can be used for client or server-side scripts as needed.

@@ -25,4 +25,4 @@ Resources in `src` are linked into the running container as a volume, meaning ch
 
 The base [FiveM-provided](https://github.com/citizenfx/cfx-server-data/tree/master/resources) and [mysql-async](https://github.com/brouznouf/fivem-mysql-async) resources are linked at build time, meaning pulling in any new changes is as easy as rebuilding the image. In the future, we will probably need to change this to support a scenario where we want to fork or modify the base resources (i.e. chat). For now, it's a 1 or 0 choice to use or not use any of them which we can control from `server.cfg`.
 
-Learn about development conventions by looking at the [example resource template](https://github.com/openmailbox/tsrp-fivem/tree/webpack/src/template).
+Learn about development conventions by looking at the [example resource template](https://github.com/openmailbox/tsrp-fivem/tree/webpack/src/template). The `README` files inside individual resources provide more detailed developer instructions for what the code does and how to use it.
