@@ -10,7 +10,7 @@ Resources are organized in a series of folders:
 
 We often use the [Model-View-Controller pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) as a framework for organizing the message passing that occurs between the server and multiple clients. The "view" is handled client-side by the contents of `web/`, but you'll commonly find subdirectories for `controllers/` and `models/` on both client and server. Examine some of the existing resources in the repository for working examples.
 
-You'll want to check out the [common resource](https://github.com/openmailbox/tsrp-fivem/tree/webpack/src/common) for global definitions widely used across all other resources.
+You'll want to check out the [common resource](https://github.com/openmailbox/tsrp-fivem/tree/main/src/common) for global definitions widely used across all other resources.
 
 We typically use [Spectre CSS](https://picturepan2.github.io/spectre/) to maintain a common look and feel.
 
