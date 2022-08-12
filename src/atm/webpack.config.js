@@ -1,9 +1,19 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
-  entry: './web/src/index.js',
+  entry: {
+    deposit: './web/src/scripts/deposit.js',
+    events: './web/src/scripts/events.js',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './web/src/index.html'
+    })
+  ],
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'web', 'dist'),
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, './web/dist'),
   },
 };

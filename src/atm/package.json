@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "html-webpack-plugin": "^4.5.2",
+    "vue": "^3.2.37",
     "webpack": "^4.46.0"
   },
   "devDependencies": {
