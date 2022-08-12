@@ -49,9 +49,13 @@ cfg/server.cfg
 cfg/txadmin.json
 vendor/*
 !vendor/README.md
+
+## JS build stuff
 **/node_modules
 package-lock.json
 **/web/dist/*
+.yarn.installed
+yarn.lock
 
 # Environment things
 .vscode
