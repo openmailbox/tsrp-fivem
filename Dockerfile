@@ -11,7 +11,7 @@ RUN mkdir -p /fivem/server-data/resources
 COPY fivem_setup.sh /fivem/fivem_setup.sh
 
 RUN chmod a+x /fivem/fivem_setup.sh
-RUN /fivem/fivem_setup.sh
+RUN /bin/bash /fivem/fivem_setup.sh
 
 VOLUME /fivem/server-data/resources/\[local\]
 VOLUME /fivem/server-data/resources/\[vendor\]
