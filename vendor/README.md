@@ -1,0 +1,2 @@
+# Vendor Scripts
+Use this directory for host-specific third party scripts or things that aren't open source. Any resource in this directory will be excluded from source control. You can use this for proprietary resources, things you don't want to share publicly, etc. 

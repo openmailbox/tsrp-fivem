@@ -14,10 +14,11 @@ COPY fivem_setup.sh /fivem/fivem_setup.sh
 RUN /fivem/fivem_setup.sh
 
 VOLUME /fivem/server-data/resources/\[local\]
+VOLUME /fivem/server-data/resources/\[vendor\]
 VOLUME /fivem/server-data/config
 VOLUME /fivem/fxserver/txData
 
-COPY src /fivem/server-data/resources\[local\]
+COPY src /fivem/server-data/resources/\[local\]
 
 EXPOSE 30120/tcp
 EXPOSE 30120/udp

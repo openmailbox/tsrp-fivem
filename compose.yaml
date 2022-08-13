@@ -18,6 +18,9 @@ services:
       - type: bind
         source: ./cfg
         target: /fivem/server-data/config
+      - type: bind
+        source: ./vendor
+        target: /fivem/server-data/resources/[vendor]
   # This config is NOT suitable for running in production
   database:
     image: mariadb:10.8
