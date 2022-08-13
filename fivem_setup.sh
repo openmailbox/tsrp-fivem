@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /fivem/fxserver
-
 # Update to a new server build as needed
 FIVEM_SERVER_URL="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/5562-25984c7003de26d4a222e897a782bb1f22bebedd/fx.tar.xz"
+
+cd /fivem/fxserver
 
 if [ ! -f /fivem/fxserver/fx.tar.xz ]
 then
