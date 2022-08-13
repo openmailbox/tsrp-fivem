@@ -5,23 +5,23 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Spawns containers that players can find and loot."
+description "This resource does nothing. It's just a template for getting started."
 version "0.0.1"
 
 dependencies {
-    "interactions",
-    "progress",
-    "wallet"
+    --"mysql-async",
 }
 
 client_scripts {
     "@common/shared/events.lua",
+    "shared/**/*.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
+    --"@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
-    "@common/shared/weapons.lua",
+    "shared/**/*.lua",
     "server/**/*.lua"
 }
 
@@ -32,3 +32,13 @@ files {
     "web/**/*.js",
     "web/**/*.css",
 }
+
+exports {
+}
+
+server_exports {
+}
+
+--  If you uncomment, you cannot require this resource as a dependency for any other 
+-- resource that has a client-side component.
+-- server_only 'yes'

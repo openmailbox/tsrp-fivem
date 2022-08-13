@@ -1,8 +1,10 @@
-Atm.Events = (function() {
+window.Example = {}
+
+Example.Events = (function() {
     const _handle = function(item) {
         switch (item.type) {
-            case "atm:CreateSession":
-                Atm.Deposit.createSession(item.cash);
+            case "someEventName":
+                // Handle some event sent from client via SendNUIMessage()
                 break;
         }
     }
