@@ -70,6 +70,10 @@ Events.UPDATE_WALLET_BALANCE = "wallet:UpdateBalance"
 
 Events.CREATE_CASH_PICKUP = "wallet:CreateCashPickup"
 
+-- @resource wardrobe
+Events.CREATE_WARDROBE_SESSION = "wardrobe:CreateSession"
+Events.DELETE_WARDROBE_SESSION = "wardrobe:DeleteSession"
+
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
 Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"

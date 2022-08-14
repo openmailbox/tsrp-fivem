@@ -1,33 +1,34 @@
 <script>
+import CategorySelector from './category-selector.vue'
+import CategoryDetails from './category-details.vue'
+
 export default {
     data() {
         return {
-            message: 'Hello World!'
-        }
+            isActive: false
+        };
     },
     methods: {
-        changeMessage(data) {
-            console.log(`changing message to ${data.message}`);
-            this.message = data.message;
+        createSession() {
+            this.isActive = true;
+        },
+
+        deleteSession() {
+            fetch("https://wardrobe/wardrobe:DeleteSession", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=UTF-8" }
+            });
+
+            this.isActive = false;
         }
-    }
+    },
+    components: { CategorySelector, CategoryDetails }
 }
 </script>
 
 <template>
-    <div class="container">
-        <div id="wardrobe-left-panel" class="panel">
-            <div class="panel-header">
-                <div class="panel-title h5 title text-center">Character Customization</div>
-            </div>
-            <div class="panel-body columns"></div>
-            <div class="panel-footer text-center">
-                <button class="btn btn-lg btn-error">Cancel</button>
-                <button class="btn btn-lg btn-success">Confirm</button>
-            </div>
-        </div>
+    <div v-show="isActive" class="container">
+        <CategorySelector @cancel="deleteSession" />
+        <CategoryDetails />
     </div>
 </template>
-
-<style>
-</style>
