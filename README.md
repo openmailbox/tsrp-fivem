@@ -1,6 +1,8 @@
 # Time Served FiveM Code
 This repository contains open-source scripts for the [Time Served](https://www.timeservedrp.com) community FiveM server.
 
+Join the [community Discord](https://tinyurl.com/tsrp-discord) to connect with us.
+
 Related repositories:
 - [TSRP Documentation](https://github.com/openmailbox/tsrp-docs)
 - [TSRP Website](https://github.com/openmailbox/tsrp-web)
