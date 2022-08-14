@@ -8,7 +8,7 @@ let vm = app.mount('#app');
 // Handle messages passed from client-side scripts to NUI
 const handleMessage = function(item) {
     switch (item.type) {
-        case "wardrobe:createSession":
+        case "wardrobe:CreateSession":
             vm.createSession();
             break;
     }
