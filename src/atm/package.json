@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^4.3.0",
