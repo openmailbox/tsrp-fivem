@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.5.2",
+    "style-loader": "^2.0.0",
     "vue": "^3.2.37",
     "webpack": "^4.46.0"
   },

@@ -15,4 +15,15 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, './web/dist'),
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      }
+    ]
+  }
 };

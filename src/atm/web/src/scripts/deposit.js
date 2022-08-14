@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import '../styles/index.css';
 
 Atm.Deposit = (function() {
     let vm = null;
