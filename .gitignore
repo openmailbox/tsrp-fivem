@@ -56,6 +56,7 @@ vendor/*
 **/node_modules
 package-lock.json
 **/web/dist/*
+!**/web/dist/.gitkeep
 .yarn.installed
 yarn.lock
 
