@@ -15,3 +15,6 @@ services:
       - type: bind
         source: ./cfg
         target: /fivem/server-data/config
+      - type: bind
+        source: ./vendor
+        target: /fivem/server-data/resources/[vendor]

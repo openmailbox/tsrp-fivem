@@ -12,6 +12,8 @@ dependencies {
     "accounts",
     "interactions",
     "mysql-async",
+    "webpack",
+    "yarn"
 }
 
 client_scripts {
@@ -25,10 +27,11 @@ server_scripts {
     "server/**/*.lua"
 }
 
-ui_page "web/index.html"
+ui_page "web/dist/index.html"
 
 files {
-    "web/**/*.html",
-    "web/**/*.js",
-    "web/**/*.css",
+    "web/dist/**/*.html",
+    "web/dist/**/*.js",
 }
+
+webpack_config "webpack.config.js"
