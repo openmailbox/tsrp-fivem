@@ -19,13 +19,6 @@ client_scripts {
     "client/**/*.lua"
 }
 
-server_scripts {
-    --"@mysql-async/lib/MySQL.lua",
-    "@common/shared/events.lua",
-    "@common/shared/colors.lua",
-    "server/**/*.lua"
-}
-
 ui_page "web/dist/index.html"
 
 files {
