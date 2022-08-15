@@ -1,0 +1,149 @@
+/* Most of these are overrides to spectre base css, please link after spectre */
+
+:root {
+    --neon-turq: #24FAE1;
+    --neon-purple: #7635E8;
+    --neon-pink: #F6019D;
+    --neon-yellow: #F9C80E;
+    --dark-pink: #D40078;
+    --tangerine: #FF4365;
+    --main-bg: #080C11;
+    --blue-border: #2D375B;
+    --success: #25FFB2;
+  }
+
+.panel {
+    border:.05rem solid;
+    border-radius:.1rem;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(315deg, var(--neon-turq), var(--neon-purple));
+}
+
+.container-border {
+    border:.05rem solid;
+    border-radius:.1rem;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(315deg, var(--neon-turq), var(--neon-purple));
+}
+
+.tsrp-bg {
+    background-color: var(--main-bg);
+}
+
+.tsrp-bg-semi {
+    background-color: rgba(8, 12, 17, 0.7);
+}
+
+.tsrp-bg-semi-90 {
+    background-color: rgba(8, 12, 17, 0.9);
+}
+
+
+.blue-border {
+    border: 1px solid var(--blue-border);
+}
+
+.btn, .btn:focus {
+    color: #fff;
+    overflow: hidden;
+    transition: all 0s ease 0s;
+}
+
+.btn-bg, .btn-bg:focus {
+    background: #5755d9;
+}
+.btn-bg:hover {
+    background-color: #3c3b96;
+}
+
+.btn.btn-success, .btn.btn-error {
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.btn.btn-success, .btn.btn-success:hover, .btn.btn-success:focus {
+    text-align: center;
+    background: #1FD39D;
+    border-color: #21DDA5;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4), 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.btn.btn-success:active {
+    background: #127a5b;
+    border-color: #126e53;
+}
+
+.btn.btn-error, .btn.btn-error:hover, .btn.btn-error:focus {
+    background: #dc3545;
+    border-color: #dc3545;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4), 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.btn.btn-success::after, .btn.btn-error::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    display: inline-block;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.3s ease;
+}
+
+.btn.btn-success:hover::after,.btn.btn-success:focus::after, .btn.btn-error:hover::after {
+    transform: skewX(-45deg) scale(1, 1);
+    transition: all 0.3s ease-out;
+}
+
+.btn-success::after {
+    background: #1AB282;
+}
+
+.btn-error::after {
+    background: #c82333;
+}
+
+.highlighted {
+    border-color: var(--neon-turq);
+    color: var(--neon-turq);
+}
+
+.card {
+    color: #fff;
+    border-style: solid none none none;
+    background-color: transparent;
+}
+
+.card-bg {
+    background: #131626;
+    border: 1px solid #6A9FEA;
+}
+
+
+/* To set scrollbar width */
+::-webkit-scrollbar {
+    width: 12px;
+  }
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #0F121E;
+border-radius: 9px;
+border: 2px solid rgba(0, 0, 0, 0.2);
+background-clip: content-box;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #FF4365;
+border-radius: 9px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #FF5733;
+}

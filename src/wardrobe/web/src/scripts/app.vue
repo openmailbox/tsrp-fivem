@@ -27,8 +27,17 @@ export default {
 </script>
 
 <template>
-    <div v-show="isActive" class="container">
-        <CategorySelector @cancel="deleteSession" />
-        <CategoryDetails />
+    <div v-show="isActive" class="container text-secondary">
+        <div class="columns">
+            <div class="column col-6"></div>
+
+            <div class="column col-2">
+                <CategorySelector @cancel="deleteSession" />
+            </div>
+
+            <div class="column col-4">
+                <CategoryDetails />
+            </div>
+        </div>
     </div>
 </template>
