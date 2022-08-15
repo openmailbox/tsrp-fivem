@@ -18,6 +18,7 @@ local function create()
     camera     = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, ploc.z + 0.2, 0, 0, 0, 65.0, false, 0)
     hide_radar = IsRadarHidden()
 
+    -- TODO: Adjust DoF
     PointCamAtEntity(camera, PlayerPedId(), -0.9, 0, 0, 1)
     SetCamActive(camera, true)
     RenderScriptCams(true, true, 1500, true, true)
