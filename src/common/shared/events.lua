@@ -37,6 +37,7 @@ Events.UPDATE_BANK_BALANCE = "atm:UpdateBankBalance"
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"
 Events.ADD_CHAT_SUGGESTIONS   = "chat:addSuggestions"
+Events.CLEAR_CHAT             = "chat:clear"
 Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
 
 -- @resource interactions --
