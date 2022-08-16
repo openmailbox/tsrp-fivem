@@ -75,6 +75,9 @@ Events.CREATE_CASH_PICKUP = "wallet:CreateCashPickup"
 Events.CREATE_WARDROBE_SESSION = "wardrobe:CreateSession"
 Events.DELETE_WARDROBE_SESSION = "wardrobe:DeleteSession"
 
+Events.CREATE_WARDROBE_ROTATION = "wardrobe:CreateRotation"
+Events.DELETE_WARDROBE_ROTATION = "wardrobe:DeleteRotation"
+
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
 Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"

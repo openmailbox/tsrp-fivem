@@ -5,7 +5,10 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   mode: 'development',
-  entry: './web/src/scripts/index.js',
+  entry: {
+    main: './web/src/scripts/index.js',
+    input: './web/src/scripts/input_handler.js'
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
@@ -14,7 +17,7 @@ module.exports = {
     })
   ],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, './web/dist'),
   },
   module: {
