@@ -27,8 +27,8 @@ function Session:finish()
     local _, forward = self.camera:get_matrix()
     local target     = self.camera:get_location() + (5 * forward)
 
-    SetCamActive(self.camera, false)
-    RenderScriptCams(false, true, 1500, true, true)
+    self.camera:cleanup()
+
     TaskTurnPedToFaceCoord(PlayerPedId(), target.x, target.y, target.z, 1000)
     SetNuiFocus(false, false)
 

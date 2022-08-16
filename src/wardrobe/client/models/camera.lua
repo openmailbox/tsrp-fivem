@@ -9,6 +9,11 @@ function Camera:new(o)
     return o
 end
 
+function Camera:cleanup()
+    SetCamActive(self.camera, false)
+    RenderScriptCams(false, true, 1500, true, true)
+end
+
 function Camera:get_location()
     return GetCamCoord(self.camera)
 end
