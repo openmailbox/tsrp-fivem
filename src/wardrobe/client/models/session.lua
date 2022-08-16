@@ -1,7 +1,7 @@
 Session = {}
 
 -- Forward delcarations
-local init_camera, start_session
+local start_session
 
 local DICTIONARY = "clothingshirt"
 local ANIMATION  = "try_shirt_positive_a"
@@ -24,8 +24,8 @@ end
 function Session:finish()
     active_session = nil
 
-    local _, forward = GetCamMatrix(self.camera)
-    local target     = GetCamCoord(self.camera) + (5 * forward)
+    local _, forward = self.camera:get_matrix()
+    local target     = self.camera:get_location() + (5 * forward)
 
     SetCamActive(self.camera, false)
     RenderScriptCams(false, true, 1500, true, true)
@@ -44,9 +44,11 @@ function Session:initialize()
     if active_session then return end
     active_session = self
 
-    self.camera     = init_camera()
+    self.camera     = Camera:new()
     self.hide_radar = IsRadarHidden()
     self.active     = true
+
+    self.camera:initialize()
 
     DisplayRadar(false)
     SetNuiFocus(true, true)
@@ -55,7 +57,7 @@ function Session:initialize()
 
     start_session(self)
 
-    local x, y, z = table.unpack(GetCamCoord(self.camera))
+    local x, y, z = table.unpack(self.camera:get_location())
     TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, -1)
 
     if not HasAnimDictLoaded(DICTIONARY) then
@@ -70,26 +72,9 @@ function Session:initialize()
 end
 
 -- @local
-function init_camera()
-    local cloc   = GetGameplayCamCoord()
-    local ploc   = GetEntityCoords(PlayerPedId())
-    local spot   = ploc - (norm(ploc - cloc) * 2)
-    local camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, ploc.z + 0.2, 0, 0, 0, 65.0, false, 0)
-
-    SetCamUseShallowDofMode(camera, true)
-    SetCamNearDof(camera, 0.3)
-    SetCamFarDof(camera, 1.0)
-    SetCamDofStrength(camera, 1.0)
-    PointCamAtEntity(camera, PlayerPedId(), -0.9, 0, 0, 1)
-    SetCamActive(camera, true)
-    RenderScriptCams(true, true, 1500, true, true)
-
-    return camera
-end
-
--- @local
-function start_session(session)
+function start_session(sesh)
     Citizen.CreateThread(function()
+        local session         = sesh
         local ped             = PlayerPedId()
         local starting_armor  = GetPedArmour(ped)
         local starting_health = GetEntityHealth(ped)
@@ -99,7 +84,7 @@ function start_session(session)
         local new_armor, new_health, new_xyz
 
         while session.active do
-            SetUseHiDof() -- enables camera depth of field
+            session.camera:update()
 
             if GetGameTimer() > next_check then
                 new_armor  = GetPedArmour(ped)
@@ -111,7 +96,9 @@ function start_session(session)
                     new_armor < starting_armor or
                     new_health < starting_health then
 
-                    active_session:finish()
+                    if active_session then
+                        active_session:finish()
+                    end
                 end
             end
 
