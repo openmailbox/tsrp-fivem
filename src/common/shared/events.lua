@@ -78,6 +78,9 @@ Events.DELETE_WARDROBE_SESSION = "wardrobe:DeleteSession"
 Events.CREATE_WARDROBE_ROTATION = "wardrobe:CreateRotation"
 Events.DELETE_WARDROBE_ROTATION = "wardrobe:DeleteRotation"
 
+Events.CREATE_WARDROBE_CAMERA_PAN = "wardrobe:CreateCameraPan"
+Events.DELETE_WARDROBE_CAMERA_PAN = "wardrobe:DeleteCameraPan"
+
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
 Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"

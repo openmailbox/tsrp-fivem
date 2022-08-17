@@ -1,16 +1,9 @@
 const InputHandler = (function() {
-    const startRotation = function(direction) {
-        fetch("https://wardrobe/wardrobe:CreateRotation", {
+    const fetch = function(event, params) {
+        fetch(`https://wardrobe/wardrobe:${event}`, {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
-            body: JSON.stringify({ direction: direction })
-        });
-    };
-
-    const stopRotation = function() {
-        fetch("https://wardrobe/wardrobe:DeleteRotation", {
-            method: "POST",
-            headers: { "Content-Type": "application/json; charset=UTF-8" }
+            body: JSON.stringify(params || {})
         });
     };
 
@@ -18,10 +11,16 @@ const InputHandler = (function() {
         document.addEventListener("keydown", (event) => {
             switch (event.key) {
                 case "a":
-                    startRotation(-1);
+                    fetch("CreateRotation", { direction: -1 });
                     break;
                 case "d":
-                    startRotation(1);
+                    fetch("CreateRotation", { direction: 1 });
+                    break;
+                case "w":
+                    fetch("CreateCameraPan", { direction: 1 });
+                    break;
+                case "s":
+                    fetch("CreateCameraPan", { direction: -1 });
                     break;
             }
         });
@@ -30,7 +29,11 @@ const InputHandler = (function() {
             switch (event.key) {
                 case "a":
                 case "d":
-                    stopRotation();
+                    fetch("DeleteRotation");
+                    break;
+                case "w":
+                case "s":
+                    fetch("DeleteCameraPan");
                     break;
             }
         });
