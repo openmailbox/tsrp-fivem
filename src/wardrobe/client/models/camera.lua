@@ -44,12 +44,21 @@ function Camera:initialize()
     RenderScriptCams(true, true, 1500, true, true)
 end
 
-function Camera:start_panning(direction)
+function Camera:start_pan(direction)
     self.panning = direction * 0.01
 end
 
-function Camera:stop_panning()
+function Camera:start_zoom(direction)
+    local _, forward = self:get_matrix()
+    self.zooming = forward
+end
+
+function Camera:stop_pan()
     self.panning = false
+end
+
+function Camera:stop_zoom()
+    self.zooming = false
 end
 
 -- Called every frame while wardrobe session is active
@@ -59,5 +68,11 @@ function Camera:update()
     if self.panning then
         x, y, z = table.unpack(GetCamCoord(self.camera))
         SetCamCoord(self.camera, x, y, math.min(math.max(z + self.panning, self.floor), self.ceiling))
+    end
+
+    if self.zooming then
+        ---@diagnostic disable-next-line: param-type-mismatch
+        x, y, z = table.unpack(GetCamCoord(self.camera) + self.forward)
+        SetCamCoord(self.camera, x, y, z)
     end
 end
