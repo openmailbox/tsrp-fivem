@@ -11,6 +11,9 @@ const handleMessage = function(item) {
         case "wardrobe:CreateSession":
             vm.createSession();
             break;
+        case "wardrobe:DeleteSession": // only called if the game abandoned the session for some reason
+            vm.deleteSession(true);
+            break;
     }
 };
 

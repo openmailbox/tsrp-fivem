@@ -27,6 +27,7 @@ function Session:finish()
     local _, forward = self.camera:get_matrix()
     local target     = self.camera:get_location() + (5 * forward)
 
+    self.active = false
     self.camera:cleanup()
 
     TaskTurnPedToFaceCoord(PlayerPedId(), target.x, target.y, target.z, 1000)
@@ -57,6 +58,7 @@ function Session:initialize()
 
     start_session(self)
 
+    -- TODO: Need to freeze position or something to avoid rubber banding on rotation
     local x, y, z = table.unpack(self.camera:get_location())
     TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, -1)
 
@@ -95,6 +97,8 @@ function start_session(sesh)
                 if Vdist(starting_xyz, new_xyz) > 1.0 or
                     new_armor < starting_armor or
                     new_health < starting_health then
+
+                    SendNUIMessage({ type = Events.DELETE_WARDROBE_SESSION })
 
                     if active_session then
                         active_session:finish()

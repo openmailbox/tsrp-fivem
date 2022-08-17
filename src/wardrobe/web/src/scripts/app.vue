@@ -13,11 +13,13 @@ export default {
             this.isActive = true;
         },
 
-        deleteSession() {
-            fetch("https://wardrobe/wardrobe:DeleteSession", {
-                method: "POST",
-                headers: { "Content-Type": "application/json; charset=UTF-8" }
-            });
+        deleteSession(skipPost) {
+            if (!skipPost) {
+                fetch("https://wardrobe/wardrobe:DeleteSession", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json; charset=UTF-8" }
+                });
+            }
 
             this.isActive = false;
         }

@@ -31,15 +31,23 @@ function Camera:initialize()
     local spot     = ploc - (norm(ploc - cloc) * 2)
     local _, floor = GetGroundZFor_3dCoord(ploc.x, ploc.y, ploc.z, 0)
 
-    self.camera  = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, ploc.z + 0.2, 0, 0, 0, 65.0, false, 0)
-    self.floor   = floor
-    self.ceiling = floor + 1.5
+    local rads  = math.atan2(ploc.y - spot.y, ploc.x - spot.x)
+    local angle = rads * (180 / math.pi)
+
+    if angle < 0 then
+        angle = 360 - (-1 * angle)
+    end
+
+    -- TODO: Overrotating doesn't work when zooming. Need better camera positioning.
+
+    self.camera  = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, ploc.z + 0.2, 0, 0, angle - 110.0, 65.0, false, 0)
+    self.floor   = floor + 0.1
+    self.ceiling = floor + 1.4
 
     SetCamUseShallowDofMode(self.camera, true)
     SetCamNearDof(self.camera, 0.5)
     SetCamFarDof(self.camera, 4.0)
     SetCamDofStrength(self.camera, 1.0)
-    PointCamAtEntity(self.camera, PlayerPedId(), -0.9, 0, 0, 1)
     SetCamActive(self.camera, true)
     RenderScriptCams(true, true, 1500, true, true)
 end
@@ -50,7 +58,7 @@ end
 
 function Camera:start_zoom(direction)
     local _, forward = self:get_matrix()
-    self.zooming = forward
+    self.zooming = forward * direction * 0.01
 end
 
 function Camera:stop_pan()
@@ -72,7 +80,8 @@ function Camera:update()
 
     if self.zooming then
         ---@diagnostic disable-next-line: param-type-mismatch
-        x, y, z = table.unpack(GetCamCoord(self.camera) + self.forward)
+        x, y, z = table.unpack(GetCamCoord(self.camera) + self.zooming)
+        -- TODO: Cap zoom values
         SetCamCoord(self.camera, x, y, z)
     end
 end

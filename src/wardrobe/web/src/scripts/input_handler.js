@@ -1,26 +1,33 @@
 const InputHandler = (function() {
-    const fetch = function(event, params) {
-        fetch(`https://wardrobe/wardrobe:${event}`, {
+    const command = function(eventName, params) {
+        fetch(`https://wardrobe/wardrobe:${eventName}`, {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
-            body: JSON.stringify(params || {})
+            body: JSON.stringify(params)
         });
     };
 
     const _initialize = function() {
         document.addEventListener("keydown", (event) => {
+            if (event.repeat) return;
             switch (event.key) {
                 case "a":
-                    fetch("CreateRotation", { direction: -1 });
+                    command("CreateRotation", { direction: -1 });
                     break;
                 case "d":
-                    fetch("CreateRotation", { direction: 1 });
+                    command("CreateRotation", { direction: 1 });
                     break;
                 case "w":
-                    fetch("CreateCameraPan", { direction: 1 });
+                    command("CreateCameraPan", { direction: 1 });
                     break;
                 case "s":
-                    fetch("CreateCameraPan", { direction: -1 });
+                    command("CreateCameraPan", { direction: -1 });
+                    break;
+                case "e":
+                    command("CreateCameraZoom", { direction: 1 });
+                    break;
+                case "q":
+                    command("CreateCameraZoom", { direction: -1 });
                     break;
             }
         });
@@ -29,11 +36,15 @@ const InputHandler = (function() {
             switch (event.key) {
                 case "a":
                 case "d":
-                    fetch("DeleteRotation");
+                    command("DeleteRotation", {});
                     break;
                 case "w":
                 case "s":
-                    fetch("DeleteCameraPan");
+                    command("DeleteCameraPan", {});
+                    break;
+                case "q":
+                case "e":
+                    command("DeleteCameraZoom", {});
                     break;
             }
         });
