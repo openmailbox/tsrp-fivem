@@ -58,7 +58,6 @@ function Session:initialize()
 
     start_session(self)
 
-    -- TODO: Need to freeze position or something to avoid rubber banding on rotation
     local x, y, z = table.unpack(self.camera:get_location())
     TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, -1)
 
