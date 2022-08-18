@@ -11,6 +11,7 @@ local function create(data, cb)
         while rotating do
             rot = GetEntityRotation(ped, 2)
             SetEntityRotation(ped, rot.x, rot.y, rot.z + data.direction, 2, true)
+            FreezePedCameraRotation(ped)
 
             Citizen.Wait(0)
         end

@@ -1,7 +1,9 @@
 Camera = {}
 
--- Frequently accessed loop variables
-local x, y, z
+-- Forward declarations
+local dist2d
+
+local MAX_ZOOM = 0.7
 
 function Camera:new(o)
     o = o or {}
@@ -46,14 +48,15 @@ function Camera:initialize()
         angle = 360 - (-1 * angle)
     end
 
-    self.camera  = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, spot.z, 0, 0, angle - 110.0, 65.0, false, 0)
     self.floor   = floor + 0.15
-    self.ceiling = floor + 1.6
+    self.ceiling = floor + 1.5
+    self.origin  = spot
+    self.camera  = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, spot.z, 0, 0, angle - 105.0, 75.0, false, 0)
 
     SetCamUseShallowDofMode(self.camera, true)
-    SetCamNearDof(self.camera, 0.5)
+    SetCamNearDof(self.camera, 0.1)
     SetCamFarDof(self.camera, 4.0)
-    SetCamDofStrength(self.camera, 1.0)
+    SetCamDofStrength(self.camera, 0.9)
     SetCamActive(self.camera, true)
     RenderScriptCams(true, true, 1500, true, true)
 end
@@ -75,19 +78,31 @@ function Camera:stop_zoom()
     self.zooming = false
 end
 
+
 -- Called every frame while wardrobe session is active
+-- Frequently accessed loop vars
+local _next, _x, _y, _z
 function Camera:update()
     SetUseHiDof() -- enables camera depth of field
 
     if self.panning then
-        x, y, z = table.unpack(GetCamCoord(self.camera))
-        SetCamCoord(self.camera, x, y, math.min(math.max(z + self.panning, self.floor), self.ceiling))
+        _x, _y, _z = table.unpack(GetCamCoord(self.camera))
+        SetCamCoord(self.camera, _x, _y, math.min(math.max(_z + self.panning, self.floor), self.ceiling))
     end
 
     if self.zooming then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        x, y, z = table.unpack(GetCamCoord(self.camera) + self.zooming)
-        -- TODO: Cap zoom values
-        SetCamCoord(self.camera, x, y, z)
+        _next = GetCamCoord(self.camera) + self.zooming
+
+        if dist2d(self.origin, _next) < MAX_ZOOM then
+            ---@diagnostic disable-next-line: param-type-mismatch
+            _x, _y, _z = table.unpack(GetCamCoord(self.camera) + self.zooming)
+
+            SetCamCoord(self.camera, _x, _y, _z)
+        end
     end
+end
+
+-- @local
+function dist2d(p1, p2)
+    return math.sqrt((p1.x - p2.x) ^ 2 + (p1.y - p2.y) ^ 2)
 end

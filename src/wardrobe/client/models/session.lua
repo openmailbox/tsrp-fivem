@@ -59,7 +59,7 @@ function Session:initialize()
     start_session(self)
 
     local x, y, z = table.unpack(self.camera:get_location())
-    TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, -1)
+    TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, 2000)
 
     if not HasAnimDictLoaded(DICTIONARY) then
         RequestAnimDict(DICTIONARY)
