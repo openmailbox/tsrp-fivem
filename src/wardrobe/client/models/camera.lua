@@ -78,8 +78,7 @@ function Camera:stop_zoom()
     self.zooming = false
 end
 
-
--- Called every frame while wardrobe session is active
+-- update() is called every frame while wardrobe session is active
 -- Frequently accessed loop vars
 local _next, _x, _y, _z
 function Camera:update()

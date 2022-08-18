@@ -81,10 +81,18 @@ function start_session(sesh)
         local starting_health = GetEntityHealth(ped)
         local starting_xyz    = GetEntityCoords(ped)
         local next_check      = GetGameTimer() + 1000
+        local scaleform       = CreateInstructionalDisplay("Turn Left", 34,
+                                                           "Turn Right", 35,
+                                                           "Pan Up", 32,
+                                                           "Pan Down", 33,
+                                                           "Zoom In", 38,
+                                                           "Zoom Out", 44)
 
         local new_armor, new_health, new_xyz
 
         while session.active do
+            DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
+
             session.camera:update()
 
             if GetGameTimer() > next_check then
