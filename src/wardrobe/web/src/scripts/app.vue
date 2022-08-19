@@ -5,7 +5,7 @@ import CategoryDetails from './category-details.vue'
 export default {
     data() {
         return {
-            isActive: false
+            isActive: true
         };
     },
     methods: {

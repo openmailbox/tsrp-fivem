@@ -9,6 +9,10 @@ module.exports = {
     main: './web/src/scripts/index.js',
     input: './web/src/scripts/input_handler.js'
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
