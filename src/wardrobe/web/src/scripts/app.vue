@@ -2,10 +2,14 @@
 import CategorySelector from './category-selector.vue'
 import CategoryDetails from './category-details.vue'
 
+// temporary test data
+import categoryData from '../test/category_data.js'
+
 export default {
     data() {
         return {
-            isActive: true
+            isActive: true,
+            categories: categoryData.categories
         };
     },
     methods: {
