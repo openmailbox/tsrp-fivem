@@ -38,7 +38,7 @@ export default {
             <div class="column col-6"></div>
 
             <div class="column col-2">
-                <CategorySelector @cancel="deleteSession" />
+                <CategorySelector :categories="categories" @cancel="deleteSession" />
             </div>
 
             <div class="column col-4">
