@@ -1,4 +1,5 @@
 <script>
+import { store } from './store.js'
 import CategorySelector from './category-selector.vue'
 import CategoryDetails from './category-details.vue'
 
@@ -8,13 +9,17 @@ import categoryData from '../test/category_data.js'
 export default {
     data() {
         return {
+            store,
             isActive: true,
             categories: categoryData.categories
         };
     },
     methods: {
-        createSession() {
-            this.isActive = true;
+        createSession(data) {
+            this.categories = data.categories;
+            this.isActive   = true;
+
+            store.selectCategory(0);
         },
 
         deleteSession(skipPost) {

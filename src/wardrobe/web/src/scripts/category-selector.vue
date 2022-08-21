@@ -1,20 +1,16 @@
 <script>
+import { store } from './store.js';
 import Category from './category.vue';
 
 export default {
     data() {
         return {
-            activeCategoryIndex: 0
+            store
         }
     },
     props: ['categories'],
     emits: ['cancel'],
-    components: { Category },
-    methods: {
-        selectCategory(index) {
-            this.activeCategoryIndex = index;
-        }
-    }
+    components: { Category }
 }
 </script>
 
@@ -27,8 +23,7 @@ export default {
             <Category v-for="(cat, index) in categories"
                 :label="cat.label"
                 :index="index"
-                :selected="this.activeCategoryIndex == index"
-                @select-category="selectCategory" />
+                :selected="store.activeCategoryIndex == index" />
         </div>
         <div class="panel-footer text-center">
             <button @click="$emit('cancel')" class="btn btn-lg btn-error">Cancel</button>

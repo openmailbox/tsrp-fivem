@@ -1,11 +1,18 @@
 <script>
+import { store } from './store.js'
+
 export default {
+    data() {
+        return {
+            store
+        }
+    },
     props: ['index', 'label', 'selected']
 }
 </script>
 
 <template>
-    <div @click="$emit('select-category', index)" class="category col-6" :class="{ highlighted: selected }">
+    <div @click="store.selectCategory(index)" class="category col-6" :class="{ highlighted: selected }">
         <img class="wardrobe-icon d-block" src="https://img.icons8.com/nolan/64/fill-color.png">
         <span class="title h5">{{ label }}</span>
     </div>
