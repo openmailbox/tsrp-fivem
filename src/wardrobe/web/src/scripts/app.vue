@@ -47,7 +47,7 @@ export default {
             </div>
 
             <div class="column col-4">
-                <CategoryDetails />
+                <CategoryDetails :controls="categories[store.activeCategoryIndex].controls" />
             </div>
         </div>
     </div>

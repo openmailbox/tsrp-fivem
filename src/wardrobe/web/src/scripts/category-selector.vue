@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <div class="panel tsrp-bg-semi">
+    <div class="panel category-selector tsrp-bg-semi">
         <div class="panel-header">
             <div class="panel-title h5 title text-center">Character Customization</div>
         </div>
@@ -33,12 +33,12 @@ export default {
 </template>
 
 <style>
-.panel {
+.category-selector {
     height: 50vh;
     margin-top: 20vh;
 }
 
-.panel-body {
+.category-selector .panel-body {
     margin: 0 0 0 2px;
     padding: 0;
     overflow-x: hidden;

@@ -1,19 +1,29 @@
 <script>
+import IndexControl from './controls/index_control.vue'
+
+export default {
+    props: ["controls"],
+    components: { IndexControl }
+}
 </script>
 
 <template>
-    <div class="panel tsrp-bg-semi">
-        <div class="panel-body"></div>
+    <div class="panel tsrp-bg-semi category-details">
+        <div class="panel-body">
+            <div v-for="control in controls">
+                <IndexControl v-if="control.type === 'index'" :options="control.count" />
+            </div>
+        </div>
     </div>
 </template>
 
 <style>
-.panel {
+.category-details {
     height: 70vh;
     margin-top: 13vh;
 }
 
-.panel-body {
+.category-details .panel-body {
     padding: 0;
 }
 </style>

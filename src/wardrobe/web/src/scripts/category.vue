@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-    <div @click="store.selectCategory(index)" class="category col-6" :class="{ highlighted: selected }">
+    <div @click="store.selectCategory(index)" class="category column col-6" :class="{ highlighted: selected }">
         <img class="wardrobe-icon d-block" src="https://img.icons8.com/nolan/64/fill-color.png">
         <span class="title h5">{{ label }}</span>
     </div>
@@ -27,8 +27,14 @@ export default {
     text-align: center;
 }
 
-.title {
+.category .title {
     font-size: 1em;
+}
+
+@media only screen and (min-width: 2560px) {
+    category .title {
+        font-size: 2.2vh;
+    }
 }
 
 .wardrobe-icon {
