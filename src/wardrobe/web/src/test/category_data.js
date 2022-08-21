@@ -5,7 +5,9 @@ export default {
             controls: [
                 {
                     type: "index",
-                    count: 10
+                    name: "drawable",
+                    count: 10,
+                    value: 1
                 }
             ]
         },
@@ -14,7 +16,9 @@ export default {
             controls: [
                 {
                     type: "index",
-                    count: 7
+                    name: "drawable",
+                    count: 7,
+                    value: 2
                 },
                 {
                     type: "color",
@@ -31,7 +35,9 @@ export default {
             controls: [
                 {
                     type: "index",
-                    count: 50
+                    name: "drawable",
+                    count: 50,
+                    value: 25
                 },
                 {
                     type: "slider",

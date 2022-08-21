@@ -11,7 +11,10 @@ export default {
     <div class="panel tsrp-bg-semi category-details">
         <div class="panel-body">
             <div v-for="control in controls">
-                <IndexControl v-if="control.type === 'index'" :options="control.count" />
+                <IndexControl v-if="control.type === 'index'"
+                    :name="control.name"
+                    :count="control.count"
+                    :value="control.value" />
             </div>
         </div>
     </div>

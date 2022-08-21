@@ -43,7 +43,7 @@ export default {
     margin: auto;
 }
 
-.highlighted {
+.category.highlighted {
     border-color: #24FAE1;
     color: #24FAE1;
 }

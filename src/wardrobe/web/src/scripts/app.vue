@@ -3,23 +3,17 @@ import { store } from './store.js'
 import CategorySelector from './category-selector.vue'
 import CategoryDetails from './category-details.vue'
 
-// temporary test data
-import categoryData from '../test/category_data.js'
-
 export default {
     data() {
         return {
             store,
             isActive: true,
-            categories: categoryData.categories
         };
     },
     methods: {
         createSession(data) {
-            this.categories = data.categories;
-            this.isActive   = true;
-
-            store.selectCategory(0);
+            store.initialize(data.categories);
+            this.isActive = true;
         },
 
         deleteSession(skipPost) {
@@ -43,11 +37,11 @@ export default {
             <div class="column col-6"></div>
 
             <div class="column col-2">
-                <CategorySelector :categories="categories" @cancel="deleteSession" />
+                <CategorySelector :categories="store.categories" @cancel="deleteSession" />
             </div>
 
             <div class="column col-4">
-                <CategoryDetails :controls="categories[store.activeCategoryIndex].controls" />
+                <CategoryDetails :controls="store.getActiveControls()" />
             </div>
         </div>
     </div>

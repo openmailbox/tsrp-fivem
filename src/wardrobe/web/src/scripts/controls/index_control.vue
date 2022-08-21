@@ -1,6 +1,13 @@
 <script>
+import { store } from '../store.js'
+
 export default {
-    props: ['options']
+    data() {
+        return {
+            store
+        }
+    },
+    props: ['name', 'count', 'value']
 }
 </script>
 
@@ -11,7 +18,11 @@ export default {
         </div>
         <div class="card-body">
             <div class="columns">
-                <div v-for="n in options" class="column col-1 index-option">
+                <div v-for="n in count"
+                    @click="store.setValue(name, n)"
+                    class="column col-1 index-option"
+                    :class="{ highlighted: value === n }">
+
                     <div class="text-center title h3">{{ n }}</div>
                 </div>
             </div>
@@ -37,5 +48,10 @@ export default {
     .index-option .h3 {
         font-size: 2.2vh;
     }
+}
+
+.index-option.highlighted {
+    border-color: #24FAE1;
+    color: #24FAE1;
 }
 </style>
