@@ -24,7 +24,16 @@ export const store = reactive({
 
         for (let i = 0; i < controls.length; i++) {
             if (controls[i].name === name) {
-                controls[i].value = value;
+                if (controls[i].type === "color") {
+                    let colors = controls[i].options;
+
+                    for (let j = 0; j < colors.length; j++) {
+                        colors[j].selected = (j === value);
+                    }
+                } else {
+                    controls[i].value = value;
+                }
+
                 return
             }
         }

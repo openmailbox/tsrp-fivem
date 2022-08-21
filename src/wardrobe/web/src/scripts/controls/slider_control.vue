@@ -36,7 +36,6 @@ export default {
 <style>
 .details-slider .slider {
     height: 3em;
-
 }
 
 .details-slider .slider:focus {

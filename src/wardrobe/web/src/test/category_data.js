@@ -1,3 +1,4 @@
+// Static data to populate the interface for easy testing
 export default {
     categories: [
         {
@@ -24,10 +25,11 @@ export default {
                 },
                 {
                     type: "color",
+                    name: "primary",
                     label: "Primary",
                     options: [
                         { r: 255, g: 0, b: 0 },
-                        { r: 0, g: 255, b: 0 },
+                        { r: 0, g: 255, b: 0, selected: true },
                         { r: 0, g: 0, b: 255 }
                     ]
                 }

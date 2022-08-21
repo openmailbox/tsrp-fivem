@@ -1,10 +1,11 @@
 <script>
 import IndexControl from './controls/index_control.vue'
 import SliderControl from './controls/slider_control.vue'
+import ColorControl from './controls/color_control.vue'
 
 export default {
     props: ["controls"],
-    components: { IndexControl, SliderControl }
+    components: { IndexControl, SliderControl, ColorControl }
 }
 </script>
 
@@ -23,6 +24,10 @@ export default {
                     :min="control.min"
                     :max="control.max"
                     :value="control.value" />
+                <ColorControl v-else-if="control.type === 'color'"
+                    :name="control.name"
+                    :label="control.label"
+                    :options="control.options" />
             </div>
         </div>
     </div>
