@@ -12,7 +12,7 @@ export const store = reactive({
     },
 
     initialize(data) {
-        this.categories = data;
+        this.categories = data.categories;
     },
 
     selectCategory(index) {

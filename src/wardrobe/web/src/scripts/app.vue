@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         createSession(data) {
-            store.initialize(data.categories);
+            store.initialize(data.state);
             this.isActive = true;
         },
 

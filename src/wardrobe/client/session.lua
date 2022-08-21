@@ -54,7 +54,12 @@ function Session:initialize()
     DisplayRadar(false)
     SetNuiFocus(true, true)
     TriggerEvent(Events.CLEAR_CHAT)
-    SendNUIMessage({ type = Events.CREATE_WARDROBE_SESSION })
+
+    local serializer = WebSerializer:new({ ped = PlayerPedId() })
+    SendNUIMessage({
+        type  = Events.CREATE_WARDROBE_SESSION,
+        state = serializer:serialize()
+    })
 
     start_session(self)
 
