@@ -7,14 +7,14 @@ export default {
             store
         }
     },
-    props: ['name', 'count', 'value']
+    props: ['name', 'label', 'count', 'value']
 }
 </script>
 
 <template>
     <div class="card">
         <div class="card-header">
-            <div class="card-title h5">Style</div>
+            <div class="card-title h5">{{ label }}</div>
         </div>
         <div class="card-body">
             <div class="columns">

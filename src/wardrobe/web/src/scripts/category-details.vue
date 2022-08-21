@@ -1,9 +1,10 @@
 <script>
 import IndexControl from './controls/index_control.vue'
+import SliderControl from './controls/slider_control.vue'
 
 export default {
     props: ["controls"],
-    components: { IndexControl }
+    components: { IndexControl, SliderControl }
 }
 </script>
 
@@ -13,7 +14,14 @@ export default {
             <div v-for="control in controls">
                 <IndexControl v-if="control.type === 'index'"
                     :name="control.name"
+                    :label="control.label"
                     :count="control.count"
+                    :value="control.value" />
+                <SliderControl v-else-if="control.type === 'slider'"
+                    :name="control.name"
+                    :label="control.label"
+                    :min="control.min"
+                    :max="control.max"
                     :value="control.value" />
             </div>
         </div>

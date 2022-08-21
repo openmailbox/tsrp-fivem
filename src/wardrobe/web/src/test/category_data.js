@@ -6,6 +6,7 @@ export default {
                 {
                     type: "index",
                     name: "drawable",
+                    label: "Style",
                     count: 10,
                     value: 1
                 }
@@ -17,11 +18,13 @@ export default {
                 {
                     type: "index",
                     name: "drawable",
+                    label: "Style",
                     count: 7,
                     value: 2
                 },
                 {
                     type: "color",
+                    label: "Primary",
                     options: [
                         { r: 255, g: 0, b: 0 },
                         { r: 0, g: 255, b: 0 },
@@ -36,13 +39,17 @@ export default {
                 {
                     type: "index",
                     name: "drawable",
+                    label: "Style",
                     count: 50,
                     value: 25
                 },
                 {
                     type: "slider",
-                    min: 0,
-                    max: 10
+                    name: "texture",
+                    label: "Variant",
+                    min: 1,
+                    max: 10,
+                    value: 2
                 }
             ]
         }
