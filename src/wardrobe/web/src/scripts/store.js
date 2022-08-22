@@ -3,6 +3,16 @@ import { reactive } from 'vue'
 // temporary test data
 import categoryData from '../test/category_data.js'
 
+const findMemberByKey = (collection, name, value) => {
+    for (let member of collection) {
+        if (member[name] === value) {
+            return member;
+        }
+    }
+
+    return null;
+}
+
 export const store = reactive({
     activeCategoryIndex: 0,
     categories: categoryData.categories,
@@ -20,22 +30,36 @@ export const store = reactive({
     },
 
     setValue(label, value) {
-        let controls = this.getActiveControls();
+        let activeControls = this.getActiveControls();
+        let updatedControl = findMemberByKey(activeControls, 'label', label)
 
-        for (let i = 0; i < controls.length; i++) {
-            if (controls[i].label === label) {
-                if (controls[i].type === "color") {
-                    let colors = controls[i].options;
-
-                    for (let j = 0; j < colors.length; j++) {
-                        colors[j].selected = (j === value);
-                    }
-                } else {
-                    controls[i].value = value;
-                }
-
-                return
+        // update value in global state
+        if (updatedControl.type === "color") {
+            for (let color of updatedControl.options) {
+                color.selected = (j === value);
             }
+        } else {
+            updatedControl.value = value;
         }
+
+        fetch('https://wardrobe/wardrobe:CreatePedUpdate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({
+                attribute: this.categories[this.activeCategoryIndex].name,
+                control: label,
+                value: value
+            })
+        }).then(resp => resp.json()).then(resp => {
+            if (!resp.controls) return;
+
+            for (let update of resp.controls) {
+                let changedControl = findMemberByKey(activeControls, 'label', update.label)
+
+                for (let key in update) {
+                    changedControl[key] = update[key];
+                }
+            }
+        });
     }
 })

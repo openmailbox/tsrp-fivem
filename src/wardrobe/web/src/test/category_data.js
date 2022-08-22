@@ -3,6 +3,7 @@ export default {
     categories: [
         {
             label: "Face",
+            name: "face",
             controls: [
                 {
                     type: "index",
@@ -14,6 +15,7 @@ export default {
         },
         {
             label: "Hair",
+            name: "hair",
             controls: [
                 {
                     type: "index",
@@ -34,6 +36,7 @@ export default {
         },
         {
             label: "Shoes",
+            name: "shoes",
             controls: [
                 {
                     type: "index",

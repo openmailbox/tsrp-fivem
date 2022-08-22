@@ -37,6 +37,7 @@ function serialize_component(ped, name)
 
     return {
         label    = attribute.label,
+        name     = name,
         controls = {
             {
                 type  = "index",
