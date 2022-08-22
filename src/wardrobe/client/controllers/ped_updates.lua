@@ -3,20 +3,20 @@ local function create(data, cb)
     local ped       = PlayerPedId()
 
     if attribute.type == AttributeTypes.COMPONENT then
-        local current_drawable = GetPedDrawableVariation(ped, attribute.index)
-        local current_texture  = GetPedTextureVariation(ped, attribute.index)
-        local updates          = {}
+        local updates = {}
+        local index   = data.value - 1 -- 0-based indices internally, 1-based in UI
 
         if data.control == "Style" then
-            SetPedComponentVariation(ped, attribute.index, data.value, current_texture)
+            SetPedComponentVariation(ped, attribute.index, index, 0, 0)
 
             table.insert(updates, {
                 label = "Variant",
                 value = 1,
-                max   = GetNumberOfPedTextureVariations(ped, attribute.index, current_drawable)
+                max   = math.max(GetNumberOfPedTextureVariations(ped, attribute.index, index), 1)
             })
         elseif data.control == "Variant" then
-            SetPedComponentVariation(PlayerPedId(), attribute.index, current_drawable, data.value)
+            local current_drawable = GetPedDrawableVariation(ped, attribute.index)
+            SetPedComponentVariation(PlayerPedId(), attribute.index, current_drawable, index)
         end
 
         cb({ controls = updates })

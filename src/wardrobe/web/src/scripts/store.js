@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 
 // temporary test data
-import categoryData from '../test/category_data.js'
+//import categoryData from '../test/category_data.js'
 
 const findMemberByKey = (collection, name, value) => {
     for (let member of collection) {
@@ -15,10 +15,12 @@ const findMemberByKey = (collection, name, value) => {
 
 export const store = reactive({
     activeCategoryIndex: 0,
-    categories: categoryData.categories,
+    //categories: categoryData.categories,
+    categories: [],
 
     getActiveControls() {
-        return this.categories[this.activeCategoryIndex].controls;
+        const category = this.categories[this.activeCategoryIndex];
+        return category ? category.controls : [];
     },
 
     initialize(data) {

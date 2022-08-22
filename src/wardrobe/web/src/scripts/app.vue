@@ -7,7 +7,7 @@ export default {
     data() {
         return {
             store,
-            isActive: true,
+            isActive: false,
         };
     },
     methods: {

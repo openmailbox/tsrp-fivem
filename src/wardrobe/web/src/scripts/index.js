@@ -10,7 +10,7 @@ let vm = app.mount('#app');
 const handleMessage = function(item) {
     switch (item.type) {
         case "wardrobe:CreateSession":
-            vm.createSession();
+            vm.createSession(item);
             break;
         case "wardrobe:DeleteSession": // only called if the game abandoned the session for some reason
             vm.deleteSession(true);

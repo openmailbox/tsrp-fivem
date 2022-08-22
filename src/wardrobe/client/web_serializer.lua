@@ -42,15 +42,15 @@ function serialize_component(ped, name)
             {
                 type  = "index",
                 label = "Style",
-                value = current_drawable,
+                value = current_drawable + 1, -- 1-based indices in Web UI
                 count = draw_count
             },
             {
                 type  = "slider",
                 label = "Variant",
-                value = current_texture,
+                value = math.max(current_texture + 1, 1),
                 min   = 1,
-                max   = texture_count
+                max   = math.max(texture_count, 1)
             }
         }
     }
