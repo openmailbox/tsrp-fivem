@@ -29,29 +29,14 @@ end
 
 -- @local
 function serialize_component(ped, name)
-    local attribute   = Attributes[name]
-    local draw_count  = GetNumberOfPedDrawableVariations(ped)
-    local texture_map = {}
-
-    for i = 1, draw_count do
-        local texture_count = GetNumberOfPedTextureVariations(ped, attribute.index, i - 1)
-
-        if texture_count > 0 then
-            texture_map[i] = {
-                type  = "slider",
-                value = 1,
-                min   = 1,
-                max   = texture_count,
-            }
-        end
-    end
-
+    local attribute        = Attributes[name]
+    local draw_count       = GetNumberOfPedDrawableVariations(ped)
     local current_drawable = GetPedDrawableVariation(ped, attribute.index)
     local current_texture  = GetPedTextureVariation(ped, attribute.index)
+    local texture_count    = GetNumberOfPedTextureVariations(ped, attribute.index, current_drawable)
 
     return {
-        label        = attribute.label,
-        control_data = texture_map,
+        label    = attribute.label,
         controls = {
             {
                 type  = "index",
@@ -63,8 +48,8 @@ function serialize_component(ped, name)
                 type  = "slider",
                 label = "Variant",
                 value = current_texture,
-                min   = texture_map[current_texture].min,
-                max   = texture_map[current_texture].max
+                min   = 1,
+                max   = texture_count
             }
         }
     }

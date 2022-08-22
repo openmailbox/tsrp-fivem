@@ -7,7 +7,7 @@ export default {
             store
         }
     },
-    props: ['name', 'label', 'count', 'value']
+    props: ['label', 'count', 'value']
 }
 </script>
 
@@ -19,7 +19,7 @@ export default {
         <div class="card-body">
             <div class="columns">
                 <div v-for="n in count"
-                    @click="store.setValue(name, n)"
+                    @click="store.setValue(label, n)"
                     class="column col-1 index-option"
                     :class="{ highlighted: value === n }">
 

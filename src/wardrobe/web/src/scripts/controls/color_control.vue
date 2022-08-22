@@ -7,7 +7,7 @@ export default {
             store
         }
     },
-    props: ['name', 'label', 'options'],
+    props: ['label', 'options'],
     methods: {
         componentToHex(c) {
             let hex = c.toString(16);
@@ -31,7 +31,7 @@ export default {
                     class="column col-1 color-option"
                     :class="{ highlighted: color.selected }"
                     :style="{ 'background-color': rgbToHex(color.r, color.g, color.b) }"
-                    @click="store.setValue(name, index)">
+                    @click="store.setValue(label, index)">
                 </div>
             </div>
         </div>

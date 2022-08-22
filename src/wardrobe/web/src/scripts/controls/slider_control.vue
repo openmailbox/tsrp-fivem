@@ -7,7 +7,7 @@ export default {
             store
         }
     },
-    props: ['name', 'label', 'max', 'min', 'value'],
+    props: ['label', 'max', 'min', 'value'],
     computed: {
         count() {
             return this.max - this.min;
@@ -28,7 +28,7 @@ export default {
                 :min="min"
                 :max="max"
                 :value="value"
-                @input="store.setValue(name, $event.target.value)" />
+                @input="store.setValue(label, $event.target.value)" />
         </div>
     </div>
 </template>

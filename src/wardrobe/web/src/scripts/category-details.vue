@@ -14,18 +14,15 @@ export default {
         <div class="panel-body">
             <div v-for="control in controls">
                 <IndexControl v-if="control.type === 'index'"
-                    :name="control.name"
                     :label="control.label"
                     :count="control.count"
                     :value="control.value" />
                 <SliderControl v-else-if="control.type === 'slider'"
-                    :name="control.name"
                     :label="control.label"
                     :min="control.min"
                     :max="control.max"
                     :value="control.value" />
                 <ColorControl v-else-if="control.type === 'color'"
-                    :name="control.name"
                     :label="control.label"
                     :options="control.options" />
             </div>

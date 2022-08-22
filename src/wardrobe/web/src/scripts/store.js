@@ -19,11 +19,11 @@ export const store = reactive({
         this.activeCategoryIndex = index;
     },
 
-    setValue(name, value) {
+    setValue(label, value) {
         let controls = this.getActiveControls();
 
         for (let i = 0; i < controls.length; i++) {
-            if (controls[i].name === name) {
+            if (controls[i].label === label) {
                 if (controls[i].type === "color") {
                     let colors = controls[i].options;
 
