@@ -20,7 +20,7 @@ export default {
     <div class="card details-slider">
         <div class="card-header">
             <div class="card-title h5 d-inline-flex">{{ label }}</div>
-            <span class="variant-count ml-2">{{ value }} of {{ count }}</span>
+            <span class="variant-count ml-2">{{ value }} of {{ count + 1 }}</span>
         </div>
         <div class="card-body">
             <input class="slider"

@@ -11,7 +11,16 @@ AttributeTypes = {
 }
 
 Attributes = {
-    ["face"]  = { label = "Face",  type = AttributeTypes.COMPONENT, index = 0 },
-    ["hair"]  = { label = "Hair",  type = AttributeTypes.COMPONENT, index = 2 },
-    ["shoes"] = { label = "Shoes", type = AttributeTypes.COMPONENT, index = 6 }
+    ["face"]         = { label = "Face",         type = AttributeTypes.COMPONENT, index = 0  },
+    ["mask"]         = { label = "Mask",         type = AttributeTypes.COMPONENT, index = 1  },
+    ["hair"]         = { label = "Hair",         type = AttributeTypes.COMPONENT, index = 2  },
+    ["torso"]        = { label = "Torso",        type = AttributeTypes.COMPONENT, index = 3  },
+    ["legs"]         = { label = "Legs",         type = AttributeTypes.COMPONENT, index = 4  },
+    ["bag"]          = { label = "Bag",          type = AttributeTypes.COMPONENT, index = 5  },
+    ["shoes"]        = { label = "Shoes",        type = AttributeTypes.COMPONENT, index = 6  },
+    ["accessories"]  = { label = "Accessories",  type = AttributeTypes.COMPONENT, index = 7  },
+    ["undershirts"]  = { label = "Undershirts",  type = AttributeTypes.COMPONENT, index = 8  },
+    ["body_armor"]   = { label = "Body Armor",   type = AttributeTypes.COMPONENT, index = 9  },
+    ["decals"]       = { label = "Decals",       type = AttributeTypes.COMPONENT, index = 10 },
+    ["tops"]         = { label = "Tops",         type = AttributeTypes.COMPONENT, index = 11 },
 }

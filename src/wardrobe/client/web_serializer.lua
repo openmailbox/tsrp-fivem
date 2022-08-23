@@ -18,7 +18,11 @@ function WebSerializer:serialize()
 
     for name, details in pairs(Attributes) do
         if details.type == AttributeTypes.COMPONENT then
-            table.insert(attributes, serialize_component(self.ped, name))
+            local component = serialize_component(self.ped, name)
+
+            if component then
+                table.insert(attributes, component)
+            end
         end
     end
 
@@ -30,7 +34,7 @@ end
 -- @local
 function serialize_component(ped, name)
     local attribute        = Attributes[name]
-    local draw_count       = GetNumberOfPedDrawableVariations(ped)
+    local draw_count       = GetNumberOfPedDrawableVariations(ped, attribute.index)
     local current_drawable = GetPedDrawableVariation(ped, attribute.index)
     local current_texture  = GetPedTextureVariation(ped, attribute.index)
     local texture_count    = GetNumberOfPedTextureVariations(ped, attribute.index, current_drawable)
@@ -42,15 +46,15 @@ function serialize_component(ped, name)
             {
                 type  = "index",
                 label = "Style",
-                value = current_drawable + 1, -- 1-based indices in Web UI
+                value = current_drawable + 1, -- 1-based indices in the UI
                 count = draw_count
             },
             {
                 type  = "slider",
                 label = "Variant",
-                value = math.max(current_texture + 1, 1),
+                value = current_texture + 1,
                 min   = 1,
-                max   = math.max(texture_count, 1)
+                max   = texture_count
             }
         }
     }
