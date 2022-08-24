@@ -1,3 +1,8 @@
+FreemodeModels = {
+    "mp_m_freemode_01",
+    "mp_f_freemode_01"
+}
+
 PedModels = {
     "a_m_m_afriamer_01",
     "a_m_m_beach_01",

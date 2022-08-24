@@ -13,7 +13,7 @@ local function create(data, cb)
     local handler   = handlers[attribute.type]
     local result    = handler(attribute, data)
 
-    cb(result)
+    cb(result or {})
 end
 RegisterNUICallback(Events.CREATE_WARDROBE_PED_UPDATE, create)
 
@@ -44,9 +44,21 @@ end
 
 -- @local
 function handle_model(_, data)
-    local ped   = PlayerPedId()
-    local model = PedModels[data.value]
-    local hash  = GetHashKey(model)
+    local model, control, count
+
+    if data.control == "Citizens" then
+        control = "Locals"
+        count   = #PedModels
+        model   = FreemodeModels[data.value]
+    elseif data.control == "Locals" then
+        control = "Citizens"
+        count   = #FreemodeModels
+        model   = PedModels[data.value]
+    else
+        return
+    end
+
+    local hash = GetHashKey(model)
 
     if not HasModelLoaded(hash) then
         RequestModel(hash)
@@ -58,11 +70,20 @@ function handle_model(_, data)
 
     SetPlayerModel(PlayerId(), hash)
     SetModelAsNoLongerNeeded(hash)
-    SetPedDefaultComponentVariation(ped)
+    SetPedDefaultComponentVariation(PlayerPedId())
 
     if string.match(model, "freemode") then
-        SetPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, false)
+        SetPedHeadBlendData(PlayerPedId(), 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, false)
     end
 
-    return {}
+    return {
+        controls = {
+            {
+                type  = "index",
+                label = control,
+                value = -1,
+                count = count
+            }
+        }
+    }
 end

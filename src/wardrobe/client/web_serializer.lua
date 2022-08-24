@@ -1,7 +1,9 @@
 WebSerializer = {}
 
 -- Forward declarations
-local serialize_component, serialize_models
+local find_member,
+      serialize_component,
+      serialize_models
 
 function WebSerializer:new(o)
     o = o or {}
@@ -31,6 +33,17 @@ function WebSerializer:serialize()
     return {
         categories = attributes
     }
+end
+
+-- @local
+function find_member(collection, target)
+    for i, m in ipairs(collection) do
+        if GetHashKey(m) == target then
+            return i
+        end
+    end
+
+    return nil
 end
 
 -- @local
@@ -64,16 +77,10 @@ end
 
 -- @local
 function serialize_models(ped, name)
-    local attribute = Attributes[name]
-    local model     = GetEntityModel(ped)
-    local index     = -1
-
-    for i, m in ipairs(PedModels) do
-        if GetHashKey(m) == model then
-            index = i
-            break
-        end
-    end
+    local attribute  = Attributes[name]
+    local model      = GetEntityModel(ped)
+    local freemode_i = find_member(FreemodeModels, model)
+    local ped_i      = find_member(PedModels, model)
 
     return {
         label = attribute.label,
@@ -81,8 +88,14 @@ function serialize_models(ped, name)
         controls = {
             {
                 type  = "index",
-                label = "Model",
-                value = index,
+                label = "Citizens",
+                value = freemode_i,
+                count = #FreemodeModels
+            },
+            {
+                type  = "index",
+                label = "Locals",
+                value = ped_i,
                 count = #PedModels
             }
         }
