@@ -26,4 +26,10 @@ Attributes = {
     ["body_armor"]   = { label = "Body Armor",   type = AttributeTypes.COMPONENT, index = 9  },
     ["decals"]       = { label = "Decals",       type = AttributeTypes.COMPONENT, index = 10 },
     ["tops"]         = { label = "Tops",         type = AttributeTypes.COMPONENT, index = 11 },
+
+    ["hat"]      = { label = "Hat",      type = AttributeTypes.PROP, index = 0 },
+    ["glasses"]  = { label = "Glasses",  type = AttributeTypes.PROP, index = 1 },
+    ["ears"]     = { label = "Ears",     type = AttributeTypes.PROP, index = 2 },
+    ["watch"]    = { label = "Watch",    type = AttributeTypes.PROP, index = 6 },
+    ["Bracelet"] = { label = "Bracelet", type = AttributeTypes.PROP, index = 7 },
 }

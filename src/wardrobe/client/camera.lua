@@ -3,7 +3,7 @@ Camera = {}
 -- Forward declarations
 local dist2d
 
-local MAX_ZOOM = 0.7
+local MAX_ZOOM = 1.1
 
 function Camera:new(o)
     o = o or {}
@@ -49,7 +49,7 @@ function Camera:initialize()
     end
 
     self.floor   = floor + 0.15
-    self.ceiling = floor + 1.5
+    self.ceiling = floor + 1.6
     self.origin  = spot
     self.camera  = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, spot.z, 0, 0, angle - 105.0, 75.0, false, 0)
 

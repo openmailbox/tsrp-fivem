@@ -3,7 +3,8 @@ WebSerializer = {}
 -- Forward declarations
 local find_member,
       serialize_component,
-      serialize_models
+      serialize_models,
+      serialize_prop
 
 function WebSerializer:new(o)
     o = o or {}
@@ -20,13 +21,11 @@ function WebSerializer:serialize()
 
     for name, details in pairs(Attributes) do
         if details.type == AttributeTypes.COMPONENT then
-            local component = serialize_component(self.ped, name)
-
-            if component then
-                table.insert(attributes, component)
-            end
+            table.insert(attributes, serialize_component(self.ped, name))
         elseif details.type == AttributeTypes.MODEL then
             table.insert(attributes, serialize_models(self.ped, name))
+        elseif details.type == AttributeTypes.PROP then
+            table.insert(attributes, serialize_prop(self.ped, name))
         end
     end
 
@@ -97,6 +96,35 @@ function serialize_models(ped, name)
                 label = "Locals",
                 value = ped_i,
                 count = #PedModels
+            }
+        }
+    }
+end
+
+-- @local
+function serialize_prop(ped, name)
+    local attribute        = Attributes[name]
+    local draw_count       = GetNumberOfPedPropDrawableVariations(ped, attribute.index)
+    local current_drawable = GetPedPropIndex(ped, attribute.index)
+    local current_texture  = GetPedPropTextureIndex(ped, attribute.index)
+    local texture_count    = GetNumberOfPedPropTextureVariations(ped, attribute.index, current_drawable)
+
+    return {
+        label    = attribute.label,
+        name     = name,
+        controls = {
+            {
+                type  = "index",
+                label = "Style",
+                value = current_drawable + 1, -- 1-based indices in the UI
+                count = draw_count
+            },
+            {
+                type  = "slider",
+                label = "Variant",
+                value = current_texture + 1,
+                min   = 1,
+                max   = texture_count
             }
         }
     }

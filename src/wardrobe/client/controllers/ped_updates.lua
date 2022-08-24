@@ -1,12 +1,14 @@
 -- Forward declarations
 local handle_component,
-      handle_model
+      handle_model,
+      handle_prop
 
 local function create(data, cb)
     -- This isn't a constant b/c it adds an implicit dependency on file load order
     local handlers = {
         [AttributeTypes.COMPONENT] = handle_component,
-        [AttributeTypes.MODEL]     = handle_model
+        [AttributeTypes.MODEL]     = handle_model,
+        [AttributeTypes.PROP]      = handle_prop
     }
 
     local attribute = Attributes[data.attribute]
@@ -86,4 +88,29 @@ function handle_model(_, data)
             }
         }
     }
+end
+
+-- @local
+function handle_prop(attribute, data)
+    local ped     = PlayerPedId()
+    local updates = {}
+    local index   = data.value - 1 -- 1-based indices in the UI
+
+    if data.control == "Style" then
+        SetPedPropIndex(ped, attribute.index, index, 0, true)
+
+        local current_texture = GetPedPropTextureIndex(ped, attribute.index)
+
+        table.insert(updates, {
+            label = "Variant",
+            value = current_texture + 1,
+            min   = 1,
+            max   = GetNumberOfPedPropTextureVariations(ped, attribute.index, index)
+        })
+    elseif data.control == "Variant" then
+        local current_drawable = GetPedPropIndex(ped, attribute.index)
+        SetPedPropIndex(ped, attribute.index, current_drawable, index, true)
+    end
+
+    return { controls = updates }
 end
