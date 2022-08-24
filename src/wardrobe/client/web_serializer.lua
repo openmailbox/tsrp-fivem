@@ -1,7 +1,7 @@
 WebSerializer = {}
 
 -- Forward declarations
-local serialize_component
+local serialize_component, serialize_models
 
 function WebSerializer:new(o)
     o = o or {}
@@ -23,6 +23,8 @@ function WebSerializer:serialize()
             if component then
                 table.insert(attributes, component)
             end
+        elseif details.type == AttributeTypes.MODEL then
+            table.insert(attributes, serialize_models(self.ped, name))
         end
     end
 
@@ -55,6 +57,33 @@ function serialize_component(ped, name)
                 value = current_texture + 1,
                 min   = 1,
                 max   = texture_count
+            }
+        }
+    }
+end
+
+-- @local
+function serialize_models(ped, name)
+    local attribute = Attributes[name]
+    local model     = GetEntityModel(ped)
+    local index     = -1
+
+    for i, m in ipairs(PedModels) do
+        if GetHashKey(m) == model then
+            index = i
+            break
+        end
+    end
+
+    return {
+        label = attribute.label,
+        name  = name,
+        controls = {
+            {
+                type  = "index",
+                label = "Model",
+                value = index,
+                count = #PedModels
             }
         }
     }

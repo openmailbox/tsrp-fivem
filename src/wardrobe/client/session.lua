@@ -101,9 +101,11 @@ function start_session(sesh)
             session.camera:update()
 
             if GetGameTimer() > next_check then
-                new_armor  = GetPedArmour(ped)
-                new_health = GetEntityHealth(ped)
-                new_xyz    = GetEntityCoords(ped)
+                -- If we use a cached PlayerPedId() here, changing the player model could cause one of these function
+                -- calls to return an unexpected value which might kill the session prematurely.
+                new_armor  = GetPedArmour(PlayerPedId())
+                new_health = GetEntityHealth(PlayerPedId())
+                new_xyz    = GetEntityCoords(PlayerPedId())
                 next_check = GetGameTimer() + 1000
 
                 if Vdist(starting_xyz, new_xyz) > 1.0 or

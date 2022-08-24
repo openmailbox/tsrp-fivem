@@ -23,6 +23,27 @@ local function create(data, cb)
         end
 
         cb({ controls = updates })
+    elseif attribute.type == AttributeTypes.MODEL then
+        local model = PedModels[data.value]
+        local hash  = GetHashKey(model)
+
+        if not HasModelLoaded(hash) then
+            RequestModel(hash)
+
+            while not HasModelLoaded(hash) do
+                Citizen.Wait(10)
+            end
+        end
+
+        SetPlayerModel(PlayerId(), hash)
+        SetModelAsNoLongerNeeded(hash)
+        SetPedDefaultComponentVariation(ped)
+
+        if string.match(model, "freemode") then
+            SetPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, false)
+        end
+
+        cb({})
     end
 end
 RegisterNUICallback(Events.CREATE_WARDROBE_PED_UPDATE, create)

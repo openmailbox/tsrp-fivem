@@ -7,10 +7,13 @@ AttributeTypes = {
     HEAD_OVERLAY = 6,
     MAKEUP_COLOR = 7,
     PROP         = 8,
-    TATTOO       = 9
+    TATTOO       = 9,
+    MODEL        = 10
 }
 
 Attributes = {
+    ["model"] = { label = "Model", type = AttributeTypes.MODEL },
+
     ["face"]         = { label = "Face",         type = AttributeTypes.COMPONENT, index = 0  },
     ["mask"]         = { label = "Mask",         type = AttributeTypes.COMPONENT, index = 1  },
     ["hair"]         = { label = "Hair",         type = AttributeTypes.COMPONENT, index = 2  },
