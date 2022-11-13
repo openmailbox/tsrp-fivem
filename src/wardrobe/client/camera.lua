@@ -53,6 +53,7 @@ function Camera:initialize()
     self.origin  = spot
     self.camera  = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", spot.x, spot.y, spot.z, 0, 0, angle - 105.0, 75.0, false, 0)
 
+    -- TODO: Noticeable texture issues when DoF is on behind objects with transparency
     SetCamUseShallowDofMode(self.camera, true)
     SetCamNearDof(self.camera, 0.1)
     SetCamFarDof(self.camera, 4.0)
@@ -66,6 +67,7 @@ function Camera:start_pan(direction)
 end
 
 function Camera:start_zoom(direction)
+    -- TODO: Vector should be toward the ped, not the camera's forward
     local _, forward = self:get_matrix()
     self.zooming = forward * direction * 0.01
 end
