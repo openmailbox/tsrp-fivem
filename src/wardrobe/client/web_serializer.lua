@@ -18,14 +18,25 @@ end
 -- Serialize the ped into a format that can be used to initialize the web UI.
 function WebSerializer:serialize()
     local attributes = {}
+    local sfunc
 
     for name, details in pairs(Attributes) do
+        sfunc = nil
+
         if details.type == AttributeTypes.COMPONENT then
-            table.insert(attributes, serialize_component(self.ped, name))
+            sfunc = serialize_component
         elseif details.type == AttributeTypes.MODEL then
-            table.insert(attributes, serialize_models(self.ped, name))
+            sfunc = serialize_models
         elseif details.type == AttributeTypes.PROP then
-            table.insert(attributes, serialize_prop(self.ped, name))
+            sfunc = serialize_prop
+        end
+
+        if sfunc then
+            local data = sfunc(self.ped, name)
+
+            if data then
+                table.insert(attributes, data)
+            end
         end
     end
 
@@ -52,6 +63,11 @@ function serialize_component(ped, name)
     local current_drawable = GetPedDrawableVariation(ped, attribute.index)
     local current_texture  = GetPedTextureVariation(ped, attribute.index)
     local texture_count    = GetNumberOfPedTextureVariations(ped, attribute.index, current_drawable)
+
+    -- Don't display if there's 0 options or only 1 drawable with a single texture option.
+    if draw_count < 1 or (texture_count == 1 and draw_count == 1) then
+        return
+    end
 
     return {
         label    = attribute.label,
@@ -108,6 +124,10 @@ function serialize_prop(ped, name)
     local current_drawable = GetPedPropIndex(ped, attribute.index)
     local current_texture  = GetPedPropTextureIndex(ped, attribute.index)
     local texture_count    = GetNumberOfPedPropTextureVariations(ped, attribute.index, current_drawable)
+
+   if draw_count < 1 then
+        return
+    end
 
     return {
         label    = attribute.label,
