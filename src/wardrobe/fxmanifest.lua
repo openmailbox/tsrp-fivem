@@ -18,11 +18,12 @@ client_scripts {
     "client/**/*.lua"
 }
 
-ui_page "web/dist/index.html"
+ui_page "web-vite/dist/index.html"
 
 files {
-    "web/dist/**/*.html",
-    "web/dist/**/*.js",
+    "web-vite/dist/**/*.html",
+    "web-vite/dist/**/*.js",
+    "web-vite/dist/**/*.css",
 }
 
 exports {
