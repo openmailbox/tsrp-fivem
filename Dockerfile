@@ -8,7 +8,7 @@ RUN apt-get -y install xz-utils wget curl git
 RUN mkdir -p /fivem/fxserver/txData
 RUN mkdir -p /fivem/server-data/resources
 
-COPY fivem_setup.sh /fivem/fivem_setup.sh
+COPY bin/fivem_setup.sh /fivem/fivem_setup.sh
 
 RUN chmod a+x /fivem/fivem_setup.sh
 RUN /bin/bash /fivem/fivem_setup.sh
