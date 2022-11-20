@@ -50,11 +50,9 @@ cfg/txadmin.json
 vendor/*
 !vendor/README.md
 **/node_modules
-**/package-lock.json
 
 ## JS build stuff
 **/node_modules
-package-lock.json
 **/web/dist/*
 !**/web/dist/.gitkeep
 .yarn.installed
