@@ -80,20 +80,21 @@ end
 -- @local
 function start_session(sesh)
     Citizen.CreateThread(function()
-        local session         = sesh
-        local ped             = PlayerPedId()
-        local starting_armor  = GetPedArmour(ped)
-        local starting_health = GetEntityHealth(ped)
-        local starting_xyz    = GetEntityCoords(ped)
-        local next_check      = GetGameTimer() + 1000
-        local scaleform       = CreateInstructionalDisplay("Turn Left", 34,
+        local session     = sesh
+        local ped         = PlayerPedId()
+        local last_armor  = GetPedArmour(ped)
+        local last_health = GetEntityHealth(ped)
+        local last_xyz    = GetEntityCoords(ped)
+        local last_model  = GetEntityModel(ped)
+        local next_check  = GetGameTimer() + 1000
+        local scaleform   = CreateInstructionalDisplay("Turn Left", 34,
                                                            "Turn Right", 35,
                                                            "Pan Up", 32,
                                                            "Pan Down", 33,
                                                            "Zoom In", 38,
                                                            "Zoom Out", 44)
 
-        local new_armor, new_health, new_xyz
+        local new_armor, new_health, new_model, new_xyz
 
         while session.active do
             DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
@@ -105,12 +106,13 @@ function start_session(sesh)
                 -- calls to return an unexpected value which might kill the session prematurely.
                 new_armor  = GetPedArmour(PlayerPedId())
                 new_health = GetEntityHealth(PlayerPedId())
+                new_model  = GetEntityModel(PlayerPedId())
                 new_xyz    = GetEntityCoords(PlayerPedId())
                 next_check = GetGameTimer() + 1000
 
-                if Vdist(starting_xyz, new_xyz) > 1.0 or
-                    new_armor < starting_armor or
-                    new_health < starting_health then
+                if Vdist(last_xyz, new_xyz) > 1.0 or
+                    -- Switching the model can cause new/old health/armor to briefly become out of sync.
+                    ((new_armor < last_armor or new_health < last_health) and new_model == last_model) then
 
                     SendNUIMessage({ type = Events.DELETE_WARDROBE_SESSION })
 
