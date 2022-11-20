@@ -110,6 +110,14 @@ function start_session(sesh)
                 new_xyz    = GetEntityCoords(PlayerPedId())
                 next_check = GetGameTimer() + 1000
 
+                if new_model ~= last_model then
+                    local serializer = WebSerializer:new({ ped = PlayerPedId() })
+                    SendNUIMessage({
+                        type  = Events.CREATE_WARDROBE_SESSION,
+                        state = serializer:serialize()
+                    })
+                end
+
                 if Vdist(last_xyz, new_xyz) > 1.0 or
                     -- Switching the model can cause new/old health/armor to briefly become out of sync.
                     ((new_armor < last_armor or new_health < last_health) and new_model == last_model) then
