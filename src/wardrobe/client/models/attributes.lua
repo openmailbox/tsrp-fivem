@@ -1,14 +1,14 @@
 AttributeTypes = {
-    COMPONENT    = 1,
-    FACE_FEATURE = 2,
-    EYE_COLOR    = 3,
-    HAIR_COLOR   = 4,
-    HEAD_BLEND   = 5,
-    HEAD_OVERLAY = 6,
-    MAKEUP_COLOR = 7,
-    PROP         = 8,
-    TATTOO       = 9,
-    MODEL        = 10
+    MODEL        = 1,
+    COMPONENT    = 2,
+    PROP         = 3,
+    FACE_FEATURE = 4,
+    EYE_COLOR    = 5,
+    HAIR_COLOR   = 6,
+    HEAD_BLEND   = 7,
+    HEAD_OVERLAY = 8,
+    MAKEUP_COLOR = 9,
+    TATTOO       = 10,
 }
 
 Attributes = {

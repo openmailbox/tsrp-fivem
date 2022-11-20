@@ -40,6 +40,14 @@ function WebSerializer:serialize()
         end
     end
 
+    table.sort(attributes, function (a, b)
+        if a.type == b.type then
+            return a.index < b.index
+        else
+            return a.type < b.type
+        end
+    end)
+
     return {
         categories = attributes
     }
@@ -71,6 +79,8 @@ function serialize_component(ped, name)
 
     return {
         label    = attribute.label,
+        type     = attribute.type,
+        index    = attribute.index,
         name     = name,
         controls = {
             {
@@ -98,8 +108,10 @@ function serialize_models(ped, name)
     local ped_i      = find_member(PedModels, model)
 
     return {
-        label = attribute.label,
-        name  = name,
+        label    = attribute.label,
+        type     = attribute.type,
+        index    = attribute.index,
+        name     = name,
         controls = {
             {
                 type  = "index",
@@ -131,6 +143,8 @@ function serialize_prop(ped, name)
 
     return {
         label    = attribute.label,
+        type     = attribute.type,
+        index    = attribute.index,
         name     = name,
         controls = {
             {
