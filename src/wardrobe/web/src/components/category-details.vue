@@ -2,10 +2,11 @@
 import IndexControl from "./controls/index_control.vue";
 import SliderControl from "./controls/slider_control.vue";
 import ColorControl from "./controls/color_control.vue";
+import SwitchControl from "./controls/switch_control.vue";
 
 export default {
   props: ["controls"],
-  components: { IndexControl, SliderControl, ColorControl },
+  components: { IndexControl, SliderControl, ColorControl, SwitchControl },
 };
 </script>
 
@@ -30,6 +31,12 @@ export default {
           v-else-if="control.type === 'color'"
           :label="control.label"
           :options="control.options"
+        />
+        <SwitchControl
+          v-else-if="control.type === 'switch'"
+          :label="control.label"
+          :options="control.options"
+          :enabled="control.value"
         />
       </div>
     </div>

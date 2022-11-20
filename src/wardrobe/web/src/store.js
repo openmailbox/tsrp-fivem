@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 
 // temporary test data
-//import categoryData from '../test/category_data.js'
+//import categoryData from './test/category_data.js'
 
 const findMemberByKey = (collection, name, value) => {
   for (let member of collection) {
