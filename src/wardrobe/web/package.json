@@ -1,11 +1,22 @@
 {
   "name": "wardrobe",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Provides user interface for character customization.",
+  "main": "web/src/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openmailbox/tsrp-fivem.git"
+  },
+  "author": "openmailbox <brandon@openmailbox.me>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/openmailbox/tsrp-fivem/issues"
   },
   "dependencies": {
     "vue": "^3.2.41"
