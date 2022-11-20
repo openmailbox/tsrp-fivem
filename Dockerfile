@@ -13,15 +13,16 @@ VOLUME /fivem/server-data/resources/\[vendor\]
 VOLUME /fivem/server-data/config
 VOLUME /fivem/fxserver/txData
 
-COPY src /fivem/server-data/resources/\[local\]
+EXPOSE 30120/tcp
+EXPOSE 30120/udp
+EXPOSE 40125/tcp
+
 COPY build /fivem/build
 
 RUN chmod a+x /fivem/build/*.sh
 RUN /bin/bash /fivem/build/fivem_setup.sh
 
-EXPOSE 30120/tcp
-EXPOSE 30120/udp
-EXPOSE 40125/tcp
+COPY src /fivem/server-data/resources/\[local\]
 
 # Install and link the default FiveM resources
 RUN git clone https://github.com/citizenfx/cfx-server-data.git /fivem/cfx-server-data

@@ -1,4 +1,5 @@
 services:
+  # Runs the FiveM server w/ resources on local disk mounted as a volume.
   fivem:
     image: tsrp-fivem:latest
     build: .
@@ -36,3 +37,16 @@ services:
       - type: bind
         source: ./data/gamedb
         target: /var/lib/mysql
+  # Run this to compile all front-end assets across all resources.
+  node:
+    image: node:lts
+    working_dir: /fivem
+    command: /bin/bash /fivem/build/npm_build.sh
+    tty: true
+    volumes:
+      - type: bind
+        source: ./src
+        target: /fivem/src
+      - type: bind
+        source: ./build
+        target: /fivem/build
