@@ -134,6 +134,11 @@ function serialize_prop(ped, name)
         name     = name,
         controls = {
             {
+                type  = "switch",
+                label = "Visible",
+                value = current_drawable > -1
+            },
+            {
                 type  = "index",
                 label = "Style",
                 value = current_drawable + 1, -- 1-based indices in the UI

@@ -94,7 +94,42 @@ end
 function handle_prop(attribute, data)
     local ped     = PlayerPedId()
     local updates = {}
-    local index   = data.value - 1 -- 1-based indices in the UI
+    local index   = data.value
+
+    if data.control == "Visible" then
+        if data.value then
+            index = 0
+
+            SetPedPropIndex(ped, attribute.index, index, 0, true)
+
+            table.insert(updates, {
+                label = "Variant",
+                value = 1,
+                min   = 1,
+                max   = GetNumberOfPedPropTextureVariations(ped, attribute.index, index)
+            })
+        else
+            index = -1
+            ClearPedProp(ped, attribute.index)
+
+            table.insert(updates, {
+                label = "Variant",
+                max   = 0
+            })
+        end
+
+        table.insert(updates, {
+            label = "Style",
+            value = index + 1 -- 1-based indices in the UI
+        })
+    else
+        index = data.value - 1
+
+        table.insert(updates, {
+            label = "Visible",
+            value = true
+        })
+    end
 
     if data.control == "Style" then
         SetPedPropIndex(ped, attribute.index, index, 0, true)
