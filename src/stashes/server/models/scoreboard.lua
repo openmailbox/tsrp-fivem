@@ -12,6 +12,8 @@ local all_scores = {}
 -- @tparam number amount
 -- @treturn number the player's new score for the label
 function Scoreboard.record(player_id, label, amount)
+    if not label then return end
+
     local scores = all_scores[player_id]
 
     if not scores then
