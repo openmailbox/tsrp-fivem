@@ -16,10 +16,12 @@ dependencies {
 
 client_scripts {
     "@common/shared/events.lua",
+    "@common/shared/weapons.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/weapons.lua",
     "server/**/*.lua"

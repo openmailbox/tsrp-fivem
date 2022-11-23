@@ -64,6 +64,8 @@ Events.UPDATE_STASH_OBJECT = "stashes:UpdateStashObject"
 Events.CREATE_STASH_OPENING = "stashes:CreateOpening"
 Events.UPDATE_STASH_OPENING = "stashes:UpdateOpening"
 
+Events.CREATE_STASH_SCORE_EVENT = "stashes:CreateScoreEvent"
+
 -- @resource wallets
 Events.CREATE_WALLET_RESET = "wallet:CreateReset"
 
