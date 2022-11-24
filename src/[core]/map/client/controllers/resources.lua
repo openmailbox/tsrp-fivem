@@ -5,8 +5,10 @@ local function create(resource_name)
     PlayerMap.initialize()
 
     Citizen.CreateThread(function()
-        PlayerMap.current():update()
-        Citizen.Wait(2000)
+        while true do
+            PlayerMap.current():update()
+            Citizen.Wait(2000)
+        end
     end)
 end
 AddEventHandler(Events.ON_CLIENT_RESOURCE_START, create)

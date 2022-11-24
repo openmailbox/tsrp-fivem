@@ -1,6 +1,5 @@
 PlayerMap = {}
 
-
 local current
 
 function PlayerMap.current()

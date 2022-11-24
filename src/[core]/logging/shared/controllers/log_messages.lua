@@ -9,7 +9,7 @@ local LABELS = {
 
 local function create(data)
     local level   = data.level or Logging.INFO
-    local current = GetConVarInt("LOG_LEVEL", Logging.INFO)
+    local current = GetConvarInt("LOG_LEVEL", Logging.INFO)
 
     if level >= current then
         Citizen.Trace("[" .. LABELS[level] .. "] " .. data.message .. "\n")
