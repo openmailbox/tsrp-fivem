@@ -11,6 +11,7 @@ version "0.0.1"
 dependencies {
     "interactions",
     "map",
+    "markers",
     "progress",
     "wallet"
 }

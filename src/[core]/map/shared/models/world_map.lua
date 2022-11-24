@@ -11,8 +11,8 @@ local get_cell_xy,
 
 local current
 
-function WorldMap.find_objects(coords, label, range)
-    local nearby = current:find_nearby_objects(coords, label, range)
+function WorldMap.find_objects(coords, label)
+    local nearby = current:find_nearby_objects(coords, label)
     return nearby
 end
 exports("FindObjects", WorldMap.find_objects)
@@ -20,22 +20,30 @@ exports("FindObjects", WorldMap.find_objects)
 function WorldMap.start_tracking(coords, label, object)
     local x, y, z = table.unpack(coords)
 
-    local x1 = string.format("%.2f", x)
-    local y1 = string.format("%.2f", y)
-    local z1 = string.format("%.2f", z)
+    local x1 = tonumber(string.format("%.2f", x))
+    local y1 = tonumber(string.format("%.2f", y))
+    local z1 = tonumber(string.format("%.2f", z))
 
     current:add_object(vector3(x1, y1, z1), label, object)
+
+    if PlayerMap then
+        PlayerMap.current():update(true)
+    end
 end
 exports("StartTracking", WorldMap.start_tracking)
 
 function WorldMap.stop_tracking(coords, label)
     local x, y, z = table.unpack(coords)
 
-    local x1 = string.format("%.2f", x)
-    local y1 = string.format("%.2f", y)
-    local z1 = string.format("%.2f", z)
+    local x1 = tonumber(string.format("%.2f", x))
+    local y1 = tonumber(string.format("%.2f", y))
+    local z1 = tonumber(string.format("%.2f", z))
 
     current:remove_object(vector3(x1, y1, z1), label)
+
+    if PlayerMap then
+        PlayerMap.current():update(true)
+    end
 end
 exports("StopTracking", WorldMap.stop_tracking)
 
@@ -84,29 +92,25 @@ function WorldMap:add_object(coords, label, object)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
-        message = "Added new map object labeled '" .. label .. "' at " .. cx .. ", " .. cy .. ": " .. tostring(object) .. "."
+        message = "Added new '" .. label .. "' map object at cell " .. cx .. ", " .. cy .. "."
     })
 end
 
 -- Returns stored objects for the given label in the current map cell and all surrounding
 -- cells (in case something is on a border).
-function WorldMap:find_nearby_objects(coords, label, range)
+function WorldMap:find_nearby_objects(coords, label)
     local cell, cx, cy = self:get_cell(coords)
 
     local neighbors = get_neighbors(self, cx, cy)
     local nearby    = {}
 
     for _, object in ipairs(cell[label] or {}) do
-        if Vdist2(coords, object.coords) <= range then
-            table.insert(nearby, object)
-        end
+        table.insert(nearby, object)
     end
 
     for _, neighbor in ipairs(neighbors) do
         for _, object in ipairs(neighbor[label] or {}) do
-            if Vdist2(coords, object.coords) <= range then
-                table.insert(nearby, object)
-            end
+            table.insert(nearby, object)
         end
     end
 
@@ -121,13 +125,16 @@ end
 function WorldMap:remove_object(coords, label)
     local cell, cx, cy = self:get_cell(coords)
 
-    for i, object in ipairs(cell[label] or {}) do
+    local storage = cell[label]
+    if not storage then return end
+
+    for i, object in ipairs(storage) do
         if object.coords == coords then
-            table.remove(cell, i)
+            table.remove(storage, i)
 
             TriggerEvent(Events.LOG_MESSAGE, {
                 level   = Logging.DEBUG,
-                message = "Removed map object labeled '" .. label .. "' at " .. cx .. ", " .. cy .. ": " .. tostring(object) .. "."
+                message = "Removed '" .. label .. "' map object at cell " .. cx .. ", " .. cy .. "."
             })
 
             return true

@@ -61,12 +61,12 @@ function PlayerMap:new(o)
     return o
 end
 
-function PlayerMap:update()
+function PlayerMap:update(force_update)
     self.ploc = GetEntityCoords(PlayerPedId())
 
     local cell, cx, cy = WorldMap.current():get_cell(self.ploc)
 
-    if not self.active_cell or self.active_cell ~= cell then
+    if force_update or not self.active_cell or self.active_cell ~= cell then
         TriggerEvent(Events.LOG_MESSAGE, {
             level   = Logging.DEBUG,
             message = "Updating active player map cell to " .. cx .. ", " .. cy .. "."
