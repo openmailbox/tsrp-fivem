@@ -502,7 +502,7 @@ PedModels = {
     "mp_f_forgery_01",
     "mp_f_helistaff_01",
     "mp_f_meth_01",
-    "mp_f_misty_01",
+    -- "mp_f_misty_01", no legs/hands
     "mp_f_stripperlite",
     "mp_f_weed_01",
 }

@@ -11,10 +11,6 @@ version "0.0.1"
 dependencies {
     -- If you need the database
     --"mysql-async",
-
-    -- if you're using a Vue front-end
-    "webpack",
-     "yarn"
 }
 
 client_scripts {

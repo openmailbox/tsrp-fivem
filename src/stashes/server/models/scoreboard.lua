@@ -40,6 +40,7 @@ function Scoreboard.record(player_id, label, amount)
     return scores[label]
 end
 
+-- TODO: Wire this up on player disconnect.
 function Scoreboard.unregister(player_id)
     all_scores[player_id] = nil
 end
