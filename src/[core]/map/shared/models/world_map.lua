@@ -11,6 +11,34 @@ local get_cell_xy,
 
 local current
 
+function WorldMap.find_objects(coords, label, range)
+    local nearby = current:find_nearby_objects(coords, label, range)
+    return nearby
+end
+exports("FindObjects", WorldMap.find_objects)
+
+function WorldMap.start_tracking(coords, label, object)
+    local x, y, z = table.unpack(coords)
+
+    local x1 = string.format("%.2f", x)
+    local y1 = string.format("%.2f", y)
+    local z1 = string.format("%.2f", z)
+
+    current:add_object(vector3(x1, y1, z1), label, object)
+end
+exports("StartTracking", WorldMap.start_tracking)
+
+function WorldMap.stop_tracking(coords, label)
+    local x, y, z = table.unpack(coords)
+
+    local x1 = string.format("%.2f", x)
+    local y1 = string.format("%.2f", y)
+    local z1 = string.format("%.2f", z)
+
+    current:remove_object(vector3(x1, y1, z1), label)
+end
+exports("StopTracking", WorldMap.stop_tracking)
+
 function WorldMap.current()
     return current
 end
@@ -91,11 +119,17 @@ function WorldMap:get_cell(coords)
 end
 
 function WorldMap:remove_object(coords, label)
-    local cell = self:get_cell(coords)
+    local cell, cx, cy = self:get_cell(coords)
 
     for i, object in ipairs(cell[label] or {}) do
         if object.coords == coords then
             table.remove(cell, i)
+
+            TriggerEvent(Events.LOG_MESSAGE, {
+                level   = Logging.DEBUG,
+                message = "Removed map object labeled '" .. label .. "' at " .. cx .. ", " .. cy .. ": " .. tostring(object) .. "."
+            })
+
             return true
         end
     end

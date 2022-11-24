@@ -17,5 +17,14 @@ client_scripts {
 
 exports {
     "AddBlip",
-    "RemoveBlip"
+    "FindObjects",
+    "RemoveBlip",
+    "StartTracking",
+    "StopTracking"
+}
+
+server_exports {
+    "FindObjects",
+    "StartTracking",
+    "StopTracking"
 }
