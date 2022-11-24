@@ -8,8 +8,11 @@ local LABELS = {
 }
 
 local function create(data)
-    local level = data.level or GetConVarInt("LOG_LEVEL", Logging.TRACE)
+    local level   = data.level or Logging.INFO
+    local current = GetConVarInt("LOG_LEVEL", Logging.INFO)
 
-    Citizen.Trace("[" .. LABELS[level] .. "] " .. data.message .. "\n")
+    if level >= current then
+        Citizen.Trace("[" .. LABELS[level] .. "] " .. data.message .. "\n")
+    end
 end
 RegisterNetEvent(Events.LOG_MESSAGE, create)
