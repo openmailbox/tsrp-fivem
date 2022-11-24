@@ -4,7 +4,7 @@ local INTERACT_NAME = "Open Stash"
 local OPEN_TIME     = 2000 -- ms
 
 local models  = {} -- ModelHash->Boolean map of all the registered object models that can be stashes
-local stashes = {} -- Name->Stash map of all the stashes this player knows about
+local stashes = {} -- Name->Stash map of all the stashes on the map.
 
 function Stash.cleanup()
     for model, _ in pairs(models) do
@@ -23,6 +23,7 @@ function Stash.close_all()
     for _, stash in pairs(stashes) do
         if stash.opened then
             stash:mark_unopened()
+            stash:hide()
         end
     end
 end
@@ -31,11 +32,8 @@ function Stash.find_by_name(name)
     return stashes[name]
 end
 
-function Stash.initialize(data)
-    for name, d in pairs(data) do
+function Stash.initialize(data) for name, d in pairs(data) do
         local stash = Stash:new(d)
-        stash:show()
-
         stashes[name] = stash
         models[stash.model] = false
     end
@@ -55,6 +53,16 @@ function Stash.initialize(data)
             })
         end)
     end
+end
+
+function Stash.random()
+    local ordered = {}
+
+    for _, stash in pairs(stashes) do
+        table.insert(ordered, stash)
+    end
+
+    return ordered[math.random(#ordered)]
 end
 
 function Stash:new(o)

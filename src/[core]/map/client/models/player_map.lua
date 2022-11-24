@@ -5,6 +5,7 @@ local blips = {}
 
 function PlayerMap.add_blip(label, coords, options)
     for _, b in ipairs(blips) do
+        -- TODO: Support duplicates by name
         if b.label == label then
             return false
         end
