@@ -44,6 +44,9 @@ Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
 Events.CREATE_INTERACTIVE_OBJECT = "interactions:CreateObject"
 Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"
 
+-- @resource map
+Events.MAP_UPDATE_PLAYER = "map:UpdatePlayer"
+
 -- @resource progress
 Events.CREATE_PROGRESS_BAR = "progress:CreateBar"
 Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
