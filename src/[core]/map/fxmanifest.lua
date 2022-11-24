@@ -14,3 +14,8 @@ client_scripts {
     "shared/**/*.lua",
     "client/**/*.lua"
 }
+
+exports {
+    "AddBlip",
+    "RemoveBlip"
+}
