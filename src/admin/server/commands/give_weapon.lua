@@ -26,7 +26,7 @@ local function cmd_give_weapon(source, args, _)
         return
     end
 
-    GiveWeaponToPed(GetPlayerPed(source), weapon, 0, false, false)
+    GiveWeaponToPed(GetPlayerPed(source), weapon, 100, false, false)
 
     local message = "gave weapon '" .. name .. "' to Player " .. player .. " (" .. GetPlayerName(player) .. ")."
 
