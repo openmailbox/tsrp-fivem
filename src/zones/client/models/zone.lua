@@ -8,7 +8,10 @@ local zones        = {}               -- all zones this player knows about
 function Zone.add(data)
     local zone = Zone:new(data)
     table.insert(zones, zone)
-    zone:show()
+
+    if GetConvarInt("LOG_LEVEL", 4) >= Logging.DEBUG then
+        zone:show()
+    end
 end
 
 function Zone.cleanup()
