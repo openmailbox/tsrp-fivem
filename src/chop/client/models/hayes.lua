@@ -2,6 +2,7 @@ Hayes = {}
 
 -- Forward declarations
 local show_marker,
+      show_offer,
       show_prompt
 
 local BLIP_LABEL = "Hayes Autos"
@@ -44,11 +45,21 @@ function show_marker()
         blue           = 0,
         interact_range = 1.0,
         draw_range     = 12.0,
+        on_interact    = show_offer,
         on_enter       = show_prompt,
         on_exit        = function()
             is_prompting = false
         end
     })
+end
+
+-- @local
+function show_offer()
+    SendNUIMessage({
+        type = Events.CREATE_CHOP_MISSION_OFFER
+    })
+
+    SetNuiFocus(true, true)
 end
 
 -- @local

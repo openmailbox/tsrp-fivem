@@ -1,0 +1,14 @@
+body {
+    background: transparent;
+}
+
+.card {
+    max-width: 900px;
+    margin: 50vh auto 0 auto;
+    transform: translateY(-50%);
+}
+
+button {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}

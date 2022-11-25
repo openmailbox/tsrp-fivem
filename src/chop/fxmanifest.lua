@@ -13,8 +13,16 @@ dependencies {
     "markers"
 }
 
+ui_page "web/index.html"
+
 client_scripts {
     "@common/shared/events.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
+}
+
+files {
+    "web/**/*.html",
+    "web/**/*.js",
+    "web/**/*.css"
 }
