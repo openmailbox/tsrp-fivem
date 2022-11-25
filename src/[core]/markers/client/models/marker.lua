@@ -1,8 +1,8 @@
 Marker = {}
 
 local DEFAULT_COLOR          = { r = 255, g = 255, b = 255, a = 255 }
-local DEFAULT_DRAW_RANGE     = 7.0
-local DEFAULT_INTERACT_RANGE = 2.0
+local DEFAULT_DRAW_RANGE     = 7.0 ^ 2 -- squared for use w/ Vdist2
+local DEFAULT_INTERACT_RANGE = 2.0 ^ 2
 local DEFAULT_ROTATION       = vector3(0, 0, 0)
 local DEFAULT_SCALE          = vector3(1.0, 1.0, 1.0)
 local VECTOR3_ZERO           = vector3(0, 0, 0)
@@ -11,6 +11,10 @@ local VECTOR3_ZERO           = vector3(0, 0, 0)
 local cloc, distance, fov, scale
 
 function Marker.add(options)
+    -- Square ranges for use w/ Vdist2
+    options.draw_range     = options.draw_range and (options.draw_range ^ 2)
+    options.interact_range = options.interact_range and (options.interact_range ^ 2)
+
     local marker = Marker:new({
         icon           = options.icon or 1,
         coords         = options.coords,
@@ -24,8 +28,8 @@ function Marker.add(options)
         on_enter       = options.on_enter,
         on_exit        = options.on_exit,
         on_interact    = options.on_interact,
-        draw_range     = options.draw_range or DEFAULT_DRAW_RANGE ^ 2, -- squared b/c Vdist2
-        interact_range = options.interact_range or DEFAULT_INTERACT_RANGE ^ 2,
+        draw_range     = options.draw_range or DEFAULT_DRAW_RANGE,
+        interact_range = options.interact_range or DEFAULT_INTERACT_RANGE,
         data           = options.data or {},
         color          = {
             r = options.red or DEFAULT_COLOR.r,
