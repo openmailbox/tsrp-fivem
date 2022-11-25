@@ -23,13 +23,15 @@ local function update(data, cb)
     if data.selected.cash then
         description = "You found ~g~$" .. data.selected.cash .. "~s~."
     elseif data.selected.weapon then
-        description = "You found a ~y~" .. data.selected.label .. "~s~."
+        description = "You found a ~y~" .. data.selected.name .. "~s~."
+        Stash.show_bonus_help()
     elseif data.selected.armor then
         description = "You found some ~y~body armor ~s~."
     end
 
     if stash then
         stash:mark_opened()
+        LestersHouse.reset()
     end
 
     if description then

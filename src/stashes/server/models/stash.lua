@@ -39,7 +39,7 @@ function Stash.generate_contents(stash)
         return {
             { cash = math.random(5, 75) },
             { armor = 25 },
-            { weapon = random_melee, label = WeaponLabels[random_melee] }
+            { weapon = random_melee, label = WeaponLabels[random_melee], name = WeaponNames[random_melee] }
         }
     end
 
@@ -52,7 +52,8 @@ function Stash.generate_contents(stash)
             local selection = option[math.random(1, #option)]
             table.insert(contents, {
                 weapon = selection,
-                label  = WeaponLabels[selection]
+                label  = WeaponLabels[selection],
+                name   = WeaponNames[selection]
             })
         end
     end

@@ -75,6 +75,44 @@ Stashes.Presets = {
         Weapons.DBSHOTGUN,
         Weapons.AUTOSHOTGUN,
     },
+
+    HEAVY = {
+        Weapons.COMPACTLAUNCHER,
+        Weapons.FIREWORK,
+        Weapons.GRENADELAUNCHER,
+        Weapons.HOMINGLAUNCHER,
+        Weapons.MINIGUN,
+        Weapons.RAILGUN,
+        Weapons.RPG,
+        Weapons.RAYMINIGUN,
+    },
+
+    LMG = {
+        Weapons.COMBATMG,
+        Weapons.COMBATMG_MK2,
+        Weapons.GUSENBERG,
+        Weapons.MG,
+        Weapons.RAYCARBINE
+    },
+
+    SNIPERS = {
+        Weapons.HEAVYSNIPER,
+        Weapons.HEAVYSNIPER_MK2,
+        Weapons.MARKSMANRIFLE,
+        Weapons.MARKSMANRIFLE_MK2,
+        Weapons.SNIPERRIFLE,
+    },
+
+    THROWABLES = {
+        Weapons.BZGAS,
+        Weapons.FLARE,
+        Weapons.GRENADE,
+        Weapons.MOLOTOV,
+        Weapons.PIPEBOMB,
+        Weapons.PROXMINE,
+        Weapons.STICKYBOMB,
+        Weapons.SMOKEGRENADE,
+    }
 }
 
 Stashes.Locations = {
@@ -92,7 +130,7 @@ Stashes.Locations = {
         location = vector3(-2925.3704, 54.4143, 11.0380),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 150 },
+            Stashes.Presets.HANDGUNS,
             { armor = 25 },
             Stashes.Presets.MELEE
         }
@@ -102,8 +140,8 @@ Stashes.Locations = {
         location = vector3(96.7561, -1980.3606, 20.5795),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 500 },
             { armor = 50 },
+            Stashes.Presets.MELEE,
             Stashes.Presets.SMGS
         }
     },
@@ -112,7 +150,7 @@ Stashes.Locations = {
         location = vector3(-9.8260, -1436.5989, 31.1016),
         model    = GetHashKey('v_res_smallplasticbox'),
         contents = {
-            { cash = 350 },
+            { cash = 850 },
             Stashes.Presets.MELEE,
             Stashes.Presets.HANDGUNS,
         }
@@ -122,7 +160,7 @@ Stashes.Locations = {
         location = vector3(995.5547, -105.1902, 74.1177),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 500 },
+            Stashes.Presets.HANDGUNS,
             { armor = 50 },
             Stashes.Presets.SHOTGUNS,
         }
@@ -132,7 +170,7 @@ Stashes.Locations = {
         location = vector3(-455.2286, -1057.3560, 52.4761),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 250 },
+            Stashes.Presets.THROWABLES,
             Stashes.Presets.MELEE,
             Stashes.Presets.HANDGUNS,
         }
@@ -142,8 +180,8 @@ Stashes.Locations = {
         location = vector3(-152.0905, -951.0371, 39.2545),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 350 },
-            Stashes.Presets.MELEE,
+            { cash = 850 },
+            Stashes.Presets.SNIPERS,
             Stashes.Presets.SMGS,
         }
     },
@@ -152,7 +190,7 @@ Stashes.Locations = {
         location = vector3(232.3869, 149.9208, 137.5441),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 750 },
+            { cash = 1250 },
             Stashes.Presets.SHOTGUNS,
             Stashes.Presets.HANDGUNS,
         }
@@ -162,8 +200,8 @@ Stashes.Locations = {
         location = vector3(1108.2949, -2014.0934, 35.4680),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 350 },
-            Stashes.Presets.MELEE,
+            Stashes.Presets.THROWABLES,
+            Stashes.Presets.SMGS,
             { armor = 50 }
         }
     },
@@ -182,7 +220,7 @@ Stashes.Locations = {
         location = vector3(361.6703, -2044.7842, 22.2792),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 500 },
+            { cash = 1000 },
             Stashes.Presets.ASSAULT,
             Stashes.Presets.HANDGUNS,
         }
@@ -192,7 +230,7 @@ Stashes.Locations = {
         location = vector3(-815.8901, 179.7109, 76.7408),
         model    = GetHashKey('v_res_smallplasticbox'),
         contents = {
-            { cash = 200 },
+            { cash = 700 },
             Stashes.Presets.MELEE,
             Stashes.Presets.SHOTGUNS,
         }
@@ -202,7 +240,7 @@ Stashes.Locations = {
         location = vector3(-526.0565, 4196.2119, 193.1649),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 300 },
+            { cash = 800 },
             { armor = 50 },
             Stashes.Presets.HANDGUNS,
         }
@@ -272,8 +310,8 @@ Stashes.Locations = {
         location = vector3(-1828.3821, 3014.9189, 32.8103),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 1000 },
-            Stashes.Presets.ASSAULT,
+            Stashes.Presets.SNIPERS,
+            Stashes.Presets.LMG,
             { armor = 100 }
         }
     },
@@ -282,8 +320,8 @@ Stashes.Locations = {
         location = vector3(2457.8823, -408.8164, 92.9927),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 500 },
-            Stashes.Presets.SMGS,
+            Stashes.Presets.SNIPERS,
+            Stashes.Presets.HEAVY,
             { armor = 100 }
         }
     },
@@ -292,7 +330,7 @@ Stashes.Locations = {
         location = vector3(2772.4385, 1584.7662, 30.7919),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 750 },
+            { cash = 1250 },
             Stashes.Presets.SHOTGUNS,
             { armor = 50 }
         }
@@ -302,8 +340,8 @@ Stashes.Locations = {
         location = vector3(1659.2395, 25.2569, 168.6142),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 500 },
-            Stashes.Presets.HANDGUNS,
+            { cash = 1000 },
+            Stashes.Presets.SMGS,
             { armor = 25 }
         }
     },
@@ -312,9 +350,19 @@ Stashes.Locations = {
         location = vector3(2520.6394, 2623.1357, 37.9400),
         model    = GetHashKey('prop_box_wood01a'),
         contents = {
-            { cash = 350 },
-            Stashes.Presets.MELEE,
+            { cash = 850 },
+            Stashes.Presets.HANDGUNS,
             { armor = 25 }
+        }
+    },
+
+    ["Zancudo Tower"] = {
+        location = vector3(-2362.5437, 3246.1360, 92.9037),
+        model    = GetHashKey('prop_mil_crate_01'),
+        contents = {
+            Stashes.Presets.SNIPERS,
+            Stashes.Presets.LMG,
+            Stashes.Presets.HEAVY
         }
     }
 }

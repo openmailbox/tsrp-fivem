@@ -49,6 +49,11 @@ function find_stash()
         BeginTextCommandDisplayHelp(HELP_KEY)
         EndTextCommandDisplayHelp(0, false, true, -1)
 
+        BeginTextCommandThefeedPost("STRING")
+        AddTextComponentSubstringPlayerName("Check your GPS for stash coordinates.")
+        EndTextCommandThefeedPostMessagetext("CHAR_LESTER", "CHAR_LESTER", false, 1, "Lester", "Encrypted Message")
+        EndTextCommandThefeedPostTicker(false, true)
+
         local stash = Stash.random()
         stash:show()
 

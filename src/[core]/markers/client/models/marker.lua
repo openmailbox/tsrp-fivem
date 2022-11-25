@@ -51,7 +51,7 @@ function Marker.remove(coords)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
-        message = "Removed marker icon at " .. coords .."."
+        message = "Removed marker at " .. coords .."."
     })
 end
 exports("RemoveMarker", Marker.remove)

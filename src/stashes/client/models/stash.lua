@@ -2,6 +2,7 @@ Stash = {}
 
 local INTERACT_NAME = "Open Stash"
 local OPEN_TIME     = 2000 -- ms
+local HELP_KEY      = "StashBonusHelp"
 
 local models  = {} -- ModelHash->Boolean map of all the registered object models that can be stashes
 local stashes = {} -- Name->Stash map of all the stashes on the map.
@@ -21,9 +22,10 @@ end
 
 function Stash.close_all()
     for _, stash in pairs(stashes) do
+        stash:hide()
+
         if stash.opened then
             stash:mark_unopened()
-            stash:hide()
         end
     end
 end
@@ -32,7 +34,10 @@ function Stash.find_by_name(name)
     return stashes[name]
 end
 
-function Stash.initialize(data) for name, d in pairs(data) do
+function Stash.initialize(data)
+    AddTextEntry(HELP_KEY, "Get ~g~~h~20~h~~s~ kills with any weapon to earn a bonus.")
+
+    for name, d in pairs(data) do
         local stash = Stash:new(d)
         stashes[name] = stash
         models[stash.model] = false
@@ -65,6 +70,11 @@ function Stash.random()
     return ordered[math.random(#ordered)]
 end
 
+function Stash.show_bonus_help()
+    BeginTextCommandDisplayHelp(HELP_KEY)
+    EndTextCommandDisplayHelp(0, false, true, -1)
+end
+
 function Stash:new(o)
     o = o or {}
 
@@ -95,11 +105,18 @@ function Stash:show()
     SetBlipSprite(blip, 587)
     SetBlipColour(blip, 60)
     SetBlipDisplay(blip, 6)
-    SetBlipAsShortRange(blip, true)
-    SetBlipScale(blip, 0.6)
+    SetBlipAsShortRange(blip, false)
+    SetBlipFlashes(blip, true)
+
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName("Stash")
     EndTextCommandSetBlipName(blip)
 
     self.blip = blip
+
+    Citizen.CreateThread(function()
+        Citizen.Wait(7000)
+        SetBlipFlashes(self.blip, false)
+        SetBlipAsShortRange(self.blip, true)
+    end)
 end
