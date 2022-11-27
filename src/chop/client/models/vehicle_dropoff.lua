@@ -45,8 +45,8 @@ function VehicleDropoff:new(o)
 end
 
 function VehicleDropoff:remove()
-    exports.map:RemoveBlip(self.blip)
-    exports.map:RemoveMarker(self.marker)
+    exports.map:RemoveBlip(BLIP_LABEL)
+    exports.markers:RemoveMarker(self.marker)
 end
 
 function VehicleDropoff:reveal()

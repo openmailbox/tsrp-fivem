@@ -57,7 +57,12 @@ exports("AddMarker", Manager.add_marker)
 function Manager.remove_marker(id)
     if not id then return end
 
-    local coords  = all_markers[id]
+    local coords = all_markers[id]
+
+    if not coords then
+        return false
+    end
+
     local success = exports.map:StopTracking(coords, GetCurrentResourceName(), id)
 
     if not success then
