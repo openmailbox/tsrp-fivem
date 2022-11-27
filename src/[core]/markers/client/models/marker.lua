@@ -42,6 +42,7 @@ function Marker:activate()
 end
 
 function Marker:deactivate()
+    if not self.active then return end
     self.active = false
 
     if self.on_exit then

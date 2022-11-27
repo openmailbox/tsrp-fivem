@@ -50,11 +50,12 @@ function Manager.add_marker(options)
         message = "Added marker from " .. GetInvokingResource() .. " w/ icon " .. marker.icon .. " at " .. marker.coords .."."
     })
 
-    return marker.world_id
+    return world_id
 end
 exports("AddMarker", Manager.add_marker)
 
 function Manager.remove_marker(id)
+    print("remove " .. id)
     if not id then return end
 
     local coords  = all_markers[id]

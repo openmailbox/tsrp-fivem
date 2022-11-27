@@ -1,4 +1,5 @@
 local function delete(data, cb)
+    print("hello")
     SetNuiFocus(false, false)
     cb({})
 
