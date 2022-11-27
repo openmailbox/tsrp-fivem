@@ -55,7 +55,6 @@ end
 exports("AddMarker", Manager.add_marker)
 
 function Manager.remove_marker(id)
-    print("remove " .. id)
     if not id then return end
 
     local coords  = all_markers[id]

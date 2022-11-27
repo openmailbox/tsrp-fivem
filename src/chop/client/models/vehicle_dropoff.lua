@@ -14,7 +14,7 @@ local is_prompting = false
 
 function VehicleDropoff.activate(data)
     local dropoff = VehicleDropoff:new({
-        coords = data.coords,
+        coords = data.delivery,
         target = data.target
     })
 
@@ -73,6 +73,8 @@ function VehicleDropoff:reveal()
             is_prompting = false
         end
     })
+
+    -- TODO: Notifications
 end
 
 function VehicleDropoff:tostring(_)
