@@ -46,7 +46,7 @@ end
 
 function VehicleDropoff:remove()
     exports.map:RemoveBlip(self.blip)
-    exports.map:RemoveMarker(self.coords)
+    exports.map:RemoveMarker(self.marker)
 end
 
 function VehicleDropoff:reveal()

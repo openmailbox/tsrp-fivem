@@ -17,6 +17,8 @@ function WorldMap.find_objects(coords, label)
 end
 exports("FindObjects", WorldMap.find_objects)
 
+-- Start tracking a given object in the spatially partitioned map.
+-- @treturn string the UUID of the newly tracked object.
 function WorldMap.start_tracking(coords, label, object)
     local x, y, z = table.unpack(coords)
 
@@ -24,26 +26,35 @@ function WorldMap.start_tracking(coords, label, object)
     local y1 = tonumber(string.format("%.2f", y))
     local z1 = tonumber(string.format("%.2f", z))
 
-    current:add_object(vector3(x1, y1, z1), label, object)
+    local uuid = current:add_object(vector3(x1, y1, z1), label, object)
 
     if PlayerMap then
         PlayerMap.current():update(true)
     end
+
+    return uuid
 end
 exports("StartTracking", WorldMap.start_tracking)
 
-function WorldMap.stop_tracking(coords, label)
+-- Remove a previously tracked object.
+-- @tparam vector3 coords
+-- @tparam string label
+-- @tparam string id the generated UUID from StartTracking
+-- @treturn boolean success or failure
+function WorldMap.stop_tracking(coords, label, id)
     local x, y, z = table.unpack(coords)
 
     local x1 = tonumber(string.format("%.2f", x))
     local y1 = tonumber(string.format("%.2f", y))
     local z1 = tonumber(string.format("%.2f", z))
 
-    current:remove_object(vector3(x1, y1, z1), label)
+    local success = current:remove_object(vector3(x1, y1, z1), label, id)
 
     if PlayerMap then
         PlayerMap.current():update(true)
     end
+
+    return success
 end
 exports("StopTracking", WorldMap.stop_tracking)
 
@@ -80,20 +91,22 @@ function WorldMap:add_object(coords, label, object)
     local cell, cx, cy = self:get_cell(coords)
 
     local storage = cell[label]
+    local uuid    = GenerateUUID()
 
     if not storage then
         storage     = {}
         cell[label] = storage
     end
 
-    -- TODO: We use coordinates as a primary key for now. Should be some kind of UUID probably.
-    object.coords = coords
+    object.world_id = uuid
     table.insert(storage, object)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
         message = "Added new '" .. label .. "' map object at cell " .. cx .. ", " .. cy .. "."
     })
+
+    return object.world_id
 end
 
 -- Returns stored objects for the given label in the current map cell and all surrounding
@@ -122,19 +135,19 @@ function WorldMap:get_cell(coords)
     return self.cells[cx][cy], cx, cy
 end
 
-function WorldMap:remove_object(coords, label)
+function WorldMap:remove_object(coords, label, world_id)
     local cell, cx, cy = self:get_cell(coords)
 
     local storage = cell[label]
     if not storage then return end
 
     for i, object in ipairs(storage) do
-        if object.coords == coords then
+        if object.world_id == world_id then
             table.remove(storage, i)
 
             TriggerEvent(Events.LOG_MESSAGE, {
                 level   = Logging.DEBUG,
-                message = "Removed '" .. label .. "' map object at cell " .. cx .. ", " .. cy .. "."
+                message = "Removed '" .. label .. "' map object " .. world_id .. " at cell " .. cx .. ", " .. cy .. "."
             })
 
             return true

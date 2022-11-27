@@ -3,12 +3,75 @@ Manager = {}
 -- Forward declarations
 local start_checking, start_drawing
 
-local active_marker = nil
-local in_range      = {}
-local is_checking   = false
-local is_drawing    = false
-local markers       = {}
-local player_xyz    = vector3(0, 0, 0)
+local active_marker = nil               -- this player's closest active marker right now
+local all_markers   = {}                -- WorldID->vector3 hashmap of all markers in the world
+local in_range      = {}                -- markers close enough to draw right now
+local is_checking   = false             -- if we are within one map cell of any known markers
+local is_drawing    = false             -- if we are drawing any markers currently
+local markers       = {}                -- markers within our current + surrounding map cells
+local player_xyz    = vector3(0, 0, 0)  -- player's current position
+
+-- @treturn string a UUID to identify the marker for other operations i.e. RemoveMarker
+function Manager.add_marker(options)
+    -- Square ranges for use w/ Vdist2
+    options.draw_range     = options.draw_range and (options.draw_range ^ 2)
+    options.interact_range = options.interact_range and (options.interact_range ^ 2)
+
+    local marker = Marker:new({
+        world_id       = nil, -- this gets populated by exports.map:StartTracking()
+        icon           = options.icon or 1,
+        coords         = options.coords,
+        direction      = options.direction or Marker.VECTOR3_ZERO,
+        rotation       = options.rotation or Marker.DEFAULT_ROTATION,
+        scale          = options.scale or Marker.DEFAULT_SCALE,
+        bob            = options.bob or false,
+        face_camera    = options.face_camera or false,
+        rotate         = options.rotate or false,
+        text           = options.text,
+        on_enter       = options.on_enter,
+        on_exit        = options.on_exit,
+        on_interact    = options.on_interact,
+        draw_range     = options.draw_range or Marker.DEFAULT_DRAW_RANGE,
+        interact_range = options.interact_range or Marker.DEFAULT_INTERACT_RANGE,
+        data           = options.data or {},
+        color          = {
+            r = options.red or Marker.DEFAULT_COLOR.r,
+            g = options.green or Marker.DEFAULT_COLOR.g,
+            b = options.blue or Marker.DEFAULT_COLOR.b,
+            a = options.alpha or Marker.DEFAULT_COLOR.a
+        }
+    })
+
+    local world_id = exports.map:StartTracking(marker.coords, GetCurrentResourceName(), marker)
+    all_markers[world_id] = marker.coords
+
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = "Added marker from " .. GetInvokingResource() .. " w/ icon " .. marker.icon .. " at " .. marker.coords .."."
+    })
+
+    return marker.world_id
+end
+exports("AddMarker", Manager.add_marker)
+
+function Manager.remove_marker(id)
+    if not id then return end
+
+    local coords  = all_markers[id]
+    local success = exports.map:StopTracking(coords, GetCurrentResourceName(), id)
+
+    if not success then
+        return success
+    end
+
+    all_markers[id] = nil
+
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = "Removed marker at " .. coords .."."
+    })
+end
+exports("RemoveMarker", Manager.remove_marker)
 
 function Manager.cleanup()
     for _, marker in ipairs(markers) do

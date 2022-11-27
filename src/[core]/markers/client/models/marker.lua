@@ -1,64 +1,14 @@
 Marker = {}
 
-local DEFAULT_COLOR          = { r = 255, g = 255, b = 255, a = 255 }
-local DEFAULT_DRAW_RANGE     = 7.0 ^ 2 -- squared for use w/ Vdist2
-local DEFAULT_INTERACT_RANGE = 2.0 ^ 2
-local DEFAULT_ROTATION       = vector3(0, 0, 0)
-local DEFAULT_SCALE          = vector3(1.0, 1.0, 1.0)
-local VECTOR3_ZERO           = vector3(0, 0, 0)
+Marker.DEFAULT_COLOR          = { r = 255, g = 255, b = 255, a = 255 }
+Marker.DEFAULT_DRAW_RANGE     = 7.0 ^ 2 -- squared for use w/ Vdist2
+Marker.DEFAULT_INTERACT_RANGE = 2.0 ^ 2
+Marker.DEFAULT_ROTATION       = vector3(0, 0, 0)
+Marker.DEFAULT_SCALE          = vector3(1.0, 1.0, 1.0)
+Marker.VECTOR3_ZERO           = vector3(0, 0, 0)
 
 -- Frequently used loop variables for rendering
 local cloc, distance, fov, scale
-
-function Marker.add(options)
-    -- Square ranges for use w/ Vdist2
-    options.draw_range     = options.draw_range and (options.draw_range ^ 2)
-    options.interact_range = options.interact_range and (options.interact_range ^ 2)
-
-    local marker = Marker:new({
-        icon           = options.icon or 1,
-        coords         = options.coords,
-        direction      = options.direction or VECTOR3_ZERO,
-        rotation       = options.rotation or DEFAULT_ROTATION,
-        scale          = options.scale or DEFAULT_SCALE,
-        bob            = options.bob or false,
-        face_camera    = options.face_camera or false,
-        rotate         = options.rotate or false,
-        text           = options.text,
-        on_enter       = options.on_enter,
-        on_exit        = options.on_exit,
-        on_interact    = options.on_interact,
-        draw_range     = options.draw_range or DEFAULT_DRAW_RANGE,
-        interact_range = options.interact_range or DEFAULT_INTERACT_RANGE,
-        data           = options.data or {},
-        color          = {
-            r = options.red or DEFAULT_COLOR.r,
-            g = options.green or DEFAULT_COLOR.g,
-            b = options.blue or DEFAULT_COLOR.b,
-            a = options.alpha or DEFAULT_COLOR.a
-        }
-    })
-
-    exports.map:StartTracking(marker.coords, GetCurrentResourceName(), marker)
-
-    TriggerEvent(Events.LOG_MESSAGE, {
-        level   = Logging.DEBUG,
-        message = "Added marker from " .. GetInvokingResource() .. " w/ icon " .. marker.icon .. " at " .. marker.coords .."."
-    })
-
-    return true
-end
-exports("AddMarker", Marker.add)
-
-function Marker.remove(coords)
-    exports.map:StopTracking(coords, GetCurrentResourceName())
-
-    TriggerEvent(Events.LOG_MESSAGE, {
-        level   = Logging.DEBUG,
-        message = "Removed marker at " .. coords .."."
-    })
-end
-exports("RemoveMarker", Marker.remove)
 
 function Marker:new(o)
     o = o or {}

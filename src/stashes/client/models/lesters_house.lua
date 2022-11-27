@@ -13,10 +13,11 @@ local PROMPT_KEY = 'LestersStashPrompt'
 
 local is_active    = false
 local is_prompting = false
+local marker_id    = nil
 
 function LestersHouse.cleanup()
     exports.map:RemoveBlip(BLIP_LABEL)
-    exports.markers:RemoveMarker(BLIP_LOC)
+    exports.markers:RemoveMarker(marker_id)
 end
 
 function LestersHouse.initialize()
@@ -63,13 +64,13 @@ end
 
 -- @local
 function hide_marker()
-    exports.markers:RemoveMarker(BLIP_LOC)
+    exports.markers:RemoveMarker(marker_id)
     is_active = false
 end
 
 -- @local
 function show_marker()
-    exports.markers:AddMarker({
+    marker_id = exports.markers:AddMarker({
         icon           = 32,
         coords         = BLIP_LOC,
         red            = 255,

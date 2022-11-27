@@ -15,6 +15,7 @@ local PROMPT_KEY = 'HayesChopPrompt'
 local blip         = nil   -- current map blip
 local is_active    = false -- true when the Hayes blip/marker is active on map
 local is_prompting = false -- true when player is close enough for marker prompt
+local marker_id    = nil
 
 function Hayes.initialize()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to check the list.")
@@ -27,7 +28,7 @@ end
 
 function Hayes.cleanup()
     exports.map:RemoveBlip(blip)
-    exports.markers:RemoveMarker(BLIP_LOC)
+    exports.markers:RemoveMarker(marker_id)
 end
 
 function Hayes.reset()
@@ -38,7 +39,7 @@ end
 
 -- @local
 function show_marker()
-    exports.markers:AddMarker({
+    marker_id = exports.markers:AddMarker({
         icon           = 32,
         coords         = BLIP_LOC,
         red            = 255,
@@ -60,7 +61,7 @@ end
 function show_offer()
     is_active = false
 
-    exports.markers:RemoveMarker(BLIP_LOC)
+    exports.markers:RemoveMarker(marker_id)
     TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER)
 
     exports.progress:ShowProgressBar(2000, "Checking List")
