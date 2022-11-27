@@ -43,6 +43,7 @@ Events.REMOVE_CHAT_SUGGESTION = "chat:removeSuggestion"
 -- @resource chop
 Events.CREATE_CHOP_MISSION_OFFER = "chop:CreateMissionOffer"
 Events.DELETE_CHOP_MISSION_OFFER = "chop:DeleteMissionOffer"
+Events.UPDATE_CHOP_MISSION_OFFER = "chop:UpdateMissionOffer"
 
 -- @resource interactions --
 Events.CREATE_INTERACTIVE_OBJECT = "interactions:CreateObject"

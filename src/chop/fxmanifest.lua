@@ -10,7 +10,8 @@ version "0.0.1"
 
 dependencies {
     "map",
-    "markers"
+    "markers",
+    "progress"
 }
 
 ui_page "web/index.html"

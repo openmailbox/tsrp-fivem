@@ -1,5 +1,8 @@
 Hayes = {}
 
+-- Used to store last mission offer details from server.
+Hayes.last_offer = {}
+
 -- Forward declarations
 local show_marker,
       show_offer,
@@ -9,23 +12,23 @@ local BLIP_LABEL = "Hayes Autos"
 local BLIP_LOC   = vector3(472.1760, -1308.8689, 29.2353)
 local PROMPT_KEY = 'HayesChopPrompt'
 
-local is_active    = false
-local is_prompting = false
+local blip         = nil   -- current map blip
+local is_active    = false -- true when the Hayes blip/marker is active on map
+local is_prompting = false -- true when player is close enough for marker prompt
 
 function Hayes.initialize()
-    AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to check the chop shop list.")
+    AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to check the list.")
 
-    exports.map:AddBlip(BLIP_LABEL, BLIP_LOC, {
+    blip = exports.map:AddBlip(BLIP_LABEL, BLIP_LOC, {
         icon  = 80,
         color = 6
     })
 end
 
 function Hayes.cleanup()
-    exports.map:RemoveBlip(BLIP_LABEL)
+    exports.map:RemoveBlip(blip)
     exports.markers:RemoveMarker(BLIP_LOC)
 end
-
 
 function Hayes.reset()
     if is_active then return end
@@ -55,11 +58,12 @@ end
 
 -- @local
 function show_offer()
-    SendNUIMessage({
-        type = Events.CREATE_CHOP_MISSION_OFFER
-    })
+    is_active = false
 
-    SetNuiFocus(true, true)
+    exports.markers:RemoveMarker(BLIP_LOC)
+    TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER)
+
+    exports.progress:ShowProgressBar(2000, "Checking List")
 end
 
 -- @local
