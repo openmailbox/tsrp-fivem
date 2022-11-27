@@ -43,7 +43,7 @@ function Marker.add(options)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
-        message = "Added marker icon " .. marker.icon .. " at " .. marker.coords .."."
+        message = "Added marker from " .. GetInvokingResource() .. " w/ icon " .. marker.icon .. " at " .. marker.coords .."."
     })
 
     return true
