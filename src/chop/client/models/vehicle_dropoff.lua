@@ -119,7 +119,7 @@ function start_dropoff(dropoff)
         return
     end
 
-    local driver = GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false))
+    local driver = GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1)
 
     if driver ~= PlayerPedId() then
         chat("Must be driving the vehicle.")
