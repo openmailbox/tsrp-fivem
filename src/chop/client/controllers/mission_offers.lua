@@ -16,8 +16,16 @@ local function update(data)
     data.label = GetLabelText(data.name)
 
     Hayes.last_offer = data
-    SendNUIMessage(data)
 
-    SetNuiFocus(true, true)
+    Citizen.CreateThread(function()
+        local buffer = data.ui_target - GetCloudTimeAsInt() - data.ping
+
+        if buffer > 0 then
+            Citizen.Wait(buffer)
+        end
+
+        SendNUIMessage(data)
+        SetNuiFocus(true, true)
+    end)
 end
 RegisterNetEvent(Events.UPDATE_CHOP_MISSION_OFFER, update)

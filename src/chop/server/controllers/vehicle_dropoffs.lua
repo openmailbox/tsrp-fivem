@@ -1,21 +1,19 @@
 local function create(data)
     local player_id = source
-    local success   = true
-    local message   = nil
 
     if data.dropoff.model ~= data.vehicle.model and data.dropoff.name ~= data.vehicle.name then
-        success = false
-        message = "Wrong vehicle type. Wanted: " .. data.dropoff.name .. ". Submitted: " .. data.vehicle.name .. "."
+        TriggerClientEvent(Events.ADD_CHAT_MESSAGE, player_id, {
+            color     = Colors.RED,
+            multiline = true,
+            args      = { "GAME", "Wrong vehicle type. Wanted: " .. data.dropoff.name .. ". Submitted: " .. data.vehicle.name .. "." }
+        })
+
+        return
     end
 
-    TriggerClientEvent(Events.UPDATE_CHOP_VEHICLE_DROPOFF, player_id, {
-        success = success,
-        message = message
-    })
-
-    if not success then return end
+    exports.wallet:AdjustCash(player_id, 2500)
 
     DeleteEntity(GetVehiclePedIsIn(GetPlayerPed(player_id)))
-    exports.wallet:AdjustCash(player_id, 2500)
+    TriggerClientEvent(Events.UPDATE_CHOP_VEHICLE_DROPOFF, player_id)
 end
 RegisterNetEvent(Events.CREATE_CHOP_VEHICLE_DROPOFF, create)

@@ -62,9 +62,11 @@ function show_offer()
     is_active = false
 
     exports.markers:RemoveMarker(marker_id)
-    TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER)
-
     exports.progress:ShowProgressBar(2000, "Checking List")
+
+    TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER, {
+        ui_target = GetCloudTimeAsInt() + 2000
+    })
 end
 
 -- @local

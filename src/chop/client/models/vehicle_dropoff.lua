@@ -1,7 +1,8 @@
 VehicleDropoff = {}
 
 -- Forward declarations
-local show_prompt,
+local chat,
+      show_prompt,
       start_dropoff
 
 local BLIP_LABEL = "Vehicle Dropoff"
@@ -90,6 +91,15 @@ function VehicleDropoff:tostring(_)
 end
 
 -- @local
+function chat(message)
+    TriggerEvent(Events.ADD_CHAT_MESSAGE, {
+        color     = Colors.RED,
+        multiline = true,
+        args      = { "GAME", message }
+    })
+end
+
+-- @local
 function show_prompt()
     if is_prompting then return end
     is_prompting = true
@@ -104,6 +114,18 @@ end
 
 -- @local
 function start_dropoff(dropoff)
+    if not IsPedInAnyVehicle(PlayerPedId()) then
+        chat("Not in a vehicle.")
+        return
+    end
+
+    local driver = GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false))
+
+    if driver ~= PlayerPedId() then
+        chat("Must be driving the vehicle.")
+        return
+    end
+
     exports.progress:ShowProgressBar(2000, "Checking Vehicle")
 
     local model = GetEntityModel(GetVehiclePedIsIn(PlayerPedId(), false))

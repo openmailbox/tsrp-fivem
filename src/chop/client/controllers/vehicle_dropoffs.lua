@@ -1,13 +1,4 @@
-local function update(data)
-    if not data.success then
-        TriggerEvent(Events.ADD_CHAT_MESSAGE, {
-            color     = Colors.RED,
-            multiline = true,
-            args      = { "GAME", data.message }
-        })
-        return
-    end
-
+local function update(_)
     VehicleDropoff.cleanup()
     Hayes.reset()
 end

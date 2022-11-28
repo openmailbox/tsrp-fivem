@@ -13,10 +13,14 @@ local LOCATIONS = {
     vector3(1204.583, -3118.73, 4.64)
 }
 
-local function create(_)
-    TriggerClientEvent(Events.UPDATE_CHOP_MISSION_OFFER, source, {
-        model    = GetHashKey(VehicleModels[math.random(#VehicleModels)]),
-        delivery = LOCATIONS[math.random(#LOCATIONS)]
+local function create(data)
+    local player_id = source
+
+    TriggerClientEvent(Events.UPDATE_CHOP_MISSION_OFFER, player_id, {
+        model     = GetHashKey(VehicleModels[math.random(#VehicleModels)]),
+        delivery  = LOCATIONS[math.random(#LOCATIONS)],
+        ui_target = data.ui_target,
+        ping      = GetPlayerPing(player_id)
     })
 end
 RegisterNetEvent(Events.CREATE_CHOP_MISSION_OFFER, create)
