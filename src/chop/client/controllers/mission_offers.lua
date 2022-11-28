@@ -21,7 +21,7 @@ local function update(data)
         local buffer = data.ui_target - GetCloudTimeAsInt() - data.ping
 
         if buffer > 0 then
-            Citizen.Wait(buffer)
+            Citizen.Wait(math.max(2000, buffer))
         end
 
         SendNUIMessage(data)
