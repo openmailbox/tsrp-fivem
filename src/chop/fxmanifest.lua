@@ -17,6 +17,7 @@ dependencies {
 ui_page "web/index.html"
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "shared/**/*.lua",

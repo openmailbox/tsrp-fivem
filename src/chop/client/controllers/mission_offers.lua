@@ -11,7 +11,9 @@ end
 RegisterNUICallback(Events.DELETE_CHOP_MISSION_OFFER, delete)
 
 local function update(data)
-    data.type = Events.CREATE_CHOP_MISSION_OFFER
+    data.type  = Events.CREATE_CHOP_MISSION_OFFER
+    data.name  = GetDisplayNameFromVehicleModel(data.model)
+    data.label = GetLabelText(data.name)
 
     Hayes.last_offer = data
     SendNUIMessage(data)

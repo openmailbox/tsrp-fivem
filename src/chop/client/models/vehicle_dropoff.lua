@@ -14,8 +14,10 @@ local is_prompting = false
 
 function VehicleDropoff.activate(data)
     local dropoff = VehicleDropoff:new({
-        coords = data.delivery,
-        target = data.target
+        delivery = data.delivery, -- vector3
+        model    = data.model,    -- result of GetHashKey()
+        name     = data.name,     -- result of GetDisplayNameFromVehicleModel()
+        label    = data.label     -- result of GetLabelText()
     })
 
     table.insert(dropoffs, dropoff)
@@ -50,16 +52,16 @@ function VehicleDropoff:remove()
 end
 
 function VehicleDropoff:reveal()
-    local x, y, _ = table.unpack(self.coords)
+    local x, y, _ = table.unpack(self.delivery)
     SetNewWaypoint(x, y)
 
-    self.blip = exports.map:AddBlip(BLIP_LABEL, self.coords, {
+    self.blip = exports.map:AddBlip(BLIP_LABEL, self.delivery, {
         icon  = 524,
         color = 2
     })
 
     self.marker = exports.markers:AddMarker({
-        coords      = self.coords,
+        coords      = self.delivery,
         red         = 0,
         green       = 255,
         blue        = 0,
@@ -102,5 +104,18 @@ end
 
 -- @local
 function start_dropoff(dropoff)
-    print("Start dropoff")
+    exports.progress:ShowProgressBar(2000, "Checking Vehicle")
+
+    local model = GetEntityModel(GetVehiclePedIsIn(PlayerPedId(), false))
+    local name  = GetDisplayNameFromVehicleModel(model)
+    local label = GetLabelText(name)
+
+    TriggerServerEvent(Events.CREATE_CHOP_VEHICLE_DROPOFF, {
+        dropoff = dropoff,
+        vehicle = {
+            model = model,
+            name  = name,
+            label = label
+        }
+    })
 end

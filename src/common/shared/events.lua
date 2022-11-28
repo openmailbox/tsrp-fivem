@@ -45,6 +45,9 @@ Events.CREATE_CHOP_MISSION_OFFER = "chop:CreateMissionOffer"
 Events.DELETE_CHOP_MISSION_OFFER = "chop:DeleteMissionOffer"
 Events.UPDATE_CHOP_MISSION_OFFER = "chop:UpdateMissionOffer"
 
+Events.CREATE_CHOP_VEHICLE_DROPOFF = "chop:CreateVehicleDropoff"
+Events.UPDATE_CHOP_VEHICLE_DROPOFF = "chop:UpdateVehicleDropoff"
+
 -- @resource interactions --
 Events.CREATE_INTERACTIVE_OBJECT = "interactions:CreateObject"
 Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"

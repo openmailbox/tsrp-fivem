@@ -13,7 +13,7 @@ const closeWindow = function(isSuccess) {
 const handleMessage = function(item) {
     switch (item.type) {
         case "chop:CreateMissionOffer":
-            document.getElementById("model").innerText = item.target.toUpperCase();
+            document.getElementById("model").innerText = item.label.toUpperCase();
             document.body.classList.remove("d-none");
             break;
     }

@@ -15,7 +15,7 @@ local LOCATIONS = {
 
 local function create(_)
     TriggerClientEvent(Events.UPDATE_CHOP_MISSION_OFFER, source, {
-        target   = VehicleModels[math.random(#VehicleModels)],
+        model    = GetHashKey(VehicleModels[math.random(#VehicleModels)]),
         delivery = LOCATIONS[math.random(#LOCATIONS)]
     })
 end
