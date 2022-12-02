@@ -77,7 +77,14 @@ function VehicleDropoff:reveal()
         end
     })
 
-    -- TODO: Notifications
+    TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+        message = "Deliver one ~y~" .. self.label .. "~s~ to the marked ~g~Vehicle Dropoff~s~ on your GPS.",
+        sender  = {
+            image   = "CHAR_BLOCKED",
+            name    = "Blocked",
+            subject = "Encrypted Message"
+        }
+    })
 end
 
 function VehicleDropoff:tostring(_)
