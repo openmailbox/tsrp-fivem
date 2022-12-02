@@ -4,6 +4,7 @@ local function delete(data, cb)
 
     if data.success then
         VehicleDropoff.activate(Hayes.last_offer)
+        Radar.activate(Hayes.last_offer.model)
     else
         Hayes.reset()
     end
