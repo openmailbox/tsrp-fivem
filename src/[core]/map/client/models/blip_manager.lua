@@ -52,6 +52,11 @@ function BlipManager.start_entity_tracking(entity, options)
         id     = uuid
     })
 
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = "Added tracked blip for Entity " .. entity .. " to the map."
+    })
+
     return uuid
 end
 exports("StartEntityTracking", BlipManager.start_entity_tracking)
@@ -60,7 +65,14 @@ function BlipManager.stop_entity_tracking(entity)
     for i, b in ipairs(blips) do
         if b.entity == entity then
             RemoveBlip(b.blip)
+
             table.remove(blips, i)
+
+            TriggerEvent(Events.LOG_MESSAGE, {
+                level   = Logging.DEBUG,
+                message = "Removed tracked blip for Entity " .. entity .. " from the map."
+            })
+
             return true
         end
     end

@@ -15,11 +15,21 @@ function Radar.activate(model_hash)
     BeginTextCommandDisplayHelp(HELP_KEY)
     EndTextCommandDisplayHelp(0, false, true, -1)
 
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = "Enabled radar for tracking target vehicles."
+    })
+
     Citizen.CreateThread(function()
         while is_active do
             update(model_hash)
             Citizen.Wait(3000)
         end
+
+        TriggerEvent(Events.LOG_MESSAGE, {
+            level   = Logging.DEBUG,
+            message = "Disabled vehicle tracking radar."
+        })
     end)
 end
 
