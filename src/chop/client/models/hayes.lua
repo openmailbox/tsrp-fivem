@@ -8,11 +8,10 @@ local show_marker,
       show_offer,
       show_prompt
 
-local BLIP_LABEL = "Hayes Autos"
 local BLIP_LOC   = vector3(472.1760, -1308.8689, 29.2353)
 local PROMPT_KEY = 'HayesChopPrompt'
 
-local blip         = nil   -- current map blip
+local blip_id      = nil   -- current map blip
 local is_active    = false -- true when the Hayes blip/marker is active on map
 local is_prompting = false -- true when player is close enough for marker prompt
 local marker_id    = nil
@@ -20,14 +19,15 @@ local marker_id    = nil
 function Hayes.initialize()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to check the list.")
 
-    blip = exports.map:AddBlip(BLIP_LABEL, BLIP_LOC, {
+    blip_id = exports.map:AddBlip(BLIP_LOC, {
         icon  = 80,
-        color = 6
+        color = 6,
+        label = "Hayes Autos"
     })
 end
 
 function Hayes.cleanup()
-    exports.map:RemoveBlip(blip)
+    exports.map:RemoveBlip(blip_id)
     exports.markers:RemoveMarker(marker_id)
 end
 

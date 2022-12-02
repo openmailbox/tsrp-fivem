@@ -20,7 +20,9 @@ exports {
     "FindObjects",
     "RemoveBlip",
     "StartTracking",
-    "StopTracking"
+    "StartEntityTracking",
+    "StopTracking",
+    "StopEntityTracking"
 }
 
 server_exports {

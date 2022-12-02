@@ -5,7 +5,6 @@ local chat,
       show_prompt,
       start_dropoff
 
-local BLIP_LABEL = "Vehicle Dropoff"
 local PROMPT_KEY = "StolenVehicleDropoff"
 
 -- Active dropoff points for the player
@@ -48,7 +47,7 @@ function VehicleDropoff:new(o)
 end
 
 function VehicleDropoff:remove()
-    exports.map:RemoveBlip(BLIP_LABEL)
+    exports.map:RemoveBlip(self.blip_id)
     exports.markers:RemoveMarker(self.marker)
 end
 
@@ -56,9 +55,10 @@ function VehicleDropoff:reveal()
     local x, y, _ = table.unpack(self.delivery)
     SetNewWaypoint(x, y)
 
-    self.blip = exports.map:AddBlip(BLIP_LABEL, self.delivery, {
+    self.blip_id = exports.map:AddBlip(self.delivery, {
         icon  = 524,
-        color = 2
+        color = 2,
+        label = "Vehicle Dropoff"
     })
 
     self.marker = exports.markers:AddMarker({

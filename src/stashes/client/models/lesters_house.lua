@@ -6,17 +6,17 @@ local find_stash,
       show_marker,
       show_prompt
 
-local BLIP_LABEL = "Lester's House"
 local BLIP_LOC   = vector3(1275.7319, -1710.5321, 54.7714)
 local HELP_KEY   = 'LestersStashHelp'
 local PROMPT_KEY = 'LestersStashPrompt'
 
+local blip_id      = nil
 local is_active    = false
 local is_prompting = false
 local marker_id    = nil
 
 function LestersHouse.cleanup()
-    exports.map:RemoveBlip(BLIP_LABEL)
+    exports.map:RemoveBlip(blip_id)
     exports.markers:RemoveMarker(marker_id)
 end
 
@@ -24,9 +24,10 @@ function LestersHouse.initialize()
     AddTextEntry(HELP_KEY, "Lester hid several ~y~supply stashes ~HUD_COLOUR_YELLOW~~BLIP_NHP_CHEST~~s~ around the state. Stop by his house when you need help finding one.")
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to locate a hidden stash.")
 
-    exports.map:AddBlip(BLIP_LABEL, BLIP_LOC, {
+    blip_id = exports.map:AddBlip(BLIP_LOC, {
         icon  = 77,
-        color = 47
+        color = 47,
+        label = "Lester's House"
     })
 end
 
