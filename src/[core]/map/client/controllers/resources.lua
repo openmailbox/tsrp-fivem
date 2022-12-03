@@ -17,7 +17,7 @@ local function create(resource_name)
             PlayerMap.current():update()
 
             if time > next_snapshot then
-                next_snapshot = time + 10000
+                next_snapshot = time + 30000
                 Snapshot.record()
             end
         end

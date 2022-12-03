@@ -52,9 +52,6 @@ function VehicleDropoff:remove()
 end
 
 function VehicleDropoff:reveal()
-    local x, y, _ = table.unpack(self.delivery)
-    SetNewWaypoint(x, y)
-
     self.blip_id = exports.map:AddBlip(self.delivery, {
         icon  = 524,
         color = 2,

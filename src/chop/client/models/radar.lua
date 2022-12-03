@@ -4,6 +4,7 @@ Radar = {}
 local update
 
 local HELP_KEY = 'ChopRadarHelp'
+local RADIUS   = 225.0
 
 local blip      = nil
 local contacts  = {}
@@ -22,14 +23,18 @@ function Radar.activate(options)
     })
 
     blip = exports.map:AddBlip(options.spawn, {
-        color  = 6,
-        alpha  = 125,
-        radius = 225.0
+        color   = 6,
+        alpha   = 125,
+        display = 2,
+        radius  = RADIUS
     })
+
+    local x, y, _ = table.unpack(options.spawn)
+    SetNewWaypoint(x, y)
 
     Citizen.CreateThread(function()
         while is_active do
-            update(options.model)
+            update(options.model, options.spawn)
             Citizen.Wait(2000)
         end
 
@@ -55,9 +60,7 @@ function Radar.initialize()
 end
 
 -- @local
-function update(model_hash)
-    local pool = GetGamePool("CVehicle")
-
+function update(model_hash, position)
     for entity, contact in pairs(contacts) do
         if not DoesEntityExist(entity) then
             exports.map:RemoveBlip(contact.blip_id)
@@ -65,8 +68,18 @@ function update(model_hash)
         end
     end
 
+    if Vdist(GetEntityCoords(PlayerPedId()), position) > RADIUS * 2 then
+        return
+    end
+
+    local pool     = GetGamePool("CVehicle")
+    local rsquared = RADIUS ^ 2
+    local ped      = PlayerPedId()
+
     for _, v in ipairs(pool) do
-        if not contacts[v] and GetEntityModel(v) == model_hash then
+        if not contacts[v] and GetEntityModel(v) == model_hash and
+            (v == GetEntityModel(GetVehiclePedIsIn(ped)) or Vdist2(GetEntityCoords(v), position) < rsquared) then
+
             local blip_id = exports.map:StartEntityTracking(v, {
                 icon    = 229,
                 color   = 6,
