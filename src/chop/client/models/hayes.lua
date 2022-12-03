@@ -20,9 +20,10 @@ function Hayes.initialize()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to check the list.")
 
     blip_id = exports.map:AddBlip(BLIP_LOC, {
-        icon  = 80,
-        color = 6,
-        label = "Hayes Autos"
+        icon    = 80,
+        display = 2,
+        color   = 6,
+        label   = "Hayes Autos"
     })
 end
 

@@ -53,9 +53,10 @@ end
 
 function VehicleDropoff:reveal()
     self.blip_id = exports.map:AddBlip(self.delivery, {
-        icon  = 524,
-        color = 6,
-        label = "Vehicle Dropoff"
+        icon    = 524,
+        color   = 6,
+        label   = "Vehicle Dropoff",
+        display = 2
     })
 
     self.marker = exports.markers:AddMarker({

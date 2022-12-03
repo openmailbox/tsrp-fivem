@@ -95,6 +95,7 @@ function initialize_blip(blip, options)
 
     SetBlipColour(blip, options.color or 0)
     SetBlipDisplay(blip, options.display or 3)
+    SetBlipAsShortRange(blip, true)
 
     if options.alpha then
         SetBlipAlpha(blip, options.alpha)

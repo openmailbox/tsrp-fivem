@@ -25,9 +25,10 @@ function LestersHouse.initialize()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to locate a hidden stash.")
 
     blip_id = exports.map:AddBlip(BLIP_LOC, {
-        icon  = 77,
-        color = 47,
-        label = "Lester's House"
+        icon    = 77,
+        display = 2,
+        color   = 47,
+        label   = "Lester's House"
     })
 end
 

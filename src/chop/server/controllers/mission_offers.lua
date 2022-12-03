@@ -15,7 +15,7 @@ local LOCATIONS = {
 
 local function create(data)
     local player_id = source
-    local model     = data.model or GetHashKey(VehicleModels[math.random(#VehicleModels)])
+    local model     = data.model or GetHashKey("asea")
 
     TriggerClientEvent(Events.UPDATE_CHOP_MISSION_OFFER, player_id, {
         model     = model,
