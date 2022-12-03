@@ -63,19 +63,23 @@ exports("GetVehicleSpawn", Snapshot.get_vehicle_spawn)
 function Snapshot.record()
     local pool     = GetGamePool("CVehicle")
     local snapshot = { vehicles = {} }
+    local ped      = PlayerPedId()
+    local mine     = GetVehiclePedIsIn(ped)
 
     local model, list
 
     for _, entity in ipairs(pool) do
-        model = GetEntityModel(entity)
-        list  = snapshot.vehicles[model]
+        if entity ~= mine then
+            model = GetEntityModel(entity)
+            list  = snapshot.vehicles[model]
 
-        if not list then
-            list = {}
-            snapshot.vehicles[model] = list
+            if not list then
+                list = {}
+                snapshot.vehicles[model] = list
+            end
+
+            table.insert(list, GetEntityCoords(entity))
         end
-
-        table.insert(list, GetEntityCoords(entity))
     end
 
     table.insert(history, snapshot)

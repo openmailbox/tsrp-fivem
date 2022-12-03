@@ -65,7 +65,7 @@ function show_offer()
     exports.progress:ShowProgressBar(2000, "Checking List")
 
     local vehicles = exports.map:GetVehicleDistribution()
-    local model    = vehicles[1].model
+    local model    = vehicles[math.random(2)].model
     local _, spawn = exports.map:GetVehicleSpawn(model)
 
     TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER, {

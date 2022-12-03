@@ -54,7 +54,7 @@ end
 function VehicleDropoff:reveal()
     self.blip_id = exports.map:AddBlip(self.delivery, {
         icon  = 524,
-        color = 2,
+        color = 6,
         label = "Vehicle Dropoff"
     })
 
@@ -75,7 +75,7 @@ function VehicleDropoff:reveal()
     })
 
     TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-        message = "Deliver one ~y~" .. self.label .. "~s~ to the marked ~g~Vehicle Dropoff~s~ on your GPS.",
+        message = "Deliver one ~y~" .. self.label .. "~s~ to the marked ~HUD_COLOUR_REDLIGHT~Vehicle Dropoff~s~ on your GPS.",
         sender  = {
             image   = "CHAR_BLOCKED",
             name    = "Blocked",
