@@ -23,7 +23,7 @@ function Radar.activate(model_hash)
     Citizen.CreateThread(function()
         while is_active do
             update(model_hash)
-            Citizen.Wait(3000)
+            Citizen.Wait(2000)
         end
 
         TriggerEvent(Events.LOG_MESSAGE, {
@@ -38,7 +38,7 @@ function Radar.deactivate()
 end
 
 function Radar.initialize()
-    AddTextEntry(HELP_KEY, "Nearby ~y~target vehicles ~HUD_COLOR_REDLIGHT~~BLIP_GUNCAR~~s~ are shown on your map.")
+    AddTextEntry(HELP_KEY, "Nearby ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ are shown on your map.")
 end
 
 -- @local
