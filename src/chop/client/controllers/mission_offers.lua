@@ -1,13 +1,13 @@
 local function delete(data, cb)
-    SetNuiFocus(false, false)
-    cb({})
-
     if data.success then
         VehicleDropoff.activate(Hayes.last_offer)
         Radar.activate(Hayes.last_offer)
     else
         Hayes.reset()
     end
+
+    SetNuiFocus(false, false)
+    cb({})
 end
 RegisterNUICallback(Events.DELETE_CHOP_MISSION_OFFER, delete)
 
@@ -25,8 +25,8 @@ local function update(data)
             Citizen.Wait(math.max(2000, buffer))
         end
 
-        SendNUIMessage(data)
         SetNuiFocus(true, true)
+        SendNUIMessage(data)
     end)
 end
 RegisterNetEvent(Events.UPDATE_CHOP_MISSION_OFFER, update)

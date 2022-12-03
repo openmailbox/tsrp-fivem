@@ -1,6 +1,6 @@
 Snapshot = {}
 
-local MAX_HISTORY = 3
+local MAX_HISTORY = 5
 
 local history = {}
 

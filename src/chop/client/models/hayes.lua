@@ -65,8 +65,18 @@ function show_offer()
     exports.markers:RemoveMarker(marker_id)
     exports.progress:ShowProgressBar(2000, "Checking List")
 
-    local vehicles = exports.map:GetVehicleDistribution()
-    local model    = vehicles[math.random(2)].model
+    local vehicles   = exports.map:GetVehicleDistribution()
+    local candidates = {}
+
+    for _, v in ipairs(vehicles) do
+        if v.count < 10 then
+            break
+        end
+
+        table.insert(candidates, v)
+    end
+
+    local model    = candidates[math.random(#candidates)].model
     local _, spawn = exports.map:GetVehicleSpawn(model)
 
     TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER, {

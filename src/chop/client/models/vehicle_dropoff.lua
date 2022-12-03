@@ -124,6 +124,11 @@ function start_dropoff(dropoff)
         return
     end
 
+    if GetPlayerWantedLevel(PlayerId()) > 0 then
+        chat("Cannot be wanted by police.")
+        return
+    end
+
     local driver = GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1)
 
     if driver ~= PlayerPedId() then
