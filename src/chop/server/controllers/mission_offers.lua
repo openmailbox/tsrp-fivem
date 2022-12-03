@@ -15,12 +15,14 @@ local LOCATIONS = {
 
 local function create(data)
     local player_id = source
+    local model     = data.model or GetHashKey(VehicleModels[math.random(#VehicleModels)])
 
     TriggerClientEvent(Events.UPDATE_CHOP_MISSION_OFFER, player_id, {
-        model     = GetHashKey(VehicleModels[math.random(#VehicleModels)]),
+        model     = model,
         delivery  = LOCATIONS[math.random(#LOCATIONS)],
         ui_target = data.ui_target,
-        ping      = GetPlayerPing(player_id)
+        ping      = GetPlayerPing(player_id),
+        spawn     = data.spawn
     })
 end
 RegisterNetEvent(Events.CREATE_CHOP_MISSION_OFFER, create)

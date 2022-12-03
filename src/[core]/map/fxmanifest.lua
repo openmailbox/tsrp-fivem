@@ -18,6 +18,8 @@ client_scripts {
 exports {
     "AddBlip",
     "FindObjects",
+    "GetVehicleDistribution",
+    "GetVehicleSpawn",
     "RemoveBlip",
     "StartTracking",
     "StartEntityTracking",

@@ -5,10 +5,11 @@ local update
 
 local HELP_KEY = 'ChopRadarHelp'
 
+local blip      = nil
 local contacts  = {}
 local is_active = false
 
-function Radar.activate(model_hash)
+function Radar.activate(options)
     if is_active then return end
     is_active = true
 
@@ -20,9 +21,15 @@ function Radar.activate(model_hash)
         message = "Enabled radar for tracking target vehicles."
     })
 
+    blip = exports.map:AddBlip(options.spawn, {
+        color  = 6,
+        alpha  = 125,
+        radius = 225.0
+    })
+
     Citizen.CreateThread(function()
         while is_active do
-            update(model_hash)
+            update(options.model)
             Citizen.Wait(2000)
         end
 
@@ -35,10 +42,16 @@ end
 
 function Radar.deactivate()
     is_active = false
+    exports.map:RemoveBlip(blip)
+
+    for entity, contact in pairs(contacts) do
+        exports.map:RemoveBlip(contact.blip_id)
+        contacts[entity] = nil
+    end
 end
 
 function Radar.initialize()
-    AddTextEntry(HELP_KEY, "Nearby ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ are shown on your map.")
+    AddTextEntry(HELP_KEY, "Look for ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ in the ~HUD_COLOUR_REDLIGHT~highlighted area~s~ on your map.")
 end
 
 -- @local

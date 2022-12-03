@@ -7,8 +7,14 @@ local blips = {} -- All blips on the player's map
 
 function BlipManager.add_blip(coords, options)
     local x, y, z = table.unpack(coords)
-    local blip    = AddBlipForCoord(x, y, z)
     local uuid    = GenerateUUID()
+    local blip    = nil
+
+    if options.radius then
+        blip = AddBlipForRadius(x, y, z, options.radius)
+    else
+        blip = AddBlipForCoord(x, y, z)
+    end
 
     initialize_blip(blip, options)
 
@@ -83,11 +89,20 @@ exports("StopEntityTracking", BlipManager.stop_entity_tracking)
 
 -- @local
 function initialize_blip(blip, options)
-    SetBlipSprite(blip, options.icon or 1)
+    if options.icon then
+        SetBlipSprite(blip, options.icon)
+    end
+
     SetBlipColour(blip, options.color or 0)
     SetBlipDisplay(blip, options.display or 3)
 
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(options.label)
-    EndTextCommandSetBlipName(blip)
+    if options.alpha then
+        SetBlipAlpha(blip, options.alpha)
+    end
+
+    if options.label then
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(options.label)
+        EndTextCommandSetBlipName(blip)
+    end
 end

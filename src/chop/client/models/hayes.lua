@@ -64,8 +64,14 @@ function show_offer()
     exports.markers:RemoveMarker(marker_id)
     exports.progress:ShowProgressBar(2000, "Checking List")
 
+    local vehicles = exports.map:GetVehicleDistribution()
+    local model    = vehicles[1].model
+    local _, spawn = exports.map:GetVehicleSpawn(model)
+
     TriggerServerEvent(Events.CREATE_CHOP_MISSION_OFFER, {
-        ui_target = GetCloudTimeAsInt() + 2000
+        ui_target = GetCloudTimeAsInt() + 2000,
+        model     = model,
+        spawn     = spawn
     })
 end
 
