@@ -109,6 +109,21 @@ function WorldMap:add_object(coords, label, object)
     return object.world_id
 end
 
+-- Returns all the known objects across the entire map for the given label
+function WorldMap:find_all_objects(label)
+    local results = {}
+
+    for _, column in ipairs(self.cells) do
+        for _, cell in ipairs(column) do
+            for _, object in ipairs(cell[label] or {}) do
+                table.insert(results, object)
+            end
+        end
+    end
+
+    return results
+end
+
 -- Returns stored objects for the given label in the current map cell and all surrounding
 -- cells (in case something is on a border).
 function WorldMap:find_nearby_objects(coords, label)

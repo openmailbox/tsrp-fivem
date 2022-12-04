@@ -5,11 +5,8 @@ Snapshot = {}
 -- Forward declarations
 local init_snapshot
 
-local INTERVAL    = 60000       -- How often to record a snapshot for each 100x100 map cell
-local MAP_LABEL   = "snapshots" -- Label for WorldMap storage
-local MAX_HISTORY = 5           -- Max size of recent snapshots list
-
-local history = {} -- List of most recent snapshots
+local INTERVAL  = 60000       -- How often to record a snapshot for each 100x100 map cell
+local MAP_LABEL = "snapshots" -- Label for WorldMap storage
 
 -- Returns the most recent snapshot for the given location or nil
 function Snapshot.for_coords(coords)
@@ -26,12 +23,13 @@ function Snapshot.for_coords(coords)
     return snapshots[1]
 end
 
--- Returns a list of vehicle models ordered by how often the player has encountered them recently.
+-- Returns a list of vehicle models ordered by how often the player has encountered them during play.
 function Snapshot.get_vehicle_distribution()
-    local counts  = {}
-    local results = {}
+    local counts    = {}
+    local results   = {}
+    local snapshots = WorldMap.current():find_all_objects(MAP_LABEL)
 
-    for _, snapshot in ipairs(history) do
+    for _, snapshot in ipairs(snapshots) do
         for hash, positions in pairs(snapshot.vehicles) do
             counts[hash] = (counts[hash] or 0) + #positions
         end
@@ -57,11 +55,12 @@ exports("GetVehicleDistribution", Snapshot.get_vehicle_distribution)
 -- @treturn boolean if first return value is false, subsequent return values are not provided.
 -- @treturn vector2 map location where the vehicle is most likely to spawn
 function Snapshot.get_vehicle_spawn(model_hash)
-    local count = 0
-    local x_sum = 0
-    local y_sum = 0
+    local count     = 0
+    local x_sum     = 0
+    local y_sum     = 0
+    local snapshots = WorldMap.current():find_all_objects(MAP_LABEL)
 
-    for _, snapshot in ipairs(history) do
+    for _, snapshot in ipairs(snapshots) do
         local positions = snapshot.vehicles[model_hash] or {}
 
         count = count + #positions
@@ -97,20 +96,6 @@ function Snapshot.record()
 
     if recent then
         WorldMap.stop_tracking(coords, MAP_LABEL, recent.world_id)
-
-        -- No more than one entry in the historical list for a single map cell
-        for i, s in ipairs(history) do
-            if s == recent then
-                table.remove(history, i)
-                break
-            end
-        end
-    end
-
-    table.insert(history, snapshot)
-
-    if #history > MAX_HISTORY then
-        table.remove(history) -- removes first element
     end
 end
 
