@@ -1,8 +1,30 @@
+-- Records moments in time from the player's current view of the map. Useful for understanding
+-- population distributions at runtime for i.e. choosing mission locations.
 Snapshot = {}
 
-local MAX_HISTORY = 5
+-- Forward declarations
+local init_snapshot
 
-local history = {}
+local INTERVAL    = 60000       -- How often to record a snapshot for each 100x100 map cell
+local MAP_LABEL   = "snapshots" -- Label for WorldMap storage
+local MAX_HISTORY = 5           -- Max size of recent snapshots list
+
+local history = {} -- List of most recent snapshots
+
+-- Returns the most recent snapshot for the given location or nil
+function Snapshot.for_coords(coords)
+    local snapshots = WorldMap.find_objects(coords, MAP_LABEL)
+
+    if #snapshots == 0 then
+        return nil
+    end
+
+    table.sort(snapshots, function(a, b)
+        return a.created_at > b.created_at
+    end)
+
+    return snapshots[1]
+end
 
 -- Returns a list of vehicle models ordered by how often the player has encountered them recently.
 function Snapshot.get_vehicle_distribution()
@@ -61,8 +83,41 @@ end
 exports("GetVehicleSpawn", Snapshot.get_vehicle_spawn)
 
 function Snapshot.record()
+    local coords = GetEntityCoords(PlayerPedId())
+    local recent = Snapshot.for_coords(coords)
+    local time   = GetGameTimer()
+
+    if recent and time < recent.created_at + INTERVAL then
+        return
+    end
+
+    local snapshot = init_snapshot(time)
+
+    WorldMap.start_tracking(coords, MAP_LABEL, snapshot)
+
+    if recent then
+        WorldMap.stop_tracking(coords, MAP_LABEL, recent.world_id)
+
+        -- No more than one entry in the historical list for a single map cell
+        for i, s in ipairs(history) do
+            if s == recent then
+                table.remove(history, i)
+                break
+            end
+        end
+    end
+
+    table.insert(history, snapshot)
+
+    if #history > MAX_HISTORY then
+        table.remove(history) -- removes first element
+    end
+end
+
+-- @local
+function init_snapshot(time)
     local pool     = GetGamePool("CVehicle")
-    local snapshot = { vehicles = {} }
+    local snapshot = { vehicles = {}, created_at = time }
     local ped      = PlayerPedId()
     local mine     = GetVehiclePedIsIn(ped)
 
@@ -82,9 +137,5 @@ function Snapshot.record()
         end
     end
 
-    table.insert(history, snapshot)
-
-    if #history > MAX_HISTORY then
-        table.remove(history) -- removes first element
-    end
+    return snapshot
 end

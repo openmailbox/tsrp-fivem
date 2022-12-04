@@ -22,8 +22,6 @@ COPY build /fivem/build
 RUN chmod a+x /fivem/build/*.sh
 RUN /bin/bash /fivem/build/fivem_setup.sh
 
-COPY src /fivem/server-data/resources/\[local\]
-
 # Install and link the default FiveM resources
 RUN git clone https://github.com/citizenfx/cfx-server-data.git /fivem/cfx-server-data
 RUN ln -s /fivem/cfx-server-data/resources '/fivem/server-data/resources/[base]'
@@ -35,6 +33,8 @@ RUN ln -s /fivem/mysql-async '/fivem/server-data/resources/mysql-async'
 # Install and link widely used resource for patching map holes
 RUN git clone --depth 1 --branch 2.0.15 https://github.com/Bob74/bob74_ipl.git /fivem/bob74_ipl
 RUN ln -s /fivem/bob74_ipl '/fivem/server-data/resources/bob74_ipl'
+
+COPY src /fivem/server-data/resources/\[local\]
 
 WORKDIR /fivem/server-data
 
