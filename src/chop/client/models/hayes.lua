@@ -76,6 +76,7 @@ function show_offer()
         table.insert(candidates, v)
     end
 
+    -- TODO: Edge case where we can't get any candidates.
     local model    = candidates[math.random(#candidates)].model
     local _, spawn = exports.map:GetVehicleSpawn(model)
 

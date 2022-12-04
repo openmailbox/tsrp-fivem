@@ -78,6 +78,7 @@ function Snapshot.get_vehicle_spawn(model_hash)
         y_sum = y_sum + coords.y
     end
 
+    -- TODO: Make origin more accurate by tossing outliers 
     local origin = vector2(x_sum / #vehicles, y_sum / #vehicles)
 
     return true, origin
