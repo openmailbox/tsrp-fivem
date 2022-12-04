@@ -3,7 +3,9 @@
 Snapshot = {}
 
 -- Forward declarations
-local init_snapshot
+local calc_centroid,
+      calc_stdev,
+      init_snapshot
 
 local INTERVAL  = 60000       -- How often to record a snapshot for each 100x100 map cell
 local MAP_LABEL = "snapshots" -- Label for WorldMap storage
@@ -69,19 +71,29 @@ function Snapshot.get_vehicle_spawn(model_hash)
         return false
     end
 
-    local vehicles = target.vehicles[model_hash]
-    local x_sum    = 0
-    local y_sum    = 0
+    local all_coords = target.vehicles[model_hash]
+    local centroid   = calc_centroid(all_coords)
+    local distances  = {}
 
-    for _, coords in ipairs(vehicles) do
-        x_sum = x_sum + coords.x
-        y_sum = y_sum + coords.y
+    for _, coords in ipairs(all_coords) do
+        table.insert(distances, Vdist(coords, centroid))
     end
 
-    -- TODO: Make origin more accurate by tossing outliers 
-    local origin = vector2(x_sum / #vehicles, y_sum / #vehicles)
+    local stdev, mean = calc_stdev(distances)
+    local norm_coords = {}
 
-    return true, origin
+    -- Remove outliers > 2 standard deviations
+    for i, distance in ipairs(distances) do
+        local z = (distance - mean) / stdev
+
+        if z > -2 and z < 2 then
+            table.insert(norm_coords, all_coords[i])
+        end
+    end
+
+    centroid = calc_centroid(norm_coords)
+
+    return true, centroid
 end
 exports("GetVehicleSpawn", Snapshot.get_vehicle_spawn)
 
@@ -101,6 +113,40 @@ function Snapshot.record()
     end
 
     WorldMap.start_tracking(coords, MAP_LABEL, snapshot)
+end
+
+-- @local
+function calc_centroid(set)
+    local x_sum = 0
+    local y_sum = 0
+
+    for _, coords in ipairs(set) do
+        x_sum = x_sum + coords.x
+        y_sum = y_sum + coords.y
+    end
+
+    return vector2(x_sum / #set, y_sum / #set)
+end
+
+-- @local
+function calc_stdev(set)
+    local sum = 0
+
+    for _, member in ipairs(set) do
+        sum = sum + member
+    end
+
+    local mean = sum / #set
+
+    local sum_of_squares = 0
+
+    for _, member in ipairs(set) do
+        sum_of_squares = sum_of_squares + (member - mean) ^ 2
+    end
+
+    local variance = sum_of_squares / #set
+
+    return math.sqrt(variance), mean
 end
 
 -- @local
