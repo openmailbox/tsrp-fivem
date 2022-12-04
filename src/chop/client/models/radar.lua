@@ -72,13 +72,18 @@ function update(model_hash, position)
         return
     end
 
-    local pool     = GetGamePool("CVehicle")
-    local rsquared = RADIUS ^ 2
-    local ped      = PlayerPedId()
+    local pool       = GetGamePool("CVehicle")
+    local rsquared   = RADIUS ^ 2
+    local ped        = PlayerPedId()
+    local model_name = GetDisplayNameFromVehicleModel(model_hash)
+    local my_vehicle = GetVehiclePedIsIn(ped)
 
     for _, v in ipairs(pool) do
-        if not contacts[v] and GetEntityModel(v) == model_hash and
-            (v == GetEntityModel(GetVehiclePedIsIn(ped)) or Vdist2(GetEntityCoords(v), position) < rsquared) then
+        local vmodel = GetEntityModel(v)
+        local vname  = GetDisplayNameFromVehicleModel(vmodel)
+
+        if not contacts[v] and vname == model_name and
+            (v == my_vehicle or Vdist2(GetEntityCoords(v), position) < rsquared) then
 
             local blip_id = exports.map:StartEntityTracking(v, {
                 icon    = 229,

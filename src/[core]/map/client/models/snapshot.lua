@@ -23,7 +23,7 @@ function Snapshot.for_coords(coords)
     return snapshots[1]
 end
 
--- Returns a list of vehicle models ordered by how often the player has encountered them during play.
+-- Returns a list of vehicle models sorted by how many times the player has seen them during play.
 function Snapshot.get_vehicle_distribution()
     local counts    = {}
     local results   = {}
@@ -50,32 +50,35 @@ function Snapshot.get_vehicle_distribution()
 end
 exports("GetVehicleDistribution", Snapshot.get_vehicle_distribution)
 
--- Returns an area where a given vehicle model is most likely to spawn given the player's observations during
--- the current play session.
+-- Returns a map location where a given vehicle model is most likely to spawn given the player's observations during play.
 -- @treturn boolean if first return value is false, subsequent return values are not provided.
 -- @treturn vector2 map location where the vehicle is most likely to spawn
 function Snapshot.get_vehicle_spawn(model_hash)
-    local count     = 0
-    local x_sum     = 0
-    local y_sum     = 0
     local snapshots = WorldMap.current():find_all_objects(MAP_LABEL)
+    local target    = nil
 
     for _, snapshot in ipairs(snapshots) do
         local positions = snapshot.vehicles[model_hash] or {}
 
-        count = count + #positions
-
-        for _, coords in ipairs(positions) do
-            x_sum = x_sum + coords.x
-            y_sum = y_sum + coords.y
+        if (not target and #positions > 0) or (#positions > 0 and #target.vehicles < #positions) then
+            target = snapshot
         end
     end
 
-    if count == 0 then
+    if not target then
         return false
     end
 
-    local origin = vector2(x_sum / count, y_sum / count)
+    local vehicles = target.vehicles[model_hash]
+    local x_sum    = 0
+    local y_sum    = 0
+
+    for _, coords in ipairs(vehicles) do
+        x_sum = x_sum + coords.x
+        y_sum = y_sum + coords.y
+    end
+
+    local origin = vector2(x_sum / #vehicles, y_sum / #vehicles)
 
     return true, origin
 end
@@ -92,11 +95,11 @@ function Snapshot.record()
 
     local snapshot = init_snapshot(time)
 
-    WorldMap.start_tracking(coords, MAP_LABEL, snapshot)
-
     if recent then
         WorldMap.stop_tracking(coords, MAP_LABEL, recent.world_id)
     end
+
+    WorldMap.start_tracking(coords, MAP_LABEL, snapshot)
 end
 
 -- @local

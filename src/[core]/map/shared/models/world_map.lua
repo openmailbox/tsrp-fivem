@@ -103,7 +103,7 @@ function WorldMap:add_object(coords, label, object)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
-        message = "Added new '" .. label .. "' map object at cell " .. cx .. ", " .. cy .. "."
+        message = "Added new '" .. label .. "' map object " ..uuid .. " at cell " .. cx .. ", " .. cy .. "."
     })
 
     return object.world_id
