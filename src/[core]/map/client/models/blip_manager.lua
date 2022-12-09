@@ -19,8 +19,14 @@ function BlipManager.add_blip(coords, options)
     initialize_blip(blip, options)
 
     table.insert(blips, {
-        blip = blip,
-        id   = uuid
+        blip   = blip,
+        id     = uuid,
+        coords = coords
+    })
+
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = "Added static blip for " .. coords .. " to the map."
     })
 
     return uuid
@@ -28,13 +34,34 @@ end
 exports("AddBlip", BlipManager.add_blip)
 
 function BlipManager.remove_blip(id)
+    local removing = nil
+
     for i, b in ipairs(blips) do
         if b.id == id then
-            RemoveBlip(b.blip)
+            removing = b
             table.remove(blips, i)
-            return true
+            break
         end
     end
+
+    if not removing then
+        return false
+    end
+
+    RemoveBlip(removing.blip)
+
+    local message = "Removed blip from the map."
+
+    if removing.coords then
+        message = "Removed static blip from " .. removing.coords .. " on the map."
+    elseif removing.entity then
+        message = "Removed blip for Entity " .. removing.entity .. " from the map."
+    end
+
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = message
+    })
 
     return false
 end

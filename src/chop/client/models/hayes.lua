@@ -69,7 +69,9 @@ function show_offer()
     local candidates = {}
 
     for _, v in ipairs(vehicles) do
-        if v.count < 20 then
+        -- Raise to require more samples / increase accuracy of spawnpoint guess in exchange
+        -- for lowered variety and increased frequency of "check back later".
+        if v.count < 15 then
             break
         end
 

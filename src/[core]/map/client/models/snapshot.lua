@@ -75,9 +75,17 @@ function Snapshot.get_vehicle_spawn(model_hash)
     local target    = nil
 
     for _, snapshot in ipairs(snapshots) do
-        local positions = snapshot.vehicles[model_hash] or {}
+        local unique = {}
+        local count  = 0
 
-        if (not target and #positions > 0) or (#positions > 0 and #target.vehicles < #positions) then
+        for _, p in ipairs(snapshot.vehicles[model_hash] or {}) do
+            if not unique[p] then
+                unique[p] = true
+                count = count + 1
+            end
+        end
+
+        if (not target and count > 0) or (count > 0 and #target.vehicles < count) then
             target = snapshot
         end
     end
