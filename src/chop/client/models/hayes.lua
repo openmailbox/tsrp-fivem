@@ -69,7 +69,7 @@ function show_offer()
     local candidates = {}
 
     for _, v in ipairs(vehicles) do
-        if v.count < 15 then
+        if v.count < 20 then
             break
         end
 
@@ -87,6 +87,8 @@ function show_offer()
                 subject = "Encrypted Message"
             }
         })
+
+        Hayes.reset()
 
         return
     end

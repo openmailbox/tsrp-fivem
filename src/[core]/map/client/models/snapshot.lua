@@ -27,20 +27,35 @@ end
 
 -- Returns a list of vehicle models sorted by how many times the player has seen them during play.
 function Snapshot.get_vehicle_distribution()
-    local counts    = {}
+    local filtered  = {}
     local results   = {}
     local snapshots = WorldMap.current():find_all_objects(MAP_LABEL)
 
     for _, snapshot in ipairs(snapshots) do
         for hash, positions in pairs(snapshot.vehicles) do
-            counts[hash] = (counts[hash] or 0) + #positions
+            filtered[hash] = filtered[hash] or {}
+
+            local set = filtered[hash]
+
+            -- Make sure we're not counting the same vehicle twice across multiple snapshots
+            for _, p in ipairs(positions) do
+                if not set[p] then
+                    set[p] = true
+                end
+            end
         end
     end
 
-    for hash, amount in pairs(counts) do
+    for hash, positions in pairs(filtered) do
+        local count = 0
+
+        for _, _ in pairs(positions) do
+            count = count + 1
+        end
+
         table.insert(results, {
             model = hash,
-            count = amount
+            count = count
         })
     end
 

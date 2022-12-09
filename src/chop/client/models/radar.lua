@@ -34,7 +34,7 @@ function Radar.activate(options)
 
     Citizen.CreateThread(function()
         while is_active do
-            update(options.model, options.spawn)
+            update(options.model)
             Citizen.Wait(2000)
         end
 
@@ -56,11 +56,11 @@ function Radar.deactivate()
 end
 
 function Radar.initialize()
-    AddTextEntry(HELP_KEY, "Look for ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ in the ~HUD_COLOUR_REDLIGHT~highlighted area~s~ on your map.")
+    AddTextEntry(HELP_KEY, "Look for ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ nearby. The ~HUD_COLOUR_REDLIGHT~highlighted area~s~ on your map was the last known hot spot.")
 end
 
 -- @local
-function update(model_hash, position)
+function update(model_hash)
     for entity, contact in pairs(contacts) do
         if not DoesEntityExist(entity) then
             exports.map:RemoveBlip(contact.blip_id)
@@ -68,23 +68,14 @@ function update(model_hash, position)
         end
     end
 
-    if Vdist(GetEntityCoords(PlayerPedId()), position) > RADIUS * 2 then
-        return
-    end
-
     local pool       = GetGamePool("CVehicle")
-    local rsquared   = RADIUS ^ 2
-    local ped        = PlayerPedId()
     local model_name = GetDisplayNameFromVehicleModel(model_hash)
-    local my_vehicle = GetVehiclePedIsIn(ped)
 
     for _, v in ipairs(pool) do
         local vmodel = GetEntityModel(v)
         local vname  = GetDisplayNameFromVehicleModel(vmodel)
 
-        if not contacts[v] and vname == model_name and
-            (v == my_vehicle or Vdist2(GetEntityCoords(v), position) < rsquared) then
-
+        if not contacts[v] and vname == model_name then
             local blip_id = exports.map:StartEntityTracking(v, {
                 icon    = 229,
                 color   = 6,
