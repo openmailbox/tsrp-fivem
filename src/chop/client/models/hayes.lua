@@ -63,20 +63,34 @@ function show_offer()
     is_active = false
 
     exports.markers:RemoveMarker(marker_id)
-    exports.progress:ShowProgressBar(2000, "Checking List")
 
+    local progress   = exports.progress:ShowProgressBar(2000, "Checking List")
     local vehicles   = exports.map:GetVehicleDistribution()
     local candidates = {}
 
     for _, v in ipairs(vehicles) do
-        if v.count < 10 then
+        if v.count < 15 then
             break
         end
 
         table.insert(candidates, v)
     end
 
-    -- TODO: Edge case where we can't get any candidates.
+    if #candidates < 1 then
+        exports.progress:CancelProgressBar(progress)
+
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "No jobs available right now. Check back later.",
+            sender  = {
+                image   = "CHAR_BLOCKED",
+                name    = "Blocked",
+                subject = "Encrypted Message"
+            }
+        })
+
+        return
+    end
+
     local model    = candidates[math.random(#candidates)].model
     local _, spawn = exports.map:GetVehicleSpawn(model)
 
