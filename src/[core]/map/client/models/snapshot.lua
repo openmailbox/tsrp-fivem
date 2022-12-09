@@ -93,7 +93,7 @@ function Snapshot.get_vehicle_spawn(model_hash)
 
     centroid = calc_centroid(norm_coords)
 
-    return true, centroid
+    return true, centroid, all_coords
 end
 exports("GetVehicleSpawn", Snapshot.get_vehicle_spawn)
 

@@ -9,10 +9,19 @@ description "Provides centralized behaviors related to the map and player locati
 version "0.0.1"
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
+}
+
+server_scripts {
+    "@common/shared/colors.lua",
+    "@common/shared/events.lua",
+    "@common/shared/logging.lua",
+    "shared/**/*.lua",
+    "server/**/*.lua"
 }
 
 exports {
