@@ -13,6 +13,7 @@ dependencies {
 }
 
 client_scripts {
+    "@common/shared/logging.lua",
     "@common/shared/events.lua",
     "@common/shared/ped_models.lua",
     "client/**/*.lua"

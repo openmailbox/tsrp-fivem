@@ -16,6 +16,11 @@ local function respawn()
             ClearPedBloodDamage(PlayerPedId())
             SwitchInPlayer(PlayerPedId())
         end)
+
+        TriggerEvent(Events.LOG_MESSAGE, {
+            level   = Logging.DEBUG,
+            message = "Spawning player at " .. location .. "."
+        })
     end)
 
     exports.spawnmanager:setAutoSpawn(true)
