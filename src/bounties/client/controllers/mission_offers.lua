@@ -13,7 +13,7 @@ end
 RegisterNUICallback(Events.DELETE_BOUNTY_MISSION_OFFER, delete)
 
 local function update(data)
-    local target = Target.initialize(data)
+    local target = Target.add_new(data)
 
     Citizen.CreateThread(function()
         local buffer = data.ui_target - GetCloudTimeAsInt() - data.ping

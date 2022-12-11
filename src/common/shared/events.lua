@@ -38,6 +38,8 @@ Events.CREATE_BOUNTY_MISSION_OFFER = "bounties:CreateMissionOffer"
 Events.UPDATE_BOUNTY_MISSION_OFFER = "bounties:UpdateMissionOffer"
 Events.DELETE_BOUNTY_MISSION_OFFER = "bounties:DeleteMissionOffer"
 
+Events.CREATE_BOUNTY_TARGET_BEHAVIOR = "bounties:CreateTargetBehavior"
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"
@@ -55,6 +57,8 @@ Events.UPDATE_CHOP_VEHICLE_DROPOFF = "chop:UpdateVehicleDropoff"
 
 -- @resource hud
 Events.CREATE_HUD_NOTIFICATION = "hud:CreateNotification"
+
+Events.CREATE_HUD_HELP_MESSAGE = "hud:CreateHelpMessage"
 
 -- @resource interactions --
 Events.CREATE_INTERACTIVE_OBJECT = "interactions:CreateObject"

@@ -1,5 +1,9 @@
 Target = {}
 
+Target.Behaviors = {
+    FLEEING = 1
+}
+
 -- Forward delcarations
 local approaching,
       chasing,
@@ -29,7 +33,8 @@ function Target.find_by_id(id)
     return nil
 end
 
-function Target.initialize(data)
+-- Called when preparing a new mission offer for the player.
+function Target.add_new(data)
     local target = Target:new({
         vicinity = data.location,
         id       = data.id
@@ -61,7 +66,7 @@ function Target:activate()
     })
 
     self.next_update = searching
-    self.blip        = exports.map:AddBlip(self.vicinity, {
+    self.area_blip   = exports.map:AddBlip(self.vicinity, {
         color   = 13,
         alpha   = 125,
         display = 2,
@@ -79,6 +84,8 @@ function Target:activate()
         ploc         = GetEntityCoords(PlayerPedId())
         update_count = 0
 
+        TriggerEvent(Events.LOG_MESSAGE, { level = Logging.DEBUG, message = "Start bounty mission update loop." })
+
         while is_active do
             for _, target in ipairs(current) do
                 if target.next_update then
@@ -93,18 +100,44 @@ function Target:activate()
 
             Citizen.Wait(2000)
         end
+
+        TriggerEvent(Events.LOG_MESSAGE, { level = Logging.DEBUG, message = "Stop bounty mission update loop." })
     end)
 end
 
 function Target:deactivate()
     self.next_update = nil
-    exports.map:RemoveBlip(self.blip)
+    exports.map:RemoveBlip(self.area_blip)
+    exports.map:RemoveBlip(self.victim_blip)
+end
+
+function Target:flee()
+    TriggerServerEvent(Events.CREATE_BOUNTY_TARGET_BEHAVIOR, {
+        net_id    = PedToNet(self.victim),
+        behavior  = Target.Behaviors.FLEEING,
+        my_net_id = PedToNet(PlayerPedId())
+    })
+
+    TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+        message = "The ~HUD_COLOUR_PURPLELIGHT~target~s~ saw you and ~r~fled~s~."
+    })
+
+    self.next_update = chasing
 end
 
 function Target:set_victim(entity)
     self.victim = entity
 
-    -- TODO: Notify player. Show marker + blip
+    self.victim_blip = exports.map:StartEntityTracking(self.victim, {
+        icon    = 303,
+        color   = 13,
+        display = 2,
+        label   = "Bounty Target"
+    })
+
+    TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
+        message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target ~BLIP_BOUNTY_HIT~~s~ has been revealed on your map."
+    })
 
     self.next_update = approaching
 end
@@ -112,12 +145,19 @@ end
 -- @local
 function approaching(target, ploc)
     if Vdist(ploc, GetEntityCoords(target.entity)) < 20.0 then
-        target.next_update = chasing
+        target:flee()
     end
 end
 
 -- @local
 function chasing(target, ploc)
+    if not DoesEntityExist(target.victim) then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ got away."
+        })
+
+        target:deactivate()
+    end
 end
 
 -- @local
