@@ -24,8 +24,8 @@ local function update(data)
 
         SetNuiFocus(true, true)
         SendNUIMessage({
-            type   = Events.CREATE_BOUNTY_MISSION_OFFER,
-            target = target
+            type = Events.CREATE_BOUNTY_MISSION_OFFER,
+            id   = target.id
         })
     end)
 end
