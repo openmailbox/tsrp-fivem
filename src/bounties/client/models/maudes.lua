@@ -2,6 +2,7 @@ Maudes = {}
 
 -- Forward delcarations
 local show_marker,
+      show_offer,
       show_prompt
 
 local BLIP_LOC   = vector3(2728.3601, 4142.1143, 44.2880)
@@ -47,6 +48,7 @@ function show_marker()
         interact_range = 1.0,
         draw_range     = 12.0,
         on_enter       = show_prompt,
+        on_interact    = show_offer,
         on_exit        = function()
             is_prompting = false
         end
@@ -64,4 +66,38 @@ function show_prompt()
             Citizen.Wait(0)
         end
     end)
+end
+
+-- @local
+function show_offer()
+    is_active = false
+
+    exports.markers:RemoveMarker(marker_id)
+
+    local progress = exports.progress:ShowProgressBar(2000, "Requesting Job")
+    local history  = exports.map:GetPlayerHistory()
+
+    if #history < 1 then
+        exports.progress:CancelProgressBar(progress)
+
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "No jobs available right now. Check back later.",
+            sender  = {
+                image   = "CHAR_MAUDE",
+                name    = "Maude",
+                subject = "Bounty Hunting"
+            }
+        })
+
+        Maudes.reset()
+
+        return
+    end
+
+    local target = history[math.random(#history)].location
+
+    TriggerServerEvent(Events.CREATE_BOUNTY_MISSION_OFFER, {
+        location  = target,
+        ui_target = GetCloudTimeAsInt() + 2000
+    })
 end

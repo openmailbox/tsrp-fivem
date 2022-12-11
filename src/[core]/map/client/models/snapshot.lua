@@ -25,6 +25,61 @@ function Snapshot.for_coords(coords)
     return snapshots[1]
 end
 
+-- Returns a list of local ped types sorted by how often the player has seen them during play.
+function Snapshot.get_ped_distribution()
+    local snapshots = WorldMap.current():find_all_objects(MAP_LABEL)
+    local totals    = {}
+    local results   = {}
+
+    for _, s in ipairs(snapshots) do
+        for ptype, count in pairs(s.locals) do
+            totals[ptype] = (totals[ptype] or 0) + count
+        end
+    end
+
+    for ptype, count in pairs(totals) do
+        table.insert(results, {
+            type  = ptype,
+            count = count
+        })
+    end
+
+    table.sort(results, function(a, b)
+        return a.count < b.count
+    end)
+
+    return results
+end
+exports("GetPedDistribution", Snapshot.get_ped_distribution)
+
+-- Returns a chronologically ordered list of player's most recent locations.
+function Snapshot.get_player_history()
+    local snapshots = WorldMap.current():find_all_objects(MAP_LABEL)
+    local sorted    = {}
+    local results   = {}
+    local lookback  = GetGameTimer() - (1000 * 60 * 30)
+
+    for _, s in ipairs(snapshots) do
+        if s.created_at > lookback then
+            table.insert(sorted, s)
+        end
+    end
+
+    table.sort(sorted, function(a, b)
+        return a.created_at < b.created_at
+    end)
+
+    for _, s in ipairs(sorted) do
+        table.insert(results, {
+            location   = s.location,
+            created_at = s.created_at
+        })
+    end
+
+    return results
+end
+exports("GetPlayerHistory", Snapshot.get_player_history)
+
 -- Returns a list of vehicle models sorted by how many times the player has seen them during play.
 function Snapshot.get_vehicle_distribution()
     local filtered  = {}
@@ -174,14 +229,21 @@ end
 
 -- @local
 function init_snapshot(time)
-    local pool     = GetGamePool("CVehicle")
-    local snapshot = { vehicles = {}, created_at = time }
+    local vehicles = GetGamePool("CVehicle")
+    local peds     = GetGamePool("CPed")
     local ped      = PlayerPedId()
     local mine     = GetVehiclePedIsIn(ped)
+    local snapshot = {
+        created_at = time,
+        locals     = {},
+        location   = GetEntityCoords(ped),
+        vehicles   = {},
+    }
 
-    local model, list
+    -- Loop variables
+    local model, list, ptype
 
-    for _, entity in ipairs(pool) do
+    for _, entity in ipairs(vehicles) do
         if entity ~= mine then
             model = GetEntityModel(entity)
             list  = snapshot.vehicles[model]
@@ -193,6 +255,11 @@ function init_snapshot(time)
 
             table.insert(list, GetEntityCoords(entity))
         end
+    end
+
+    for _, entity in ipairs(peds) do
+        ptype = GetPedType(entity)
+        snapshot.locals[ptype] = (snapshot.locals[ptype] or 0) + 1
     end
 
     return snapshot

@@ -27,6 +27,8 @@ server_scripts {
 exports {
     "AddBlip",
     "FindObjects",
+    "GetPedDistribution",
+    "GetPlayerHistory",
     "GetVehicleDistribution",
     "GetVehicleSpawn",
     "RemoveBlip",
