@@ -11,7 +11,6 @@ RegisterNUICallback(Events.DELETE_BOUNTY_MISSION_OFFER, delete)
 
 local function update(data)
     data.type = Events.CREATE_BOUNTY_MISSION_OFFER
-    print("update")
 
     Citizen.CreateThread(function()
         local buffer = data.ui_target - GetCloudTimeAsInt() - data.ping
