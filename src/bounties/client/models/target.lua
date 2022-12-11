@@ -107,7 +107,7 @@ function Target:flee()
     })
 
     TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-        message = "The ~HUD_COLOUR_PURPLELIGHT~target~BLIP_BOUNTY_HIT~~s~ saw you and ~r~fled~s~."
+        message = "The ~HUD_COLOUR_PURPLELIGHT~target~s~ was alerted and ~r~fled~s~."
     })
 
     self.next_update = chasing
@@ -121,20 +121,27 @@ function Target:set_victim(entity)
     exports.map:RemoveBlip(self.area_blip)
 
     self.victim_blip = exports.map:StartEntityTracking(self.victim, {
-        icon    = 303,
-        color   = 13,
-        display = 2,
-        label   = "Bounty Target"
+        icon      = 303,
+        color     = 13,
+        display   = 2,
+        label     = "Bounty Target",
+        always_on = true
     })
 
     TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
         message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~BLIP_BOUNTY_HIT~~s~ has been revealed on your map."
     })
+
+    TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+        message = "You spotted the ~HUD_COLOUR_PURPLELIGHT~bounty target~s~."
+    })
 end
 
 -- @local
 function approaching(target)
-    if Vdist(GetEntityCoords(PlayerPedId()), GetEntityCoords(target.victim)) < 20.0 then
+    local me = PlayerPedId()
+
+    if Vdist(GetEntityCoords(me), GetEntityCoords(target.victim)) < 20.0 and HasEntityClearLosToEntity(me, target.victim, 17) then
         target:flee()
     elseif not DoesEntityExist(target.victim) then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
@@ -147,11 +154,18 @@ end
 
 -- @local
 function chasing(target)
-    if not DoesEntityExist(target.victim) then
+    if IsPedDeadOrDying(target.victim, true) then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ was eliminated."
+        })
+
+        TriggerServerEvent(Events.CREATE_BOUNTY_PAYOUT)
+
+        target:deactivate()
+    elseif not DoesEntityExist(target.victim) then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
             message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ got away."
         })
-
         target:deactivate()
     end
 end
