@@ -1,6 +1,9 @@
 local function delete(data, cb)
     if data.success then
+        local target = Target.find_by_id(data.id)
+        if target then target:activate() end
     else
+        Target.cleanup()
         Maudes.reset()
     end
 
@@ -10,7 +13,7 @@ end
 RegisterNUICallback(Events.DELETE_BOUNTY_MISSION_OFFER, delete)
 
 local function update(data)
-    data.type = Events.CREATE_BOUNTY_MISSION_OFFER
+    local target = Target.initialize(data)
 
     Citizen.CreateThread(function()
         local buffer = data.ui_target - GetCloudTimeAsInt() - data.ping
@@ -20,7 +23,10 @@ local function update(data)
         end
 
         SetNuiFocus(true, true)
-        SendNUIMessage(data)
+        SendNUIMessage({
+            type   = Events.CREATE_BOUNTY_MISSION_OFFER,
+            target = target
+        })
     end)
 end
 RegisterNetEvent(Events.UPDATE_BOUNTY_MISSION_OFFER, update)
