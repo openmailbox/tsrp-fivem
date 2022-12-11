@@ -7,6 +7,12 @@ local show_marker,
 
 local BLIP_LOC   = vector3(2728.3601, 4142.1143, 44.2880)
 local PROMPT_KEY = 'MaudesBountyPrompt'
+local SEED_AREAS = {
+    vector3(94.1445, -1932.2294, 20.8037),  -- Grove St
+    vector3(301.3120, -2011.5270, 20.0906), -- Bario
+    vector3(-734.1448, -644.5348, 30.1493), -- Little Seoul
+    vector3(138.6167, 200.7736, 106.7708)   -- Vinewood
+}
 
 local blip_id      = nil
 local is_active    = false
@@ -73,28 +79,18 @@ function show_offer()
     is_active = false
 
     exports.markers:RemoveMarker(marker_id)
+    exports.progress:ShowProgressBar(2000, "Requesting Job")
 
-    local progress = exports.progress:ShowProgressBar(2000, "Requesting Job")
-    local history  = exports.map:GetPlayerHistory()
+    local history = exports.map:GetPlayerHistory()
+    local target  = nil
 
-    if #history < 1 then
-        exports.progress:CancelProgressBar(progress)
-
-        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-            message = "No jobs available right now. Check back later.",
-            sender  = {
-                image   = "CHAR_MAUDE",
-                name    = "Maude",
-                subject = "Bounty Hunting"
-            }
-        })
-
-        Maudes.reset()
-
-        return
+    for _, loc in ipairs(SEED_AREAS) do
+        table.insert(history, { location = loc })
     end
 
-    local target = history[math.random(#history)].location
+    repeat
+        target = history[math.random(#history)].location
+    until Vdist(BLIP_LOC, target) > 300.0
 
     TriggerServerEvent(Events.CREATE_BOUNTY_MISSION_OFFER, {
         location  = target,

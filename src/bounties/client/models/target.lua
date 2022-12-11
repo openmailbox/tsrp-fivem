@@ -118,6 +118,7 @@ function Target:set_victim(entity)
     self.next_update = approaching
 
     exports.map:RemoveBlip(self.search_blip)
+    exports.map:RemoveBlip(self.area_blip)
 
     self.victim_blip = exports.map:StartEntityTracking(self.victim, {
         icon    = 303,
