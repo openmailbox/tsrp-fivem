@@ -3,6 +3,7 @@ local function create(data)
 
     -- TODO: Generate something interesting about the mission
     data.success = true
+    data.ping    = GetPlayerPing(player_id)
 
     TriggerClientEvent(Events.UPDATE_BOUNTY_MISSION_OFFER, player_id, data)
 end

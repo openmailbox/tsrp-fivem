@@ -36,6 +36,7 @@ Events.UPDATE_BANK_BALANCE = "atm:UpdateBankBalance"
 -- @resource bounties
 Events.CREATE_BOUNTY_MISSION_OFFER = "bounties:CreateMissionOffer"
 Events.UPDATE_BOUNTY_MISSION_OFFER = "bounties:UpdateMissionOffer"
+Events.DELETE_BOUNTY_MISSION_OFFER = "bounties:DeleteMissionOffer"
 
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
