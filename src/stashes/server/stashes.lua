@@ -364,5 +364,15 @@ Stashes.Locations = {
             Stashes.Presets.LMG,
             Stashes.Presets.HEAVY
         }
+    },
+
+    ["Maude's Trailer"] = {
+        location = vector3(2705.5474, 4135.4648, 43.9258),
+        model    = GetHashKey('prop_box_wood01a'),
+        contents = {
+            Stashes.Presets.THROWABLES,
+            { armor = 75 },
+            Stashes.Presets.ASSAULT
+        }
     }
 }
