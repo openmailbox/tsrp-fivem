@@ -8,6 +8,7 @@ Target.Behaviors = {
 local approaching,
       chasing,
       find_victim,
+      highlight_target,
       searching,
       start_updates
 
@@ -128,12 +129,14 @@ function Target:set_victim(entity)
         always_on = true
     })
 
+    highlight_target(self.victim)
+
     TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
         message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~BLIP_BOUNTY_HIT~~s~ has been revealed on your map."
     })
 
     TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-        message = "You spotted the ~HUD_COLOUR_PURPLELIGHT~bounty target~s~."
+        message = "You located the ~HUD_COLOUR_PURPLELIGHT~bounty target~s~."
     })
 end
 
@@ -187,6 +190,37 @@ function find_victim(origin)
     end
 
     return candidates[math.random(#candidates)]
+end
+
+-- @local
+function highlight_target(entity)
+    Citizen.CreateThread(function()
+        local vzero    = vector3(0, 0, 0)
+        local rotation = vector3(180.0, 0, 0)
+        local scale    = vector3(0.2, 0.2, 0.2)
+        local offset   = vector3(0, 0, 0.9)
+        local loc
+
+        while DoesEntityExist(entity) and not IsPedDeadOrDying(entity, true) do
+            loc = GetOffsetFromEntityInWorldCoords(entity, offset)
+
+            DrawMarker(2,
+                       loc,
+                       vzero,
+                       rotation,
+                       scale,
+                       192, 179, 239, 255,
+                       true,
+                       true,
+                       2,
+                       false,
+                       nil,
+                       nil,
+                       false)
+
+            Citizen.Wait(0)
+        end
+    end)
 end
 
 -- @local
