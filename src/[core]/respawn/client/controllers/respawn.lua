@@ -17,9 +17,9 @@ local function respawn()
             SwitchInPlayer(PlayerPedId())
         end)
 
-        TriggerEvent(Events.LOG_MESSAGE, {
+        TriggerEvent("logging:CreateMessage", {
             level   = Logging.DEBUG,
-            message = "Spawning player at " .. location .. "."
+            message = "Spawning player at " .. vector3(location.x, location.y, location.z) .. "."
         })
     end)
 

@@ -9,7 +9,8 @@ description "Provides interactions with world objects so players can regain heal
 version "0.0.1"
 
 dependencies {
-    "interactions"
+    "interactions",
+    "map"
 }
 
 client_scripts {

@@ -1,13 +1,21 @@
 Map = {}
 
 -- Forward declarations
-local cleanup,
-      update
+local update
 
 local is_active = false
 
 local objects = {} -- Entity->BlipHandle map of map entities we're tracking
 local models  = {} -- Hash->Boolean map of models we're tracking for quick lookups
+
+function Map.cleanup()
+    for _, id in pairs(objects) do
+        exports.map:RemoveBlip(id)
+    end
+
+    objects = {}
+    models  = {}
+end
 
 function Map.reveal_objects()
     if is_active then return end
@@ -38,7 +46,7 @@ function Map.reveal_objects()
             Citizen.Wait(5000)
         end
 
-        cleanup()
+        Map.cleanup()
         Trash.cleanup()
 
         TriggerEvent(Events.LOG_MESSAGE, {
@@ -49,20 +57,11 @@ function Map.reveal_objects()
 end
 
 -- @local
-function cleanup()
-    for _, id in pairs(objects) do
-        exports.map:RemoveBlip(id)
-    end
-
-    objects = {}
-    models  = {}
-end
-
--- @local
 function update()
     local pool   = GetGamePool("CObject")
     local handle = nil
-    local scale  = vector3(0.2, 0.2, 0.2)
+    local scale  = vector3(0.1, 0.1, 0.1)
+    local count  = 0
 
     for object, id in pairs(objects) do
         if not DoesEntityExist(object) then
@@ -74,12 +73,21 @@ function update()
     for _, object in ipairs(pool) do
         if not objects[object] and models[GetEntityModel(object)] then
             handle = exports.map:StartEntityTracking(object, {
-                icon  = 153,
-                color = 8,
-                scale = scale
+                icon    = 153,
+                color   = 8,
+                scale   = scale,
+                display = 2,
+                alpha   = 150,
+                label   = "Health"
             })
 
             objects[object] = handle
+
+            count = count + 1
+
+            if count > 10 then
+                break
+            end
         end
     end
 end
