@@ -85,8 +85,6 @@ function Interaction.register(options, callback)
         registrations[model_hash] = behaviors
     end
 
-    Citizen.Trace("Registering new interaction for " .. options.model .. ": " .. options.name .. "\n")
-
     if prompt_label then
         AddTextEntry(prompt_label, "Press ~INPUT_CONTEXT~ to " .. options.prompt .. ".")
     end
