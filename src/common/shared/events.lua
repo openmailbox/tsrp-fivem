@@ -21,6 +21,11 @@ Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"
 Events.ON_ACCOUNT_LOADED = "accounts:OnAccountLoaded" -- Sent by resource after a player account is loaded
 
 -- @resource admin
+Events.CREATE_ADMIN_ANIMATION = "admin:CreateAnimation"
+Events.CREATE_ADMIN_SOUND     = "admin:CreateSound"
+Events.CREATE_ADMIN_SPEECH    = "admin:CreateSpeech"
+Events.CREATE_ADMIN_SCENARIO  = "admin:CreateScenario"
+
 Events.CREATE_OBJECT_SPAWN = "admin:CreateObjectSpawn"
 Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 
