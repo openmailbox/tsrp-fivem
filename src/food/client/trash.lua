@@ -21,8 +21,12 @@ function Trash.cleanup()
 end
 
 function Trash.initialize()
+    local models = {}
+
     -- Objects defined in @common/shared/objects.lua
     for _, model in ipairs(Objects.DUMPSTERS) do
+        table.insert(models, model)
+
         exports.interactions:RegisterInteraction({
             model  = model,
             name   = INTERACT_NAME,
@@ -31,12 +35,16 @@ function Trash.initialize()
     end
 
     for _, model in ipairs(Objects.TRASH_BINS) do
+        table.insert(models, model)
+
         exports.interactions:RegisterInteraction({
             model  = model,
             name   = INTERACT_NAME,
             prompt = string.lower(INTERACT_NAME),
         }, search_trash)
     end
+
+    return models
 end
 
 -- @local

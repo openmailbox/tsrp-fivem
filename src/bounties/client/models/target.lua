@@ -210,10 +210,10 @@ function highlight_target(entity)
                        rotation,
                        scale,
                        192, 179, 239, 255,
-                       true,
-                       true,
-                       2,
                        false,
+                       false,
+                       2,
+                       true,
                        nil,
                        nil,
                        false)
