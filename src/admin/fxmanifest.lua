@@ -14,8 +14,9 @@ client_scripts {
 }
 
 server_scripts {
-    "@common/shared/weapons.lua",
     "@common/shared/colors.lua",
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
+    "@common/shared/weapons.lua",
     "server/**/*.lua"
 }
