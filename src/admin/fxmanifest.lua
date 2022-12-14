@@ -9,6 +9,7 @@ description "Tools for performing various administrative functions on or in the 
 version "0.0.1"
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "client/**/*.lua"
 }

@@ -39,7 +39,7 @@ RegisterCommand("playsound", cmd_play_sound, true)
 local function cmd_play_speech(source, args, raw_command)
     local player_id = source
 
-    TriggerClientEvent(Events.CREATE_ADMIN_SPEECH, player_id {
+    TriggerClientEvent(Events.CREATE_ADMIN_SPEECH, player_id, {
         name = args[1]
     })
 

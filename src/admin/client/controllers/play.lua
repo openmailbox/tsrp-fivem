@@ -29,10 +29,14 @@ end
 RegisterNetEvent(Events.CREATE_ADMIN_ANIMATION, create_anim)
 
 local function create_scenario(data)
-    TaskStartScenarioInPlace(PlayerPedId(), data.scenario, -1, false)
-    chat("Playing scenario '" .. data.scenario .. "'.")
+    if data.scenario then
+        TaskStartScenarioInPlace(PlayerPedId(), data.scenario, -1, false)
+        chat("Playing scenario '" .. tostring(data.scenario) .. "'.")
+    else
+        ClearPedTasks(PlayerPedId())
+    end
 end
-RegisterNetEvent(Events.CREATE_ADMIN_scenario, create_scenario)
+RegisterNetEvent(Events.CREATE_ADMIN_SCENARIO, create_scenario)
 
 local function create_sound(data)
     PlaySoundFrontend(-1, data.name, data.set, 1)
@@ -41,10 +45,10 @@ end
 RegisterNetEvent(Events.CREATE_ADMIN_SOUND, create_sound)
 
 local function create_speech(data)
-    PlayPedAmbientSpeechNative(PlayerPedId(), data.name, "SPEECH_PARAMS_FORCE_SHOUTED")
+    PlayPedAmbientSpeechNative(PlayerPedId(), data.name, "SPEECH_PARAMS_STANDARD")
     chat("Playing speech '" .. data.name .. "'.")
 end
-RegisterNetEvent(Events.CREATE_ADMIN_speech, create_speech)
+RegisterNetEvent(Events.CREATE_ADMIN_SPEECH, create_speech)
 
 -- @local
 function chat(message)
