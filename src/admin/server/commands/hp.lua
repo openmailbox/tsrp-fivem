@@ -19,8 +19,8 @@ local function cmd_adjust_hp(source, args, raw_command)
         return
     end
 
-    if string.match(raw_command, "hurt") then
-        amount = amount * -1
+    if string.match(raw_command, "heal") then
+        amount = amount * -1 -- b/c we're using ApplyDamage() client side
     end
 
     TriggerEvent(Events.LOG_MESSAGE, {

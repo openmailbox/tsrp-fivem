@@ -1,0 +1,2 @@
+-- Config.DispenseDict = {"mini@sprunk", "plyr_buy_drink_pt1"}
+-- Config.PocketAnims = {"mp_common_miss", "put_away_coke"}

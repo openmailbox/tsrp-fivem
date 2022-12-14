@@ -2,8 +2,10 @@ Trash = {}
 
 -- Forward declarations
 local notify,
-      search_trash
+      search_trash,
+      turn_toward
 
+local DICTIONARY     = "mini@repair"
 local COOLDOWN_TIME  = 10000 -- ms
 local FOOD_NAMES     = { "hamburger", "hot dog", "donut" }
 local HEALTH_PER_BIN = 0.25
@@ -47,12 +49,30 @@ function Trash.initialize()
     return models
 end
 
+-- Runs inside a thread, hence in-line waits.
 -- @local
 function search_trash(object)
+    local start = GetGameTimer()
+
     exports.interactions:AddExclusion(object)
     exports.progress:ShowProgressBar(SEARCH_TIME, "Searching")
 
-    Citizen.Wait(SEARCH_TIME)
+    if not HasAnimDictLoaded(DICTIONARY) then
+        RequestAnimDict(DICTIONARY)
+
+        repeat
+            Citizen.Wait(50)
+        until HasAnimDictLoaded(DICTIONARY)
+    end
+
+    turn_toward(GetEntityCoords(object))
+
+    TaskPlayAnim(PlayerPedId(), DICTIONARY, "fixing_a_ped", 8.0, 8.0, -1, 0, false, false, false)
+
+    Citizen.Wait(SEARCH_TIME - (GetGameTimer() - start))
+
+    Map.remove(object)
+    ClearPedTasks(PlayerPedId())
 
     local original = GetPlayerHealthRechargeLimit(PlayerId())
     local target   = math.max(1.0, original + HEALTH_PER_BIN)
@@ -70,4 +90,21 @@ function notify(message)
     BeginTextCommandThefeedPost("STRING")
     AddTextComponentSubstringPlayerName(message)
     EndTextCommandThefeedPostTicker(false, true)
+end
+
+-- @local
+function turn_toward(coords)
+    local ped = PlayerPedId()
+
+    TaskTurnPedToFaceCoord(ped, coords, -1)
+
+    local v, w, angle, degrees
+    repeat
+        v       = GetEntityForwardVector(ped)
+        w       = norm(coords - GetEntityCoords(ped))
+        angle   = math.atan2((w.y * v.x) - (w.x * v.y), (w.x * v.x) + (w.y * v.y))
+        degrees = angle * 180 / math.pi
+
+        Citizen.Wait(100)
+    until degrees > -20 and degrees < 20
 end

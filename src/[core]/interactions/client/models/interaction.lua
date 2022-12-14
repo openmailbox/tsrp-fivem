@@ -24,6 +24,11 @@ function Interaction.add_exclusion(entity)
 end
 exports("AddExclusion", Interaction.add_exclusion)
 
+function Interaction.check_exclusion(entity)
+    return not not exclusions[entity]
+end
+exports("IsExcluded", Interaction.check_exclusion)
+
 function Interaction.clear_exclusions()
     exclusions = {}
 end

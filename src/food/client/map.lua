@@ -17,6 +17,11 @@ function Map.cleanup()
     models  = {}
 end
 
+function Map.remove(entity)
+    if not objects[entity] then return end
+    exports.map:StopEntityTracking(entity)
+end
+
 function Map.reveal_objects()
     if is_active then return end
     is_active = true
@@ -43,7 +48,7 @@ function Map.reveal_objects()
                 update()
             end
 
-            Citizen.Wait(5000)
+            Citizen.Wait(3000)
         end
 
         Map.cleanup()
@@ -71,7 +76,7 @@ function update()
     end
 
     for _, object in ipairs(pool) do
-        if not objects[object] and models[GetEntityModel(object)] then
+        if not objects[object] and models[GetEntityModel(object)] and not exports.interactions:IsExcluded(object) then
             handle = exports.map:StartEntityTracking(object, {
                 icon    = 153,
                 color   = 8,
