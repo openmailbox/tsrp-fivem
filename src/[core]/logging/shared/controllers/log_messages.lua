@@ -11,7 +11,7 @@ local function create(data)
     local level   = data.level or Logging.INFO
     local current = GetConvarInt("LOG_LEVEL", Logging.INFO)
 
-    if level >= current then
+    if level <= current then
         Citizen.Trace("[" .. LABELS[level] .. "] " .. data.message .. "\n")
     end
 end

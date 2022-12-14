@@ -26,6 +26,8 @@ Events.CREATE_ADMIN_SOUND     = "admin:CreateSound"
 Events.CREATE_ADMIN_SPEECH    = "admin:CreateSpeech"
 Events.CREATE_ADMIN_SCENARIO  = "admin:CreateScenario"
 
+Events.CREATE_ADMIN_HP_ADJUST = "admin:CreateHpAdjust"
+
 Events.CREATE_OBJECT_SPAWN = "admin:CreateObjectSpawn"
 Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 
