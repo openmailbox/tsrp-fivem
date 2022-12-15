@@ -6,6 +6,8 @@ local function create(data)
         EndTextCommandThefeedPostMessagetext(data.sender.image, data.sender.image, false, 1, data.sender.name, data.sender.subject)
     end
 
-    EndTextCommandThefeedPostTicker(true, true)
+    local flash = data.important ~= false
+
+    EndTextCommandThefeedPostTicker(flash, true)
 end
 RegisterNetEvent(Events.CREATE_HUD_NOTIFICATION, create)

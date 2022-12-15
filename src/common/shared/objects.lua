@@ -41,3 +41,11 @@ Objects.TRASH_BINS = {
     GetHashKey("prop_bin_delpiero_b"),
     GetHashKey("zprop_bin_01a_old"),
 }
+
+Objects.SODA_MACHINES = {
+    GetHashKey("prop_vend_soda_02"),
+    GetHashKey("v_68_broeknvend"),
+    GetHashKey("prop_vend_soda_01"),
+    GetHashKey("ch_chint10_vending_smallroom_01"),
+    GetHashKey("sf_prop_sf_vend_drink_01a"),
+}

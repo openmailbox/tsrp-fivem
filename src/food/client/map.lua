@@ -32,8 +32,13 @@ function Map.reveal_objects()
     })
 
     local trash_models = Trash.initialize()
+    local vend_models  = Vending.initialize()
 
     for _, model in ipairs(trash_models) do
+        models[model] = true
+    end
+
+    for _, model in ipairs(vend_models) do
         models[model] = true
     end
 
@@ -53,6 +58,7 @@ function Map.reveal_objects()
 
         Map.cleanup()
         Trash.cleanup()
+        Vending.cleanup()
 
         TriggerEvent(Events.LOG_MESSAGE, {
             level   = Logging.DEBUG,
