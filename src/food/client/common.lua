@@ -11,7 +11,8 @@ end
 
 -- Blocks the thread it's called in.
 function TurnToward(coords)
-    local ped = PlayerPedId()
+    local ped     = PlayerPedId()
+    local timeout = GetGameTimer() + 3000
 
     TaskTurnPedToFaceCoord(ped, coords, -1)
 
@@ -23,5 +24,5 @@ function TurnToward(coords)
         degrees = angle * 180 / math.pi
 
         Citizen.Wait(100)
-    until degrees > -20 and degrees < 20
+    until (degrees > -20 and degrees < 20) or GetGameTimer() > timeout
 end

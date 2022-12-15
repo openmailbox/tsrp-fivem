@@ -19,3 +19,8 @@ client_scripts {
     "@common/shared/objects.lua",
     "client/**/*.lua"
 }
+
+server_scripts {
+    "@common/shared/events.lua",
+    "server/**/*.lua"
+}
