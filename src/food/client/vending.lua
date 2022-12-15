@@ -45,11 +45,15 @@ function buy_soda(object)
     HintAmbientAudioBank("VENDING_MACHINE", 0, -1)
     load_model(model)
 
+    --TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
+    --    message = "Press ~INPUT_VEH_DUCK~ to cancel."
+    --})
+
     local cancelled = false
 
     Citizen.CreateThread(function()
         while not cancelled do
-            DisplayHelpTextThisFrame("Press ~INPUT_VEH_DUCK~ to cancel.")
+            DisplayHelpTextThisFrame("Press ~INPUT_VEH_DUCK~ to cancel.", 0)
 
             if IsControlJustPressed(0, 73) then
                 cancelled = true
@@ -68,7 +72,7 @@ function buy_soda(object)
     end
 
     if cancelled then
-        release_resources(model)
+        release_resources(object, model)
         return
     end
 
@@ -86,7 +90,7 @@ function buy_soda(object)
     end
 
     if cancelled then
-        release_resources(model)
+        release_resources(object, model)
         return
     end
 
@@ -100,7 +104,8 @@ function buy_soda(object)
     until cancelled or not IsEntityPlayingAnim(ped, DICTIONARY, ANIMATIONS[1], 3)
 
     if cancelled then
-        release_resources(model)
+        exports.progress:CancelProgressBar(progress)
+        release_resources(object, model, can)
         return
     end
 
@@ -111,7 +116,8 @@ function buy_soda(object)
     until cancelled or not IsEntityPlayingAnim(ped, DICTIONARY, ANIMATIONS[2], 3)
 
     if cancelled then
-        release_resources(model)
+        exports.progress:CancelProgressBar(progress)
+        release_resources(object, model, can)
         return
     end
 
@@ -128,12 +134,11 @@ function buy_soda(object)
         Citizen.Wait(0)
     until cancelled or not IsEntityPlayingAnim(ped, DICTIONARY, ANIMATIONS[3], 3)
 
-    release_resources(model)
+    release_resources(object, model, can)
 
     cancelled = false
 
     exports.progress:CancelProgressBar(progress)
-    exports.interactions:RemoveExclusion(object)
 
     local original = GetPlayerHealthRechargeLimit(PlayerId())
     local target   = math.max(1.0, original + 0.5)
@@ -157,9 +162,16 @@ function load_model(model)
 end
 
 -- @local
-function release_resources(model)
+function release_resources(object, model, can)
+    if can and DoesEntityExist(can) then
+        DetachEntity(can, true, true)
+        DeleteEntity(can)
+    end
+
     ClearPedTasks(PlayerPedId())
     SetModelAsNoLongerNeeded(model)
     ReleaseAmbientAudioBank()
     RemoveAnimDict(DICTIONARY)
+
+    exports.interactions:RemoveExclusion(object)
 end
