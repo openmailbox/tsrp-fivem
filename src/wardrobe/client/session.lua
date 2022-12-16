@@ -58,7 +58,7 @@ function Session:initialize()
     local serializer = WebSerializer:new({ ped = PlayerPedId() })
     SendNUIMessage({
         type  = Events.CREATE_WARDROBE_SESSION,
-        state = serializer:serialize()
+        state = serializer:serialize(self.filters or {})
     })
 
     start_session(self)
@@ -88,11 +88,11 @@ function start_session(sesh)
         local last_model  = GetEntityModel(ped)
         local next_check  = GetGameTimer() + 1000
         local scaleform   = CreateInstructionalDisplay("Turn Left", 34,
-                                                           "Turn Right", 35,
-                                                           "Pan Up", 32,
-                                                           "Pan Down", 33,
-                                                           "Zoom In", 38,
-                                                           "Zoom Out", 44)
+                                                       "Turn Right", 35,
+                                                       "Pan Up", 32,
+                                                       "Pan Down", 33,
+                                                       "Zoom In", 38,
+                                                       "Zoom Out", 44)
 
         local new_armor, new_health, new_model, new_xyz
 
@@ -114,7 +114,7 @@ function start_session(sesh)
                     local serializer = WebSerializer:new({ ped = PlayerPedId() })
                     SendNUIMessage({
                         type  = Events.CREATE_WARDROBE_SESSION,
-                        state = serializer:serialize()
+                        state = serializer:serialize(sesh.filters or {})
                     })
                 end
 

@@ -31,5 +31,5 @@ Attributes = {
     ["glasses"]  = { label = "Glasses",  type = AttributeTypes.PROP, index = 1 },
     ["ears"]     = { label = "Ears",     type = AttributeTypes.PROP, index = 2 },
     ["watch"]    = { label = "Watch",    type = AttributeTypes.PROP, index = 6 },
-    ["Bracelet"] = { label = "Bracelet", type = AttributeTypes.PROP, index = 7 },
+    ["bracelet"] = { label = "Bracelet", type = AttributeTypes.PROP, index = 7 },
 }

@@ -1,7 +1,8 @@
 WebSerializer = {}
 
 -- Forward declarations
-local find_member,
+local apply_filters,
+      find_member,
       serialize_component,
       serialize_models,
       serialize_prop
@@ -16,11 +17,12 @@ function WebSerializer:new(o)
 end
 
 -- Serialize the ped into a format that can be used to initialize the web UI.
-function WebSerializer:serialize()
-    local attributes = {}
+function WebSerializer:serialize(filters)
+    local attributes = apply_filters(filters)
+    local results    = {}
     local sfunc
 
-    for name, details in pairs(Attributes) do
+    for name, details in pairs(attributes) do
         sfunc = nil
 
         if details.type == AttributeTypes.COMPONENT then
@@ -35,12 +37,12 @@ function WebSerializer:serialize()
             local data = sfunc(self.ped, name)
 
             if data then
-                table.insert(attributes, data)
+                table.insert(results, data)
             end
         end
     end
 
-    table.sort(attributes, function (a, b)
+    table.sort(results, function (a, b)
         if a.type == b.type then
             return a.index < b.index
         else
@@ -49,8 +51,45 @@ function WebSerializer:serialize()
     end)
 
     return {
-        categories = attributes
+        categories = results
     }
+end
+
+-- @local
+function apply_filters(filters)
+    local results = {}
+
+    for name, details in pairs(Attributes) do
+        local allowed = true
+
+        for rtype, rules in pairs(filters) do
+            for _, rule in ipairs(rules) do
+                if not rule.labels then
+                    if rule.type == details.type and rtype == "block" then
+                        allowed = false
+                    elseif rule.type ~= details.type and rtype == "allow" then
+                        allowed = false
+                    end
+                end
+
+                if rule.labels then
+                    for _, label in ipairs(rule.labels) do
+                        if rtype == "block" and label == details.label and rule.type == details.type then
+                            allowed = false
+                        elseif rtype == "allow" and (label ~= details.label or rule.type ~= details.type) then
+                            allowed = false
+                        end
+                    end
+                end
+            end
+        end
+
+        if allowed then
+            results[name] = details
+        end
+    end
+
+    return results
 end
 
 -- @local
