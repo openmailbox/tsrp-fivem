@@ -104,6 +104,7 @@ function begin_purchase(object)
         amount = PRICE
     })
 
+    -- TODO: Kat to implement random chance the machine eats your dollar
     restore_health()
 end
 
