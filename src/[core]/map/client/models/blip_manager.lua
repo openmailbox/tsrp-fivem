@@ -128,6 +128,10 @@ function initialize_blip(blip, options)
         SetBlipAlpha(blip, options.alpha)
     end
 
+    if options.scale then
+        SetBlipScale(blip, options.scale)
+    end
+
     if options.label then
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentSubstringPlayerName(options.label)

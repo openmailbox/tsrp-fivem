@@ -71,7 +71,7 @@ end
 function update()
     local pool   = GetGamePool("CObject")
     local handle = nil
-    local scale  = vector3(0.1, 0.1, 0.1)
+    local scale  = vector3(0.8, 0.8, 0.8)
     local count  = 0
 
     for object, id in pairs(objects) do

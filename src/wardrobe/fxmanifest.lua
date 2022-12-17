@@ -9,7 +9,8 @@ description "Provides user interface for character customization."
 version "0.0.1"
 
 dependencies {
-    --"mysql-async",
+    "map",
+    "markers"
 }
 
 client_scripts {
