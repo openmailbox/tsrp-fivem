@@ -17,6 +17,11 @@ function Manager.add_marker(options)
     options.draw_range     = options.draw_range and (options.draw_range ^ 2)
     options.interact_range = options.interact_range and (options.interact_range ^ 2)
 
+    -- race condition occurs if they're exactly the same
+    if options.draw_range == options.interact_range then
+        options.interact_range = options.interact_range - 0.1
+    end
+
     local marker = Marker:new({
         world_id       = nil, -- this gets populated by exports.map:StartTracking()
         icon           = options.icon or 1,

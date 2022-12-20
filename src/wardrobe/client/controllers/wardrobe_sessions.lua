@@ -22,6 +22,12 @@ local function delete(_, cb)
         session:finish()
     end
 
+    local active_store = Store.get_active()
+
+    if active_store then
+        Store.enter(active_store)
+    end
+
     cb({})
 end
 RegisterNUICallback(Events.DELETE_WARDROBE_SESSION, delete)
