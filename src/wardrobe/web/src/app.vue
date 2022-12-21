@@ -16,16 +16,25 @@ export default {
       this.isActive = true;
     },
 
-    deleteSession(skipPost) {
+    deleteSession(skipPost, rollback) {
       if (!skipPost) {
         fetch("https://wardrobe/wardrobe:DeleteSession", {
           method: "POST",
           headers: { "Content-Type": "application/json; charset=UTF-8" },
+          body: JSON.stringify({ rollback: rollback })
         });
       }
 
       this.isActive = false;
     },
+
+    rollbackAndExit() {
+      this.deleteSession(false, true);
+    },
+
+    saveAndExit() {
+      this.deleteSession();
+    }
   },
   components: { CategorySelector, CategoryDetails },
 };
@@ -39,7 +48,8 @@ export default {
       <div class="column col-2">
         <CategorySelector
           :categories="store.categories"
-          @cancel="deleteSession"
+          @cancel="rollbackAndExit"
+          @save="saveAndExit"
         />
       </div>
 

@@ -1,3 +1,5 @@
+local snapshot = nil
+
 local function create(data)
     local filters = nil
 
@@ -10,16 +12,23 @@ local function create(data)
         end
     end
 
+    snapshot = PedSnapshot.record(PlayerPedId())
+
     local session = Session:new({ filters = filters })
     session:initialize()
 end
 RegisterNetEvent(Events.CREATE_WARDROBE_SESSION, create)
 
-local function delete(_, cb)
+local function delete(data, cb)
     local session = Session.get_active()
 
     if session then
         session:finish()
+    end
+
+    -- User cancelled out of the interface.
+    if data.rollback then
+        PedSnapshot.restore(PlayerPedId(), snapshot)
     end
 
     local active_store = Store.get_active()

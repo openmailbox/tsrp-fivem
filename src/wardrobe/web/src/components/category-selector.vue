@@ -9,7 +9,7 @@ export default {
     };
   },
   props: ["categories"],
-  emits: ["cancel"],
+  emits: ["cancel", "save"],
   components: { Category },
 };
 </script>
@@ -33,7 +33,9 @@ export default {
       <button @click="$emit('cancel')" class="btn btn-lg btn-error">
         Cancel
       </button>
-      <button class="btn btn-lg btn-success">Confirm</button>
+      <button @click="$emit('save')" class="btn btn-lg btn-success">
+        Confirm
+      </button>
     </div>
   </div>
 </template>
