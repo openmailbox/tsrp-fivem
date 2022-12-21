@@ -20,15 +20,15 @@ end
 RegisterNetEvent(Events.CREATE_WARDROBE_SESSION, create)
 
 local function delete(data, cb)
+    -- User cancelled out of the interface.
+    if data.rollback then
+        PedSnapshot.restore(PlayerPedId(), snapshot)
+    end
+
     local session = Session.get_active()
 
     if session then
         session:finish()
-    end
-
-    -- User cancelled out of the interface.
-    if data.rollback then
-        PedSnapshot.restore(PlayerPedId(), snapshot)
     end
 
     local active_store = Store.get_active()

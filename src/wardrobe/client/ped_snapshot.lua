@@ -51,7 +51,13 @@ function PedSnapshot.restore(ped, snapshot)
     end)
 
     for _, attribute in ipairs(snapshot.attributes) do
-        set_current_value(ped, attribute)
+        local current = get_current_value(ped, attribute) or {}
+
+        for k, v in pairs(current) do
+            if v ~= attribute.value[k] then
+                set_current_value(ped, attribute)
+            end
+        end
     end
 end
 
@@ -101,7 +107,11 @@ function set_current_value(ped, attrib)
     if attrib.type == AttributeTypes.COMPONENT then
         SetPedComponentVariation(ped, attrib.index, attrib.value.drawable, attrib.value.texture, 0)
     elseif attrib.type == AttributeTypes.PROP then
-        SetPedPropIndex(ped, attrib.index, attrib.value.drawable, attrib.value.texture, true)
+        if attrib.value.drawable > -1 then
+            SetPedPropIndex(ped, attrib.index, attrib.value.drawable, attrib.value.texture, true)
+        else
+            ClearPedProp(ped, attrib.index)
+        end
     elseif attrib.type == AttributeTypes.MODEL then
         set_model(ped, attrib.label, attrib.hash)
     end
