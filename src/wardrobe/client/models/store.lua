@@ -67,7 +67,7 @@
         interact_range = self.radius - 0.5,
         on_enter       = function() enter_store(self) end,
         on_exit        = function() exit_store() end,
-        on_interact    = function() use_store() end
+        on_interact    = function() use_store(self) end
     })
  end
 
@@ -91,10 +91,18 @@ function exit_store()
 end
 
 -- @local
-function use_store()
+function use_store(store)
     show_prompt = false
 
-    TriggerEvent(Events.CREATE_WARDROBE_SESSION, {
+    local filter = nil
+
+    if store.category == "Clothing Store" then
         filter = "clothing"
+    elseif store.category == "Barber" then
+        filter = "barber"
+    end
+
+    TriggerEvent(Events.CREATE_WARDROBE_SESSION, {
+        filter = filter
     })
 end
