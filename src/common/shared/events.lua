@@ -49,6 +49,9 @@ Events.CREATE_BOUNTY_TARGET_BEHAVIOR = "bounties:CreateTargetBehavior"
 
 Events.CREATE_BOUNTY_PAYOUT = "bounties:CreatePayout"
 
+-- @resource characters
+Events.CREATE_CHARACTER_SELECT_SESSION = "characters:CreateSelectSession"
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"
