@@ -2,12 +2,13 @@
 Session = {}
 
 -- Forward delcarations
-local setup_player,
-      start_session
+local setup_camera,
+      setup_player
 
 local LOCATION = vector3(-800.6982, 174.4930, 73.0790) -- Michael's house living room
 
 local active_session = nil
+local camera         = nil
 
 function Session.get_active()
     return active_session
@@ -25,9 +26,8 @@ end
 function Session:finish()
     active_session = nil
 
-    self.active = false
-    self.camera:cleanup()
-
+    SetCamActive(camera, false)
+    RenderScriptCams(false, true, 1500, true, true)
     SetNuiFocus(false, false)
 
     if not self.hide_radar then
@@ -39,9 +39,7 @@ function Session:initialize()
     if active_session then return end
     active_session = self
 
-    self.camera     = Camera:new({ location = LOCATION })
     self.hide_radar = IsRadarHidden()
-    self.active     = true
 
     DoScreenFadeOut(1500)
     repeat
@@ -49,32 +47,28 @@ function Session:initialize()
     until IsScreenFadedOut()
 
     setup_player()
-    self.camera:initialize()
+    setup_camera()
 
     DisplayRadar(false)
     SetNuiFocus(true, true)
     TriggerEvent(Events.CLEAR_CHAT)
 
-    SendNUIMessage({
-        type  = Events.CREATE_CHARACTER_SELECT_SESSION
-    })
-
-    start_session(self)
-
     Citizen.Wait(1000)
     DoScreenFadeIn(1500)
+
+    SendNUIMessage({
+        type = Events.CREATE_CHARACTER_SELECT_SESSION
+    })
 end
 
 -- @local
-function start_session(sesh)
-    Citizen.CreateThread(function()
-        local session = sesh
+function setup_camera()
+    local x, y, z = table.unpack(LOCATION)
 
-        while session.active do
-            session.camera:update()
-            Citizen.Wait(0)
-        end
-    end)
+    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", x, y, z, 0, 0, 120.0, 70.0, false, 0)
+
+    SetCamActive(camera, true)
+    RenderScriptCams(true, true, 0, true, true)
 end
 
 -- @local
