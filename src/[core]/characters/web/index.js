@@ -1,14 +1,8 @@
-import '../styles/index.css'
-
-const app = createApp(App);
-let vm = app.mount('#app');
-
 // Handle messages passed from client-side scripts to NUI
 const handleMessage = function(item) {
     switch (item.type) {
-        case "someResourceEvent":
-            // call a method in the Vue app via the vm object
-            vm.changeMessage(item);
+        case "characters:CreateSelectSession":
+            document.body.classList.remove("d-none");
             break;
     }
 };
