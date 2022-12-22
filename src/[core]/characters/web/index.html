@@ -9,7 +9,23 @@
 
 <body class="d-none">
     <div id="create-character" class="text-center">
-        <button class="btn btn-primary btn-lg">Create New Character</button>
+        <button id="btn-create-character" class="btn btn-primary btn-lg">Create New Character</button>
+    </div>
+
+    <div class="modal">
+        <a href="#close" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container bg-dark">
+            <div class="modal-header">
+                <div class="modal-title h5 text-light"></div>
+            </div>
+            <div class="modal-body text-light">
+                <div class="content">
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button id="btn-close" class="btn btn-lg btn-primary">Close</button>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript" src="nui://characters/web/index.js"></script>

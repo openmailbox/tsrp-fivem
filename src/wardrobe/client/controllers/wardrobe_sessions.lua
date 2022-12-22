@@ -37,6 +37,10 @@ local function delete(data, cb)
         Store.enter(active_store)
     end
 
+    TriggerEvent(Events.DELETE_WARDROBE_SESSION, {
+        success = (not data.rollback)
+    })
+
     cb({})
 end
 RegisterNUICallback(Events.DELETE_WARDROBE_SESSION, delete)

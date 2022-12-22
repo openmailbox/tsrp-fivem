@@ -1,5 +1,4 @@
----@diagnostic disable: duplicate-set-field
-Session = {}
+SelectSession = {}
 
 -- Forward delcarations
 local setup_camera,
@@ -10,11 +9,11 @@ local LOCATION = vector3(-800.6982, 174.4930, 73.0790) -- Michael's house living
 local active_session = nil
 local camera         = nil
 
-function Session.get_active()
+function SelectSession.get_active()
     return active_session
 end
 
-function Session:new(o)
+function SelectSession:new(o)
     o = o or {}
 
     setmetatable(o, self)
@@ -23,7 +22,7 @@ function Session:new(o)
     return o
 end
 
-function Session:finish()
+function SelectSession:finish()
     active_session = nil
 
     SetCamActive(camera, false)
@@ -35,11 +34,11 @@ function Session:finish()
     end
 end
 
-function Session:initialize()
-    if active_session then return end
-    active_session = self
-
-    self.hide_radar = IsRadarHidden()
+function SelectSession:initialize()
+    -- Done this way b/c initialize() can be called multiple times during a session.
+    if self.hide_radar ~= nil then
+        self.hide_radar = IsRadarHidden()
+    end
 
     DoScreenFadeOut(1500)
     repeat

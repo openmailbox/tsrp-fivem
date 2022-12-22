@@ -3,10 +3,11 @@ body {
     overflow: hidden;
 }
 
+.modal-overlay {
+    background-color: rgba(8, 12, 17, 0.9) !important;
+}
+
 #create-character {
     margin: 85vh auto 0 auto;
     max-width: 12vw;
-}
-
-.btn-primary {
 }
