@@ -23,6 +23,8 @@ local function delete(data, cb)
     -- User cancelled out of the interface.
     if data.rollback then
         PedSnapshot.restore(PlayerPedId(), snapshot)
+    else
+        snapshot = PedSnapshot.record(PlayerPedId())
     end
 
     local session = Session.get_active()
@@ -38,7 +40,8 @@ local function delete(data, cb)
     end
 
     TriggerEvent(Events.DELETE_WARDROBE_SESSION, {
-        success = (not data.rollback)
+        success  = (not data.rollback),
+        snapshot = snapshot
     })
 
     cb({})

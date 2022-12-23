@@ -8,9 +8,18 @@ local LOCATION = vector3(-800.6982, 174.4930, 73.0790) -- Michael's house living
 
 local active_session = nil
 local camera         = nil
+local awaiting       = 0
+
+function SelectSession.await()
+    awaiting = awaiting + 1
+end
 
 function SelectSession.get_active()
     return active_session
+end
+
+function SelectSession.resolve()
+    awaiting = awaiting - 1
 end
 
 function SelectSession:new(o)
@@ -52,14 +61,20 @@ function SelectSession:initialize()
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
+    -- Using a semaphore to make sure we don't fade-in until everything is ready.
+    awaiting = awaiting + 1
     TriggerServerEvent(Events.GET_CHARACTER_ROSTER)
+
     setup_player()
     setup_camera()
 
     DisplayRadar(false)
     TriggerEvent(Events.CLEAR_CHAT)
 
-    Citizen.Wait(1000)
+    repeat
+        Citizen.Wait(1000)
+    until awaiting == 0
+
     DoScreenFadeIn(1500)
     SetNuiFocus(true, true)
 

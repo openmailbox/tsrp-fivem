@@ -49,7 +49,7 @@ end
 -- @local
 function get_closest_character(coords)
     local closest  = nil
-    local distance = 1.0
+    local distance = 0.6
     local dist
 
     for _, char in ipairs(characters) do
@@ -91,7 +91,7 @@ function look_for_selection()
                     coords      = GetEntityCoords(character.ped) + vector3(0, 0, 0.5),
                     face_camera = true,
                     rotation    = vector3(180, 0, 0),
-                    scale       = vector3(0.3, 0.3, 0.3),
+                    scale       = vector3(0.2, 0.2, 0.2),
                     bob         = true,
                     red         = 255,
                     green       = 255,
