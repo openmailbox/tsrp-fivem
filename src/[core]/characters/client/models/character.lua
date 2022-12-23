@@ -18,10 +18,26 @@ function Character:assign_position(position)
     local timeout    = GetGameTimer() + 2000
     local animation  = position.animation
 
+    if not HasModelLoaded(model.hash) then
+        RequestModel(model.hash)
+
+        while not HasModelLoaded(model.hash) do
+            Citizen.Wait(20)
+        end
+    end
+
+    if not HasAnimDictLoaded(animation.dictionary) then
+        RequestAnimDict(animation.dictionary)
+
+        while not HasAnimDictLoaded(animation.dictionary) do
+            Citizen.Wait(20)
+        end
+    end
+
     self.ped = CreatePed(4, model.hash, x, y, z, h, false, true)
 
     repeat
-       Citizen.Wait(10)
+       Citizen.Wait(20)
     until DoesEntityExist(self.ped) or GetGameTimer() > timeout
 
     TaskPlayAnim(self.ped, animation.dictionary, animation.name, 8.0, 8.0, -1, 1, false, false, false)
