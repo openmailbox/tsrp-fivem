@@ -62,7 +62,7 @@ function SelectSession:initialize()
     until IsScreenFadedOut()
 
     -- Using a semaphore to make sure we don't fade-in until everything is ready.
-    awaiting = awaiting + 1
+    SelectSession.await()
     TriggerServerEvent(Events.GET_CHARACTER_ROSTER)
 
     setup_player()

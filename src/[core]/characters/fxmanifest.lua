@@ -8,6 +8,10 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Handles character creation, selection, and management."
 version "0.0.1"
 
+dependencies {
+    "accounts"
+}
+
 client_scripts {
     "@common/shared/events.lua",
     "client/**/*.lua"

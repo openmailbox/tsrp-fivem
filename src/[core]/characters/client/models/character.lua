@@ -18,6 +18,15 @@ function Character:assign_position(position)
     local timeout    = GetGameTimer() + 2000
     local animation  = position.animation
 
+    if not IsModelAPed(model.hash) then
+        TriggerEvent(Events.LOG_MESSAGE, {
+            level = Logging.WARN,
+            message = "Invalid model hash for Character " .. self.id .. "."
+        })
+
+        return
+    end
+
     if not HasModelLoaded(model.hash) then
         RequestModel(model.hash)
 
@@ -54,7 +63,7 @@ end
 
 -- @local
 function find_in_snapshot(snapshot, name)
-    for _, record in ipairs(snapshot) do
+    for _, record in ipairs(snapshot.attributes) do
         if record.name == name then
             return record
         end
