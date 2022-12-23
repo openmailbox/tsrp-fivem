@@ -10,6 +10,8 @@ local function create(_, cb)
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
+    Roster.hide()
+
     SetEntityCollision(ped, true)
     FreezeEntityPosition(ped, false)
     SetEntityCoordsNoOffset(ped, x, y, z)

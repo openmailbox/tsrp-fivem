@@ -57,6 +57,9 @@ Events.UPDATE_CHARACTER_AUTH_REQUEST = "characters:UpdateAuthRequest"
 
 Events.CREATE_NEW_CHARACTER = "characters:CreateNewCharacter"
 
+Events.GET_CHARACTER_ROSTER    = "characters:GetRoster"
+Events.UPDATE_CHARACTER_ROSTER = "characters:UpdateRoster"
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"

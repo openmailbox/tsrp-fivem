@@ -28,6 +28,7 @@ function SelectSession:finish()
     SetCamActive(camera, false)
     RenderScriptCams(false, true, 1500, true, true)
     SetNuiFocus(false, false)
+    Roster.cleanup()
 
     if not self.hide_radar then
         DisplayRadar(true)
@@ -51,6 +52,7 @@ function SelectSession:initialize()
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
+    TriggerServerEvent(Events.GET_CHARACTER_ROSTER)
     setup_player()
     setup_camera()
 
