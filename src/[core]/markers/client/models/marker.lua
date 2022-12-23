@@ -55,6 +55,8 @@ function Marker:deactivate()
 end
 
 function Marker:render()
+    if self.removing then return end
+
     DrawMarker(self.icon,
                self.coords,
                self.direction,

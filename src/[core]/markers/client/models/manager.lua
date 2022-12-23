@@ -18,12 +18,11 @@ function Manager.add_marker(options)
     options.interact_range = options.interact_range and (options.interact_range ^ 2)
 
     -- race condition occurs if they're exactly the same
-    if options.draw_range == options.interact_range then
+    if options.draw_range and options.draw_range == options.interact_range then
         options.interact_range = options.interact_range - 0.1
     end
 
     local marker = Marker:new({
-        world_id       = nil, -- this gets populated by exports.map:StartTracking()
         icon           = options.icon or 1,
         coords         = options.coords,
         direction      = options.direction or Marker.VECTOR3_ZERO,
@@ -47,15 +46,15 @@ function Manager.add_marker(options)
         }
     })
 
-    local world_id = exports.map:StartTracking(marker.coords, GetCurrentResourceName(), marker)
-    all_markers[world_id] = marker.coords
+    marker.world_id = exports.map:StartTracking(marker.coords, GetCurrentResourceName(), marker)
+    all_markers[marker.world_id] = marker.coords
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
         message = "Added marker from " .. GetInvokingResource() .. " w/ icon " .. marker.icon .. " at " .. marker.coords .."."
     })
 
-    return world_id
+    return marker.world_id
 end
 exports("AddMarker", Manager.add_marker)
 
@@ -75,6 +74,13 @@ function Manager.remove_marker(id)
     end
 
     all_markers[id] = nil
+
+    for _, marker in ipairs(in_range) do
+        if marker.world_id == id then
+            marker:deactivate()
+            marker.removing = true
+        end
+    end
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
