@@ -3,7 +3,7 @@ local snapshot = nil
 local function create(data)
     local filters = nil
 
-    if data.filter then
+    if data and data.filter then
         for name, details in pairs(Filters) do
             if string.lower(name) == string.lower(data.filter) then
                 filters = details

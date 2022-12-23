@@ -35,6 +35,12 @@ function SelectSession:finish()
 end
 
 function SelectSession:initialize()
+    active_session = self
+
+    local x, y, z = table.unpack(LOCATION)
+    RequestCollisionAtCoord(x, y, z)
+    RequestAdditionalCollisionAtCoord(x, y, z)
+
     -- Done this way b/c initialize() can be called multiple times during a session.
     if self.hide_radar ~= nil then
         self.hide_radar = IsRadarHidden()
@@ -49,11 +55,11 @@ function SelectSession:initialize()
     setup_camera()
 
     DisplayRadar(false)
-    SetNuiFocus(true, true)
     TriggerEvent(Events.CLEAR_CHAT)
 
     Citizen.Wait(1000)
     DoScreenFadeIn(1500)
+    SetNuiFocus(true, true)
 
     SendNUIMessage({
         type = Events.CREATE_CHARACTER_SELECT_SESSION
