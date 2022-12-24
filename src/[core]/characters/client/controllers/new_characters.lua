@@ -26,3 +26,11 @@ local function create(_, cb)
     cb({})
 end
 RegisterNUICallback(Events.CREATE_NEW_CHARACTER, create)
+
+-- Triggered when the player cancelled out of submitting new character details
+local function delete(_, cb)
+    SelectSession.set_new_character(nil)
+    SelectSession.resolve()
+    cb({})
+end
+RegisterNUICallback(Events.DELETE_NEW_CHARACTER, delete)

@@ -3,11 +3,14 @@ local function delete(data)
     if not session then return end
 
     if data.success then
-        SelectSession.await()
-
-        TriggerServerEvent(Events.CREATE_FINISHED_CHARACTER, {
+        local new_char = Character:new({
             snapshot = data.snapshot
         })
+
+        SelectSession.set_new_character(new_char)
+        SelectSession.await()
+
+        SendNUIMessage({ type = Events.CREATE_CHARACTER_NAME_PROMPT })
     end
 
     SetNuiFocus(true, true)

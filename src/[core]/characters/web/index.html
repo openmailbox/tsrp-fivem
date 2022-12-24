@@ -7,28 +7,65 @@
     <link rel="stylesheet" type="text/css" href="nui://characters/web/index.css" />
 </head>
 
-<body class="d-none">
-    <div id="create-character" class="text-center">
+<body class="text-large">
+    <div id="create-character" class="d-none text-center">
         <button id="btn-create-character" class="btn btn-primary btn-lg">Create New Character</button>
     </div>
 
-    <div class="modal">
+    <div id="modal-new-character" class="modal">
         <a href="#close" class="modal-overlay" aria-label="Close"></a>
         <div class="modal-container bg-dark">
             <div class="modal-header">
-                <div class="modal-title h5 text-light"></div>
+                <div class="modal-title h3 text-light">New Character</div>
             </div>
             <div class="modal-body text-light">
-                <div class="content">
-                </div>
+                <form class="form-horizontal">
+                    <div id="first-name" class="form-group">
+                        <div class="col-3">
+                            <label class="form-label" for="input-first-name">First Name</label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-input" type="text" id="input-first-name" placeholder="John">
+                            <p class="form-input-hint d-none">Invalid first name.</p>
+                        </div>
+                    </div>
+                    <div id="last-name" class="form-group">
+                        <div class="col-3">
+                            <label class="form-label" for="input-first-name">Last Name</label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-input" type="text" id="input-last-name" placeholder="Doe">
+                            <p class="form-input-hint d-none">Invalid last name.</p>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer text-center">
-                <button id="btn-close" class="btn btn-lg btn-primary">Close</button>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-success">Submit</button>
+                <button class="btn btn-lg btn-error">Cancel</button>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript" src="nui://characters/web/index.js"></script>
+    <div id="modal-confirmation" class="modal">
+        <a href="#close" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container bg-dark">
+            <div class="modal-header">
+                <div class="modal-title h3 text-light"></div>
+            </div>
+            <div class="modal-body text-light">
+                <p id="modal-message"></p>
+            </div>
+            <div class="modal-footer text-center">
+                <button class="btn btn-lg btn-primary">Confirm</button>
+                <button class="btn btn-lg btn-secondary d-none">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="nui://characters/web/scripts/confirmation.js"></script>
+    <script type="text/javascript" src="nui://characters/web/scripts/new_character.js"></script>
+    <script type="text/javascript" src="nui://characters/web/scripts/index.js"></script>
 </body>
 
 </html>

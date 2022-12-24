@@ -56,12 +56,19 @@ Events.CREATE_CHARACTER_AUTH_REQUEST = "characters:CreateAuthRequest"
 Events.UPDATE_CHARACTER_AUTH_REQUEST = "characters:UpdateAuthRequest"
 
 Events.CREATE_NEW_CHARACTER = "characters:CreateNewCharacter"
+Events.DELETE_NEW_CHARACTER = "characters:DeleteNewCharacter"
 
 Events.GET_CHARACTER_ROSTER    = "characters:GetRoster"
 Events.UPDATE_CHARACTER_ROSTER = "characters:UpdateRoster"
 
 Events.CREATE_FINISHED_CHARACTER = "characters:CreateFinished"
 Events.UPDATE_FINISHED_CHARACTER = "characters:UpdateFinished"
+
+Events.CREATE_CHARACTER_NAME_PROMPT = "characters:CreateNamePrompt"
+Events.DELETE_CHARACTER_NAME_PROMPT = "characters:DeleteNamePrompt"
+
+Events.CREATE_CHARACTER_NAME_VALIDATION = "characters:CreateNameValidation"
+Events.UPDATE_CHARACTER_NAME_VALIDATION = "characters:UpdateNameValidation"
 
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"

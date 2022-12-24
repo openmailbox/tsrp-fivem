@@ -7,8 +7,9 @@ local setup_camera,
 local LOCATION = vector3(-800.6982, 174.4930, 73.0790) -- Michael's house living room
 
 local active_session = nil
-local camera         = nil
 local awaiting       = 0
+local camera         = nil
+local new_character  = nil
 
 function SelectSession.await()
     awaiting = awaiting + 1
@@ -16,6 +17,14 @@ end
 
 function SelectSession.get_active()
     return active_session
+end
+
+function SelectSession.get_new_character()
+    return new_character
+end
+
+function SelectSession.set_new_character(char)
+    new_character = char
 end
 
 function SelectSession.resolve()
@@ -61,15 +70,19 @@ function SelectSession:initialize()
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
-    -- Using a semaphore to make sure we don't fade-in until everything is ready.
-    SelectSession.await()
-    TriggerServerEvent(Events.GET_CHARACTER_ROSTER)
-
     setup_player()
     setup_camera()
 
     DisplayRadar(false)
     TriggerEvent(Events.CLEAR_CHAT)
+
+    -- Using a semaphore to make sure we don't fade-in until everything is ready.
+    repeat
+        Citizen.Wait(250)
+    until awaiting == 0
+
+    SelectSession.await()
+    TriggerServerEvent(Events.GET_CHARACTER_ROSTER)
 
     repeat
         Citizen.Wait(1000)

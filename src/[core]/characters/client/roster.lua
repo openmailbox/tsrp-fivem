@@ -8,6 +8,10 @@ local POSITIONS = {
     {
         coords    = vector4(-803.1011, 171.6763, 72.8446, 299.0097),
         animation = { dictionary = "timetable@ron@ig_3_couch", name = "base" }
+    },
+    {
+        coords    = vector4(-804.0355, 174.7156, 72.8446, 242.4243),
+        animation = { dictionary = "timetable@ron@ig_5_p3", name = "ig_5_p3_base" }
     }
 }
 
