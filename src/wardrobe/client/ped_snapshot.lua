@@ -31,6 +31,7 @@ function PedSnapshot.record(ped)
         attributes = data
     }
 end
+exports("RecordSnapshot", PedSnapshot.record)
 
 -- Restores a previously recorded snapshot to the given ped.
 function PedSnapshot.restore(ped, snapshot)
@@ -60,6 +61,7 @@ function PedSnapshot.restore(ped, snapshot)
         end
     end
 end
+exports("RestoreSnapshot", PedSnapshot.restore)
 
 -- @local
 function get_current_value(ped, attribute)

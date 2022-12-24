@@ -42,7 +42,14 @@ function Roster.update(data)
     for i, record in ipairs(data) do
         local char = Character:new(record)
 
-        char:assign_position(POSITIONS[i])
+        if POSITIONS[i] then
+            char:assign_position(POSITIONS[i])
+        else
+            TriggerEvent(Events.LOG_MESSAGE, {
+                level   = Logging.WARN,
+                message = "Unable to find position for Character " .. char.id .. "."
+            })
+        end
 
         table.insert(characters, char)
     end

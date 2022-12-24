@@ -35,7 +35,6 @@ files {
 }
 
 exports {
-}
-
-server_exports {
+    "RecordSnapshot",
+    "RestoreSnapshot"
 }
