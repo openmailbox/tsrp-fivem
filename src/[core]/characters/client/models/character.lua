@@ -35,6 +35,14 @@ function Character:assign_position(position)
         end
     end
 
+    self.ped = CreatePed(4, model.hash, x, y, z, h, false, true)
+
+    repeat
+       Citizen.Wait(20)
+    until DoesEntityExist(self.ped) or GetGameTimer() > timeout
+
+    exports.wardrobe:RestoreSnapshot(self.ped, self.snapshot)
+
     if not HasAnimDictLoaded(animation.dictionary) then
         RequestAnimDict(animation.dictionary)
 
@@ -42,12 +50,6 @@ function Character:assign_position(position)
             Citizen.Wait(20)
         end
     end
-
-    self.ped = CreatePed(4, model.hash, x, y, z, h, false, true)
-
-    repeat
-       Citizen.Wait(20)
-    until DoesEntityExist(self.ped) or GetGameTimer() > timeout
 
     TaskPlayAnim(self.ped, animation.dictionary, animation.name, 8.0, 8.0, -1, 1, false, false, false)
 end

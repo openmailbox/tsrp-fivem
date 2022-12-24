@@ -9,7 +9,8 @@ description "Handles character creation, selection, and management."
 version "0.0.1"
 
 dependencies {
-    "accounts"
+    "accounts",
+    "wardrobe"
 }
 
 client_scripts {
