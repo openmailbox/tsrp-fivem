@@ -1,15 +1,7 @@
 Roster = {}
 
--- Measurements in pixels for calculating selected character from mouse position
-local BOUNDING = {
-    width  = 200,
-    height = 400,
-    offset = vector2(0, 300)
-}
-
 -- Forward declarations
-local get_intersecting_member,
-      look_for_selection
+local look_for_selection
 
 local POSITIONS = {
     {
@@ -65,58 +57,36 @@ function Roster.update(data)
 end
 
 -- @local
-function get_intersecting_member(p, boxes)
-    for i, rect in ipairs(boxes) do
-        if p.x > rect.min.x and p.x < rect.max.x and
-            p.y > rect.min.y and p.y < rect.max.y then
-
-            return i, boxes[i]
-        end
-    end
-
-    return nil
-end
-
--- @local
 function look_for_selection()
     if is_active then return end
     is_active = true
 
     Citizen.CreateThread(function()
-        local character, index, last_char, marker, mouseXY
-
-        local boxes       = {}
-        local resx, resy  = GetActiveScreenResolution()
-        local half_width  = BOUNDING.width / 2
-        local half_height = BOUNDING.width / 2
-
-        for i, _ in ipairs(characters) do
-            local px, py, pz = table.unpack(POSITIONS[i].coords)
-            local _, x, y    = GetScreenCoordFromWorldCoord(px, py, pz)
-            local cloc       = vector2(x * resx, y * resy)
-
-            local rect = {
-                min = vector2(cloc.x - half_width, cloc.y - half_height),
-                max = vector2(cloc.x + half_width, cloc.y + half_height),
-            }
-
-            table.insert(boxes, rect)
-        end
+        local entity, hit, last_entity, marker, normal, origin, ray, result, screenX, screenY, target, world
 
         while is_active do
-            mouseXY   = vector2(GetDisabledControlNormal(0, 239) * resx, GetDisabledControlNormal(0, 240) * resy)
-            index     = get_intersecting_member(mouseXY, boxes)
-            character = characters[index]
+            screenX = GetDisabledControlNormal(0, 239)
+            screenY = GetDisabledControlNormal(0, 240)
 
-            if marker and character ~= last_char then
+            world, normal = GetWorldCoordFromScreenCoord(screenX, screenY)
+            origin        = world + normal * 0.5
+            target        = world + normal * 5
+            ray           = StartShapeTestCapsule(origin.x, origin.y, origin.z, target.x, target.y, target.z, 0.2, 8, 0, 7)
+
+            result, hit, _, _, entity = GetShapeTestResult(ray)
+            while result == 1 do
+                Citizen.Wait(0)
+            end
+
+            if marker and entity ~= last_entity then
                 exports.markers:RemoveMarker(marker)
                 marker = nil
             end
 
-            if character and character ~= last_char then
+            if hit and entity > 0 and entity ~= last_entity then
                 marker = exports.markers:AddMarker({
                     icon        = 2,
-                    coords      = GetEntityCoords(character.ped) + vector3(0, 0, 0.5),
+                    coords      = GetEntityCoords(entity) + vector3(0, 0, 0.5),
                     face_camera = true,
                     rotation    = vector3(180, 0, 0),
                     scale       = vector3(0.2, 0.2, 0.2),
@@ -127,9 +97,9 @@ function look_for_selection()
                 })
             end
 
-            last_char = character
+            last_entity = entity
 
-            Citizen.Wait(100)
+            Citizen.Wait(50)
         end
 
         if marker then
