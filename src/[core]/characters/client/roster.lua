@@ -85,27 +85,27 @@ function look_for_selection()
     Citizen.CreateThread(function()
         local character, index, last_char, marker, mouseXY
 
-        local ped_boxes   = {}
+        local boxes       = {}
         local resx, resy  = GetActiveScreenResolution()
         local half_width  = BOUNDING.width / 2
         local half_height = BOUNDING.width / 2
 
-        for _, char in ipairs(characters) do
-            local px, py, pz = table.unpack(GetEntityCoords(char.ped))
+        for i, _ in ipairs(characters) do
+            local px, py, pz = table.unpack(POSITIONS[i].coords)
             local _, x, y    = GetScreenCoordFromWorldCoord(px, py, pz)
-            local cloc       = vector2(x * resx, y * resy) + BOUNDING.offset
+            local cloc       = vector2(x * resx, y * resy)
 
             local rect = {
                 min = vector2(cloc.x - half_width, cloc.y - half_height),
                 max = vector2(cloc.x + half_width, cloc.y + half_height),
             }
 
-            table.insert(ped_boxes, rect)
+            table.insert(boxes, rect)
         end
 
         while is_active do
             mouseXY   = vector2(GetDisabledControlNormal(0, 239) * resx, GetDisabledControlNormal(0, 240) * resy)
-            index     = get_intersecting_member(mouseXY, ped_boxes)
+            index     = get_intersecting_member(mouseXY, boxes)
             character = characters[index]
 
             if marker and character ~= last_char then
