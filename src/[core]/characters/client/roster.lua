@@ -1,7 +1,8 @@
 Roster = {}
 
 -- Forward declarations
-local look_for_selection
+local look_for_selection,
+      raycast_from_pointer
 
 local POSITIONS = {
     {
@@ -25,6 +26,9 @@ function Roster.cleanup()
     end
 
     characters = {}
+end
+
+function Roster.get_current_selection()
 end
 
 function Roster.hide()
@@ -62,28 +66,17 @@ function look_for_selection()
     is_active = true
 
     Citizen.CreateThread(function()
-        local entity, hit, last_entity, marker, normal, origin, ray, result, screenX, screenY, target, world
+        local last_entity, marker
 
         while is_active do
-            screenX = GetDisabledControlNormal(0, 239)
-            screenY = GetDisabledControlNormal(0, 240)
-
-            world, normal = GetWorldCoordFromScreenCoord(screenX, screenY)
-            origin        = world + normal * 0.5
-            target        = world + normal * 5
-            ray           = StartShapeTestCapsule(origin.x, origin.y, origin.z, target.x, target.y, target.z, 0.2, 8, 0, 7)
-
-            result, hit, _, _, entity = GetShapeTestResult(ray)
-            while result == 1 do
-                Citizen.Wait(0)
-            end
+            local entity = raycast_from_pointer()
 
             if marker and entity ~= last_entity then
                 exports.markers:RemoveMarker(marker)
                 marker = nil
             end
 
-            if hit and entity > 0 and entity ~= last_entity then
+            if entity and entity ~= last_entity then
                 marker = exports.markers:AddMarker({
                     icon        = 2,
                     coords      = GetEntityCoords(entity) + vector3(0, 0, 0.5),
@@ -106,4 +99,26 @@ function look_for_selection()
             exports.marker:RemoveMarker(marker)
         end
     end)
+end
+
+-- @local
+function raycast_from_pointer()
+    local screenX = GetDisabledControlNormal(0, 239)
+    local screenY = GetDisabledControlNormal(0, 240)
+
+    local world, normal = GetWorldCoordFromScreenCoord(screenX, screenY)
+    local origin        = world + normal * 0.5
+    local target        = world + normal * 5
+    local ray           = StartShapeTestCapsule(origin.x, origin.y, origin.z, target.x, target.y, target.z, 0.2, 8, 0, 7)
+
+    local result, hit, _, _, entity = GetShapeTestResult(ray)
+    while result == 1 do
+        Citizen.Wait(0)
+    end
+
+    if hit and entity > 0 then
+        return entity
+    else
+        return nil
+    end
 end
