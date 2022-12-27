@@ -2,8 +2,7 @@
   "name": "tsrp-fivem",
   "version": "0.0.1",
   "description": "This repository contains open-source scripts for the [Time Served](https://www.timeservedrp.com) community FiveM server.",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/openmailbox/tsrp-fivem.git"
@@ -14,6 +13,6 @@
     "url": "https://github.com/openmailbox/tsrp-fivem/issues"
   },
   "workspaces": [
-    "src\\wardrobe\\web"
+    "src\\**\\wardrobe\\web"
   ]
 }

@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./app.vue";
 import "./assets/main.css";
-import "../../../common/web/styles/tsrp-theme.css";
+import "../../../../common/web/styles/tsrp-theme.css";
 
 const app = createApp(App);
 let vm = app.mount("#app");
