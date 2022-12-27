@@ -9,10 +9,35 @@ const handleMessage = function(item) {
         case "characters:CreateSelectSession":
             document.getElementById("create-character").classList.remove("d-none");
             break;
+        case "characters:DeleteSelectSession":
+            document.getElementById("create-character").classList.add("d-none");
+            break;
         case "characters:CreateNamePrompt":
             NewCharacter.toggle(true);
             break;
     }
+};
+
+const selectCharacter = function() {
+    fetch("https://characters/characters:CreateSelection", HTTP_OPTIONS).then(resp => resp.json()).then((resp) => {
+        if (!resp.success) return;
+
+        Confirmation.prompt({
+            title:   "Select Character",
+            message: `Enter the game as ${resp.name}?`,
+            buttons: ["Confirm", "Cancel"],
+            callback: function(buttonText) {
+                if (buttonText === "Cancel") return;
+
+                const options = {
+                    ...HTTP_OPTIONS,
+                    body: JSON.stringify({ id: resp.id })
+                }
+
+                fetch("https://characters/characters:UpdateSelection", options);
+            }
+        })
+    })
 };
 
 document.getElementById("btn-create-character").addEventListener("click", function(event) {
@@ -37,8 +62,5 @@ window.addEventListener("message", function(event) {
 });
 
 window.addEventListener("click", function() {
-    fetch("https://characters/characters:CreateSelection", HTTP_OPTIONS).then(resp => resp.json()).then((resp) => {
-        if (!resp.success) return;
-        console.log(`select ${resp.name} - ${resp.id}`)
-    })
+    selectCharacter();
 });

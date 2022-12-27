@@ -30,6 +30,16 @@ function Roster.cleanup()
     characters = {}
 end
 
+function Roster.find_character(id)
+    for _, char in ipairs(characters) do
+        if char.id == id then
+            return char
+        end
+    end
+
+    return nil
+end
+
 function Roster.get_current_selection()
     return selected
 end

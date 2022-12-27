@@ -51,6 +51,7 @@ Events.CREATE_BOUNTY_PAYOUT = "bounties:CreatePayout"
 
 -- @resource characters
 Events.CREATE_CHARACTER_SELECT_SESSION = "characters:CreateSelectSession"
+Events.DELETE_CHARACTER_SELECT_SESSION = "characters:DeleteSelectSession"
 
 Events.CREATE_CHARACTER_AUTH_REQUEST = "characters:CreateAuthRequest"
 Events.UPDATE_CHARACTER_AUTH_REQUEST = "characters:UpdateAuthRequest"
@@ -71,6 +72,7 @@ Events.CREATE_CHARACTER_NAME_VALIDATION = "characters:CreateNameValidation"
 Events.UPDATE_CHARACTER_NAME_VALIDATION = "characters:UpdateNameValidation"
 
 Events.CREATE_CHARACTER_SELECTION = "characters:CreateSelection"
+Events.UPDATE_CHARACTER_SELECTION = "characters:UpdateSelection"
 
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"

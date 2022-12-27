@@ -2,7 +2,8 @@ SelectSession = {}
 
 -- Forward delcarations
 local setup_camera,
-      setup_player
+      setup_player,
+      teardown_player
 
 local LOCATION = vector3(-800.6982, 174.4930, 73.0790) -- Michael's house living room
 
@@ -46,7 +47,9 @@ function SelectSession:finish()
     SetCamActive(camera, false)
     RenderScriptCams(false, true, 1500, true, true)
     SetNuiFocus(false, false)
+
     Roster.cleanup()
+    teardown_player()
 
     if not self.hide_radar then
         DisplayRadar(true)
@@ -91,9 +94,7 @@ function SelectSession:initialize()
     DoScreenFadeIn(1500)
     SetNuiFocus(true, true)
 
-    SendNUIMessage({
-        type = Events.CREATE_CHARACTER_SELECT_SESSION
-    })
+    SendNUIMessage({ type = Events.CREATE_CHARACTER_SELECT_SESSION })
 end
 
 -- @local
@@ -120,4 +121,14 @@ function setup_player()
     FreezeEntityPosition(ped, true)
     SetPlayerInvincible(PlayerId(), true)
     SetEntityCoordsNoOffset(ped, x, y, z)
+end
+
+-- @local
+function teardown_player()
+    local ped = PlayerPedId()
+
+    SetEntityVisible(ped, false)
+    SetEntityCollision(ped, true)
+    FreezeEntityPosition(ped, false)
+    SetPlayerInvincible(PlayerId(), false)
 end
