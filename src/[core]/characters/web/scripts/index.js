@@ -23,10 +23,10 @@ const selectCharacter = function() {
         if (!resp.success) return;
 
         Confirmation.prompt({
-            title:   "Select Character",
-            message: `Enter the game as ${resp.name}?`,
-            buttons: ["Confirm", "Cancel"],
-            callback: function(buttonText) {
+            title:      "Select Character",
+            message:    `Enter the game as ${resp.name}?`,
+            showCancel: true,
+            callback:   function(buttonText) {
                 if (buttonText === "Cancel") return;
 
                 const options = {
@@ -50,9 +50,10 @@ document.getElementById("btn-create-character").addEventListener("click", functi
             fetch("https://characters/characters:CreateNewCharacter", HTTP_OPTIONS);
             document.getElementById("create-character").classList.add("d-none");
         } else {
-            Confirmation.setTitle("New Character");
-            Confirmation.setMessage(resp.message);
-            Confirmation.toggle(true);
+            Confirmation.prompt({
+                title: "New Character",
+                message: resp.message
+            })
         }
     });
 });

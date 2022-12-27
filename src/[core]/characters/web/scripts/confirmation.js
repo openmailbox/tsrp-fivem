@@ -4,29 +4,27 @@ window.Confirmation = (function() {
     const prompt = function(options) {
         nextCallback = options.callback || null;
 
-        setTitle(options.title);
-        setMessage(options.message);
+        _setTitle(options.title);
+        _setMessage(options.message);
 
-        if (options.buttons) {
-            document.querySelector("#modal-confirmation .btn-primary").innerText = options.buttons[0];
-
-            if (options.buttons[1]) {
-                document.querySelector("#modal-confirmation .btn-secondary").innerText = options.buttons[1];
-            }
+        if (options.showCancel) {
+            document.querySelector("#modal-confirmation .btn-secondary").classList.remove("d-none");
+        } else {
+            document.querySelector("#modal-confirmation .btn-secondary").classList.add("d-none");
         }
 
-        toggle(true);
+        _toggle(true);
     };
 
-    const setTitle = function(newTitle) {
+    const _setTitle = function(newTitle) {
         document.querySelector("#modal-confirmation .modal-title").innerText = newTitle;
     };
 
-    const setMessage = function(newMessage) {
+    const _setMessage = function(newMessage) {
         document.getElementById("modal-message").innerText = newMessage;
     };
 
-    const toggle = function(isShowing) {
+    const _toggle = function(isShowing) {
         if (isShowing) {
             document.getElementById("modal-confirmation").classList.add("active");
         } else {
@@ -34,19 +32,18 @@ window.Confirmation = (function() {
         }
     };
 
-    document.querySelector("#modal-confirmation .btn-primary").addEventListener("click", function(event) {
-        toggle(false);
+    document.querySelectorAll("#modal-confirmation button").forEach(function(elm) {
+        elm.addEventListener("click", function(event) {
+            _toggle(false);
 
-        if (nextCallback) {
-            nextCallback(event.target.innerText);
-            nextCallback = null;
-        }
-    });
+            if (nextCallback) {
+                nextCallback(event.target.innerText);
+                nextCallback = null;
+            }
+        });
+    })
 
     return {
         prompt: prompt,
-        setMessage: setMessage,
-        setTitle: setTitle,
-        toggle: toggle
     };
 })();
