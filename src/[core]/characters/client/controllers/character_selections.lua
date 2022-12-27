@@ -34,8 +34,8 @@ local function update(data, cb)
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
-    SelectSession.get_active():finish()
     exports.wardrobe:RestoreSnapshot(PlayerPedId(), char.snapshot)
+    SelectSession.get_active():finish()
     TriggerEvent(Events.CREATE_RESPAWN)
 
     DoScreenFadeIn(1500)

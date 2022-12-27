@@ -73,6 +73,7 @@ function SelectSession:initialize()
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
+    ShutdownLoadingScreen()
     setup_player()
     setup_camera()
 
@@ -127,7 +128,7 @@ end
 function teardown_player()
     local ped = PlayerPedId()
 
-    SetEntityVisible(ped, false)
+    SetEntityVisible(ped, true)
     SetEntityCollision(ped, true)
     FreezeEntityPosition(ped, false)
     SetPlayerInvincible(PlayerId(), false)

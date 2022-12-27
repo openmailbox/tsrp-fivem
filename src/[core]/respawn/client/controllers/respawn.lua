@@ -1,5 +1,4 @@
 local function respawn()
-    exports.spawnmanager:setAutoSpawn(true)
     exports.spawnmanager:forceRespawn()
 end
 RegisterNetEvent(Events.CREATE_RESPAWN, respawn)

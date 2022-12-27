@@ -115,7 +115,7 @@ function set_current_value(ped, attrib)
             ClearPedProp(ped, attrib.index)
         end
     elseif attrib.type == AttributeTypes.MODEL then
-        set_model(ped, attrib.label, attrib.hash)
+        set_model(ped, attrib.value.label, attrib.value.hash)
     end
 end
 
