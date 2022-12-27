@@ -47,6 +47,7 @@ function SelectSession:finish()
     SetCamActive(camera, false)
     RenderScriptCams(false, true, 1500, true, true)
     SetNuiFocus(false, false)
+    TriggerServerEvent(Events.DELETE_CHARACTER_SELECT_SESSION)
 
     Roster.cleanup()
     teardown_player()
@@ -73,6 +74,7 @@ function SelectSession:initialize()
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
+    TriggerServerEvent(Events.CREATE_CHARACTER_SELECT_SESSION) -- will instance the player
     ShutdownLoadingScreen()
     setup_player()
     setup_camera()
