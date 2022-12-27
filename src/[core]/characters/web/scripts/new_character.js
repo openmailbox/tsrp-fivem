@@ -31,15 +31,16 @@ window.NewCharacter = (function() {
         const firstName = document.getElementById("input-first-name").value;
         const lastName  = document.getElementById("input-last-name").value;
 
-        fetch("https://characters/characters:CreateNameValidation", {
-            method: "POST",
-            headers: { "Content-Type": "application/json; charset=UTF-8" },
-            body: JSON.stringify(({ first: firstName, last: lastName }))
-        }).then(resp => resp.json()).then((resp) => {
+        const options = {
+            ...HTTP_OPTIONS,
+            body: JSON.stringify({ first: firstName, last: lastName })
+        }
+
+        fetch("https://characters/characters:CreateNameValidation", options).then(resp => resp.json()).then((resp) => {
             event.target.classList.remove("loading", "disabled");
 
             if (resp.success) {
-                fetch("https://characters/characters:CreateFinished", HTTP_OPTIONS)
+                fetch("https://characters/characters:CreateFinished", options)
                 toggle(false);
             } else {
                 _validate(resp.first, resp.last);
