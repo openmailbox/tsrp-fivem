@@ -1,7 +1,8 @@
 Roster = {}
 
 -- Forward declarations
-local look_for_selection,
+local get_character_from_entity,
+      look_for_selection,
       raycast_from_pointer
 
 local POSITIONS = {
@@ -15,8 +16,9 @@ local POSITIONS = {
     }
 }
 
-local characters = {}
-local is_active  = false
+local characters = {}    -- all of the player's avaialable characters
+local is_active  = false -- true during active selection mode
+local selected   = nil   -- currently selected character
 
 function Roster.cleanup()
     is_active = false
@@ -29,6 +31,7 @@ function Roster.cleanup()
 end
 
 function Roster.get_current_selection()
+    return selected
 end
 
 function Roster.hide()
@@ -61,22 +64,34 @@ function Roster.update(data)
 end
 
 -- @local
+function get_character_from_entity(entity)
+    for _, char in ipairs(characters) do
+        if char.ped == entity then
+            return char
+        end
+    end
+
+    return nil
+end
+
+-- @local
 function look_for_selection()
     if is_active then return end
     is_active = true
 
     Citizen.CreateThread(function()
-        local last_entity, marker
+        local last_selection, entity, marker
 
         while is_active do
-            local entity = raycast_from_pointer()
+            entity   = raycast_from_pointer()
+            selected = entity and get_character_from_entity(entity)
 
-            if marker and entity ~= last_entity then
+            if marker and selected ~= last_selection then
                 exports.markers:RemoveMarker(marker)
                 marker = nil
             end
 
-            if entity and entity ~= last_entity then
+            if selected and selected ~= last_selection then
                 marker = exports.markers:AddMarker({
                     icon        = 2,
                     coords      = GetEntityCoords(entity) + vector3(0, 0, 0.5),
@@ -90,7 +105,7 @@ function look_for_selection()
                 })
             end
 
-            last_entity = entity
+            last_selection = selected
 
             Citizen.Wait(50)
         end

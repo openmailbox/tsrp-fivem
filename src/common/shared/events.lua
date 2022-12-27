@@ -70,6 +70,8 @@ Events.DELETE_CHARACTER_NAME_PROMPT = "characters:DeleteNamePrompt"
 Events.CREATE_CHARACTER_NAME_VALIDATION = "characters:CreateNameValidation"
 Events.UPDATE_CHARACTER_NAME_VALIDATION = "characters:UpdateNameValidation"
 
+Events.CREATE_CHARACTER_SELECTION = "characters:CreateSelection"
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"

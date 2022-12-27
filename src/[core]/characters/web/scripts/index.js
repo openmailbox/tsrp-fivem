@@ -35,3 +35,10 @@ document.getElementById("btn-create-character").addEventListener("click", functi
 window.addEventListener("message", function(event) {
     handleMessage(event.data);
 });
+
+window.addEventListener("click", function() {
+    fetch("https://characters/characters:CreateSelection", HTTP_OPTIONS).then(resp => resp.json()).then((resp) => {
+        if (!resp.success) return;
+        console.log(`select ${resp.name} - ${resp.id}`)
+    })
+});

@@ -4,7 +4,9 @@ local function create(data)
 
     local character = Character:new({
         account_id = account.id,
-        snapshot   = data.snapshot
+        snapshot   = data.snapshot,
+        first_name = data.first or '',
+        last_name  = data.last or ''
     })
 
     character:save(function(char)
