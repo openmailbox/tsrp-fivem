@@ -121,7 +121,7 @@ function look_for_selection()
         end
 
         if marker then
-            exports.marker:RemoveMarker(marker)
+            exports.markers:RemoveMarker(marker)
         end
     end)
 end
