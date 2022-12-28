@@ -14,6 +14,7 @@ Events.ON_RESOURCE_STOP         = "onResourceStop"
 -- Low-level game events
 Events.CLIENT_PLAYER_COLLECT_AMBIENT_PICKUP = "CEventNetworkPlayerCollectedAmbientPickup"
 Events.CLIENT_ENTITY_DAMAGE                 = "CEventNetworkEntityDamage"
+Events.CLIENT_GUN_AIMED_AT                  = "CEventGunAimedAt"
 
 -- @resource accounts
 Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"
@@ -92,6 +93,9 @@ Events.UPDATE_CHOP_VEHICLE_DROPOFF = "chop:UpdateVehicleDropoff"
 -- @resource food
 Events.CREATE_FOOD_CHARGE_AUTH = "food:CreateChargeAuth"
 Events.UPDATE_FOOD_CHARGE_AUTH = "food:UpdateChargeAuth"
+
+-- @resouce hostages
+Events.CREATE_NEW_HOSTAGE = "hostages:CreateNew"
 
 -- @resource hud
 Events.CREATE_HUD_NOTIFICATION = "hud:CreateNotification"
