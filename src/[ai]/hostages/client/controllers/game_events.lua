@@ -12,6 +12,9 @@ local function on_event(targets, enactor, _)
     -- Only locals who were going to flee anyways are hostage candidates.
     if not IsPedFleeing(target) then return end
 
+    -- TODO: Handle this as a special case
+    if IsPedInAnyVehicle(target) then return end
+
     local time = GetGameTimer()
     if time < last_at + DEBOUNCE then return end
     last_at = time
