@@ -224,7 +224,7 @@ end
 
 -- @local
 function raycast_camera(ped, target_type)
-    target_type = target_type or 16
+    target_type = target_type or 24 -- Bitmask 16 (objects) + 8 (peds)
 
     local crot      = GetGameplayCamRot()
     local cloc      = GetGameplayCamCoord()
