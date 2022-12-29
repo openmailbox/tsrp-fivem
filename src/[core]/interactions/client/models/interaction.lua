@@ -10,12 +10,12 @@ local look_for_targets,
       rotation_to_dir,
       show_target
 
-local closest_object      = 0
+local closest_entity      = 0
 local exclusions          = {}
 local looking_for_targets = false
 local registrations       = {}
 local showing             = false
-local showing_object      = 0
+local showing_entity      = 0
 
 -- Add a specific entity to the exclusion list. Excluded entities will NOT generate an interaction prompt.
 -- @tparam number entity
@@ -40,40 +40,40 @@ function Interaction.initialize()
 end
 
 function Interaction.interact()
-    if not showing_object or
-        showing_object == 0 or
+    if not showing_entity or
+        showing_entity == 0 or
         IsPlayerDead(PlayerId()) or
         IsPedDeadOrDying(PlayerPedId(), true) then
 
         return
     end
 
-    local model     = GetEntityModel(showing_object)
+    local model     = GetEntityModel(showing_entity)
     local behaviors = registrations[model]
 
     if not behaviors then return end
 
     for name, beh in pairs(behaviors) do
-        local succ, error = pcall(beh.callback, showing_object)
+        local succ, error = pcall(beh.callback, showing_entity)
 
         if not succ then
             error = error or "unspecified error"
 
-            Citizen.Trace("Error while running interaction '" .. name .. "' with object " .. showing_object .. ": " ..
+            Citizen.Trace("Error while running interaction '" .. name .. "' with entity " .. showing_entity .. ": " ..
                           error .. "\n")
         end
     end
 end
 RegisterCommand("interact", Interaction.interact, false)
-RegisterKeyMapping("interact", "Interact with the current targetted object", "keyboard", "E")
+RegisterKeyMapping("interact", "Interact with the current targetted entity", "keyboard", "E")
 
--- Used to register a new interaction with a game object. When player looks at the model type, they will get a
+-- Used to register a new interaction with a game entity. When player looks at the model type, they will get a
 -- crosshair and prompt to interact.
 -- @tparam table options
--- @tparam number options.model the object model hash
+-- @tparam number options.model the entity model hash
 -- @tparam string options.name a descriptive verb for this interaction
 -- @tparam string options.prompt a descriptive phrase shown to the user as a prompt i.e. "open the crate"
--- @tparam function options.on_target an optional callback triggered once when the player initially targets this object.
+-- @tparam function options.on_target an optional callback triggered once when the player initially targets this entity.
 -- @tparam function callback behavior to execute when the player interacts with the target.
 -- @treturn boolean success or failure
 function Interaction.register(options, callback)
@@ -94,7 +94,7 @@ function Interaction.register(options, callback)
         AddTextEntry(prompt_label, "Press ~INPUT_CONTEXT~ to " .. options.prompt .. ".")
     end
 
-    -- An object can have multiple behaviors as long as they have unique names
+    -- An entity can have multiple behaviors as long as they have unique names
     behaviors[options.name] = {
         options      = options,
         callback     = callback,
@@ -111,10 +111,10 @@ end
 exports("RemoveExclusion", Interaction.remove_exclusion)
 
 --- Show details about a nearby item that's available for pickup if it's the current target.
--- @tparam number object_id the game object ID
+-- @tparam number entity_id the game entity ID
 -- @tparam table item the serialized item data
-function Interaction.set_details(object_id, item)
-    if object_id ~= showing_object then return end
+function Interaction.set_details(entity_id, item)
+    if entity_id ~= showing_entity then return end
     SendNUIMessage({ type = Events.CREATE_INTERACTIVE_OBJECT, item = item })
 end
 exports("SetTargetDetails", Interaction.set_details)
@@ -153,7 +153,7 @@ function look_for_targets()
 
     Citizen.CreateThread(function()
         while looking_for_targets do
-            closest_object = 0
+            closest_entity = 0
             ped            = PlayerPedId()
 
             if not IsPlayerFreeAiming(PlayerId()) and not IsPedInAnyVehicle(ped, true) then
@@ -165,17 +165,17 @@ function look_for_targets()
             behaviors = registrations[GetEntityModel(target.entity)]
 
             if target.result == 2 and target.hit and behaviors and not exclusions[target.entity] then
-                closest_object = target.entity
+                closest_entity = target.entity
             end
 
-            if closest_object > 0 and closest_object ~= showing_object then
+            if closest_entity > 0 and closest_entity ~= showing_entity then
                 local prompt = nil
 
                 for name, beh in pairs(behaviors) do
                     prompt = prompt or beh.prompt_label
 
                     if beh.options.on_target then
-                        local succ, error = pcall(beh.options.on_target, closest_object, target.distance)
+                        local succ, error = pcall(beh.options.on_target, closest_entity, target.distance)
 
                         if not succ then
                             Citizen.Trace("WARNING: Error running on_target for interaction '" .. name .. "': " ..
@@ -184,9 +184,9 @@ function look_for_targets()
                     end
                 end
 
-                show_target(closest_object, target.distance, prompt or DEFAULT_PROMPT_LABEL)
-            elseif closest_object == 0 and showing_object > 0 then
-                showing_object = 0
+                show_target(closest_entity, target.distance, prompt or DEFAULT_PROMPT_LABEL)
+            elseif closest_entity == 0 and showing_entity > 0 then
+                showing_entity = 0
             end
 
             Citizen.Wait(250)
@@ -196,26 +196,26 @@ end
 
 
 -- @local
-function show_target(object_id, distance, prompt)
-    if showing_object > 0 then
+function show_target(entity_id, _, prompt)
+    if showing_entity > 0 then
         SendNUIMessage({ type = Events.DELETE_INTERACTIVE_OBJECT })
     end
 
     SendNUIMessage({ type = Events.CREATE_INTERACTIVE_OBJECT, item = {} })
-    showing_object = object_id
+    showing_entity = entity_id
 
     if showing then return end
     showing = true
 
-    SetEntityDrawOutline(showing_object, true)
+    SetEntityDrawOutline(showing_entity, true)
 
     Citizen.CreateThread(function()
-        while showing_object > 0 do
+        while showing_entity > 0 do
             DisplayHelpTextThisFrame(prompt, 0)
             Citizen.Wait(0)
         end
 
-        SetEntityDrawOutline(object_id, false)
+        SetEntityDrawOutline(entity_id, false)
 
         showing = false
         SendNUIMessage({ type = Events.DELETE_INTERACTIVE_OBJECT })
