@@ -125,15 +125,22 @@ function show_target(entity_id, _, prompt)
     if is_showing then return end
     is_showing = true
 
-    SetEntityDrawOutline(showing_entity, true)
+    if GetEntityType(showing_entity) == 3 then
+        SetEntityDrawOutline(showing_entity, true)
+    end
 
     Citizen.CreateThread(function()
         while is_active and showing_entity > 0 do
-            DisplayHelpTextThisFrame(prompt, 0)
+            if DoesTextLabelExist(prompt) then
+                DisplayHelpTextThisFrame(prompt, 0)
+            end
+
             Citizen.Wait(0)
         end
 
-        SetEntityDrawOutline(entity_id, false)
+        if GetEntityType(showing_entity) == 3 then
+            SetEntityDrawOutline(entity_id, false)
+        end
 
         is_showing = false
         SendNUIMessage({ type = Events.DELETE_INTERACTIVE_OBJECT })

@@ -124,10 +124,18 @@ function Interaction.remove_exclusion(entity)
 end
 exports("RemoveExclusion", Interaction.remove_exclusion)
 
-function Interaction.unregister(model, name)
-    local model_hash   = tonumber(model)
-    local interactions = registrations[model_hash]
+-- Unregister a previously registered interaction.
+-- @tparam number entity If present, only interactions for the specified entity are removed.
+function Interaction.unregister(model, name, entity)
+    local key = nil
 
+    if entity then
+        key = "entity-" .. entity
+    else
+        key = "model-" .. model
+    end
+
+    local interactions = registrations[key]
     if not interactions then return end
 
     interactions[name] = nil
@@ -139,8 +147,8 @@ function Interaction.unregister(model, name)
         break
     end
 
-    if empty and model_hash then
-        registrations[model_hash] = nil
+    if empty and key then
+        registrations[key] = nil
     end
 end
 exports("UnregisterInteraction", Interaction.unregister)
