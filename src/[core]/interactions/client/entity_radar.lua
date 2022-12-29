@@ -43,14 +43,14 @@ function EntityRadar.look_for_targets()
             if closest_entity > 0 and closest_entity ~= showing_entity then
                 local prompt = nil
 
-                for name, interaction in pairs(interactions) do
+                for _, interaction in ipairs(interactions) do
                     prompt = prompt or interaction.prompt_label
 
                     if interaction.on_target then
                         local succ, error = pcall(interaction.on_target, closest_entity, target.distance)
 
                         if not succ then
-                            Citizen.Trace("WARNING: Error running on_target for interaction '" .. name .. "': " .. error .. "\n")
+                            Citizen.Trace("WARNING: Error running on_target for interaction '" .. interaction.name .. "': " .. error .. "\n")
                         end
                     end
                 end

@@ -48,7 +48,7 @@ function Interaction.interact()
     end
 
     local interactions = Interaction.for_entity(target)
-    if not #interactions == 0 then return end
+    if #interactions == 0 then return end
 
     for name, interaction in pairs(interactions) do
         local succ, error = pcall(interaction.callback, target)
