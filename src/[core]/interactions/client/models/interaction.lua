@@ -4,7 +4,7 @@ local DEFAULT_PROMPT       = "Press ~INPUT_CONTEXT~ to interact."
 local DEFAULT_PROMPT_LABEL = "interactions:default_prompt"
 
 local exclusions    = {}
-local registrations = {} -- ModelHash->Dict<String, Interaction> of registered entity interactions
+local registrations = {} -- Key->Dict<String, Interaction> of registered entity or model interactions
 
 -- Add a specific entity to the exclusion list. Excluded entities will NOT generate an interaction prompt.
 -- @tparam number entity
@@ -25,11 +25,19 @@ end
 function Interaction.for_entity(entity)
     if not entity then return {} end
 
-    local model   = GetEntityModel(entity)
     local results = {}
 
-    for _, interaction in pairs(registrations[model] or {}) do
-        table.insert(results, interaction)
+    local keys = {
+        "model-" .. GetEntityModel(entity),
+        "entity-" .. entity
+    }
+
+    for _, key in ipairs(keys) do
+        if registrations[key] then
+            for _, interaction in pairs(registrations[key] or {}) do
+                table.insert(results, interaction)
+            end
+        end
     end
 
     return results
@@ -64,24 +72,35 @@ RegisterKeyMapping("interact", "Interact with the current target", "keyboard", "
 
 -- Used to register a new interaction with a game entity. When player looks at the model type, they will get a crosshair and prompt to interact.
 -- @tparam table options
--- @tparam number options.model the entity model hash
+-- @tparam number options.model the entity model hash (supersedes options.entity)
+-- @tparam number options.entity only one specific entity that should be interactive
 -- @tparam string options.name a descriptive verb for this interaction
 -- @tparam string options.prompt a descriptive phrase shown to the user as a prompt i.e. "open the crate"
 -- @tparam function options.on_target an optional callback triggered once when the player initially targets this entity.
 -- @tparam function callback behavior to execute when the player interacts with the target.
 -- @treturn boolean success or failure
 function Interaction.register(options, callback)
-    local model_hash   = tonumber(options.model)
-    local interactions = registrations[model_hash]
-    local prompt_label = options.prompt and ("interactions:" .. model_hash .. "_" .. string.lower(options.name))
+    local key = nil
 
-    if not model_hash then
+    if options.model then
+        key = "model-" .. options.model
+    elseif options.entity then
+        key = "entity-" .. options.entity
+    else
+        TriggerEvent(Events.LOG_MESSAGE, {
+            level   = Logging.WARN,
+            message = "Unable to generate an interaction key for unknown type."
+        })
+
         return false
     end
 
+    local interactions = registrations[key]
+    local prompt_label = options.prompt and ("interactions:" .. key .. "_" .. string.lower(options.name))
+
     if not interactions then
         interactions = {}
-        registrations[model_hash] = interactions
+        registrations[key] = interactions
     end
 
     if prompt_label then
@@ -91,7 +110,7 @@ function Interaction.register(options, callback)
     local interaction = Interaction:new(options)
 
     interaction.callback     = callback
-    interaction.prompt_label = prompt_label
+    interaction.prompt_label = prompt_label or DEFAULT_PROMPT_LABEL
 
     -- An entity can have multiple behaviors as long as they have unique names
     interactions[options.name] = interaction
