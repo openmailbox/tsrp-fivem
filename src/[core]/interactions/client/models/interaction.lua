@@ -24,6 +24,7 @@ end
 
 function Interaction.for_entity(entity)
     if not entity then return {} end
+    if exclusions[entity] then return {} end
 
     local results = {}
 
