@@ -7,6 +7,10 @@ local hostages  = {}
 local is_active = false
 
 function HostageDirector.add_hostage(data)
+    for _, h in ipairs(hostages) do
+        if h.entity == data.entity then return end
+    end
+
     local hostage = Hostage:new(data)
 
     hostage:initialize()
