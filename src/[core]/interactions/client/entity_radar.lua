@@ -138,7 +138,7 @@ function show_target(entity_id, _, prompt)
             Citizen.Wait(0)
         end
 
-        if GetEntityType(showing_entity) == 3 then
+        if GetEntityType(entity_id) == 3 then
             SetEntityDrawOutline(entity_id, false)
         end
 
