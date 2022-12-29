@@ -96,6 +96,7 @@ Events.UPDATE_FOOD_CHARGE_AUTH = "food:UpdateChargeAuth"
 
 -- @resouce hostages
 Events.CREATE_NEW_HOSTAGE = "hostages:CreateNew"
+Events.DELETE_NEW_HOSTAGE = "hostages:DeleteNew"
 
 -- @resource hud
 Events.CREATE_HUD_NOTIFICATION = "hud:CreateNotification"

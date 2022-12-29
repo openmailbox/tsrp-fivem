@@ -19,15 +19,8 @@ local function on_event(targets, enactor, _)
     if time < last_at + DEBOUNCE then return end
     last_at = time
 
-    if NetworkHasControlOfEntity(target) then
-        TriggerEvent(Events.CREATE_NEW_HOSTAGE, {
-            target_net_id  = PedToNet(target),
-            enactor_net_id = PedToNet(PlayerPedId())
-        })
-    else
-        TriggerServerEvent(Events.CREATE_NEW_HOSTAGE, {
-            target_net_id = PedToNet(target)
-        })
-    end
+    TriggerServerEvent(Events.CREATE_NEW_HOSTAGE, {
+        target_net_id = PedToNet(target)
+    })
 end
 AddEventHandler(Events.CLIENT_GUN_AIMED_AT, on_event)

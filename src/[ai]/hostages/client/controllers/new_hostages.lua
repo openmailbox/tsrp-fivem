@@ -1,13 +1,23 @@
 local function create(data)
-    if not NetworkDoesNetworkIdExist(data.target_net_id) then return end
-    if not NetworkHasControlOfNetworkId(data.target_net_id) then return end
+    if not NetworkDoesNetworkIdExist(data.net_id) then return end
+    if not NetworkHasControlOfNetworkId(data.net_id) then return end
 
-    local entity = NetToPed(data.target_net_id)
+    local entity = NetToPed(data.net_id)
     if not DoesEntityExist(entity) then return end
 
-    HostageDirector.add_hostage({
-        ped     = entity,
-        enactor = NetToPed(data.enactor_net_id)
-    })
+    SetBlockingOfNonTemporaryEvents(entity, true)
+    TaskSetBlockingOfNonTemporaryEvents(entity, true)
 end
 RegisterNetEvent(Events.CREATE_NEW_HOSTAGE, create)
+
+local function delete(data)
+    if not NetworkDoesNetworkIdExist(data.net_id) then return end
+    if not NetworkHasControlOfNetworkId(data.net_id) then return end
+
+    local entity = NetToPed(data.net_id)
+    if not DoesEntityExist(entity) then return end
+
+    SetBlockingOfNonTemporaryEvents(entity, false)
+    TaskSetBlockingOfNonTemporaryEvents(entity, false)
+end
+RegisterNetEvent(Events.DELETE_NEW_HOSTAGE, delete)

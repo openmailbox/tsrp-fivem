@@ -1,4 +1,3 @@
--- Keeps track of all the hostages this client controls.
 HostageDirector = {}
 
 -- Forward declarations
@@ -13,9 +12,8 @@ function HostageDirector.add_hostage(data)
     hostage:initialize()
     table.insert(hostages, hostage)
 
-    if not is_active then
-        start_updates()
-    end
+    if is_active then return end
+    start_updates()
 end
 
 -- @local
@@ -34,10 +32,11 @@ function start_updates()
             for i = #hostages, 1, -1 do
                 next_hostage = hostages[i]
 
-                if DoesEntityExist(next_hostage.ped) then
+                if DoesEntityExist(next_hostage.entity) then
                     next_hostage:update()
                 else
                     table.remove(hostages, i)
+                    next_hostage:cleanup()
                 end
             end
 
@@ -45,7 +44,7 @@ function start_updates()
                 is_active = false
             end
 
-            Citizen.Wait(3000)
+            Citizen.Wait(5000)
         end
 
         TriggerEvent(Events.LOG_MESSAGE, {
