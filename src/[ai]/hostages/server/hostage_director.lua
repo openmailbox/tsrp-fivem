@@ -46,9 +46,10 @@ function start_updates()
 
             if #hostages == 0 then
                 is_active = false
+                break
+            else
+                Citizen.Wait(5000)
             end
-
-            Citizen.Wait(5000)
         end
 
         TriggerEvent(Events.LOG_MESSAGE, {

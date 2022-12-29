@@ -36,6 +36,7 @@ function Hostage:fleeing()
         -- TODO: If original hostage taker is not nearby, this might break
         self.position = new_position
         TaskReactAndFleePed(self.entity, GetPlayerPed(self.enactor))
+        Entity(self.entity).state.interaction = false
     end
 end
 
@@ -45,6 +46,7 @@ function Hostage:initialize()
 
     ClearPedTasks(self.entity)
     TaskHandsUp(self.entity, -1, self.enactor, -1, 1)
+    Entity(self.entity).state.interaction = true
 
     self.initialized_at = GetGameTimer()
     self:move_to(StateBehaviors.WAITING)
