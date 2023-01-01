@@ -20,6 +20,16 @@ function HostageDirector.add_hostage(data)
     start_updates()
 end
 
+function HostageDirector.find_by_net_id(net_id)
+    for _, hostage in ipairs(hostages) do
+        if hostage.net_id == net_id then
+            return hostage
+        end
+    end
+
+    return nil
+end
+
 -- @local
 function start_updates()
     is_active = true
@@ -27,7 +37,7 @@ function start_updates()
     Citizen.CreateThread(function()
         TriggerEvent(Events.LOG_MESSAGE, {
             level   = Logging.DEBUG,
-            message = "Starting hostage updates."
+            message = "Hostage updates starting."
         })
 
         while is_active do
@@ -36,9 +46,7 @@ function start_updates()
             for i = #hostages, 1, -1 do
                 next_hostage = hostages[i]
 
-                if DoesEntityExist(next_hostage.entity) then
-                    next_hostage:update()
-                else
+                if not DoesEntityExist(next_hostage.entity) then
                     table.remove(hostages, i)
                     next_hostage:cleanup()
                 end
@@ -54,7 +62,7 @@ function start_updates()
 
         TriggerEvent(Events.LOG_MESSAGE, {
             level   = Logging.DEBUG,
-            message = "Stopping hostage updates."
+            message = "Hostage updates stopping."
         })
     end)
 end
