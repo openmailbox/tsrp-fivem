@@ -8,6 +8,10 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Provides ability to take NPCs hostage and order them to do various things."
 version "0.0.1"
 
+dependencies {
+    "interactions"
+}
+
 client_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
