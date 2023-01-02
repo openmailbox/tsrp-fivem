@@ -68,7 +68,25 @@ end
 -- @local
 function follow_leader(entity)
     -- TODO: Make them follow the closest player with a gun out; not always the entity owner
-    if Vdist(GetEntityCoords(entity), GetEntityCoords(PlayerPedId())) > MAX_FOLLOW_DISTANCE then
-        TaskFollowToOffsetOfEntity(entity, PlayerPedId(), 1.0, 1.0, 1.0, 0.5, -1, 3.0, false)
+    local leader = PlayerPedId()
+
+    if Vdist(GetEntityCoords(entity), GetEntityCoords(leader)) > MAX_FOLLOW_DISTANCE then
+        TaskFollowToOffsetOfEntity(entity, leader, 1.0, 1.0, 1.0, 0.5, -1, 3.0, true)
+    elseif IsPedInAnyVehicle(leader, false) then
+        local empty   = nil
+        local vehicle = GetVehiclePedIsIn(leader, false)
+
+        for i = 1, GetVehicleMaxNumberOfPassengers(vehicle) do
+            if IsVehicleSeatAccessible(entity, vehicle, i - 1, 0, true) then
+                empty = i - 1
+                break
+            end
+        end
+
+        if empty then
+            TaskEnterVehicle(entity, vehicle, -1, empty, 0.5, 1, 0)
+        end
+    elseif not IsPedInAnyVehicle(leader, false) and IsPedInAnyVehicle(entity, false) then
+        TaskLeaveAnyVehicle(entity, 256)
     end
 end
