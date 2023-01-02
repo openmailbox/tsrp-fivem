@@ -5,6 +5,7 @@ local DEFAULT_PROMPT_LABEL = "interactions:default_prompt"
 
 local exclusions    = {}
 local registrations = {} -- Key->Dict<String, Interaction> of registered entity or model interactions
+-- TODO: This would be cleaner modeled as a hierarchy where model interactions include entity children
 
 -- Add a specific entity to the exclusion list. Excluded entities will NOT generate an interaction prompt.
 -- @tparam number entity

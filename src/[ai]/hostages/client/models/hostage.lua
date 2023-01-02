@@ -36,9 +36,6 @@ function Hostage:cleanup()
 end
 
 function Hostage:initialize()
-    SetBlockingOfNonTemporaryEvents(self.entity, true)
-    TaskSetBlockingOfNonTemporaryEvents(self.entity, true)
-
     table.insert(hostages, self)
 
     TriggerEvent(Events.LOG_MESSAGE, {
@@ -60,10 +57,15 @@ function Hostage:move_to(state_id)
         message = "Hostage " .. self.net_id .. " moving to state " .. state_id .. "."
     })
 
+    -- TODO: Causes an unnecessary extra network call for state changes initialized by client (i.e. Waiting->Fleeing timeout)
     TriggerServerEvent(Events.CREATE_HOSTAGE_UPDATE, {
         net_id       = self.net_id,
         new_state_id = state_id
     })
+
+    if self.state then
+        self.state:exit()
+    end
 
     local constructor = Hostage.States[state_id]
     if not constructor then return end
@@ -93,11 +95,12 @@ function start_updates()
         })
 
         while is_running do
-            local next_hostage
+            local next_hostage = nil
 
             for i = #hostages, 1, -1 do
-                next_hostage = hostages[1]
+                next_hostage = hostages[i]
 
+                -- TODO: Handle edge case if dead
                 if DoesEntityExist(next_hostage.entity) then
                     next_hostage:update()
                 else

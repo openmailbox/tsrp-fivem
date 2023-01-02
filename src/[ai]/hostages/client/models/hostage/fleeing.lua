@@ -16,5 +16,8 @@ function Fleeing:enter()
     TaskReactAndFleePed(self.hostage.entity, PlayerPedId())
 end
 
+function Fleeing:exit()
+end
+
 function Fleeing:update()
 end

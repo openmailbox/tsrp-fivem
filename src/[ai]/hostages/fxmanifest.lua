@@ -9,7 +9,8 @@ description "Provides ability to take NPCs hostage and order them to do various 
 version "0.0.1"
 
 dependencies {
-    "interactions"
+    "interactions",
+    "progress"
 }
 
 client_scripts {
