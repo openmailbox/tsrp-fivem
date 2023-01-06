@@ -4,12 +4,13 @@ Hostage.States[HostageStates.FOLLOWING] = Following
 
 -- Forward declarations
 local apply_animation,
-      follow_leader
+      follow_leader,
+      enter_vehicle
 
 local Animation = { DICTIONARY = "mp_arresting", NAME = "idle" }
 
 local INTERACTION_NAME    = "Release Hostage"
-local MAX_FOLLOW_DISTANCE = 7.0
+local MAX_FOLLOW_DISTANCE = 3.0
 
 function Following:new(o)
     o = o or {}
@@ -29,9 +30,6 @@ function Following:enter()
         until HasAnimDictLoaded(Animation.DICTIONARY)
     end
 
-    apply_animation(self.hostage.entity)
-    follow_leader(self.hostage.entity)
-
     exports.interactions:RegisterInteraction({
         entity = self.hostage.entity,
         name   = INTERACTION_NAME,
@@ -50,13 +48,25 @@ function Following:exit()
     ClearPedTasks(self.hostage.entity)
 end
 
+-- Called every second during update loop
 function Following:update()
     if not IsEntityPlayingAnim(self.hostage.entity, Animation.DICTIONARY, Animation.NAME, 3) then
         apply_animation(self.hostage.entity)
     end
 
-    if not GetIsTaskActive(self.hostage.entity, 259) then
-        follow_leader(self.hostage.entity)
+    -- TODO: Make them follow the closest player with a gun out; not always the entity owner
+    local leader = PlayerPedId()
+    local ped    = self.hostage.entity
+
+    if IsPedInAnyVehicle(leader, false) and not IsPedInAnyVehicle(ped, false) then
+        enter_vehicle(ped, GetVehiclePedIsIn(leader))
+    elseif not IsPedInAnyVehicle(leader, false) and IsPedInAnyVehicle(ped, false) then
+        TaskLeaveVehicle(ped, GetVehiclePedIsIn(ped, false), 0)
+        TaskFollowToOffsetOfEntity(ped, leader, 1.0, 1.0, 1.0, 0.5, -1, 3.0, true)
+    elseif Vdist(GetEntityCoords(ped), GetEntityCoords(leader)) > MAX_FOLLOW_DISTANCE then
+        TaskFollowToOffsetOfEntity(ped, leader, 1.0, 1.0, 1.0, 0.5, -1, 3.0, true)
+    elseif not IsPedInAnyVehicle(ped, false) then
+        TaskStandStill(ped, -1)
     end
 end
 
@@ -66,27 +76,17 @@ function apply_animation(entity)
 end
 
 -- @local
-function follow_leader(entity)
-    -- TODO: Make them follow the closest player with a gun out; not always the entity owner
-    local leader = PlayerPedId()
+function enter_vehicle(entity, vehicle)
+    local empty = nil
 
-    if Vdist(GetEntityCoords(entity), GetEntityCoords(leader)) > MAX_FOLLOW_DISTANCE then
-        TaskFollowToOffsetOfEntity(entity, leader, 1.0, 1.0, 1.0, 0.5, -1, 3.0, true)
-    elseif IsPedInAnyVehicle(leader, false) then
-        local empty   = nil
-        local vehicle = GetVehiclePedIsIn(leader, false)
-
-        for i = 1, GetVehicleMaxNumberOfPassengers(vehicle) do
-            if IsVehicleSeatAccessible(entity, vehicle, i - 1, 0, true) then
-                empty = i - 1
-                break
-            end
+    for i = 1, GetVehicleMaxNumberOfPassengers(vehicle) do
+        if IsVehicleSeatAccessible(entity, vehicle, i - 1, 0, true) then
+            empty = i - 1
+            break
         end
+    end
 
-        if empty then
-            TaskEnterVehicle(entity, vehicle, -1, empty, 0.5, 1, 0)
-        end
-    elseif not IsPedInAnyVehicle(leader, false) and IsPedInAnyVehicle(entity, false) then
-        TaskLeaveAnyVehicle(entity, 256)
+    if empty then
+        TaskEnterVehicle(entity, vehicle, -1, empty, 0.5, 1, 0)
     end
 end

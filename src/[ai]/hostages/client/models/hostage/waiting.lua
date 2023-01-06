@@ -41,12 +41,10 @@ end
 
 function Waiting:update()
     if GetGameTimer() > self.timeout then
-        print("timeout " .. self.hostage.net_id)
         self.hostage:move_to(HostageStates.FLEEING)
     end
 
     if not GetIsTaskActive(self.hostage.entity, 0) then
-        print("hands up " .. self.hostage.net_id)
         TaskHandsUp(self.hostage.entity, -1, PlayerPedId(), -1, 1)
     end
 end
