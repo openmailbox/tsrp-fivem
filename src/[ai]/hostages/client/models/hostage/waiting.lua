@@ -34,7 +34,6 @@ function Waiting:enter()
     end)
 end
 
--- TODO: Ensure this gets called even if the ped disappears unexpectedly
 function Waiting:exit()
     exports.interactions:UnregisterInteraction(nil, INTERACTION_NAME, self.hostage.entity)
 end

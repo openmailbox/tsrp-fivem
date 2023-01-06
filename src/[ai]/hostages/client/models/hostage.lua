@@ -33,6 +33,10 @@ function Hostage:cleanup()
         SetBlockingOfNonTemporaryEvents(self.entity, false)
         TaskSetBlockingOfNonTemporaryEvents(self.entity, false)
     end
+
+    if self.state then
+        self.state:exit()
+    end
 end
 
 function Hostage:initialize()
