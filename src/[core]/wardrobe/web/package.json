@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Provides user interface for character customization.",
   "main": "web/src/main.js",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",

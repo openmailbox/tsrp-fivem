@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './deposit.vue'
-import '../styles/index.css'
+import './assets/main.css'
 
 const app = createApp(App);
 let vm = app.mount('#atm');
