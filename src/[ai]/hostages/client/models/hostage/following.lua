@@ -4,7 +4,6 @@ Hostage.States[HostageStates.FOLLOWING] = Following
 
 -- Forward declarations
 local apply_animation,
-      follow_leader,
       enter_vehicle
 
 local Animation = { DICTIONARY = "mp_arresting", NAME = "idle" }

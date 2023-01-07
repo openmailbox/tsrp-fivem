@@ -11,9 +11,7 @@ version "0.0.1"
 dependencies {
     "accounts",
     "interactions",
-    "mysql-async",
-    "webpack",
-    "yarn"
+    "mysql-async"
 }
 
 client_scripts {
@@ -33,5 +31,3 @@ files {
     "web/dist/**/*.html",
     "web/dist/**/*.js",
 }
-
-webpack_config "webpack.config.js"
