@@ -107,6 +107,8 @@ function any_players_nearby(heist)
             return true
         end
     end
+
+    return false
 end
 
 -- @local
