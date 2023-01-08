@@ -1,7 +1,8 @@
 Heist = {}
 
 -- Forward declarations
-local dist2d
+local any_players_nearby,
+      dist2d
 
 local heists = {}
 
@@ -40,6 +41,17 @@ function Heist:new(o)
     return o
 end
 
+function Heist:activate()
+    self.available = false
+    self.reset_at  = GetGameTimer() + (1000 * 60 * 15)
+
+    TriggerClientEvent(Events.UPDATE_HEISTS, -1, {
+        heists = { self }
+    })
+
+    HeistManager.wait_for_refresh()
+end
+
 function Heist:apply_damage(location, model, amount)
     local found = nil
 
@@ -58,22 +70,43 @@ function Heist:apply_damage(location, model, amount)
     found.broken = true
 
     if self.available then
-        self.available = false
-        self:update()
+        self:activate()
     end
 
     return found
 end
 
 function Heist:initialize()
-    self.available = true
+    self:reset()
     table.insert(heists, self)
 end
 
-function Heist:update()
-    TriggerClientEvent(Events.UPDATE_HEISTS, -1, {
-        heists = { self }
+function Heist:reset()
+    self.available = true
+
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.INFO,
+        message = "Heist " .. self.id .. " at " .. self.name .. " is available."
     })
+end
+
+-- @treturns boolean true if internal state changed during the update
+function Heist:update()
+    if not self.available and GetGameTimer() > self.reset_at and not any_players_nearby() then
+        self:reset()
+        return true
+    end
+
+    return false
+end
+
+-- @local
+function any_players_nearby(heist)
+    for _, player in ipairs(GetPlayers()) do
+        if dist2d(GetEntityCoords(GetPlayerPed(player)), heist.location) < heist.radius then
+            return true
+        end
+    end
 end
 
 -- @local
