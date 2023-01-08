@@ -5,7 +5,7 @@ local raycast_camera,
       rotation_to_dir,
       show_target
 
-local INTERACT_RANGE = 1.0
+local INTERACT_RANGE = 1.1
 
 local closest_entity = 0    -- Current closest entity player could interact with.
 local showing_entity = 0    -- Same as closest_entity if player is close enough to interact.

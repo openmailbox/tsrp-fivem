@@ -4,6 +4,7 @@ Events = {}
 Events.ON_CLIENT_RESOURCE_START = "onClientResourceStart"
 Events.ON_CLIENT_RESOURCE_STOP  = "onClientResourceStop"
 Events.ON_ENTITY_CREATED        = "entityCreated"
+Events.ON_ENTITY_DAMAGED        = "entityDamaged"
 Events.ON_GAME_EVENT            = "gameEventTriggered"
 Events.ON_PLAYER_CONNECTING     = "playerConnecting"
 Events.ON_PLAYER_DROPPED        = "playerDropped"
@@ -93,6 +94,12 @@ Events.UPDATE_CHOP_VEHICLE_DROPOFF = "chop:UpdateVehicleDropoff"
 -- @resource food
 Events.CREATE_FOOD_CHARGE_AUTH = "food:CreateChargeAuth"
 Events.UPDATE_FOOD_CHARGE_AUTH = "food:UpdateChargeAuth"
+
+-- @resource heists
+Events.GET_HEISTS    = "heists:Get"
+Events.UPDATE_HEISTS = "heists:Update"
+
+Events.CREATE_DAMAGED_HEIST_OBJECT = "heists:CreateDamagedObject"
 
 -- @resouce hostages
 Events.CREATE_NEW_HOSTAGE = "hostages:CreateNew"
