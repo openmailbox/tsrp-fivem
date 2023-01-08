@@ -57,12 +57,23 @@ function Heist:apply_damage(location, model, amount)
     found.damage = (found.damage or 0.0) + amount
     found.broken = true
 
+    if self.available then
+        self.available = false
+        self:update()
+    end
+
     return found
 end
 
 function Heist:initialize()
     self.available = true
     table.insert(heists, self)
+end
+
+function Heist:update()
+    TriggerClientEvent(Events.UPDATE_HEISTS, -1, {
+        heists = { self }
+    })
 end
 
 -- @local

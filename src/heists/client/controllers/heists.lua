@@ -4,6 +4,11 @@ local function update(data)
 
         if not heist then
             heist = Heist:new(record)
+            heist:initialize()
+        else
+            for k, v in pairs(record) do
+                heist[k] = v
+            end
         end
 
         heist:update()
