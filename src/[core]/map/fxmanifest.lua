@@ -12,6 +12,7 @@ client_scripts {
     "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "@common/shared/uuid.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
 }
@@ -20,6 +21,7 @@ server_scripts {
     "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "@common/shared/uuid.lua",
     "shared/**/*.lua",
     "server/**/*.lua"
 }
