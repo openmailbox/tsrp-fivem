@@ -1,5 +1,6 @@
 local BAG_NAME = "hostage_state"
 
+-- TDOO: Does this trigger when entity newly enters player scope and BAG_NAME is set?
 local function on_change(bag, _, value)
     local entity = GetEntityFromStateBagName(bag)
 
