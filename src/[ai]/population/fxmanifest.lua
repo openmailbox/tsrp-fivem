@@ -5,7 +5,7 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "AI behavior enhancements for locals."
+description "Handles spawning and tracking of NPCs for a specific purpose, loot tables, and related."
 version "0.0.1"
 
 client_scripts {
