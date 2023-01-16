@@ -9,7 +9,8 @@ description "Provides heists at various locations."
 version "0.0.1"
 
 dependencies {
-    "map"
+    "map",
+    "population"
 }
 
 client_scripts {

@@ -11,6 +11,12 @@ function Heist.all()
 end
 
 function Heist.cleanup()
+    for _, heist in ipairs(heists) do
+        for _, spawn in ipairs(heist.spawns) do
+            exports.population:RemoveSpawn(spawn.id)
+        end
+    end
+
     heists = {}
 end
 
@@ -41,6 +47,7 @@ function Heist:new(o)
     return o
 end
 
+-- Called when a player does something to 'start' the heist.
 function Heist:activate()
     self.available = false
     self.reset_at  = GetGameTimer() + (1000 * 60 * 15)
@@ -76,12 +83,22 @@ function Heist:apply_damage(location, model, amount)
     return found
 end
 
+-- Only called once at resource startup
 function Heist:initialize()
     self:reset()
     table.insert(heists, self)
 end
 
+-- Called any time the heist should be reset to an available state.
 function Heist:reset()
+    for _, spawn in ipairs(self.spawns) do
+        if spawn.id then
+            exports.population:RemoveSpawn(spawn.id)
+        end
+
+        spawn.id = exports.population:AddSpawn(spawn)
+    end
+
     self.available = true
 
     TriggerEvent(Events.LOG_MESSAGE, {
