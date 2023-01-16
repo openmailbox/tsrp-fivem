@@ -109,7 +109,7 @@ end
 
 -- @treturns boolean true if internal state changed during the update
 function Heist:update()
-    if not self.available and GetGameTimer() > self.reset_at and not any_players_nearby() then
+    if not self.available and GetGameTimer() > self.reset_at and not any_players_nearby(self) then
         self:reset()
         return true
     end
