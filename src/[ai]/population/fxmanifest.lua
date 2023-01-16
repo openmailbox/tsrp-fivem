@@ -12,3 +12,14 @@ client_scripts {
     "@common/shared/events.lua",
     "client/**/*.lua"
 }
+
+server_scripts {
+    "@common/shared/events.lua",
+    "@common/shared/uuid.lua",
+    "server/**/*.lua"
+}
+
+server_exports {
+    "AddSpawn",
+    "RemoveSpawn"
+}
