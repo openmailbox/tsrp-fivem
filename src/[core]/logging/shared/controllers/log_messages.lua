@@ -9,12 +9,18 @@ local LABELS = {
 
 local function create(data)
     local invoker   = GetInvokingResource()
-    local timestamp = os.date("%x %X", os.time())
+    local timestamp = ""
     local level     = data.level or Logging.INFO
     local current   = GetConvarInt("LOG_LEVEL", Logging.INFO)
 
+    if os and os.time then
+        timestamp = tostring(os.date("%x %X", os.time()))
+    else
+        timestamp = GetGameTimer()
+    end
+
     if level <= current then
-        Citizen.Trace("[" .. invoker .. "] [" .. LABELS[level] .. "] [" .. timestamp .. "] " .. data.message .. "\n")
+        Citizen.Trace("[" .. timestamp .. "] [" .. invoker .. "] [" .. LABELS[level] .. "] " .. data.message .. "\n")
     end
 end
 RegisterNetEvent(Events.LOG_MESSAGE, create)
