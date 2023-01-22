@@ -40,11 +40,14 @@ function Hostage:cleanup()
 end
 
 function Hostage:initialize()
+    local behavior_name = Entity(self.entity).state.hostage_behavior or "following"
+    self.behavior = Behaviors.for_name(behavior_name)
+
     table.insert(hostages, self)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
-        message = "Hostage " .. self.net_id .. " initialized."
+        message = "Hostage " .. self.net_id .. " initialized with behavior '" .. self.behavior.name .. "'."
     })
 
     if is_running then return end

@@ -2,8 +2,6 @@ Waiting = {}
 
 Hostage.States[HostageStates.WAITING] = Waiting
 
-local INTERACTION_NAME = "Take Hostage"
-
 function Waiting:new(o)
     o = o or {}
 
@@ -21,21 +19,19 @@ function Waiting:enter()
 
     self.timeout = GetGameTimer() + 7000
 
+    local behavior = self.hostage.behavior
+
     exports.interactions:RegisterInteraction({
         entity = self.hostage.entity,
-        name   = INTERACTION_NAME,
-        prompt = "take a hostage",
+        name   = behavior.name,
+        prompt = behavior.prompt,
     }, function(_)
-        exports.interactions:AddExclusion(self.hostage.entity)
-        exports.progress:ShowProgressBar(2000, "Detaining")
-        Citizen.Wait(1800)
-        self.hostage:move_to(HostageStates.FOLLOWING)
-        exports.interactions:RemoveExclusion(self.hostage.entity)
+        self.hostage:move_to(HostageStates.ACTING)
     end)
 end
 
 function Waiting:exit()
-    exports.interactions:UnregisterInteraction(nil, INTERACTION_NAME, self.hostage.entity)
+    exports.interactions:UnregisterInteraction(nil, self.hostage.behavior.name, self.hostage.entity)
 end
 
 function Waiting:update()

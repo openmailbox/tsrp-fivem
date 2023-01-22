@@ -1,26 +1,34 @@
+-- Use this as an example for registering hostage behaviors from other resources.
 Following = {}
-
-Hostage.States[HostageStates.FOLLOWING] = Following
 
 -- Forward declarations
 local apply_animation,
-      enter_vehicle
+      enter_vehicle,
+      on_enter,
+      on_exit,
+      on_update
 
 local Animation = { DICTIONARY = "mp_arresting", NAME = "idle" }
 
 local INTERACTION_NAME    = "Release Hostage"
 local MAX_FOLLOW_DISTANCE = 3.0
 
-function Following:new(o)
-    o = o or {}
+local followers = {}
 
-    setmetatable(o, self)
-    self.__index = self
-
-    return o
+function Following.initialize()
+    Behaviors.register("following", {
+        name      = "Take Hostage",
+        prompt    = "take a hostage",
+        on_enter  = on_enter,
+        on_exit   = on_exit,
+        on_update = on_update,
+    })
 end
 
-function Following:enter()
+-- @local
+function on_enter(entity)
+    followers[entity] = true
+
     if not HasAnimDictLoaded(Animation.DICTIONARY) then
         RequestAnimDict(Animation.DICTIONARY)
 
@@ -29,33 +37,44 @@ function Following:enter()
         until HasAnimDictLoaded(Animation.DICTIONARY)
     end
 
+    exports.progress:ShowProgressBar(2000, "Detaining")
+
+    exports.interactions:AddExclusion(entity)
+    Citizen.Wait(1800)
+    exports.interactions:RemoveExclusion(entity)
+
     exports.interactions:RegisterInteraction({
-        entity = self.hostage.entity,
+        entity = entity,
         name   = INTERACTION_NAME,
         prompt = "release the hostage",
     }, function(_)
-        exports.interactions:AddExclusion(self.hostage.entity)
         exports.progress:ShowProgressBar(2000, "Releasing")
+
+        exports.interactions:AddExclusion(entity)
         Citizen.Wait(1800)
-        self.hostage:move_to(HostageStates.FLEEING)
-        exports.interactions:RemoveExclusion(self.hostage.entity)
+        exports.interactions:RemoveExclusion(entity)
+
+        followers[entity] = nil
     end)
 end
 
-function Following:exit()
-    exports.interactions:UnregisterInteraction(nil, INTERACTION_NAME, self.hostage.entity)
-    ClearPedTasks(self.hostage.entity)
+-- @local
+function on_exit(entity)
+    followers[entity] = nil
+    exports.interactions:UnregisterInteraction(nil, INTERACTION_NAME, entity)
+    ClearPedTasks(entity)
 end
 
 -- Called every second during update loop
-function Following:update()
-    if not IsEntityPlayingAnim(self.hostage.entity, Animation.DICTIONARY, Animation.NAME, 3) then
-        apply_animation(self.hostage.entity)
+-- @local
+function on_update(entity)
+    if not IsEntityPlayingAnim(entity, Animation.DICTIONARY, Animation.NAME, 3) then
+        apply_animation(entity)
     end
 
     -- TODO: Make them follow the closest player with a gun out; not always the entity owner
     local leader = PlayerPedId()
-    local ped    = self.hostage.entity
+    local ped    = entity
 
     if IsPedInAnyVehicle(leader, false) and not IsPedInAnyVehicle(ped, false) then
         enter_vehicle(ped, GetVehiclePedIsIn(leader))
@@ -67,6 +86,8 @@ function Following:update()
     elseif not IsPedInAnyVehicle(ped, false) then
         TaskStandStill(ped, -1)
     end
+
+    return followers[entity]
 end
 
 -- @local

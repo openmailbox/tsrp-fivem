@@ -26,3 +26,8 @@ server_scripts {
     "shared/**/*.lua",
     "server/**/*.lua"
 }
+
+exports {
+    "AddBehavior",
+    "RemoveBehavior"
+}
