@@ -7,7 +7,7 @@ local function create(data)
     local object = heist:apply_damage(data.victim.location, data.victim.model, data.damage)
     if not object then return end
 
-    local amount = math.random(500)
+    local amount = math.random(100, 500)
 
     TriggerClientEvent(Events.CREATE_CASH_PICKUP, player_id, {
         location = data.victim.location,

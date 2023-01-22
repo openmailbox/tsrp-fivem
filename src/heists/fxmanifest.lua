@@ -9,12 +9,14 @@ description "Provides heists at various locations."
 version "0.0.1"
 
 dependencies {
+    "hostages",
     "map",
     "population"
 }
 
 client_scripts {
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "client/**/*.lua"
 }
 
