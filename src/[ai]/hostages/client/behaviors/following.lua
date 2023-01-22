@@ -27,7 +27,8 @@ end
 
 -- @local
 function on_enter(entity)
-    followers[entity] = true
+    -- initial state
+    followers[entity] = { ready = false }
 
     if not HasAnimDictLoaded(Animation.DICTIONARY) then
         RequestAnimDict(Animation.DICTIONARY)
@@ -42,6 +43,8 @@ function on_enter(entity)
     exports.interactions:AddExclusion(entity)
     Citizen.Wait(1800)
     exports.interactions:RemoveExclusion(entity)
+
+    followers[entity].ready = true
 
     exports.interactions:RegisterInteraction({
         entity = entity,
@@ -68,6 +71,16 @@ end
 -- Called every second during update loop
 -- @local
 function on_update(entity)
+    local follower = followers[entity]
+
+    if not follower then
+        return false
+    end
+
+    if not follower.ready then
+        return true
+    end
+
     if not IsEntityPlayingAnim(entity, Animation.DICTIONARY, Animation.NAME, 3) then
         apply_animation(entity)
     end
@@ -87,7 +100,7 @@ function on_update(entity)
         TaskStandStill(ped, -1)
     end
 
-    return followers[entity]
+    return true
 end
 
 -- @local
