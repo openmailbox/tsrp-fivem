@@ -20,7 +20,7 @@ function Acting:exit()
 end
 
 function Acting:update()
-    local result = self.hostage.on_update(self.hostage.entity)
+    local result = self.hostage.behavior.on_update(self.hostage.entity)
 
     if not result then
         self.hostage:move_to(HostageStates.FLEEING)

@@ -7,7 +7,7 @@ function Behaviors.for_name(name)
 end
 
 function Behaviors.register(name, options)
-    registrations[name] = Behaviors:new(options)
+    registrations[name] = options
 end
 exports("AddBehavior", Behaviors.register)
 
