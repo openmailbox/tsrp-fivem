@@ -10,12 +10,14 @@ HeistLocations = {
         },
         spawns = {
             {
-                model    = "u_m_y_burgerdrug_01",
-                location = vector3(24.38, -1345.7, 29.497),
-                heading  = 271.849,
-                -- TODO
-                -- scenario = "WORLD_HUMAN_STAND_MOBILE",
-                -- voice    = "mp_m_shopkeep_01_latino_mini_01"
+                model      = "u_m_y_burgerdrug_01",
+                location   = vector3(24.38, -1345.7, 29.497),
+                heading    = 271.849,
+                init_state = {
+                    hostage_behavior = "store_clerk",
+                    scenario         = "WORLD_HUMAN_STAND_MOBILE",
+                    voice            = "mp_m_shopkeep_01_latino_mini_01"
+                }
             }
         }
     }

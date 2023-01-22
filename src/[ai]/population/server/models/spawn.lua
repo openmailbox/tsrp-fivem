@@ -32,6 +32,14 @@ function Spawn:initialize()
        Citizen.Wait(10)
     until DoesEntityExist(self.entity) or GetGameTimer() > timeout
 
+    if self.init_state then
+        local sbag = Entity(self.entity).state
+
+        for k, v in pairs(self.init_state) do
+            sbag[k] = v
+        end
+    end
+
     if DoesEntityExist(self.entity) then
         TriggerEvent(Events.LOG_MESSAGE, {
             level   = Logging.INFO,
