@@ -8,6 +8,8 @@ local on_enter,
 local Animation = { DICTIONARY = 'mp_am_hold_up', NAME = 'holdup_victim_20s' }
 local MODEL     = GetHashKey('prop_till_01')
 
+local clerks = {}
+
 function StoreClerk.cleanup()
     exports.hostages:RemoveBehavior("store_clerk")
 end
@@ -30,6 +32,9 @@ function on_enter(entity)
     if register == 0 or Vdist(coords, GetEntityCoords(register)) > 3.0 then
         return
     end
+
+    -- initial state
+    clerks[entity] = { ready = false }
 
     if not HasAnimDictLoaded(Animation.DICTIONARY) then
         RequestAnimDict(Animation.DICTIONARY)
@@ -59,8 +64,10 @@ function on_enter(entity)
             Citizen.Wait(10)
         end
 
-        TaskPlayAnim(entity, Animation.DICTIONARY, Animation.NAME, 8.0, -8.0, -1, 2, 0, false, false, false)
+        TaskPlayAnim(entity, Animation.DICTIONARY, Animation.NAME, 8.0, -8.0, -1, 0, 0, false, false, false)
         PlayAmbientSpeech1(entity, "SHOP_HURRYING", "SPEECH_PARAMS_FORCE_SHOUTED", 0)
+
+        clerks[entity].ready = true
     end)
 end
 
@@ -74,13 +81,19 @@ end
 
 -- @local
 function on_update(entity)
-    if IsEntityPlayingAnim(entity, Animation.DICTIONARY, Animation.NAME, 2) then
+    local clerk = clerks[entity]
+
+    if not clerk or IsPedDeadOrDying(entity, 1) then
+        return false
+    end
+
+    if not clerk.ready or IsEntityPlayingAnim(entity, Animation.DICTIONARY, Animation.NAME, 3) then
         return true
     else
         PlayAmbientSpeech1(entity, "SHOP_GAVE_YOU_EVERYTHING", "SPEECH_PARAMS_FORCE_SHOUTED", 0)
 
         TriggerEvent(Events.CREATE_CASH_PICKUP, {
-            location = GetEntityCoords(entity) + GetEntityForwardVector(entity),
+            location = (GetEntityCoords(entity) + GetEntityForwardVector(entity)),
             amount   = math.random(100, 500)
         })
 

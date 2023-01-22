@@ -28,7 +28,7 @@ function EntityRadar.look_for_targets()
             closest_entity = 0
             ped            = PlayerPedId()
 
-            if not IsPlayerFreeAiming(PlayerId()) and not IsPedInAnyVehicle(ped, true) then
+            if not IsPedInAnyVehicle(ped, true) then
                 target = raycast_camera(ped)
             else
                 target = {}
