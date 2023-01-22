@@ -10,6 +10,7 @@ local INTERACT_RANGE = 1.1
 local closest_entity = 0    -- Current closest entity player could interact with.
 local showing_entity = 0    -- Same as closest_entity if player is close enough to interact.
 local is_active      = true
+local is_debugging   = false
 local is_showing     = false
 
 function EntityRadar.cleanup()
@@ -36,7 +37,7 @@ function EntityRadar.look_for_targets()
 
             interactions = Interaction.for_entity(target.entity)
 
-            if target.result == 2 and target.hit and #interactions > 0 then
+            if target.result == 2 and target.hit and (#interactions > 0 or is_debugging) then
                 closest_entity = target.entity
             end
 
@@ -60,9 +61,22 @@ function EntityRadar.look_for_targets()
                 showing_entity = 0
             end
 
-            Citizen.Wait(250)
+            if is_debugging then
+                Citizen.Wait(25)
+            else
+                Citizen.Wait(250)
+            end
         end
     end)
+end
+
+function EntityRadar.set_debug(value)
+    is_debugging = value
+
+    TriggerEvent(Events.LOG_MESSAGE, {
+        level   = Logging.DEBUG,
+        message = "Interaction debugging is " .. (is_debugging and "ON" or "OFF") .. "."
+    })
 end
 
 -- @local
@@ -117,17 +131,21 @@ end
 function show_target(entity_id, _, prompt)
     if showing_entity > 0 then
         SendNUIMessage({ type = Events.DELETE_INTERACTIVE_OBJECT })
+
+        if GetEntityType(showing_entity) == 3 then
+            SetEntityDrawOutline(showing_entity, false)
+        end
     end
 
     SendNUIMessage({ type = Events.CREATE_INTERACTIVE_OBJECT, item = {} })
     showing_entity = entity_id
 
-    if is_showing then return end
-    is_showing = true
-
     if GetEntityType(showing_entity) == 3 then
         SetEntityDrawOutline(showing_entity, true)
     end
+
+    if is_showing then return end
+    is_showing = true
 
     Citizen.CreateThread(function()
         while is_active and showing_entity > 0 do

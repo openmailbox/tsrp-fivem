@@ -115,6 +115,8 @@ Events.CREATE_HUD_HELP_MESSAGE = "hud:CreateHelpMessage"
 Events.CREATE_INTERACTIVE_OBJECT = "interactions:CreateObject"
 Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"
 
+Events.CREATE_SCANNER_TOGGLE = "interactions:CreateScannerToggle"
+
 -- @resource map
 Events.MAP_UPDATE_PLAYER = "map:UpdatePlayer"
 
