@@ -60,6 +60,8 @@ function Heist:activate()
 end
 
 function Heist:apply_damage(location, model, amount)
+    amount = amount or 0.0
+
     local found = nil
 
     for _, object in ipairs(self.objects or {}) do

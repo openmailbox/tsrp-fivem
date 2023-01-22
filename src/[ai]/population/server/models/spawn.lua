@@ -32,6 +32,8 @@ function Spawn:initialize()
        Citizen.Wait(10)
     until DoesEntityExist(self.entity) or GetGameTimer() > timeout
 
+    SetPedConfigFlag(self.entity, 17, true)
+
     if self.init_state then
         local sbag = Entity(self.entity).state
 

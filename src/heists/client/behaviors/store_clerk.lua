@@ -6,7 +6,7 @@ local on_enter,
       on_update
 
 local Animation = { DICTIONARY = 'mp_am_hold_up', NAME = 'holdup_victim_20s' }
-local MODEL     = GetHashKey('prop_till_01')
+local Model     = { DEFAULT = GetHashKey('prop_till_01'), BROKEN = GetHashKey('prop_till_01_dam') }
 
 local clerks = {}
 
@@ -27,7 +27,7 @@ end
 -- @local
 function on_enter(entity)
     local coords   = GetEntityCoords(entity)
-    local register = GetClosestObjectOfType(coords, 3.0, MODEL)
+    local register = GetClosestObjectOfType(coords, 3.0, Model.DEFAULT)
 
     if register == 0 or Vdist(coords, GetEntityCoords(register)) > 3.0 then
         return
@@ -92,13 +92,19 @@ function on_update(entity)
     else
         PlayAmbientSpeech1(entity, "SHOP_GAVE_YOU_EVERYTHING", "SPEECH_PARAMS_FORCE_SHOUTED", 0)
 
-        TriggerEvent(Events.CREATE_CASH_PICKUP, {
-            location = (GetEntityCoords(entity) + GetEntityForwardVector(entity)),
-            amount   = math.random(100, 500)
+        local register = GetClosestObjectOfType(GetEntityCoords(entity), 3.0, Model.DEFAULT)
+        local x, y, z  = table.unpack(GetEntityCoords(register))
+
+        TriggerServerEvent(Events.CREATE_DAMAGED_HEIST_OBJECT, {
+            victim = {
+                net_id   = (NetworkGetEntityIsNetworked(register) and ObjToNet(register)) or 0,
+                location = vector3(x, y, z),
+                model    = Model.DEFAULT
+            }
         })
+
+        CreateModelSwap(x, y, z, 0.2, Model.DEFAULT, Model.BROKEN, 1)
 
         return false
     end
-
-    -- TODO: If register was destroyed, bail
 end
