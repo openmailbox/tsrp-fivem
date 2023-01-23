@@ -45,7 +45,11 @@ end
 RegisterNetEvent(Events.CREATE_ADMIN_SOUND, create_sound)
 
 local function create_speech(data)
-    PlayPedAmbientSpeechNative(PlayerPedId(), data.name, "SPEECH_PARAMS_STANDARD")
+    local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()))
+    local voice   = data.voice or GetAmbientVoiceNameHash(PlayerPedId())
+
+    PlayAmbientSpeechFromPositionNative(data.name, voice, x, y, z, "SPEECH_PARAMS_STANDARD")
+
     chat("Playing speech '" .. data.name .. "'.")
 end
 RegisterNetEvent(Events.CREATE_ADMIN_SPEECH, create_speech)

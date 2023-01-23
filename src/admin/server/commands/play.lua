@@ -40,7 +40,8 @@ local function cmd_play_speech(source, args, raw_command)
     local player_id = source
 
     TriggerClientEvent(Events.CREATE_ADMIN_SPEECH, player_id, {
-        name = args[1]
+        name  = args[1],
+        voice = args[2]
     })
 
     log(player_id, raw_command)

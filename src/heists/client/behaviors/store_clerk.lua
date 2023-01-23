@@ -7,6 +7,7 @@ local on_enter,
 
 local Animation = { DICTIONARY = 'mp_am_hold_up', NAME = 'holdup_victim_20s' }
 local Model     = { DEFAULT = GetHashKey('prop_till_01'), BROKEN = GetHashKey('prop_till_01_dam') }
+local Speech    = { VOICE = "MP_M_SHOPKEEP_01_PAKISTANI_MINI_01", TYPE = "SPEECH_PARAMS_FORCE_SHOUTED" }
 
 local clerks = {}
 
@@ -40,6 +41,9 @@ function on_enter(entity)
         RequestAnimDict(Animation.DICTIONARY)
     end
 
+    local x, y, z = table.unpack(coords)
+    PlayAmbientSpeechFromPositionNative("SHOP_SCARED", Speech.VOICE, x, y, z, Speech.TYPE)
+
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.DEBUG,
         message = "Started robbing Store Clerk at " .. coords .. "."
@@ -65,7 +69,6 @@ function on_enter(entity)
         end
 
         TaskPlayAnim(entity, Animation.DICTIONARY, Animation.NAME, 8.0, -8.0, -1, 0, 0, false, false, false)
-        PlayAmbientSpeech1(entity, "SHOP_HURRYING", "SPEECH_PARAMS_FORCE_SHOUTED", 0)
 
         clerks[entity].ready = true
     end)
@@ -88,12 +91,18 @@ function on_update(entity)
     end
 
     if not clerk.ready or IsEntityPlayingAnim(entity, Animation.DICTIONARY, Animation.NAME, 3) then
+        if math.random() < 0.1 then
+            local x, y, z = table.unpack(GetEntityCoords(entity))
+            PlayAmbientSpeechFromPositionNative("SHOP_HURRYING", Speech.VOICE, x, y, z, Speech.TYPE)
+        end
+
         return true
     else
-        PlayAmbientSpeech1(entity, "SHOP_GAVE_YOU_EVERYTHING", "SPEECH_PARAMS_FORCE_SHOUTED", 0)
+        local x, y, z = table.unpack(GetEntityCoords(entity))
+        PlayAmbientSpeechFromPositionNative("SHOP_GAVE_YOU_EVERYTHING", Speech.VOICE, x, y, z, Speech.TYPE)
 
-        local register = GetClosestObjectOfType(GetEntityCoords(entity), 3.0, Model.DEFAULT)
-        local x, y, z  = table.unpack(GetEntityCoords(register))
+        local register = GetClosestObjectOfType(x, y, z, 3.0, Model.DEFAULT)
+        x, y, z        = table.unpack(GetEntityCoords(register))
 
         TriggerServerEvent(Events.CREATE_DAMAGED_HEIST_OBJECT, {
             victim = {
@@ -103,6 +112,7 @@ function on_update(entity)
             }
         })
 
+        -- TODO: RemoveModelSwap somewhere
         CreateModelSwap(x, y, z, 0.2, Model.DEFAULT, Model.BROKEN, 1)
 
         return false

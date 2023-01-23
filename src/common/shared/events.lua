@@ -16,6 +16,7 @@ Events.ON_RESOURCE_STOP         = "onResourceStop"
 Events.CLIENT_PLAYER_COLLECT_AMBIENT_PICKUP = "CEventNetworkPlayerCollectedAmbientPickup"
 Events.CLIENT_ENTITY_DAMAGE                 = "CEventNetworkEntityDamage"
 Events.CLIENT_GUN_AIMED_AT                  = "CEventGunAimedAt"
+Events.CLIENT_CRIME_REPORTED                = "CEventCrimeReported"
 
 -- @resource accounts
 Events.CREATE_ACCOUNT_SESSION = "accounts:CreateSession"

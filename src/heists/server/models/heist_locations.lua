@@ -16,7 +16,6 @@ HeistLocations = {
                 init_state = {
                     hostage_behavior = "store_clerk",
                     scenario         = "WORLD_HUMAN_STAND_MOBILE",
-                    voice            = "mp_m_shopkeep_01_latino_mini_01"
                 }
             }
         }

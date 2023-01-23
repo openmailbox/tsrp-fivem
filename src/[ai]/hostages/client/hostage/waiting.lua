@@ -16,6 +16,7 @@ function Waiting:enter()
     SetBlockingOfNonTemporaryEvents(self.hostage.entity, true)
     TaskSetBlockingOfNonTemporaryEvents(self.hostage.entity, true)
     TaskHandsUp(self.hostage.entity, -1, PlayerPedId(), -1, 1)
+    PlayPedAmbientSpeechNative(self.hostage.entity, "GENERIC_FRIGHTENED_HIGH", "SPEECH_PARAMS_FORCE_SHOUTED")
 
     self.timeout = GetGameTimer() + 7000
 
