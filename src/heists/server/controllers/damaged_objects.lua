@@ -14,6 +14,10 @@ local function create(data)
         amount   = amount
     })
 
+    if GetPlayerWantedLevel(player_id) < 1 then
+        SetPlayerWantedLevel(player_id, 1)
+    end
+
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.INFO,
         message = GetPlayerName(player_id) .. " (" .. player_id .. ") spawned $" .. amount .. " by damaging " .. object.model .. " at " .. heist.name .. "."
