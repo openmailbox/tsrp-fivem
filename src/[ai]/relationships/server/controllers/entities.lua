@@ -15,12 +15,11 @@ local function create(entity)
         group  = group
     })
 
-    if group == "COP" then
-        GiveWeaponToPed(entity, GetHashKey("WEAPON_COMBATPISTOL"), 100, false, false)
-        GiveWeaponToPed(entity, GetHashKey("WEAPON_NIGHTSTICK"), 0, false, false)
-        SetPedArmour(entity, 50)
-    elseif math.random() < 0.33 and string.match(group, "AMBIENT_GANG") then
-        GiveWeaponToPed(entity, GetHashKey("WEAPON_PISTOL"), 100, false, false)
-    end
+    TriggerEvent(Events.UPDATE_ENTITY_RELGROUP, {
+        entity = entity,
+        group  = group,
+        owner  = owner,
+        net_id = net_id
+    })
 end
 AddEventHandler(Events.ON_ENTITY_CREATED, create)

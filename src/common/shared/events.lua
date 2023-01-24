@@ -123,6 +123,9 @@ Events.MAP_UPDATE_PLAYER = "map:UpdatePlayer"
 
 Events.CREATE_MAP_VSPAWN_RESULT = "map:CreateVspawnResult"
 
+-- @resource population
+Events.UPDATE_POPULATION_PED = "population:UpdatePed"
+
 -- @resource progress
 Events.CREATE_PROGRESS_BAR = "progress:CreateBar"
 Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"

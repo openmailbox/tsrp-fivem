@@ -1,4 +1,6 @@
 local function update(data)
+    if not NetworkDoesEntityExistWithNetworkId(data.net_id) then return end
+
     local entity = NetToPed(data.net_id)
 
     if not entity or entity == 0 then return end
