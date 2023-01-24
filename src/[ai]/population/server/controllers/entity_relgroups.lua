@@ -7,10 +7,12 @@ local function update(data)
         SetPedArmour(data.entity, 75)
 
         TriggerClientEvent(Events.UPDATE_POPULATION_PED, data.owner, {
-            net_id         = data.net_id,
-            driver_ability = 1.0,
-            combat_ability = 2,
-            combat_attribs = { 0, 1, 2, 3, 46, 52}
+            net_id          = data.net_id,
+            driver_ability  = 1.0,
+            combat_ability  = 2,
+            combat_attribs  = { 0, 1, 2, 3, 46, 52},
+            combat_movement = 1,
+            accuracy        = 66
         })
     elseif string.match(data.group, "AMBIENT_GANG") and math.random() < 0.33 then
         GiveWeaponToPed(data.entity, GetHashKey("WEAPON_PISTOL"), 100, false, false)

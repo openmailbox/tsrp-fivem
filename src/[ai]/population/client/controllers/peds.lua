@@ -14,5 +14,13 @@ local function update(data)
     for _, attrib in ipairs(data.combat_attribs or {}) do
         SetPedCombatAttributes(entity, attrib, true)
     end
+
+    if data.combat_movement then
+        SetPedCombatMovement(entity, data.combat_movement)
+    end
+
+    if data.accuracy then
+        SetPedAccuracy(entity, data.accuracy)
+    end
 end
 RegisterNetEvent(Events.UPDATE_POPULATION_PED, update)
