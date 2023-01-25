@@ -34,6 +34,9 @@ Events.CREATE_ADMIN_HP_ADJUST = "admin:CreateHpAdjust"
 Events.CREATE_OBJECT_SPAWN = "admin:CreateObjectSpawn"
 Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 
+Events.CREATE_PED_SPAWN = "admin:CreatePedSpawn"
+Events.UPDATE_PED_SPAWN = "admin:UpdatePedSpawn"
+
 -- @resource atm
 Events.CREATE_ATM_SESSION = "atm:CreateSession"
 Events.DELETE_ATM_SESSION = "atm:DeleteSession"

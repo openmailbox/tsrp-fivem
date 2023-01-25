@@ -12,6 +12,7 @@ local function create(data)
     end
 
     if not HasModelLoaded(hash) then
+        print("requesting " .. data.args[1])
         RequestModel(hash)
     end
 
@@ -21,14 +22,13 @@ local function create(data)
         Citizen.Wait(5)
     end
 
-    TriggerServerEvent(Events.UPDATE_OBJECT_SPAWN, data)
+    print("update")
+    TriggerServerEvent(Events.UPDATE_PED_SPAWN, data)
 end
-RegisterNetEvent(Events.CREATE_OBJECT_SPAWN, create)
+RegisterNetEvent(Events.CREATE_PED_SPAWN, create)
 
 local function update(data)
-    local entity = NetToObj(data.net_id)
-
-    ActivatePhysics(entity)
+    local entity = NetToPed(data.net_id)
     SetModelAsNoLongerNeeded(GetEntityModel(entity))
 end
-RegisterNetEvent(Events.UPDATE_OBJECT_SPAWN, update)
+RegisterNetEvent(Events.UPDATE_PED_SPAWN, update)
