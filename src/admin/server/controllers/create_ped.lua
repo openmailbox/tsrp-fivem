@@ -7,9 +7,12 @@ local function update(data)
     local ped     = CreatePed(4, hash, x, y, z, 0, true, false)
     local message = "Created ped " .. ped .. " from " .. data.args[1] .. " (" .. hash .. ") at " .. data.location .. "."
 
-    while not DoesEntityExist(ped) and GetGameTimer() < timeout do
-        Citizen.Wait(5)
-    end
+    repeat
+        Citizen.Wait(10)
+    until DoesEntityExist(ped) or GetGameTimer() > timeout
+
+    -- Does not appear to be automatically generated when creating peds server-side.
+    TriggerEvent(Events.ON_ENTITY_CREATED, ped)
 
     if not DoesEntityExist(ped) then
         TellPlayer(enactor, "Unable to spawn ped.")

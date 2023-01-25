@@ -1,26 +1,27 @@
 local function update(data)
     if not NetworkDoesEntityExistWithNetworkId(data.net_id) then return end
 
-    local entity = NetToPed(data.net_id)
+    local entity  = NetToPed(data.net_id)
+    local loadout = data.loadout
 
-    if data.driver_ability then
-        SetDriverAbility(entity, data.driver_ability)
+    if loadout.driver_ability then
+        SetDriverAbility(entity, loadout.driver_ability)
     end
 
-    if data.combat_ability then
-        SetPedCombatAbility(entity, data.combat_ability)
+    if loadout.combat_ability then
+        SetPedCombatAbility(entity, loadout.combat_ability)
     end
 
-    for _, attrib in ipairs(data.combat_attribs or {}) do
+    for _, attrib in ipairs(loadout.combat_attribs or {}) do
         SetPedCombatAttributes(entity, attrib, true)
     end
 
-    if data.combat_movement then
-        SetPedCombatMovement(entity, data.combat_movement)
+    if loadout.combat_movement then
+        SetPedCombatMovement(entity, loadout.combat_movement)
     end
 
-    if data.accuracy then
-        SetPedAccuracy(entity, data.accuracy)
+    if loadout.accuracy then
+        SetPedAccuracy(entity, loadout.accuracy)
     end
 end
 RegisterNetEvent(Events.UPDATE_POPULATION_PED, update)
