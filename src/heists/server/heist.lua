@@ -101,6 +101,8 @@ function Heist:reset()
         spawn.id = exports.population:AddSpawn(spawn)
     end
 
+    -- TODO: Clear cracked safes
+
     self.available = true
 
     TriggerEvent(Events.LOG_MESSAGE, {

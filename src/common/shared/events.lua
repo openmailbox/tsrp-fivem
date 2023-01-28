@@ -105,6 +105,9 @@ Events.UPDATE_HEISTS = "heists:Update"
 
 Events.CREATE_DAMAGED_HEIST_OBJECT = "heists:CreateDamagedObject"
 
+Events.CREATE_CRACKED_SAFE_ATTEMPT = "heists:CreateCrackedSafeAttempt"
+Events.UPDATE_CRACKED_SAFE_ATTEMPT = "heists:UpdateCrackedSafeAttempt"
+
 -- @resouce hostages
 Events.CREATE_NEW_HOSTAGE = "hostages:CreateNew"
 
