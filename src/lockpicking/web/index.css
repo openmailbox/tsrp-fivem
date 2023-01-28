@@ -1,0 +1,97 @@
+* {
+    user-select:none;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+body {
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+main {
+    position: absolute;
+    display: flex;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+.keyhole-wrapper {
+    position: relative;
+    height: 635px;
+    width: 108px;
+    right: -1.4%;
+    margin: 0px;
+    z-index: 2;
+}
+
+.keyhole-wrapper img {
+    position: absolute;
+    left: 0%;
+    bottom: 0%;
+    margin: 0px;
+}
+
+.backside-wrapper {
+    position: relative;
+    height: 635px;
+    width: 108px;
+    margin: 0px;
+}
+
+.backside-wrapper img {
+    position: absolute;
+    left: 0%;
+    bottom: 5%;
+    margin: 0px;
+}
+
+.lockpick-wrapper {
+    position: relative;
+    margin: 0px;
+    bottom: 25%;
+    z-index: 1;
+}
+
+.lockpick-rotate {
+    animation: tilt 0.5s ease-out 1;
+}
+
+.lockpick-wrapper img {
+    left: -1010px;
+    margin: 0px;
+    position: absolute;
+    width: 1100px;
+}
+
+.tumblers {
+    position: relative;
+    display: flex;
+    margin: 0px;
+}
+
+.tumbler-wrapper {
+    position: relative;
+    height: 635px;
+    width: 108px;
+    margin: 0px;
+}
+
+.pin-wrapper {
+    position: absolute;
+    left: 33%;
+    bottom: 25%; /* min: 25%, max 50% */
+    margin: 0px;
+}
+
+.pin-green {
+    position: absolute;
+    margin: 0px;
+}
+
+@keyframes tilt {
+    0% { transform: rotateZ(0); }
+    50% { transform: rotateZ(-5deg); }
+    100% { transform: rotateZ(0); }
+}

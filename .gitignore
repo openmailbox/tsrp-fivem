@@ -46,6 +46,7 @@ data/txData
 data/gamedb/*
 !data/gamedb/.gitkeep
 cfg/server.cfg
+cfg/server.cfg.bkp
 cfg/txadmin.json
 vendor/*
 !vendor/README.md

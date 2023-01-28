@@ -1,4 +1,3 @@
--- TODO: Need a better home for this.
 function CreateInstructionalDisplay(...)
     local parameters = table.pack(...)
     local scaleform  = RequestScaleformMovie("instructional_buttons")

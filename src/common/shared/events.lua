@@ -121,6 +121,10 @@ Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"
 
 Events.CREATE_SCANNER_TOGGLE = "interactions:CreateScannerToggle"
 
+-- @resource lockpicking
+Events.CREATE_LOCKPICK_SESSION = "lockpicking:CreateSession"
+Events.DELETE_LOCKPICK_SESSION = "lockpicking:DeleteSession"
+
 -- @resource map
 Events.MAP_UPDATE_PLAYER = "map:UpdatePlayer"
 

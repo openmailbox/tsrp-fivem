@@ -17,6 +17,7 @@ client_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "@common/shared/ped_models.lua",
+    "@common/client/scaleform.lua",
     "client/**/*.lua"
 }
 
