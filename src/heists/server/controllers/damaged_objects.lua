@@ -4,7 +4,7 @@ local function create(data)
     local heist = Heist.find_closest(data.victim.location)
     if not heist then return end
 
-    local object = heist:apply_damage(data.victim.location, data.victim.model, data.damage)
+    local object = heist:apply_damage(NetworkGetEntityFromNetworkId(data.net_id), data.damage)
     if not object then return end
 
     local amount = math.random(100, 500)
@@ -20,7 +20,7 @@ local function create(data)
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.INFO,
-        message = GetPlayerName(player_id) .. " (" .. player_id .. ") spawned $" .. amount .. " by damaging " .. object.model .. " at " .. heist.name .. "."
+        message = GetPlayerName(player_id) .. " (" .. player_id .. ") spawned $" .. amount .. " by damaging a heist object at " .. heist.name .. "."
     })
 end
 RegisterNetEvent(Events.CREATE_DAMAGED_HEIST_OBJECT, create)

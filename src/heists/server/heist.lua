@@ -63,30 +63,26 @@ function Heist:activate()
     HeistManager.wait_for_refresh()
 end
 
-function Heist:apply_damage(location, model, amount)
+function Heist:apply_damage(entity, amount)
     amount = amount or 0.0
 
-    local found = nil
+    local net_id = NetworkGetNetworkIdFromEntity(entity)
+    local object = self.objects[net_id]
 
-    for _, object in ipairs(self.objects or {}) do
-        if model == GetHashKey(object.model) and dist2d(location, object.location) < 0.1 and not object.broken then
-            found = object
-            break
-        end
-    end
-
-    if not found or found.broken then
+    if object and object.broken then
         return nil
+    else
+        object = { entity = entity }
     end
 
-    found.damage = (found.damage or 0.0) + amount
-    found.broken = true
+    object.damage = (object.damage or 0.0) + amount
+    object.broken = true
 
     if self.available then
         self:activate()
     end
 
-    return found
+    return object
 end
 
 function Heist:crack_safe(entity)
@@ -115,6 +111,7 @@ function Heist:reset()
     end
 
     self.available = true
+    self.objects   = {}
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.INFO,
