@@ -67,7 +67,6 @@ function Heist:activate()
 
         -- TODO: Implicit dependency on hostages. Need a better way to do this.
         if not Entity(entity).state.hostage_state then
-            GiveWeaponToPed(entity, Weapons.PUMPSHOTGUN, 100, false, true)
             SetCurrentPedWeapon(entity, Weapons.PUMPSHOTGUN, true)
         end
     end

@@ -7,7 +7,6 @@ local function create(entity)
     local owner   = NetworkGetEntityOwner(entity)
 
     if not loadout then return end
-    if not owner or owner == 0 then return end
 
     for _, weap in ipairs(loadout.weapons) do
         GiveWeaponToPed(entity, weap, 100, false, false)
@@ -16,6 +15,8 @@ local function create(entity)
     if loadout.armor then
         SetPedArmour(entity, loadout.armor)
     end
+
+    if not owner or owner == 0 then return end
 
     TriggerClientEvent(Events.UPDATE_POPULATION_PED, owner, {
         net_id  = NetworkGetNetworkIdFromEntity(entity),

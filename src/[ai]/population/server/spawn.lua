@@ -47,6 +47,8 @@ function Spawn:initialize()
             level   = Logging.INFO,
             message = "Spawned " .. self.model .. " at " .. self.location .. "."
         })
+
+        TriggerEvent(Events.ON_ENTITY_CREATED, self.entity) -- doesn't happen normally for server-spawned peds it seems
     else
         TriggerEvent(Events.LOG_MESSAGE, {
             level   = Logging.WARN,
