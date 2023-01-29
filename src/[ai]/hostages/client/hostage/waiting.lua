@@ -18,6 +18,9 @@ function Waiting:enter()
     TaskHandsUp(self.hostage.entity, -1, PlayerPedId(), -1, 1)
     PlayPedAmbientSpeechNative(self.hostage.entity, "GENERIC_FRIGHTENED_HIGH", "SPEECH_PARAMS_FORCE_SHOUTED")
 
+    SetPedConfigFlag(self.hostage.entity, 225, true) -- DisablePotentialToBeWalkedIntoResponse
+    SetPedConfigFlag(self.hostage.entity, 226, true) -- DisablePedAvoidance
+
     self.timeout = GetGameTimer() + 7000
 
     local behavior = self.hostage.behavior

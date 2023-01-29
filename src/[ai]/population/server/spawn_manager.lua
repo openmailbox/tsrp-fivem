@@ -8,7 +8,7 @@ function SpawnManager.add_spawn(options)
     spawn:initialize()
     table.insert(spawns, spawn)
 
-    return spawn.id
+    return spawn.id, spawn.entity
 end
 exports("AddSpawn", SpawnManager.add_spawn)
 

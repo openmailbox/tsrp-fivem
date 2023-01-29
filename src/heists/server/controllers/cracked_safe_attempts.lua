@@ -28,7 +28,10 @@ local function update(data)
     local entity    = NetworkGetEntityFromNetworkId(data.net_id)
     local ostate    = Entity(entity).state
 
-    ostate.is_busy    = false
+    ostate.is_busy = false
+
+    if data.result ~= "success" then return end
+
     ostate.is_cracked = true
 
     local amount = math.random(500, 2000)

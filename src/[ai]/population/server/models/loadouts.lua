@@ -18,7 +18,7 @@ Loadouts = {
 
     StoreClerk = {
         combat_ability  = 1,
-        combat_attribs  = { 0 },
+        combat_attribs  = { 0, 46 },
         combat_movement = 1,
         accuracy        = 50,
         weapons         = { Weapons.PUMPSHOTGUN }

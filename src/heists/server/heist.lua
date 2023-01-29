@@ -60,6 +60,18 @@ function Heist:activate()
         heists = { self }
     })
 
+    for _, spawn in ipairs(self.spawns) do
+        local entity = NetworkGetEntityFromNetworkId(spawn.net_id)
+
+        SetPedConfigFlag(entity, 17, false)
+
+        -- TODO: Implicit dependency on hostages. Need a better way to do this.
+        if not Entity(entity).state.hostage_state then
+            GiveWeaponToPed(entity, Weapons.PUMPSHOTGUN, 100, false, true)
+            SetCurrentPedWeapon(entity, Weapons.PUMPSHOTGUN, true)
+        end
+    end
+
     HeistManager.wait_for_refresh()
 end
 
@@ -103,7 +115,10 @@ function Heist:reset()
             exports.population:RemoveSpawn(spawn.id)
         end
 
-        spawn.id = exports.population:AddSpawn(spawn)
+        local id, entity = exports.population:AddSpawn(spawn)
+
+        spawn.id     = id
+        spawn.net_id = NetworkGetNetworkIdFromEntity(entity)
     end
 
     for _, safe in ipairs(self.cracked_safes or {}) do

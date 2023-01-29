@@ -35,12 +35,13 @@ function StoreSafe.open(id, result)
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
             message = "Your lockpick ~r~broke~s~."
         })
-    elseif result == "success" then
-        TriggerServerEvent(Events.UPDATE_CRACKED_SAFE_ATTEMPT, {
-            location = GetEntityCoords(PlayerPedId()),
-            net_id   = ObjToNet(active_safe.entity)
-        })
     end
+
+    TriggerServerEvent(Events.UPDATE_CRACKED_SAFE_ATTEMPT, {
+        location = GetEntityCoords(PlayerPedId()),
+        net_id   = ObjToNet(active_safe.entity),
+        result   = result
+    })
 end
 
 -- @local
