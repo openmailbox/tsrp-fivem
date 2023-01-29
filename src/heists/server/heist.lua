@@ -52,10 +52,11 @@ function Heist:new(o)
 end
 
 -- Called when a player does something to 'start' the heist.
-function Heist:activate()
-    self.active    = true
-    self.available = false
-    self.reset_at  = GetGameTimer() + (1000 * 60 * 15)
+function Heist:activate(player_id)
+    self.active       = true
+    self.available    = false
+    self.reset_at     = GetGameTimer() + (1000 * 60 * 15)
+    self.activated_by = player_id
 
     for _, spawn in ipairs(self.spawns) do
         -- Clears blocking of temp/shocking events.
@@ -69,7 +70,7 @@ function Heist:activate()
     HeistManager.wait_for_refresh()
 end
 
-function Heist:apply_damage(entity, amount)
+function Heist:apply_damage(player_id, entity, amount)
     amount = amount or 0.0
 
     local net_id = NetworkGetNetworkIdFromEntity(entity)
@@ -85,7 +86,7 @@ function Heist:apply_damage(entity, amount)
     object.broken = true
 
     if self.available then
-        self:activate()
+        self:activate(player_id)
     end
 
     return object

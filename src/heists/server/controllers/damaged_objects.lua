@@ -4,7 +4,7 @@ local function create(data)
     local heist = Heist.find_closest(data.victim.location)
     if not heist then return end
 
-    local object = heist:apply_damage(NetworkGetEntityFromNetworkId(data.net_id), data.damage)
+    local object = heist:apply_damage(player_id, NetworkGetEntityFromNetworkId(data.net_id), data.damage)
     if not object then return end
 
     local amount = math.random(100, 500)

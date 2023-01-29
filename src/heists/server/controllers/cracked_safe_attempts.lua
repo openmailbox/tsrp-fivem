@@ -6,7 +6,7 @@ local function create(data)
     Entity(entity).state.is_busy = true
 
     if heist then
-        heist:activate()
+        heist:activate(player_id)
 
         if GetPlayerWantedLevel(player_id) < 1 then
             SetPlayerWantedLevel(player_id, 1)
