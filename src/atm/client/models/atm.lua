@@ -24,6 +24,13 @@ function Atm.initialize()
             name   = INTERACT_NAME,
             prompt = "use the ATM"
         }, function(_)
+            if tonumber(GetPlayerWantedLevel(PlayerId())) > 0 or tonumber(GetPlayerFakeWantedLevel(PlayerId())) > 0 then
+                TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+                    message = "You can't do that right now."
+                })
+                return
+            end
+
             SetNuiFocus(true, true)
 
             local _, cash = StatGetInt(GetHashKey("MP0_WALLET_BALANCE"), -1)
