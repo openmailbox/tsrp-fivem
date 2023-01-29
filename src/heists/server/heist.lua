@@ -15,6 +15,10 @@ function Heist.cleanup()
         for _, spawn in ipairs(heist.spawns) do
             exports.population:RemoveSpawn(spawn.id)
         end
+
+        for _, safe in ipairs(heist.cracked_safes or {}) do
+            Entity(safe).state.is_cracked = nil
+        end
     end
 
     heists = {}
@@ -85,6 +89,11 @@ function Heist:apply_damage(location, model, amount)
     return found
 end
 
+function Heist:crack_safe(entity)
+    self.cracked_safes = self.cracked_safes or {}
+    table.insert(self.cracked_safes, entity)
+end
+
 -- Only called once at resource startup
 function Heist:initialize()
     self:reset()
@@ -101,7 +110,9 @@ function Heist:reset()
         spawn.id = exports.population:AddSpawn(spawn)
     end
 
-    -- TODO: Clear cracked safes
+    for _, safe in ipairs(self.cracked_safes or {}) do
+        Entity(safe).state.is_cracked = false
+    end
 
     self.available = true
 

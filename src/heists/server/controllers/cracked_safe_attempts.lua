@@ -34,11 +34,15 @@ local function update(data)
     local amount = math.random(500, 2000)
 
     TriggerClientEvent(Events.CREATE_CASH_PICKUP, player_id, {
-        location = data.location + vector3(0, 0, 0.2),
+        location = data.location,
         amount   = amount
     })
 
     local name = (heist and heist.name) or "Unknown"
+
+    if heist then
+        heist:crack_safe(entity)
+    end
 
     TriggerEvent(Events.LOG_MESSAGE, {
         level   = Logging.INFO,
