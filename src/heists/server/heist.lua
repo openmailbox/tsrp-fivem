@@ -17,7 +17,9 @@ function Heist.cleanup()
         end
 
         for _, safe in ipairs(heist.cracked_safes or {}) do
-            Entity(safe).state.is_cracked = nil
+            if DoesEntityExist(safe) then
+                Entity(safe).state.is_cracked = nil
+            end
         end
     end
 

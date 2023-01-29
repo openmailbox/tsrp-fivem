@@ -24,5 +24,6 @@ function Fleeing:update()
         -- TODO: We may maintain a reference to the hostage indefinitely server-side if the player goes out of scope.
         -- This would give us a "hostage pool" we might do something interesting with.
         TaskWanderStandard(self.hostage.entity, 10.0, 10)
+        SetCurrentPedWeapon(self.hostage.entity, Weapons.UNARMED, true)
     end
 end

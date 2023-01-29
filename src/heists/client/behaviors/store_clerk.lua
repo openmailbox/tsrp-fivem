@@ -104,9 +104,13 @@ function on_update(entity)
         local register = GetClosestObjectOfType(x, y, z, 3.0, Model.DEFAULT)
         x, y, z        = table.unpack(GetEntityCoords(register))
 
+        if not NetworkGetEntityIsNetworked(register) then
+            NetworkRegisterEntityAsNetworked(register)
+        end
+
         TriggerServerEvent(Events.CREATE_DAMAGED_HEIST_OBJECT, {
             victim = {
-                net_id   = (NetworkGetEntityIsNetworked(register) and ObjToNet(register)) or 0,
+                net_id   = ObjToNet(register),
                 location = vector3(x, y, z),
                 model    = Model.DEFAULT
             }
