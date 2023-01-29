@@ -8,6 +8,7 @@ function Heist.cleanup()
     for _, heist in ipairs(heists) do
         heist.available = false
         heist:update({})
+        exports.map:RemoveBlip(heist.blip_id)
     end
 end
 
@@ -40,8 +41,8 @@ end
 -- Process any updates based on changed internal state of the heist.
 function Heist:update(changes)
     if not self.available and changes.available then
-        self.blip.display = 2
-        self.blip.scale   = BLIP_SCALE
+        changes.blip.display = 2
+        changes.blip.scale   = BLIP_SCALE
 
         self.blip_id = exports.map:AddBlip(changes.location, changes.blip)
     elseif self.available and not changes.available then
