@@ -3,7 +3,7 @@ Loadouts = {
         combat_attribs  = { 0, 1, 2, 3, 46, 52 },
         combat_movement = 3,
         accuracy        = 50,
-        weapons         = { "WEAPON_PISTOL" }
+        weapons         = { Weapons.PISTOL }
     },
 
     Officer = {
@@ -13,7 +13,15 @@ Loadouts = {
         combat_attribs  = { 0, 1, 2, 3, 46, 52 },
         combat_movement = 2,
         accuracy        = 66,
-        weapons         = { "WEAPON_COMBATPISTOL", "WEAPON_NIGHTSTICK", "WEAPON_STUNGUN" }
+        weapons         = { Weapons.COMBATPISTOL, Weapons.NIGHTSTICK, Weapons.STUNGUN }
+    },
+
+    StoreClerk = {
+        combat_ability  = 1,
+        combat_attribs  = { 0 },
+        combat_movement = 1,
+        accuracy        = 50,
+        weapons         = { Weapons.PUMPSHOTGUN }
     },
 
     Swat = {
@@ -23,7 +31,7 @@ Loadouts = {
         combat_attribs  = { 0, 1, 2, 3, 46, 52 },
         combat_movement = 2,
         accuracy        = 80,
-        weapons         = { "WEAPON_CARBINERIFLE" }
+        weapons         = { Weapons.CARBINERIFLE }
     }
 }
 
@@ -77,7 +85,8 @@ local MODEL_LOADOUTS = {
     [GetHashKey("g_m_y_salvaboss_01")]  = Loadouts.Banger,
     [GetHashKey("g_m_y_salvagoon_01")]  = Loadouts.Banger,
     [GetHashKey("g_m_y_salvagoon_02")]  = Loadouts.Banger,
-    [GetHashKey("g_m_y_salvagoon_03")]  = Loadouts.Banger
+    [GetHashKey("g_m_y_salvagoon_03")]  = Loadouts.Banger,
+    [GetHashKey("u_m_y_burgerdrug_01")] = Loadouts.StoreClerk
 }
 
 function Loadouts.for_model(hash)

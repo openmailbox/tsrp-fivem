@@ -10,7 +10,7 @@ local function create(entity)
     if not owner or owner == 0 then return end
 
     for _, weap in ipairs(loadout.weapons) do
-        GiveWeaponToPed(entity, GetHashKey(weap), 100, false, false)
+        GiveWeaponToPed(entity, weap, 100, false, false)
     end
 
     if loadout.armor then

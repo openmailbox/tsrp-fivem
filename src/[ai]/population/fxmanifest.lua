@@ -17,6 +17,7 @@ server_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "@common/shared/uuid.lua",
+    "@common/shared/weapons.lua",
     "server/**/*.lua"
 }
 
