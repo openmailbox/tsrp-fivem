@@ -53,23 +53,18 @@ end
 
 -- Called when a player does something to 'start' the heist.
 function Heist:activate()
+    self.active    = true
     self.available = false
     self.reset_at  = GetGameTimer() + (1000 * 60 * 15)
+
+    for _, spawn in ipairs(self.spawns) do
+        -- Clears blocking of temp/shocking events.
+        SetPedConfigFlag(NetworkGetEntityFromNetworkId(spawn.net_id), 17, false)
+    end
 
     TriggerClientEvent(Events.UPDATE_HEISTS, -1, {
         heists = { self }
     })
-
-    for _, spawn in ipairs(self.spawns) do
-        local entity = NetworkGetEntityFromNetworkId(spawn.net_id)
-
-        SetPedConfigFlag(entity, 17, false)
-
-        -- TODO: Implicit dependency on hostages. Need a better way to do this.
-        if not Entity(entity).state.hostage_state then
-            SetCurrentPedWeapon(entity, Weapons.PUMPSHOTGUN, true)
-        end
-    end
 
     HeistManager.wait_for_refresh()
 end

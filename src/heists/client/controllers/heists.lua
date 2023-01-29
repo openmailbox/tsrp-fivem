@@ -3,15 +3,11 @@ local function update(data)
         local heist = Heist.find_by_id(record.id)
 
         if not heist then
-            heist = Heist:new(record)
+            heist = Heist:new()
             heist:initialize()
-        else
-            for k, v in pairs(record) do
-                heist[k] = v
-            end
         end
 
-        heist:update()
+        heist:update(record)
     end
 end
 RegisterNetEvent(Events.UPDATE_HEISTS, update)
