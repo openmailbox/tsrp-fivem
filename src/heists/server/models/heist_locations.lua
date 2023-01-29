@@ -146,7 +146,7 @@ HeistLocations = {
     {
         name     = "Rob's Liquor Morningwood",
         location = vector3(-1487.70, -378.65, 40.16),
-        radius   = 7.0,
+        radius   = 9.0,
         blip     = { icon = 59, color = 28, label = "Liquor Store" },
         spawns   = {
             {
@@ -162,7 +162,7 @@ HeistLocations = {
     {
         name     = "Rob's Liquor Murrieta Heights",
         location = vector3(1135.74, -982.86, 46.42),
-        radius   = 7.0,
+        radius   = 9.0,
         blip     = { icon = 59, color = 28, label = "Liquor Store" },
         spawns   = {
             {
@@ -178,7 +178,7 @@ HeistLocations = {
     {
         name     = "Rob's Liquor Banham Canyon",
         location = vector3(-2967.77, 391.56, 15.04),
-        radius   = 7.0,
+        radius   = 9.0,
         blip     = { icon = 59, color = 28, label = "Liquor Store" },
         spawns   = {
             {
@@ -194,7 +194,7 @@ HeistLocations = {
     {
         name     = "Scoops Liquor Barn",
         location = vector3(1165.37, 2709.37, 38.16),
-        radius   = 7.0,
+        radius   = 9.0,
         blip     = { icon = 59, color = 28, label = "Liquor Store" },
         spawns   = {
             {
