@@ -52,7 +52,7 @@ function Heist:update(changes)
         for _, spawn in ipairs(changes.spawns) do
             local entity = NetworkDoesEntityExistWithNetworkId(spawn.net_id) and NetToPed(spawn.net_id)
 
-            if entity then
+            if entity and NetworkGetEntityOwner(entity) == PlayerId() then
                 SetCurrentPedWeapon(entity, GetBestPedWeapon(entity, 0), true)
             end
         end
