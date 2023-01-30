@@ -4,6 +4,7 @@ local function create(data)
 
     if data.sender then
         EndTextCommandThefeedPostMessagetext(data.sender.image, data.sender.image, false, 1, data.sender.name, data.sender.subject)
+        PlaySoundFrontend(-1, "Event_Message_Purple", "GTAO_FM_Events_Soundset", 1)
     end
 
     local flash = data.important ~= false
