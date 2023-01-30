@@ -35,6 +35,10 @@ function Maudes.cleanup()
     exports.markers:RemoveMarker(marker_id)
 end
 
+function Maudes.get_location()
+    return BLIP_LOC
+end
+
 function Maudes.reset()
     if is_active then return end
     is_active = true

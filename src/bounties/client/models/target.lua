@@ -95,10 +95,24 @@ end
 
 function Target:deactivate()
     self.next_update = nil
+
     exports.map:RemoveBlip(self.area_blip)
     exports.map:RemoveBlip(self.victim_blip)
     exports.map:RemoveBlip(self.search_blip)
-    SetEntityAsNoLongerNeeded(self.victim)
+
+    if DoesEntityExist(self.victim) then
+        SetEntityAsNoLongerNeeded(self.victim)
+    end
+end
+
+function Target:deliver()
+    DeleteEntity(self.victim)
+
+    TriggerServerEvent(Events.CREATE_BOUNTY_PAYOUT, {
+        target_dead = false
+    })
+
+    self:deactivate()
 end
 
 function Target:flee()
@@ -110,6 +124,10 @@ function Target:flee()
 
     TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
         message = "The ~HUD_COLOUR_PURPLELIGHT~target~s~ was alerted and ~r~fled~s~."
+    })
+
+    TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
+        message = "Capture the ~HUD_COLOUR_PURPLELIGHT~target~BLIP_BOUNTY_HIT~~s~ alive and return them to Maude."
     })
 
     self.next_update = chasing
@@ -158,19 +176,32 @@ end
 
 -- @local
 function chasing(target)
-    if IsPedDeadOrDying(target.victim, true) then
-        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-            message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ was eliminated."
-        })
-
-        TriggerServerEvent(Events.CREATE_BOUNTY_PAYOUT)
-
-        target:deactivate()
-    elseif not DoesEntityExist(target.victim) then
+    if not DoesEntityExist(target.victim) or Vdist(GetEntityCoords(PlayerPedId()), GetEntityCoords(target.victim)) > 100.0 then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
             message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ got away."
         })
+
         target:deactivate()
+        return
+    end
+
+    if IsPedDeadOrDying(target.victim, true) then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ died."
+        })
+
+        TriggerServerEvent(Events.CREATE_BOUNTY_PAYOUT, {
+            target_dead = true
+        })
+
+        target:deactivate()
+        return
+    end
+
+    local distance = Vdist(Maudes.get_location(), GetEntityCoords(target.victim))
+
+    if not IsPedInAnyVehicle(target.victim, false) and distance < 7.0 then
+        target:deliver()
     end
 end
 
@@ -181,7 +212,7 @@ function find_victim(origin)
     local ped        = PlayerPedId()
 
     for _, entity in ipairs(pool) do
-        if entity ~= ped and Vdist(GetEntityCoords(entity), origin) < RADIUS and not IsPedInAnyVehicle(entity, true) then
+        if entity ~= ped and GetPedType(entity) ~= 28 and Vdist(GetEntityCoords(entity), origin) < RADIUS and not IsPedInAnyVehicle(entity, true) then
             table.insert(candidates, entity)
         end
     end
