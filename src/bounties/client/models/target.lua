@@ -98,6 +98,7 @@ function Target:deactivate()
     exports.map:RemoveBlip(self.area_blip)
     exports.map:RemoveBlip(self.victim_blip)
     exports.map:RemoveBlip(self.search_blip)
+    SetEntityAsNoLongerNeeded(self.victim)
 end
 
 function Target:flee()
@@ -189,7 +190,11 @@ function find_victim(origin)
         return nil
     end
 
-    return candidates[math.random(#candidates)]
+    local winner = candidates[math.random(#candidates)]
+
+    SetEntityAsMissionEntity(winner, true, true)
+
+    return winner
 end
 
 -- @local
