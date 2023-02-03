@@ -161,9 +161,10 @@ end
 
 -- @local
 function approaching(target)
-    local me = PlayerPedId()
+    local me       = PlayerPedId()
+    local distance = Vdist(GetEntityCoords(me), GetEntityCoords(target.victim))
 
-    if Vdist(GetEntityCoords(me), GetEntityCoords(target.victim)) < 20.0 and HasEntityClearLosToEntity(me, target.victim, 17) then
+    if distance < 15.0 and HasEntityClearLosToEntity(target.victim, me, 23) and HasEntityClearLosToEntityInFront(target.victim, me) then
         target:flee()
     elseif not DoesEntityExist(target.victim) then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
@@ -176,7 +177,11 @@ end
 
 -- @local
 function chasing(target)
-    if not DoesEntityExist(target.victim) or Vdist(GetEntityCoords(PlayerPedId()), GetEntityCoords(target.victim)) > 100.0 then
+    local me = PlayerPedId()
+
+    if not DoesEntityExist(target.victim) or
+        (Vdist(GetEntityCoords(me), GetEntityCoords(target.victim)) > 150.0 and not HasEntityClearLosToEntity(me, target.victim, 23)) then
+
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
             message = "The ~HUD_COLOUR_PURPLELIGHT~bounty target~s~ got away."
         })
