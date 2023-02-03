@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Game loop for stealing / chopping cars."
-version "0.0.1"
+version "0.1.0"
 
 dependencies {
     "map",
