@@ -12,6 +12,7 @@ local function delete(resource_name)
     Hayes.cleanup()
     VehicleDropoff.cleanup()
     Radar.deactivate()
+    VehicleSpawn.cleanup()
 end
 AddEventHandler(Events.ON_RESOURCE_STOP, delete)
 AddEventHandler(Events.ON_CLIENT_RESOURCE_STOP, delete)
