@@ -43,6 +43,9 @@ local function respawn()
 
     SwitchInPlayer(ped)
 
+    local life = LifeCycle:new()
+    life:begin()
+
     TriggerEvent("logging:CreateMessage", {
         level   = Logging.DEBUG,
         message = "Spawning player at " .. vector3(location.x, location.y, location.z) .. "."
