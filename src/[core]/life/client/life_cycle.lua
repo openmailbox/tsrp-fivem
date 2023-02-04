@@ -1,6 +1,11 @@
 LifeCycle = {}
 
-local PROMPT_KEY = "LifeCyclePrompt"
+-- Forward declarations
+local get_respawn_point
+
+local PILLBOX      = vector3(293.2390, -583.3027, 43.1950)
+local PROMPT_KEY   = "LifeCyclePrompt"
+local SPAWN_ORIGIN = vector3(320.8595, -592.9031, 43.2840)
 
 local current = nil
 local next_id = 0
@@ -11,6 +16,12 @@ end
 
 function LifeCycle.initialize()
     AddTextEntry(PROMPT_KEY, "You are incapacitated. Press ~INPUT_REPLAY_START_STOP_RECORDING~ to respawn.")
+
+    exports.map:AddBlip(PILLBOX, {
+        icon    = 61,
+        display = 2,
+        label   = "Hospital"
+    })
 
     Citizen.CreateThread(function()
         while true do
@@ -62,6 +73,7 @@ function LifeCycle:kill()
     self.is_alive = false
 
     StartDeathCam()
+    TriggerEvent(Events.CLEAR_CHAT)
 
     Citizen.CreateThread(function()
         while current == self and IsPedDeadOrDying(PlayerPedId(), 1) do
@@ -71,7 +83,12 @@ function LifeCycle:kill()
 
             if IsControlJustPressed(0, 288) then -- F1
                 self:finish()
-                TriggerEvent(Events.CREATE_RESPAWN)
+
+                TriggerEvent(Events.CREATE_RESPAWN, {
+                    location = get_respawn_point(),
+                    heading  = math.random(359)
+                })
+
                 EndDeathCam()
             end
 
@@ -85,4 +102,14 @@ function LifeCycle:update()
     if self.is_alive and (IsPlayerDead(PlayerId()) or IsPedDeadOrDying(PlayerPedId(), 1)) then
         self:kill()
     end
+end
+
+-- @local
+function get_respawn_point()
+    local angle  = math.random() * math.pi * 2
+    local radius = math.sqrt(math.random()) * 3.0
+    local x      = SPAWN_ORIGIN.x + radius * math.cos(angle)
+    local y      = SPAWN_ORIGIN.y + radius * math.sin(angle)
+
+    return vector3(x, y, SPAWN_ORIGIN.z)
 end

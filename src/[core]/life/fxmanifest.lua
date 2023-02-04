@@ -8,6 +8,10 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Life, death, and respawn things."
 version "0.0.1"
 
+dependencies {
+    "map"
+}
+
 client_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
