@@ -8,6 +8,10 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Provides centralized behaviors related to the map and player locations."
 version "0.0.1"
 
+dependencies {
+    "bob74_ipl"
+}
+
 client_scripts {
     "@common/shared/colors.lua",
     "@common/shared/events.lua",

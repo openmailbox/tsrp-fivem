@@ -6,6 +6,9 @@ local function create(resource_name)
     WorldMap.initialize()
     PlayerMap.initialize()
 
+    local pillbox = exports['bob74_ipl']:GetPillboxHospitalObject()
+    pillbox.Enable(false)
+
     Citizen.CreateThread(function()
         local time
 
