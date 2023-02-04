@@ -95,7 +95,7 @@ function on_update(entity)
         TaskLeaveVehicle(ped, GetVehiclePedIsIn(ped, false), 0)
         TaskFollowToOffsetOfEntity(ped, leader, 1.0, 1.0, 1.0, 0.5, -1, 3.0, true)
     elseif Vdist(GetEntityCoords(ped), GetEntityCoords(leader)) > MAX_FOLLOW_DISTANCE then
-        TaskFollowToOffsetOfEntity(ped, leader, 1.0, 1.0, 1.0, 0.5, -1, 3.0, true)
+        TaskFollowToOffsetOfEntity(ped, leader, 0.7, 0.7, 0.7, 0.5, -1, 3.0, true)
     elseif not IsPedInAnyVehicle(ped, false) then
         TaskStandStill(ped, -1)
     end
