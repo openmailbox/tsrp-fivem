@@ -5,12 +5,8 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Provides initial and respawn behavior when players connect."
+description "Life, death, and respawn things."
 version "0.0.1"
-
-dependencies {
-    "spawnmanager"
-}
 
 client_scripts {
     "@common/shared/logging.lua",
