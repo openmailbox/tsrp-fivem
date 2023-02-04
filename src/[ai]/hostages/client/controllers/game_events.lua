@@ -15,7 +15,6 @@ local function on_event(targets, enactor, _)
     -- makes them immune to fleeing as a default behavior. Need a better solution.
     if not IsPedFleeing(target) and not pstate.hostage_behavior then return end
 
-    -- TODO: Handle this as a special case
     if IsPedInAnyVehicle(target) then return end
 
     local time = GetGameTimer()

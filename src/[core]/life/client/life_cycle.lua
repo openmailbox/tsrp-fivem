@@ -5,7 +5,7 @@ local get_respawn_point
 
 local PILLBOX      = vector3(293.2390, -583.3027, 43.1950)
 local PROMPT_KEY   = "LifeCyclePrompt"
-local SPAWN_ORIGIN = vector3(320.8595, -592.9031, 43.2840)
+local SPAWN_ORIGIN = vector3(320.8595, -592.9031, 43.2840) -- TODO: Don't assume Pillbox interior
 
 local current = nil
 local next_id = 0
