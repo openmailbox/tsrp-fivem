@@ -1,7 +1,7 @@
 -- Originally taken from https://github.com/Kiminaze/DeathCam/blob/master/client.lua
 local cam = nil
 
-local isDead = false
+--local isDead = false
 local angleY = 0.0
 local angleZ = 0.0
 local radius = 3.5
@@ -16,16 +16,18 @@ function StartDeathCam()
 
     SetCamActive(cam, true)
     RenderScriptCams(true, true, 1000, true, false)
-    isDead = true
-    Citizen.CreateThread(function()
-        while isDead do
-            Citizen.Wait(1)
 
-            if cam then
-                ProcessCamControls()
-            end
-        end
-    end)
+    --isDead = true
+
+    --Citizen.CreateThread(function()
+    --    while isDead do
+    --        Citizen.Wait(1)
+
+    --        if cam then
+    --            ProcessCamControls()
+    --        end
+    --    end
+    --end)
 end
 
 function EndDeathCam()
@@ -33,7 +35,7 @@ function EndDeathCam()
 
     RenderScriptCams(false, false, 0, true, false)
     DestroyCam(cam, false)
-    isDead = false
+    --isDead = false
     cam = nil
 end
 

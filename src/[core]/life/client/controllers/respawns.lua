@@ -25,14 +25,15 @@ local function respawn()
     ClearPedTasksImmediately(ped)
 
     RequestCollisionAtCoord(x, y, z)
-    SetEntityCoordsNoOffset(ped, x, y, z, false, false, false)
+    RequestAdditionalCollisionAtCoord(x, y, z)
+    SetEntityCoordsNoOffset(ped, x, y, z + 0.2, false, false, false)
     NetworkResurrectLocalPlayer(x, y, z, 0, true, true)
     RemoveAllPedWeapons(ped)
     ClearPedBloodDamage(ped)
 
-    while (not HasCollisionLoadedAroundEntity(ped) and GetGameTimer() < timeout) do
+    repeat
         Citizen.Wait(1000)
-    end
+    until (HasCollisionLoadedAroundEntity(ped) or GetGameTimer() > timeout)
 
     SetPlayerControl(player, true, 0)
     SetPlayerInvincible(player, false)
