@@ -34,16 +34,6 @@ function Trash.initialize()
         }, search_trash)
     end
 
-    for _, model in ipairs(Objects.TRASH_BINS) do
-        table.insert(models, model)
-
-        exports.interactions:RegisterInteraction({
-            model  = model,
-            name   = INTERACT_NAME,
-            prompt = string.lower(INTERACT_NAME),
-        }, search_trash)
-    end
-
     return models
 end
 
