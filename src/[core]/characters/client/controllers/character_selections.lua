@@ -38,8 +38,6 @@ local function update(data, cb)
     SelectSession.get_active():finish()
     TriggerEvent(Events.CREATE_RESPAWN)
 
-    DoScreenFadeIn(1500)
-
     cb({})
 end
 RegisterNUICallback(Events.UPDATE_CHARACTER_SELECTION, update)

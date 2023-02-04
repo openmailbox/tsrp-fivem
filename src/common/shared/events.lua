@@ -124,6 +124,9 @@ Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"
 
 Events.CREATE_SCANNER_TOGGLE = "interactions:CreateScannerToggle"
 
+-- @resource life
+Events.CREATE_RESPAWN = "respawn:CreateSpawn"
+
 -- @resource lockpicking
 Events.CREATE_LOCKPICK_SESSION = "lockpicking:CreateSession"
 Events.DELETE_LOCKPICK_SESSION = "lockpicking:DeleteSession"
@@ -142,9 +145,6 @@ Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
 
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
-
--- @resource respawn
-Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 
 -- @resource stashes
 Events.GET_STASHES    = "stashes:UpdateStashes"
