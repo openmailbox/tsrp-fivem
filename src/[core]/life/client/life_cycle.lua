@@ -48,8 +48,9 @@ function LifeCycle:begin()
         current:finish()
     end
 
-    self.id       = next_id
-    self.is_alive = not IsPlayerDead(PlayerId()) and not IsPedDeadOrDying(PlayerPedId())
+    self.id           = next_id
+    self.is_alive     = not IsPlayerDead(PlayerId()) and not IsPedDeadOrDying(PlayerPedId())
+    self.wanted_level = GetPlayerWantedLevel()
 
     current = self
     next_id = next_id + 1
@@ -101,6 +102,20 @@ function LifeCycle:update()
     -- we poll instead of relying on events b/c hp can change w/o generating an event
     if self.is_alive and (IsPlayerDead(PlayerId()) or IsPedDeadOrDying(PlayerPedId(), 1)) then
         self:kill()
+    elseif self.wanted_level ~= GetPlayerWantedLevel(PlayerId()) then
+        local level = GetPlayerWantedLevel(PlayerId())
+
+        TriggerEvent(Events.CREATE_WANTED_STATUS_CHANGE, {
+            old = self.wanted_level,
+            new = level,
+        })
+
+        TriggerServerEvent(Events.CREATE_WANTED_STATUS_CHANGE, {
+            old = self.wanted_level,
+            new = level
+        })
+
+        self.wanted_level = level
     end
 end
 

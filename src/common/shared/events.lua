@@ -127,6 +127,8 @@ Events.CREATE_SCANNER_TOGGLE = "interactions:CreateScannerToggle"
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 
+Events.CREATE_WANTED_STATUS_CHANGE = "life:CreateWantedStatusChange"
+
 -- @resource lockpicking
 Events.CREATE_LOCKPICK_SESSION = "lockpicking:CreateSession"
 Events.DELETE_LOCKPICK_SESSION = "lockpicking:DeleteSession"
@@ -138,6 +140,8 @@ Events.CREATE_MAP_VSPAWN_RESULT = "map:CreateVspawnResult"
 
 -- @resource population
 Events.UPDATE_POPULATION_PED = "population:UpdatePed"
+
+Events.CREATE_POPULATION_COP = "population:CreateCop"
 
 -- @resource progress
 Events.CREATE_PROGRESS_BAR = "progress:CreateBar"
