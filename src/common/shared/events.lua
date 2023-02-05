@@ -37,6 +37,8 @@ Events.UPDATE_OBJECT_SPAWN = "admin:UpdateObjectSpawn"
 Events.CREATE_PED_SPAWN = "admin:CreatePedSpawn"
 Events.UPDATE_PED_SPAWN = "admin:UpdatePedSpawn"
 
+Events.FLUSH_WANTED_STATUS = "admin:FlushWantedStatus"
+
 -- @resource atm
 Events.CREATE_ATM_SESSION = "atm:CreateSession"
 Events.DELETE_ATM_SESSION = "atm:DeleteSession"

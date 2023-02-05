@@ -27,5 +27,9 @@ local function cmd_set_wanted(source, args, raw_command)
         level   = Logging.INFO,
         message = GetPlayerName(source) .. " (" .. source .. ") used command '" .. raw_command .. "'."
     })
+
+    TriggerClientEvent(Events.FLUSH_WANTED_STATUS, player, {
+        ping = GetPlayerPing(player)
+    })
 end
 RegisterCommand("setwanted", cmd_set_wanted, true)
