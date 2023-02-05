@@ -8,6 +8,15 @@ local function create(entity)
 
     if not loadout then return end
 
+    if loadout == Loadouts.Officer or loadout == Loadouts.Swat then
+        local unit = PoliceUnit.for_entity(entity)
+
+        if not unit then
+            unit = PoliceUnit:new({ entity = entity })
+            unit:initialize()
+        end
+    end
+
     for _, weap in ipairs(loadout.weapons) do
         GiveWeaponToPed(entity, weap, 100, false, false)
     end
