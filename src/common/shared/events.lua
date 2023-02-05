@@ -143,7 +143,7 @@ Events.CREATE_MAP_VSPAWN_RESULT = "map:CreateVspawnResult"
 -- @resource population
 Events.UPDATE_POPULATION_PED = "population:UpdatePed"
 
-Events.CREATE_POPULATION_COP = "population:CreateCop"
+Events.CREATE_POPULATION_PED_TASK = "population:CreatePedTask"
 
 -- @resource progress
 Events.CREATE_PROGRESS_BAR = "progress:CreateBar"
