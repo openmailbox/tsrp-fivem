@@ -3,6 +3,8 @@ Dispatcher = {}
 -- Forward declarations
 local assign_units
 
+local CALL_RADIUS = 200.0
+
 local calls   = {}
 local next_id = 1
 
@@ -55,7 +57,7 @@ end
 -- Tell the Dispatcher a unit is available.
 function Dispatcher.available(unit)
     local closest  = nil
-    local distance = 200.0
+    local distance = CALL_RADIUS
 
     for _, call in ipairs(calls) do
         local dist = Dist2d(GetEntityCoords(unit.entity), call.location)
@@ -74,7 +76,7 @@ end
 
 -- @local
 function assign_units(call)
-    local nearby_units = PoliceUnit.available_nearby(call.location, 200.0)
+    local nearby_units = PoliceUnit.available_nearby(call.location, CALL_RADIUS)
 
     for _, unit in ipairs(nearby_units) do
         unit:assign_call(call)

@@ -1,5 +1,7 @@
 PoliceUnit = {}
 
+PoliceUnit.States = {}
+
 -- Forward declarations
 local start_updates
 
@@ -39,53 +41,63 @@ end
 
 function PoliceUnit:assign_call(call)
     self.assigned_call = call
+
+    self:move_to(PoliceStates.RESPONDING)
+
     SetPedConfigFlag(self.entity, 17, true)
+
     Logging.log(Logging.INFO, "Police unit " .. self.entity .. " assigned call " .. call.id .. " at " .. call.location .. ".")
 end
 
 function PoliceUnit:clear()
+    if not self.assigned_call then return end
+
     local id = self.assigned_call.id
     self.assigned_call = nil
 
-    SetPedConfigFlag(self.entity, 17, false)
-    ClearPedTasks(self.entity)
+    if DoesEntityExist(self.entity) then
+        SetPedConfigFlag(self.entity, 17, false)
+        ClearPedTasks(self.entity)
+    end
 
     Logging.log(Logging.INFO, "Police unit " .. self.entity .. " cleared call " .. id .. ".")
-end
-
-function PoliceUnit:cleanup()
-    Logging.log(Logging.DEBUG, "Removed police unit for " .. self.entity .. ".")
 end
 
 function PoliceUnit:initialize()
     table.insert(all_units, self)
 
-    Logging.log(Logging.DEBUG, "Now tracking " .. #all_units .. " police units.")
+    self:move_to(PoliceStates.AVAILABLE)
 
-    Dispatcher.available(self)
+    Logging.log(Logging.DEBUG, "Now tracking " .. #all_units .. " police units.")
 
     if not is_active then
         start_updates()
     end
 end
 
+function PoliceUnit:move_to(state_id)
+    if self.state_id == state_id then return end
+    self.state_id = state_id
+
+    if self.state then
+        self.state:exit()
+    end
+
+    local constructor = PoliceUnit.States[state_id]
+
+    self.state = constructor:new({
+        created_at = GetGameTimer(),
+        unit       = self,
+    })
+
+    self.state:enter()
+
+    Logging.log(Logging.DEBUG, "Police unit " .. self.entity .. " moved to state " .. PoliceStates.LABELS[state_id] .. ".")
+end
+
 function PoliceUnit:update()
-    if not self.assigned_call then
-        Dispatcher.available(self)
-        return
-    end
-
-    if Dist2d(GetEntityCoords(self.entity), self.assigned_call.location) > 20.0 then
-        return
-    end
-
-    if GetPedScriptTaskCommand(self.entity) == -2128726980 then
-        local owner = NetworkGetEntityOwner(self.entity)
-
-        TriggerClientEvent(Events.CREATE_POPULATION_PED_TASK, owner, {
-            net_id   = NetworkGetNetworkIdFromEntity(self.entity),
-            location = self.assigned_call.location
-        })
+    if self.state then
+        self.state:update()
     end
 end
 
@@ -103,7 +115,7 @@ function start_updates()
                 if DoesEntityExist(unit.entity) then
                     unit:update()
                 else
-                    unit:cleanup()
+                    unit:clear()
                     table.remove(all_units, i)
                 end
             end

@@ -10,6 +10,7 @@ version "0.1.0"
 
 client_scripts {
     "@common/shared/events.lua",
+    "shared/**/*.lua",
     "client/**/*.lua"
 }
 
@@ -18,6 +19,7 @@ server_scripts {
     "@common/shared/logging.lua",
     "@common/shared/uuid.lua",
     "@common/shared/weapons.lua",
+    "shared/**/*.lua",
     "server/**/*.lua"
 }
 
