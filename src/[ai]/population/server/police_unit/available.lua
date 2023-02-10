@@ -12,6 +12,7 @@ function Available:new(o)
 end
 
 function Available:enter()
+    SetPedConfigFlag(self.unit.entity, 17, false)
 end
 
 function Available:exit()

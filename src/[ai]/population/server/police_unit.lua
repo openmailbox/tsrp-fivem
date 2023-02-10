@@ -44,8 +44,6 @@ function PoliceUnit:assign_call(call)
 
     self:move_to(PoliceStates.RESPONDING)
 
-    SetPedConfigFlag(self.entity, 17, true)
-
     Logging.log(Logging.INFO, "Police unit " .. self.entity .. " assigned call " .. call.id .. " at " .. call.location .. ".")
 end
 
@@ -56,8 +54,8 @@ function PoliceUnit:clear()
     self.assigned_call = nil
 
     if DoesEntityExist(self.entity) then
-        SetPedConfigFlag(self.entity, 17, false)
         ClearPedTasks(self.entity)
+        self:move_to(PoliceStates.AVAILABLE)
     end
 
     Logging.log(Logging.INFO, "Police unit " .. self.entity .. " cleared call " .. id .. ".")

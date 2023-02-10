@@ -9,6 +9,7 @@ description "Handles spawning and tracking of NPCs for a specific purpose, loot 
 version "0.1.0"
 
 client_scripts {
+    "@common/shared/logging.lua",
     "@common/shared/events.lua",
     "shared/**/*.lua",
     "client/**/*.lua"

@@ -12,27 +12,26 @@ function Responding:new(o)
 end
 
 function Responding:enter()
+    SetPedConfigFlag(self.unit.entity, 17, true)
 end
 
 function Responding:exit()
 end
 
 function Responding:update()
-    if not self.unit.assigned_call then
-        self.unit:move_to(PoliceStates.AVAILABLE)
+    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) < 12.0 then
+        self.unit:move_to(PoliceStates.SEARCHING)
         return
     end
 
-    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) > 20.0 then
-        return
-    end
+    local vehicle = GetVehiclePedIsIn(self.unit.entity, false)
 
-    if GetPedScriptTaskCommand(self.unit.entity) == -2128726980 then
+    if vehicle > 0 and GetPedInVehicleSeat(self.unit.entity, -1) == self.unit.entity then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
-        TriggerClientEvent(Events.CREATE_POPULATION_PED_TASK, owner, {
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK_DRIVE_TO_COORD, owner, {
             net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
-            location = self.unit.assigned_call.location
+            location = self.unit.assigned_call.location,
         })
     end
 end
