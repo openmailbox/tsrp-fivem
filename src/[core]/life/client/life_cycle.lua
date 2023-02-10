@@ -2,6 +2,7 @@ LifeCycle = {}
 
 -- Forward declarations
 local get_respawn_point
+local init_scaleform
 
 local PILLBOX      = vector3(293.2390, -583.3027, 43.1950)
 local PROMPT_KEY   = "LifeCyclePrompt"
@@ -77,10 +78,17 @@ function LifeCycle:kill()
     TriggerEvent(Events.CLEAR_CHAT)
 
     Citizen.CreateThread(function()
+        local scaleform = init_scaleform()
+        local timeout   = GetGameTimer() + 5000
+
         while current == self and IsPedDeadOrDying(PlayerPedId(), 1) do
             DisplayHudWhenDeadThisFrame()
             DisplayHelpTextThisFrame(PROMPT_KEY, 0)
             ProcessCamControls()
+
+            if GetGameTimer() < timeout then
+                DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
+            end
 
             if IsControlJustPressed(0, 288) then -- F1
                 self:finish()
@@ -127,4 +135,22 @@ function get_respawn_point()
     local y      = SPAWN_ORIGIN.y + radius * math.sin(angle)
 
     return vector3(x, y, SPAWN_ORIGIN.z)
+end
+
+-- @local
+function init_scaleform()
+    local scaleform = RequestScaleformMovie("mp_big_message_freemode")
+
+    while not HasScaleformMovieLoaded(scaleform) do
+        Citizen.Wait(0)
+    end
+
+    PlaySoundFrontend(-1, "LOSER", "HUD_AWARDS", 1)
+    BeginScaleformMovieMethod(scaleform, "SHOW_SHARD_WASTED_MP_MESSAGE")
+    PushScaleformMovieMethodParameterString("WASTED")
+    PushScaleformMovieMethodParameterString("")
+    PushScaleformMovieMethodParameterInt(5)
+    EndScaleformMovieMethod()
+
+    return scaleform
 end
