@@ -1,7 +1,5 @@
 SearchHated = {}
 
-TaskManager.Tasks[Events.CREATE_POPULATION_TASK_SEARCH_HATED] = SearchHated
-
 -- Forward declarations
 local find_first_visible_enemy,
       get_rand_point_in_circle,

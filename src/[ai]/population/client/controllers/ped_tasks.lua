@@ -24,7 +24,6 @@ RegisterNetEvent(Events.CREATE_POPULATION_TASK_DRIVE_TO_COORD, drive_to_coord)
 
 local function search_hated(data)
     local entity = NetToPed(data.net_id)
-    local task   = TaskManager.Tasks[Events.CREATE_POPULATION_TASK_SEARCH_HATED]
     SearchHated.add(entity, data.location)
 end
 RegisterNetEvent(Events.CREATE_POPULATION_TASK_SEARCH_HATED, search_hated)
