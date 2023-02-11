@@ -61,6 +61,11 @@ function PoliceUnit:clear()
     Logging.log(Logging.INFO, "Police unit " .. self.entity .. " cleared call " .. id .. ".")
 end
 
+function PoliceUnit:confront(entity)
+    self.current_target = entity
+    self:move_to(PoliceStates.CONFRONTING)
+end
+
 function PoliceUnit:initialize()
     table.insert(all_units, self)
 

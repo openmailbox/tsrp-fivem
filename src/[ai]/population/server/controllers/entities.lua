@@ -33,6 +33,3 @@ local function create(entity)
     })
 end
 AddEventHandler(Events.ON_ENTITY_CREATED, create)
-
--- -2128726980 no task
--- 474215631 cower

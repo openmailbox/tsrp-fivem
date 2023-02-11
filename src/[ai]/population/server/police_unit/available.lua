@@ -21,6 +21,7 @@ end
 function Available:update()
     local location = GetEntityCoords(self.unit.entity)
 
+    -- TODO: Don't bother checking for calls unless we've moved more than some min distance
     if not self.unit.assigned_call and self.last_location ~= location then
         Dispatcher.available(self.unit)
         return

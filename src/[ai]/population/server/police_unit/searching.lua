@@ -18,6 +18,8 @@ function Searching:exit()
 end
 
 function Searching:update()
+    -- -2128726980 no task
+    -- 474215631 cower
     if GetPedScriptTaskCommand(self.unit.entity) == -2128726980 then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
