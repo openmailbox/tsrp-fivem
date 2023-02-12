@@ -22,11 +22,16 @@ local function drive_to_coord(data)
 end
 RegisterNetEvent(Events.CREATE_POPULATION_TASK_DRIVE_TO_COORD, drive_to_coord)
 
-local function search_hated(data)
-    local entity = NetToPed(data.net_id)
-    SearchHated.add(entity, data.location)
+--local function search_hated(data)
+--    local entity = NetToPed(data.net_id)
+--    SearchHated.begin(entity, data.location)
+--end
+--RegisterNetEvent(Events.CREATE_POPULATION_TASK_SEARCH_HATED, search_hated)
+
+local function create(data)
+    TaskManager.add(data.task_id, NetToPed(data.net_id), data)
 end
-RegisterNetEvent(Events.CREATE_POPULATION_TASK_SEARCH_HATED, search_hated)
+RegisterNetEvent(Events.CREATE_POPULATION_TASK, create)
 
 -- @local
 function get_search_point(origin, range)

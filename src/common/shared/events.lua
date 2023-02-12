@@ -143,6 +143,9 @@ Events.CREATE_MAP_VSPAWN_RESULT = "map:CreateVspawnResult"
 -- @resource population
 Events.UPDATE_POPULATION_PED = "population:UpdatePed"
 
+Events.CREATE_POPULATION_TASK = "population:CreateTask"
+Events.UPDATE_POPULATION_TASK = "population:UpdateTask"
+
 Events.CREATE_POPULATION_TASK_SEARCH_HATED   = "population:CreateTaskSearchHated"
 Events.UPDATE_POPULATION_TASK_SEARCH_HATED   = "population:UpdateTaskSearchHated"
 

@@ -1,78 +1,44 @@
 SearchHated = {}
 
+TaskManager.Tasks[Tasks.SEARCH_FOR_HATED_IN_AREA] = SearchHated
+
 -- Forward declarations
 local find_first_visible_enemy,
-      get_rand_point_in_circle,
-      start_updates
+      get_rand_point_in_circle
 
-local active    = {}
-local is_active = false
+local next_at   = 0
+local ped_pool  = {}
 
-function SearchHated.add(entity, target)
-    active[entity] = GetGameTimer()
-
-    local location = get_rand_point_in_circle(target, 10.0)
+function SearchHated.begin(entity, args)
+    local location = get_rand_point_in_circle(args.location, 7.0)
     local x, y, z  = table.unpack(location)
 
-    Logging.log(Logging.TRACE, "Telling ".. entity .. " to search for hated entities near " .. location)
+    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
 
     TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 3.0, 0.0, true, 16, 1, -957453492)
 
-    if not is_active then
-        start_updates()
-    end
+    SearchHated.update(entity, args)
 end
 
--- @local
-function start_updates()
-    is_active = true
+function SearchHated.update(entity, _)
+    if GetGameTimer() > next_at then
+        ped_pool = GetGamePool("CPed")
+        next_at  = GetGameTimer() + 2000
+    end
 
-    Citizen.CreateThread(function()
-        Logging.log(Logging.DEBUG, "Starting updates for hated target search.")
+    -- TODO: Better way to tell if we're still doing the task
+    if GetEntitySpeed(entity) == 0.0 then
+        return false
+    end
 
-        while is_active do
-            local count = 0
-            local time  = GetGameTimer()
+    local target = find_first_visible_enemy(entity)
+    if not target then return end
 
-            for entity, t in pairs(active) do
-                if DoesEntityExist(entity) and not IsPedDeadOrDying(entity) and time < (t + 5000) then
-                    count = count + 1
-                else
-                    active[entity] = nil
-                end
-            end
-
-            if count == 0 then
-                break
-            end
-
-            local enemies = {}
-            local locals  = GetGamePool("CPed")
-
-            for entity, is_valid in pairs(active) do
-                local enemy = is_valid and find_first_visible_enemy(entity, locals)
-
-                if enemy then
-                    table.insert(enemies, {
-                        aggressor = PedToNet(entity),
-                        target    = PedToNet(enemy)
-                    })
-                end
-            end
-
-            if #enemies > 0 then
-                TriggerServerEvent(Events.UPDATE_POPULATION_TASK_SEARCH_HATED, {
-                    enemies = enemies
-                })
-            end
-
-            Logging.log(Logging.TRACE, "Updated search for hated task status on " .. count .. " entities.")
-            Citizen.Wait(3000)
-        end
-
-        is_active = false
-        Logging.log(Logging.DEBUG, "Stopped updates for hated target search.")
-    end)
+    TaskManager.buffer_update({
+        task_id   = Tasks.SEARCH_FOR_HATED_IN_AREA,
+        aggressor = PedToNet(entity),
+        target    = PedToNet(target)
+    })
 end
 
 -- @local
@@ -86,8 +52,8 @@ function get_rand_point_in_circle(origin, r)
 end
 
 -- @local
-function find_first_visible_enemy(entity, pool)
-    for _, ped in ipairs(pool) do
+function find_first_visible_enemy(entity)
+    for _, ped in ipairs(ped_pool) do
         if GetRelationshipBetweenPeds(entity, ped) >= 4 and HasEntityClearLosToEntity(entity, ped) then
             return ped
         end

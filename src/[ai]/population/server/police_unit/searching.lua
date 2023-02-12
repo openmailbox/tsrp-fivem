@@ -18,14 +18,18 @@ function Searching:exit()
 end
 
 function Searching:update()
-    -- -2128726980 no task
-    -- 474215631 cower
-    if GetPedScriptTaskCommand(self.unit.entity) == -2128726980 then
+    if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK_SEARCH_HATED, owner, {
+        --TriggerClientEvent(Events.CREATE_POPULATION_TASK_SEARCH_HATED, owner, {
+        --    net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
+        --    location = self.unit.assigned_call.location,
+        --})
+
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
             net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
             location = self.unit.assigned_call.location,
+            task_id  = Tasks.SEARCH_FOR_HATED_IN_AREA
         })
     end
 end
