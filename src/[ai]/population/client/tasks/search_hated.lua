@@ -3,14 +3,13 @@ SearchHated = {}
 TaskManager.Tasks[Tasks.SEARCH_FOR_HATED_IN_AREA] = SearchHated
 
 -- Forward declarations
-local find_first_visible_enemy,
-      get_rand_point_in_circle
+local find_first_visible_enemy
 
 local next_at   = 0
 local ped_pool  = {}
 
 function SearchHated.begin(entity, args)
-    local location = get_rand_point_in_circle(args.location, 7.0)
+    local location = GetRandomPointInCircle(args.location, 7.0)
     local x, y, z  = table.unpack(location)
 
     Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
@@ -39,16 +38,6 @@ function SearchHated.update(entity, _)
         aggressor = PedToNet(entity),
         target    = PedToNet(target)
     })
-end
-
--- @local
-function get_rand_point_in_circle(origin, r)
-    local angle  = math.random() * math.pi * 2
-    local radius = math.sqrt(math.random()) * r
-    local x      = origin.x + radius * math.cos(angle)
-    local y      = origin.y + radius * math.sin(angle)
-
-    return vector3(x, y, origin.z)
 end
 
 -- @local

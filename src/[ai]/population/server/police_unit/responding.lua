@@ -29,9 +29,10 @@ function Responding:update()
     if vehicle > 0 and GetPedInVehicleSeat(self.unit.entity, -1) == self.unit.entity then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK_DRIVE_TO_COORD, owner, {
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
             net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
             location = self.unit.assigned_call.location,
+            task_id  = Tasks.DRIVE_TO_COORD
         })
     end
 end

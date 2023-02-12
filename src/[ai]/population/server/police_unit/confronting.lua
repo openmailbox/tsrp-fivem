@@ -26,9 +26,10 @@ function Confronting:update()
     if GetPedScriptTaskCommand(self.unit.entity) ~= 1630799643 then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK_AIM_AT_ENTITY, owner, {
-            aggressor = NetworkGetNetworkIdFromEntity(self.unit.entity),
-            target    = NetworkGetNetworkIdFromEntity(self.unit.current_target)
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+            net_id  = NetworkGetNetworkIdFromEntity(self.unit.entity),
+            target  = NetworkGetNetworkIdFromEntity(self.unit.current_target),
+            task_id = Tasks.AIM_AT_ENTITY
         })
     end
 end

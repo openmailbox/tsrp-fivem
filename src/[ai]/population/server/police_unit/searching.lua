@@ -21,11 +21,6 @@ function Searching:update()
     if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
-        --TriggerClientEvent(Events.CREATE_POPULATION_TASK_SEARCH_HATED, owner, {
-        --    net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
-        --    location = self.unit.assigned_call.location,
-        --})
-
         TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
             net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
             location = self.unit.assigned_call.location,
