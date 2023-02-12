@@ -12,6 +12,7 @@ function Searching:new(o)
 end
 
 function Searching:enter()
+    self:update()
 end
 
 function Searching:exit()

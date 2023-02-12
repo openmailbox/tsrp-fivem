@@ -12,6 +12,7 @@ function Confronting:new(o)
 end
 
 function Confronting:enter()
+    self:update()
 end
 
 function Confronting:exit()

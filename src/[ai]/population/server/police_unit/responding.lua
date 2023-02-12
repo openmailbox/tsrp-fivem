@@ -13,6 +13,7 @@ end
 
 function Responding:enter()
     SetPedConfigFlag(self.unit.entity, 17, true)
+    self:update()
 end
 
 function Responding:exit()
