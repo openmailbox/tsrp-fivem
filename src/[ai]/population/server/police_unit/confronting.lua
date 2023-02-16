@@ -24,6 +24,11 @@ function Confronting:update()
         return
     end
 
+    if not self.unit.assigned_call then
+        self.unit:move_to(PoliceStates.AVAILABLE)
+        return
+    end
+
     if GetPedScriptTaskCommand(self.unit.entity) ~= 1630799643 then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 

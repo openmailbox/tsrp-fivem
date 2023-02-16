@@ -18,6 +18,7 @@ function Detain.begin(entity, args)
         until HasAnimDictLoaded(Animation.DICTIONARY)
     end
 
+    ClearPedTasksImmediately(entity)
     Citizen.Wait(math.max(10, GetGameTimer() - time + tonumber(args.ping))) -- hacky anim sync
     TaskPlayAnim(entity, Animation.DICTIONARY, Animation.NAME, 3.0, -3.0, -1, 0, 0, 0, 0, 0)
 end

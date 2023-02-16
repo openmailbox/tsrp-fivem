@@ -12,6 +12,7 @@ function Searching:new(o)
 end
 
 function Searching:enter()
+    TaskLeaveAnyVehicle(self.unit.entity, 1, 0)
     self:update()
 end
 
@@ -19,6 +20,11 @@ function Searching:exit()
 end
 
 function Searching:update()
+    if not self.unit.assigned_call then
+        self.unit:move_to(PoliceStates.AVAILABLE)
+        return
+    end
+
     if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
