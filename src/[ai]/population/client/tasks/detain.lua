@@ -6,6 +6,7 @@ local Animation = { DICTIONARY = "mp_arrest_paired", NAME = "cop_p2_back_left" }
 
 function Detain.begin(entity, args)
     local target = NetToPed(args.target)
+    local time   = GetGameTimer()
 
     Logging.log(Logging.DEBUG, "Telling ".. entity .. " to detain " .. target .. ".")
 
@@ -17,8 +18,14 @@ function Detain.begin(entity, args)
         until HasAnimDictLoaded(Animation.DICTIONARY)
     end
 
+    Citizen.Wait(math.max(10, GetGameTimer() - time + tonumber(args.ping))) -- hacky anim sync
     TaskPlayAnim(entity, Animation.DICTIONARY, Animation.NAME, 3.0, -3.0, -1, 0, 0, 0, 0, 0)
 end
 
-function Detain.update(_, _)
+function Detain.update(entity, _)
+    if IsEntityPlayingAnim(entity, Animation.DICTIONARY, Animation.NAME, 3) then
+        return true
+    end
+
+    return false
 end

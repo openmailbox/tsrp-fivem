@@ -44,6 +44,12 @@ function Cuffs.cleanup()
 end
 
 function Cuffs.initialize(entity, lag)
+    for _, ped in ipairs(cuffed) do
+        if ped == entity then
+            return false
+        end
+    end
+
     local time = GetGameTimer()
 
     Logging.log(Logging.DEBUG, "Cuffing " .. entity .. ".")

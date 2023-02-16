@@ -12,18 +12,18 @@ function Detaining:new(o)
 end
 
 function Detaining:enter()
-    TaskGoToEntity(self.unit.entity, self.unit.current_target, -1, 1.2, 1.0, 0, 0)
+    TaskGoToEntity(self.unit.entity, self.unit.current_target, -1, 1.0, 1.0, 0, 0)
 end
 
 function Detaining:exit()
 end
 
 function Detaining:update()
-    local distance = Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target))
     local task     = GetPedScriptTaskCommand(self.unit.entity)
+    local distance = Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target))
 
-    if distance < 1.4 and not self.is_arresting then
-        self.is_arresting = true
+    if distance < 1.5 and not self.timeout then
+        self.timeout = GetGameTimer() + 5000
 
         local enactor_owner = NetworkGetEntityOwner(self.unit.entity)
         local target_owner  = NetworkGetEntityOwner(self.unit.current_target)
@@ -40,11 +40,11 @@ function Detaining:update()
             target = target_net_id,
             ping   = GetPlayerPing(target_owner)
         })
-    elseif task == Tasks.NO_TASK then
-        if self.is_arresting then
-            self.unit:move_to(PoliceStates.CONFRONTING)
-        else
-            self:enter()
-        end
+
+        return
+    end
+
+    if task == Tasks.NO_TASK and self.timeout and GetGameTimer() > self.timeout then
+        self.unit:move_to(PoliceStates.SEARCHING)
     end
 end
