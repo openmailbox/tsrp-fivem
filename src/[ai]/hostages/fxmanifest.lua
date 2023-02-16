@@ -22,8 +22,10 @@ client_scripts {
 }
 
 server_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "@common/shared/weapons.lua",
     "shared/**/*.lua",
     "server/**/*.lua"
 }

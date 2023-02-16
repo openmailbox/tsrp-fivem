@@ -43,7 +43,7 @@ function Waiting:update()
         self.hostage:move_to(HostageStates.FLEEING)
     end
 
-    if not GetIsTaskActive(self.hostage.entity, 0) then
+    if not GetIsTaskActive(self.hostage.entity, 0) then -- CTaskHandsUp
         TaskHandsUp(self.hostage.entity, -1, PlayerPedId(), -1, 1)
     end
 end

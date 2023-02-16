@@ -115,6 +115,9 @@ Events.CREATE_NEW_HOSTAGE = "hostages:CreateNew"
 
 Events.CREATE_HOSTAGE_UPDATE = "hostages:CreateUpdate"
 
+Events.CREATE_CUFFED_HOSTAGE = "hostages:CreateCuffed"
+Events.DELETE_CUFFED_HOSTAGE = "hostages:DeleteCuffed"
+
 -- @resource hud
 Events.CREATE_HUD_NOTIFICATION = "hud:CreateNotification"
 
