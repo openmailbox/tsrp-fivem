@@ -31,6 +31,16 @@ function TaskManager.buffer_update(update)
     table.insert(buffer, update)
 end
 
+function TaskManager.clear(entity)
+    for i, task in ipairs(active_tasks) do
+        if entity == task.entity then
+            table.remove(active_tasks, i)
+            ClearPedTasks(entity)
+            return
+        end
+    end
+end
+
 -- @local
 function start_updates()
     is_active = true
@@ -46,6 +56,7 @@ function start_updates()
 
                 if not result then
                     table.remove(active_tasks, i)
+                    ClearPedTasks(next.entity)
                 end
             end
 

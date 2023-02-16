@@ -13,6 +13,12 @@ end
 
 function Available:enter()
     SetPedConfigFlag(self.unit.entity, 17, false)
+
+    local owner = NetworkGetEntityOwner(self.unit.entity)
+
+    TriggerClientEvent(Events.DELETE_POPULATION_TASK, owner, {
+        net_id = NetworkGetNetworkIdFromEntity(self.unit.entity)
+    })
 end
 
 function Available:exit()

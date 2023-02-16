@@ -48,8 +48,6 @@ function Cuffs.initialize(entity, lag)
 
     Logging.log(Logging.DEBUG, "Cuffing " .. entity .. ".")
 
-    SetEnableHandcuffs(entity, true)
-
     if not HasAnimDictLoaded(Animations.Enter.DICTIONARY) then
         RequestAnimDict(Animations.Enter.DICTIONARY)
 
@@ -58,18 +56,23 @@ function Cuffs.initialize(entity, lag)
         until HasAnimDictLoaded(Animations.Enter.DICTIONARY)
     end
 
-    Citizen.Wait(math.max(0, GetGameTimer() - time + lag)) -- hacky anim sync
+    ClearPedTasksImmediately(entity)
+
+    Citizen.Wait(math.max(10, GetGameTimer() - time + lag)) -- hacky anim sync
     TaskPlayAnim(entity, Animations.Enter.DICTIONARY, Animations.Enter.NAME, 3.0, -3.0, -1, 0, 0, 0, 0, 0)
     Citizen.Wait(GetAnimDuration(Animations.Enter.DICTIONARY, Animations.Enter.NAME) * 1000)
 
-    table.insert(cuffed, entity)
+    SetCurrentPedWeapon(entity, Weapons.UNARMED, true)
+    SetEnableHandcuffs(entity, true)
 
-    if not is_active then
-        start_updates()
-    end
+    table.insert(cuffed, entity)
 
     if PlayerPedId() == entity and not is_player_cuffed then
         start_cuffed_player()
+    end
+
+    if not is_active then
+        start_updates()
     end
 end
 
@@ -80,15 +83,15 @@ function Cuffs.release(entity)
     SetPedCanPlayGestureAnims(entity, true)
     ClearPedTasks(entity)
 
-    if PlayerPedId() == entity then
-        is_player_cuffed = false
-    end
-
     for i = #cuffed, 1, -1 do
         if cuffed[i] == entity then
             table.remove(cuffed, i)
-            return
+            break
         end
+    end
+
+    if PlayerPedId() == entity then
+        is_player_cuffed = false
     end
 end
 

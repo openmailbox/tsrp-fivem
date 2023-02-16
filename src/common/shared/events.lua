@@ -148,13 +148,7 @@ Events.UPDATE_POPULATION_PED = "population:UpdatePed"
 
 Events.CREATE_POPULATION_TASK = "population:CreateTask"
 Events.UPDATE_POPULATION_TASK = "population:UpdateTask"
-
-Events.CREATE_POPULATION_TASK_SEARCH_HATED   = "population:CreateTaskSearchHated"
-Events.UPDATE_POPULATION_TASK_SEARCH_HATED   = "population:UpdateTaskSearchHated"
-
-Events.CREATE_POPULATION_TASK_DRIVE_TO_COORD = "population:CreateTaskDriveToCoord"
-
-Events.CREATE_POPULATION_TASK_AIM_AT_ENTITY  = "population:CreateTaskAimAtEntity"
+Events.DELETE_POPULATION_TASK = "population:DeleteTask"
 
 -- @resource progress
 Events.CREATE_PROGRESS_BAR = "progress:CreateBar"

@@ -8,7 +8,7 @@ local function cmd_toggle_hands(_, _, _)
         return
     end
 
-    if IsEntityPlayingAnim(PlayerPedId(), Animation.DICTIONARY, Animation.UP) then
+    if IsEntityPlayingAnim(PlayerPedId(), Animation.DICTIONARY, Animation.UP, 3) then
         TaskPlayAnim(PlayerPedId(), Animation.DICTIONARY, Animation.DOWN, 3.0, -3.0, -1, 50, 1.0, false, false, false)
         Citizen.Wait(250)
         ClearPedTasks(PlayerPedId())

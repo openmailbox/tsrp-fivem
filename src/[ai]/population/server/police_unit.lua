@@ -54,7 +54,6 @@ function PoliceUnit:clear()
     self.assigned_call = nil
 
     if DoesEntityExist(self.entity) then
-        ClearPedTasks(self.entity)
         self:move_to(PoliceStates.AVAILABLE)
     end
 
