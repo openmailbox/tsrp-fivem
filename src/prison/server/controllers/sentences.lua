@@ -9,6 +9,10 @@ local function create(_)
         heading  = HEADING
     })
 
+    TriggerClientEvent(Events.DELETE_CUFFED_HOSTAGE, player_id, {
+        target = NetworkGetNetworkIdFromEntity(GetPlayerPed(player_id))
+    })
+
     Citizen.SetTimeout(5000, function()
         TriggerClientEvent(Events.CREATE_HUD_NOTIFICATION, player_id, {
             message = "You posted ~g~bail~s~."

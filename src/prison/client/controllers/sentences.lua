@@ -18,10 +18,6 @@ local function create(_)
 
     Citizen.Wait(2000)
     TriggerServerEvent(Events.CREATE_PRISON_SENTENCE)
-
-    TriggerEvent(Events.DELETE_CUFFED_HOSTAGE, {
-        target = PedToNet(PlayerPedId())
-    })
 end
 RegisterNetEvent(Events.CREATE_PRISON_SENTENCE, create)
 
