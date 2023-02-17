@@ -150,6 +150,10 @@ Events.CREATE_POPULATION_TASK = "population:CreateTask"
 Events.UPDATE_POPULATION_TASK = "population:UpdateTask"
 Events.DELETE_POPULATION_TASK = "population:DeleteTask"
 
+-- @resource prison
+Events.CREATE_PRISON_SENTENCE = "prison:CreateSentence"
+Events.UPDATE_PRISON_SENTENCE = "prison:UpdateSentence"
+
 -- @resource progress
 Events.CREATE_PROGRESS_BAR = "progress:CreateBar"
 Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"

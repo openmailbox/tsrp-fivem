@@ -1,8 +1,5 @@
 Cuffs = {}
 
--- Forward declarations
-local init_scaleform
-
 local Animations = {
     Enter = { DICTIONARY = "mp_arrest_paired", NAME = "crook_p2_back_left" },
     Idle  = { DICTIONARY = "mp_arresting",     NAME = "idle" }
@@ -105,31 +102,11 @@ function Cuffs.release(entity)
 end
 
 -- @local
-function init_scaleform()
-    local scaleform = RequestScaleformMovie("mp_big_message_freemode")
-
-    while not HasScaleformMovieLoaded(scaleform) do
-        Citizen.Wait(0)
-    end
-
-    PlaySoundFrontend(-1, "LOSER", "HUD_AWARDS", 1)
-    BeginScaleformMovieMethod(scaleform, "SHOW_SHARD_WASTED_MP_MESSAGE")
-    PushScaleformMovieMethodParameterString("BUSTED")
-    PushScaleformMovieMethodParameterString("")
-    PushScaleformMovieMethodParameterInt(5)
-    EndScaleformMovieMethod()
-
-    return scaleform
-end
-
--- @local
 function start_cuffed_player()
     Citizen.CreateThread(function()
         Logging.log(Logging.DEBUG, "Starting player cuff updates.")
 
         local jump_attempts = 0
-        local scaleform     = init_scaleform()
-        local timeout       = GetGameTimer() + 5000
 
         is_player_cuffed = true
 
@@ -140,10 +117,6 @@ function start_cuffed_player()
 
             for _, key in pairs(Controls) do
                 DisableControlAction(0, key, true)
-            end
-
-            if GetGameTimer() < timeout then
-                DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
             end
 
             DisablePlayerFiring(PlayerId(), true)

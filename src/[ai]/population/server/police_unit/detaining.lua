@@ -2,6 +2,9 @@ Detaining = {}
 
 PoliceUnit.States[PoliceStates.DETAINING] = Detaining
 
+-- Forward declarations
+local find_player_from_ped
+
 function Detaining:new(o)
     o = o or {}
 
@@ -41,10 +44,32 @@ function Detaining:update()
             ping   = GetPlayerPing(target_owner)
         })
 
+        Citizen.SetTimeout(3000, function()
+            if IsPedAPlayer(self.unit.current_target) then
+                local player = find_player_from_ped(self.unit.current_target)
+                TriggerClientEvent(Events.CREATE_PRISON_SENTENCE, player)
+            end
+
+            if self.unit.assigned_call then
+                Dispatcher.cancel(self.unit.assigned_call.id)
+            end
+        end)
+
         return
     end
 
     if task == Tasks.NO_TASK and self.timeout and GetGameTimer() > self.timeout then
         self.unit:move_to(PoliceStates.SEARCHING)
     end
+end
+
+-- @local
+function find_player_from_ped(ped)
+    for _, player in ipairs(GetPlayers()) do
+        if GetPlayerPed(player) == ped then
+            return player
+        end
+    end
+
+    return nil
 end
