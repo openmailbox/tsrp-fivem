@@ -12,8 +12,15 @@ function Searching:new(o)
 end
 
 function Searching:enter()
-    TaskLeaveAnyVehicle(self.unit.entity, 1, 0)
-    self:update()
+    local vehicle = GetVehiclePedIsIn(self.unit.entity, false)
+
+    self.debounce = 0
+
+    if vehicle > 0 then
+        TaskLeaveVehicle(self.unit.entity, vehicle, 0)
+    else
+        self:update()
+    end
 end
 
 function Searching:exit()
@@ -25,7 +32,9 @@ function Searching:update()
         return
     end
 
-    if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+    if GetGameTimer() > self.debounce and GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+        self.debounce = GetGameTimer() + 2000
+
         local owner = NetworkGetEntityOwner(self.unit.entity)
 
         TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {

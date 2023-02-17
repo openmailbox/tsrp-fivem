@@ -19,7 +19,7 @@ function Confronting:exit()
 end
 
 function Confronting:update()
-    if not DoesEntityExist(self.unit.current_target) then
+    if not DoesEntityExist(self.unit.current_target) or Dist2d(GetEntityCoords(self.unit.current_target), GetEntityCoords(self.unit.entity)) > 20.0 then
         self.unit:move_to(PoliceStates.SEARCHING)
         return
     end

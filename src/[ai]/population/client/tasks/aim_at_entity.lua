@@ -20,10 +20,6 @@ function AimAtEntity.update(entity, args)
     local target   = NetToPed(args.target)
     local location = GetEntityCoords(target)
 
-    if Vdist(GetEntityCoords(entity), location) > 10.0 then
-        return false
-    end
-
     if are_hands_raised(target) and get_closest_cop(entity, location) == entity then
         TaskManager.buffer_update({
             task_id = Tasks.AIM_AT_ENTITY,

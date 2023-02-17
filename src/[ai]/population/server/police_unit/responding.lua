@@ -20,7 +20,12 @@ function Responding:exit()
 end
 
 function Responding:update()
-    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) < 12.0 then
+    if not self.unit.assigned_call then
+        self.unit:move_to(PoliceStates.AVAILABLE)
+        return
+    end
+
+    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) < 15.0 then
         self.unit:move_to(PoliceStates.SEARCHING)
         return
     end
