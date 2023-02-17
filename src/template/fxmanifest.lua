@@ -31,9 +31,8 @@ ui_page "web/dist/index.html"
 files {
     "web/dist/**/*.html",
     "web/dist/**/*.js",
+    "web/dist/**/*.css"
 }
-
-webpack_config "webpack.config.js"
 
 exports {
 }
