@@ -22,9 +22,10 @@ function AimAtEntity.update(entity, args)
 
     if are_hands_raised(target) and get_closest_cop(entity, location) == entity then
         TaskManager.buffer_update({
-            task_id = Tasks.AIM_AT_ENTITY,
-            enactor = PedToNet(entity),
-            target  = args.target
+            task_id  = Tasks.AIM_AT_ENTITY,
+            enactor  = PedToNet(entity),
+            target   = args.target,
+            location = location + (GetEntityForwardVector(target) * 1.2)
         })
 
         return false

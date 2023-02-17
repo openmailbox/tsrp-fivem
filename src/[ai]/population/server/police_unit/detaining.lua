@@ -15,7 +15,10 @@ function Detaining:new(o)
 end
 
 function Detaining:enter()
-    TaskGoToEntity(self.unit.entity, self.unit.current_target, -1, 1.0, 1.0, 0, 0)
+    local x, y, z = table.unpack(self.unit.current_target_offset)
+
+    SetCurrentPedWeapon(self.unit.entity, Weapons.UNARMED, true)
+    TaskGoStraightToCoord(self.unit.entity, x, y, z, 1.0, -1, 0, 0.0)
 end
 
 function Detaining:exit()
@@ -25,7 +28,7 @@ function Detaining:update()
     local task     = GetPedScriptTaskCommand(self.unit.entity)
     local distance = Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target))
 
-    if distance < 1.5 and not self.timeout then
+    if distance < 2.0 and not self.timeout then
         self.timeout = GetGameTimer() + 5000
 
         local enactor_owner = NetworkGetEntityOwner(self.unit.entity)
@@ -46,8 +49,16 @@ function Detaining:update()
 
         Citizen.SetTimeout(3000, function()
             if IsPedAPlayer(self.unit.current_target) then
+
                 local player = find_player_from_ped(self.unit.current_target)
+
+                SetPlayerWantedLevel(player, 0)
+
                 TriggerClientEvent(Events.CREATE_PRISON_SENTENCE, player)
+
+                TriggerClientEvent(Events.FLUSH_WANTED_STATUS, player, {
+                    ping = GetPlayerPing(player)
+                })
             end
 
             if self.unit.assigned_call then

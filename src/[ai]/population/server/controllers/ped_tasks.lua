@@ -24,6 +24,7 @@ local function closest_cop_to_suspect(incident)
     local cop = PoliceUnit.for_entity(aggressor)
 
     if cop then
+        cop.current_target_offset = incident.location
         cop:move_to(PoliceStates.DETAINING)
     end
 end
@@ -44,6 +45,7 @@ local function observe_threat(incident)
 end
 
 local function update(data)
+    -- TODO: Better routing pattern of some sort
     for _, details in ipairs(data.updates) do
         if details.task_id == Tasks.SEARCH_FOR_HATED_IN_AREA then
             found_hated_target(details)

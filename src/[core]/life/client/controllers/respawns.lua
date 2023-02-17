@@ -47,6 +47,10 @@ local function respawn(data)
     SetPlayerControl(player, true, 0)
     SetPlayerInvincible(player, false)
 
+    TriggerEvent(Events.DELETE_CUFFED_HOSTAGE, {
+        target = PedToNet(PlayerPedId())
+    })
+
     SetEntityVisible(ped, true)
     SetEntityCollision(ped, true)
     FreezeEntityPosition(ped, false)
