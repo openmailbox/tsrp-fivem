@@ -8,7 +8,7 @@ local function on_event(targets, enactor, _)
     local target = targets[1]
     local pstate = Entity(target).state
 
-    if IsPedAPlayer(target) then return end
+    if IsPedAPlayer(target) or GetPedType(target) == 28 then return end -- 28 == PED_TYPE_ANIMAL
 
     -- Only locals who were going to flee anyways are hostage candidates.
     -- TODO: Check for hostage_behavior is a hack. Peds spawned by population have BlockNonTemporaryEvents set which
