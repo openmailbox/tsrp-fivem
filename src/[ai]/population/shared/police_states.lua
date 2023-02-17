@@ -3,7 +3,8 @@ PoliceStates = {
     RESPONDING  = 2,
     SEARCHING   = 3,
     CONFRONTING = 4,
-    DETAINING   = 5
+    DETAINING   = 5,
+    FIGHTING    = 6
 }
 
 PoliceStates.LABELS = {
@@ -11,5 +12,6 @@ PoliceStates.LABELS = {
     [PoliceStates.RESPONDING]  = "RESPONDING",
     [PoliceStates.SEARCHING]   = "SEARCHING",
     [PoliceStates.CONFRONTING] = "CONFRONTING",
-    [PoliceStates.DETAINING]   = "DETAINING"
+    [PoliceStates.DETAINING]   = "DETAINING",
+    [PoliceStates.FIGHTING ]   = "FIGHTING"
 }

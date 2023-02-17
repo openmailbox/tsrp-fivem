@@ -119,6 +119,7 @@ function start_updates()
                 else
                     unit:clear()
                     table.remove(all_units, i)
+                    Logging.log(Logging.DEBUG, "Now tracking " .. #all_units .. " police units.")
                 end
             end
 

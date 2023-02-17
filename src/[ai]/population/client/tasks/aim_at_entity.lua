@@ -26,8 +26,11 @@ function AimAtEntity.update(entity, args)
             enactor = PedToNet(entity),
             target  = args.target
         })
+
+        return false
     end
 
+    -- TODO: Peds can get stuck in this task
     return true
 end
 

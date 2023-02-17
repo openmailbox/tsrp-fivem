@@ -6,9 +6,10 @@ TaskManager.Tasks = {}
 local flush_buffer,
       start_updates
 
-local active_tasks = {}
-local buffer       = {}
-local is_active    = false
+local active_tasks  = {}
+local buffer        = {}
+local is_active     = false
+local next_flush_at = 0
 
 function TaskManager.add(task_id, entity, args)
     local task = TaskManager.Tasks[task_id]
@@ -29,6 +30,16 @@ end
 
 function TaskManager.buffer_update(update)
     table.insert(buffer, update)
+
+    local time = GetGameTimer()
+
+    if time >= next_flush_at then
+        flush_buffer()
+    else
+        Citizen.SetTimeout(next_flush_at - time, function()
+            flush_buffer()
+        end)
+    end
 end
 
 function TaskManager.clear(entity)
@@ -60,7 +71,6 @@ function start_updates()
                 end
             end
 
-            flush_buffer()
             Citizen.Wait(2000)
 
             if #active_tasks == 0 then
@@ -77,6 +87,8 @@ end
 -- @local
 function flush_buffer()
     Logging.log(Logging.TRACE, "Passing " .. #buffer .. " task updates to server.")
+
+    next_flush_at = GetGameTimer() + 2000
 
     TriggerServerEvent(Events.UPDATE_POPULATION_TASK, {
         updates = buffer

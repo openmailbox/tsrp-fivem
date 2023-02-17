@@ -15,26 +15,31 @@ AddEventHandler(Events.ON_GAME_EVENT, on_event)
 
 local next_at = 0
 
---local function on_aim(targets, enactor, _)
---    if enactor ~= PlayerPedId() then return end
---
---    local target = targets[1]
---    local time   = GetGameTimer()
---
---    -- 28 == PED_TYPE_ANIMAL
---    if time < next_at or IsPedAPlayer(target) or GetPedType == 28 then
---        return
---    end
---
---    next_at = time + 2000
---
---    for _, ped in ipairs(GetGamePool("CPed")) do
---        if GetPedType(ped) == 6 then -- 6 == PED_TYPE_COP
---            print("report")
---            ReportCrime(PlayerId(), 27, 0)
---            break
---        end
---    end
---end
---AddEventHandler(Events.CLIENT_GUN_AIMED_AT, on_aim)
---
+local function on_aim(targets, enactor, _)
+    if enactor ~= PlayerPedId() then return end
+
+    local target = targets[1]
+    local time   = GetGameTimer()
+
+    -- 28 == PED_TYPE_ANIMAL
+    if time < next_at or IsPedAPlayer(target) or GetPedType == 28 then
+        return
+    end
+
+    next_at = time + 2000
+
+    local net_id = PedToNet(PlayerPedId())
+
+    for _, ped in ipairs(GetGamePool("CPed")) do
+        if GetPedType(ped) == 6 and HasEntityClearLosToEntity(ped, enactor) then -- 6 == PED_TYPE_COP
+            ReportCrime(PlayerId(), 27, 0)
+
+            TaskManager.buffer_update({
+                task_id  = Tasks.OBSERVE_THREAT,
+                threat   = net_id,
+                observer = PedToNet(ped)
+            })
+        end
+    end
+end
+AddEventHandler(Events.CLIENT_GUN_AIMED_AT, on_aim)

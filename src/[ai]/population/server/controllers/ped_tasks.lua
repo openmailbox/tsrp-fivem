@@ -28,12 +28,29 @@ local function closest_cop_to_suspect(incident)
     end
 end
 
+local function observe_threat(incident)
+    local threat   = NetworkGetEntityFromNetworkId(incident.threat)
+    local observer = NetworkGetEntityFromNetworkId(incident.observer)
+
+    if threat == 0 or observer == 0 then
+        return
+    end
+
+    local cop = PoliceUnit.for_entity(observer)
+
+    if cop and cop.current_target == threat then
+        cop:move_to(PoliceStates.FIGHTING)
+    end
+end
+
 local function update(data)
     for _, details in ipairs(data.updates) do
         if details.task_id == Tasks.SEARCH_FOR_HATED_IN_AREA then
             found_hated_target(details)
         elseif details.task_id == Tasks.AIM_AT_ENTITY then
             closest_cop_to_suspect(details)
+        elseif details.task_id == Tasks.OBSERVE_THREAT then
+            observe_threat(details)
         end
     end
 end
