@@ -13,26 +13,31 @@ function AimAtEntity.begin(entity, args)
 
     Logging.log(Logging.DEBUG, "Telling ".. entity .. " to aim at " .. target .. ".")
 
+    if IsPedInAnyVehicle(entity, false) then
+        TaskLeaveVehicle(entity, GetVehiclePedIsIn(entity, false), 0)
+
+        repeat
+            Citizen.Wait(10)
+        until not IsPedInAnyVehicle(entity, false)
+    end
+
     TaskAimGunAtEntity(entity, target, -1, 0)
 end
 
 function AimAtEntity.update(entity, args)
-    local target   = NetToPed(args.target)
-    local location = GetEntityCoords(target)
+    local target     = NetToPed(args.target)
+    local target_loc = GetEntityCoords(target)
 
-    if are_hands_raised(target) and get_closest_cop(entity, location) == entity then
+    if are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
             enactor  = PedToNet(entity),
             target   = args.target,
-            location = location + (GetEntityForwardVector(target) * 1.2)
+            location = target_loc + (GetEntityForwardVector(target) * 1.2)
         })
-
-        return false
     end
 
-    -- TODO: Peds can get stuck in this task
-    return true
+    return GetIsTaskActive(entity, 4) -- CTaskAimGunOnFoot
 end
 
 -- @local

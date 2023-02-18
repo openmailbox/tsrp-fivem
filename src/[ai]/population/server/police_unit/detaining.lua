@@ -49,7 +49,6 @@ function Detaining:update()
 
         Citizen.SetTimeout(3000, function()
             if IsPedAPlayer(self.unit.current_target) then
-
                 local player = find_player_from_ped(self.unit.current_target)
 
                 SetPlayerWantedLevel(player, 0)

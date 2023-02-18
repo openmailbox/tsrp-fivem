@@ -2,6 +2,10 @@ Responding = {}
 
 PoliceUnit.States[PoliceStates.RESPONDING] = Responding
 
+-- Forward declarations
+local is_driving,
+      sync_task
+
 function Responding:new(o)
     o = o or {}
 
@@ -12,8 +16,13 @@ function Responding:new(o)
 end
 
 function Responding:enter()
-    SetPedConfigFlag(self.unit.entity, 17, true)
-    self:update()
+    ClearPedTasks(self.unit.entity)
+
+    SetPedConfigFlag(self.unit.entity, 17, true) -- BlockNonTemporaryEvents
+
+    if is_driving(self.unit.entity) then
+        sync_task(self)
+    end
 end
 
 function Responding:exit()
@@ -25,20 +34,29 @@ function Responding:update()
         return
     end
 
-    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) < 15.0 then
+    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) < 20.0 then
         self.unit:move_to(PoliceStates.SEARCHING)
         return
     end
 
-    local vehicle = GetVehiclePedIsIn(self.unit.entity, false)
-
-    if vehicle > 0 and GetPedInVehicleSeat(self.unit.entity, -1) == self.unit.entity then
-        local owner = NetworkGetEntityOwner(self.unit.entity)
-
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-            net_id   = NetworkGetNetworkIdFromEntity(self.unit.entity),
-            location = self.unit.assigned_call.location,
-            task_id  = Tasks.DRIVE_TO_COORD
-        })
+    if is_driving(self.unit.entity) and GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+        sync_task(self)
     end
+end
+
+-- @local
+function is_driving(entity)
+    local vehicle = GetVehiclePedIsIn(entity, false)
+    return vehicle > 0 and GetPedInVehicleSeat(vehicle, -1) == entity
+end
+
+-- @local
+function sync_task(response)
+    local owner = NetworkGetEntityOwner(response.unit.entity)
+
+    TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+        net_id   = NetworkGetNetworkIdFromEntity(response.unit.entity),
+        location = response.unit.assigned_call.location,
+        task_id  = Tasks.DRIVE_TO_COORD
+    })
 end
