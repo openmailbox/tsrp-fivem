@@ -39,6 +39,11 @@ function Confronting:update()
         return
     end
 
+    if Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target)) > 15.0 then
+        self.unit:move_to(PoliceStates.CHASING)
+        return
+    end
+
     if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         sync_task(self)
     end

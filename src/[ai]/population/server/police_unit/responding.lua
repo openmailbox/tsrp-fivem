@@ -17,12 +17,15 @@ end
 
 function Responding:enter()
     ClearPedTasks(self.unit.entity)
-
     SetPedConfigFlag(self.unit.entity, 17, true) -- BlockNonTemporaryEvents
 
-    if is_driving(self.unit.entity) then
+    local vehicle = GetVehiclePedIsIn(self.unit.entity, false)
+
+    if vehicle > 0 and GetPedInVehicleSeat(vehicle, -1) == self.unit.entity then
         sync_task(self)
     end
+
+    self.unit.origin_vehicle = vehicle
 end
 
 function Responding:exit()
