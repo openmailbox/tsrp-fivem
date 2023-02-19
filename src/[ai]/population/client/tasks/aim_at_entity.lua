@@ -35,14 +35,18 @@ function AimAtEntity.update(entity, args)
             surrendering = true,
             offset       = target_loc + (GetEntityForwardVector(target) * 1.2)
         })
+
+        return false
     end
 
-    if not HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, GetEntityCoords(entity)) > 15.0 then
+    if not HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, GetEntityCoords(entity)) > 20.0 then
         TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
             entity   = PedToNet(entity),
             obscured = true
         })
+
+        return false
     end
 
     return GetIsTaskActive(entity, 4) -- CTaskAimGunOnFoot

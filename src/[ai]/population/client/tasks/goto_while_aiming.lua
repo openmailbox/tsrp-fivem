@@ -19,6 +19,8 @@ function GotoWhileAiming.update(entity, args)
             entity   = PedToNet(entity),
             in_range = true
         })
+
+        return false
     end
 
     return GetIsTaskActive(entity, 230) -- CTaskGoToPointAiming

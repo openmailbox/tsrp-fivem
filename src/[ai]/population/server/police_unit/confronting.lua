@@ -53,7 +53,7 @@ function sync_task(state)
     local distance = Dist2d(GetEntityCoords(state.unit.entity), location)
     local task     = Tasks.AIM_AT_ENTITY
 
-    if distance > 15.0 then
+    if distance > 20.0 then
         task = Tasks.GOTO_COORD_WHILE_AIMING
     end
 
