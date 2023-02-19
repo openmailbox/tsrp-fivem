@@ -27,6 +27,7 @@ end
 function AimAtEntity.update(entity, args)
     local target     = NetToPed(args.target)
     local target_loc = GetEntityCoords(target)
+    local entity_loc = GetEntityCoords(entity)
 
     if are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
@@ -35,21 +36,17 @@ function AimAtEntity.update(entity, args)
             surrendering = true,
             offset       = target_loc + (GetEntityForwardVector(target) * 1.2)
         })
-
         return false
     end
 
-    if not HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, GetEntityCoords(entity)) > 20.0 then
-        TaskManager.buffer_update({
-            task_id  = Tasks.AIM_AT_ENTITY,
-            entity   = PedToNet(entity),
-            obscured = true
-        })
+    local max_range = GetMaxRangeOfCurrentPedWeapon(entity) / 3.0
 
-        return false
+    if (not HasEntityClearLosToEntity(entity, target, 17) or Vdist(target_loc, entity_loc) > max_range) and not GetIsTaskActive(entity, 230) then
+        Logging.log(Logging.DEBUG, "Tasking " .. entity .. " to close distance to " .. max_range .. " with " .. target .. ".")
+        TaskGoToEntityWhileAimingAtEntity(entity, target, target, 2.0, false, 2.0, 0.5, false, 0, -957453492)
     end
 
-    return GetIsTaskActive(entity, 4) -- CTaskAimGunOnFoot
+    return GetIsTaskActive(entity, 4) or GetIsTaskActive(entity, 230)
 end
 
 -- @local

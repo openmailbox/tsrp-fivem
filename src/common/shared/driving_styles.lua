@@ -26,4 +26,5 @@ DrivingStyles.RUSHED = DrivingStyles.STOP_BEFORE_VEHICLES +
                        DrivingStyles.AVOID_VEHICLES +
                        DrivingStyles.AVOID_PEDS +
                        DrivingStyles.AVOID_OBJECTS +
-                       DrivingStyles.ALLOW_WRONG_WAY
+                       DrivingStyles.ALLOW_WRONG_WAY +
+                       DrivingStyles.SHORTEST_PATH

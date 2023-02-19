@@ -12,13 +12,13 @@ function SearchHated.begin(entity, args)
     Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
 
     SetCurrentPedWeapon(entity, GetBestPedWeapon(entity, 0))
-    TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 3.0, 0.0, true, 16, 1, -957453492)
+    TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 5.0, 0.0, true, 16, 1, -957453492)
 
     SearchHated.update(entity, args)
 end
 
-function SearchHated.update(entity, _)
-    local target = find_first_visible_enemy(entity)
+function SearchHated.update(entity, args)
+    local target = find_first_visible_enemy(entity, args.location)
     if target == 0 then return end
 
     TaskManager.buffer_update({
@@ -31,11 +31,14 @@ function SearchHated.update(entity, _)
 end
 
 -- @local
-function find_first_visible_enemy(entity)
+function find_first_visible_enemy(entity, destination)
     for _, ped in ipairs(GetGamePool("CPed")) do
-        if GetPedType(ped) ~= 28 and
+        if ped > 0 and
+            DoesEntityExist(ped) and
+            GetPedType(ped) ~= 28 and
             GetRelationshipBetweenPeds(entity, ped) >= 4 and
             HasEntityClearLosToEntity(entity, ped, 17) and
+            Vdist(destination, GetEntityCoords(ped)) < 20.0 and
             NetworkGetEntityIsNetworked(entity) then
 
             return ped
