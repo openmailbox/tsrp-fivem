@@ -33,7 +33,8 @@ function TaskManager.buffer_update(update)
 
     local time = GetGameTimer()
 
-    if time >= next_flush_at then
+    -- Add a small amount of padding to allow for sudden bursts.
+    if time >= next_flush_at + 100 then
         flush_buffer()
     else
         Citizen.SetTimeout(next_flush_at - time, function()
