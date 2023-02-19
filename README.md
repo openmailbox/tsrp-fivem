@@ -1,11 +1,7 @@
 # Time Served FiveM Code
-This repository contains open-source scripts for the [Time Served](https://www.timeservedrp.com) community FiveM server.
+This repository contains open-source code for a GTAV mod/game called [Time Served](https://www.timeservedrp.com).
 
 Join the [community Discord](https://tinyurl.com/tsrp-discord) to connect with us.
-
-Related repositories:
-- [TSRP Documentation](https://github.com/openmailbox/tsrp-docs)
-- [TSRP Website](https://github.com/openmailbox/tsrp-web)
 
 ## Contributing
 Contributions are welcome. Here are instructions for setting up a local development environment:
