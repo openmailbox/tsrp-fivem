@@ -7,13 +7,13 @@ function GotoWhileAiming.begin(entity, args)
 
     Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to goto while aiming at " .. args.location .. ".")
 
-    TaskGoToCoordWhileAimingAtCoord(entity, x, y, z, x, y, z, 2.0, false, 2.0, 0.5, false, 0, false, -957453492)
+    TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 5.0, 0.0, true, 16, 1, -957453492)
 end
 
 function GotoWhileAiming.update(entity, args)
     local target = NetToPed(args.target)
 
-    if HasEntityClearLosToEntity(entity, target, 17) then
+    if HasEntityClearLosToEntity(entity, target, 17) and Vdist(GetEntityCoords(target), GetEntityCoords(entity)) < 15.0 then
         TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
             entity   = PedToNet(entity),

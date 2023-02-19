@@ -25,7 +25,7 @@ function Confronting:process_input(data)
     if data.surrendering then
         self.unit.current_target_offset = data.offset
         self.unit:move_to(PoliceStates.DETAINING)
-    elseif data.obscured then
+    elseif data.in_range then
         sync_task(self)
     end
 end
