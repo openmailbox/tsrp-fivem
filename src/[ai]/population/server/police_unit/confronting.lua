@@ -21,13 +21,22 @@ end
 function Confronting:exit()
 end
 
+function Confronting:process_input(data)
+    if data.surrendering then
+        self.unit.current_target_offset = data.offset
+        self.unit:move_to(PoliceStates.DETAINING)
+    elseif data.obscured then
+        self.unit:move_to(PoliceStates.SEARCHING)
+    end
+end
+
 function Confronting:update()
     if not self.unit.assigned_call then
         self.unit:move_to(PoliceStates.AVAILABLE)
         return
     end
 
-    if not DoesEntityExist(self.unit.current_target) or Dist2d(GetEntityCoords(self.unit.current_target), GetEntityCoords(self.unit.entity)) > 20.0 then
+    if not DoesEntityExist(self.unit.current_target) then
         self.unit:move_to(PoliceStates.SEARCHING)
         return
     end

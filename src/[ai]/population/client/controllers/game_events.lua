@@ -35,9 +35,9 @@ local function on_aim(targets, enactor, _)
             ReportCrime(PlayerId(), 27, 0)
 
             TaskManager.buffer_update({
-                task_id  = Tasks.OBSERVE_THREAT,
-                threat   = net_id,
-                observer = PedToNet(ped)
+                task_id = Tasks.OBSERVE_THREAT,
+                entity  = PedToNet(ped),
+                threat  = net_id,
             })
         end
     end

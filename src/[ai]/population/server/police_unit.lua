@@ -60,11 +60,6 @@ function PoliceUnit:clear()
     Logging.log(Logging.INFO, "Police unit " .. self.entity .. " cleared call " .. id .. ".")
 end
 
-function PoliceUnit:confront(entity)
-    self.current_target = entity
-    self:move_to(PoliceStates.CONFRONTING)
-end
-
 function PoliceUnit:initialize()
     table.insert(all_units, self)
 
@@ -95,6 +90,15 @@ function PoliceUnit:move_to(state_id)
     self.state:enter()
 
     Logging.log(Logging.DEBUG, "Police unit " .. self.entity .. " moved to state " .. PoliceStates.LABELS[state_id] .. ".")
+end
+
+function PoliceUnit:process_input(data)
+    if data.task_id == Tasks.OBSERVE_THREAT then
+        self.current_target = NetworkGetEntityFromNetworkId(data.threat)
+        self:move_to(PoliceStates.FIGHTING)
+    else
+        self.state:process_input(data)
+    end
 end
 
 function PoliceUnit:update()

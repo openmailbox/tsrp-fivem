@@ -21,6 +21,14 @@ end
 function Searching:exit()
 end
 
+function Searching:process_input(data)
+    local target = NetworkGetEntityFromNetworkId(data.target)
+
+    self.unit.current_target = target
+
+    self.unit:move_to(PoliceStates.CONFRONTING)
+end
+
 function Searching:update()
     if not self.unit.assigned_call then
         self.unit:move_to(PoliceStates.AVAILABLE)

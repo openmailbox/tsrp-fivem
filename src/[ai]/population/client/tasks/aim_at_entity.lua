@@ -30,10 +30,18 @@ function AimAtEntity.update(entity, args)
 
     if are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
+            task_id      = Tasks.AIM_AT_ENTITY,
+            entity       = PedToNet(entity),
+            surrendering = true,
+            offset       = target_loc + (GetEntityForwardVector(target) * 1.2)
+        })
+    end
+
+    if not HasEntityClearLosToEntity(entity, target) then
+        TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
-            enactor  = PedToNet(entity),
-            target   = args.target,
-            location = target_loc + (GetEntityForwardVector(target) * 1.2)
+            entity   = PedToNet(entity),
+            obscured = true
         })
     end
 

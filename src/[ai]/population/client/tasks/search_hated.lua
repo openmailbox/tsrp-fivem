@@ -22,9 +22,9 @@ function SearchHated.update(entity, _)
     if not target then return end
 
     TaskManager.buffer_update({
-        task_id   = Tasks.SEARCH_FOR_HATED_IN_AREA,
-        aggressor = PedToNet(entity),
-        target    = PedToNet(target)
+        task_id = Tasks.SEARCH_FOR_HATED_IN_AREA,
+        entity  = PedToNet(entity),
+        target  = PedToNet(target)
     })
 
     return GetIsTaskActive(entity, 230) -- CTaskGoToPointAiming
