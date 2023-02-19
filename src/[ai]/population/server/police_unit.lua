@@ -96,8 +96,10 @@ function PoliceUnit:process_input(data)
     if data.task_id == Tasks.OBSERVE_THREAT then
         self.current_target = NetworkGetEntityFromNetworkId(data.threat)
         self:move_to(PoliceStates.FIGHTING)
-    else
+    elseif self.state.process_input then
         self.state:process_input(data)
+    else
+        Logging.log(Logging.WARN, "No input handling for task " .. data.task_id .. " on state " .. self.state_id .. ".")
     end
 end
 

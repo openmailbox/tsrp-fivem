@@ -11,7 +11,7 @@ local Animation = { DICTIONARY = "ped", NAME = "handsup_base", DOWN = "handsup_e
 function AimAtEntity.begin(entity, args)
     local target = NetToPed(args.target)
 
-    Logging.log(Logging.DEBUG, "Telling ".. entity .. " to aim at " .. target .. ".")
+    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to aim at " .. target .. ".")
 
     if IsPedInAnyVehicle(entity, false) then
         TaskLeaveVehicle(entity, GetVehiclePedIsIn(entity, false), 0)
@@ -37,7 +37,7 @@ function AimAtEntity.update(entity, args)
         })
     end
 
-    if not HasEntityClearLosToEntity(entity, target, 17) then
+    if not HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, GetEntityCoords(entity)) > 15.0 then
         TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
             entity   = PedToNet(entity),

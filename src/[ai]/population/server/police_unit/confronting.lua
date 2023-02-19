@@ -26,7 +26,7 @@ function Confronting:process_input(data)
         self.unit.current_target_offset = data.offset
         self.unit:move_to(PoliceStates.DETAINING)
     elseif data.obscured then
-        self.unit:move_to(PoliceStates.SEARCHING)
+        sync_task(self)
     end
 end
 
@@ -47,12 +47,20 @@ function Confronting:update()
 end
 
 -- @local
-function sync_task(confrontation)
-    local owner = NetworkGetEntityOwner(confrontation.unit.entity)
+function sync_task(state)
+    local owner    = NetworkGetEntityOwner(state.unit.entity)
+    local location = GetEntityCoords(state.unit.current_target)
+    local distance = Dist2d(GetEntityCoords(state.unit.entity), location)
+    local task     = Tasks.AIM_AT_ENTITY
+
+    if distance > 15.0 then
+        task = Tasks.GOTO_COORD_WHILE_AIMING
+    end
 
     TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-        net_id  = NetworkGetNetworkIdFromEntity(confrontation.unit.entity),
-        target  = NetworkGetNetworkIdFromEntity(confrontation.unit.current_target),
-        task_id = Tasks.AIM_AT_ENTITY
+        task_id  = task,
+        net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
+        target   = NetworkGetNetworkIdFromEntity(state.unit.current_target),
+        location = location
     })
 end
