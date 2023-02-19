@@ -47,10 +47,6 @@ local function respawn(data)
     SetPlayerControl(player, true, 0)
     SetPlayerInvincible(player, false)
 
-    TriggerEvent(Events.DELETE_CUFFED_HOSTAGE, {
-        target = PedToNet(PlayerPedId())
-    })
-
     SetEntityVisible(ped, true)
     SetEntityCollision(ped, true)
     FreezeEntityPosition(ped, false)
@@ -63,6 +59,10 @@ local function respawn(data)
 
     local life = LifeCycle:new()
     life:begin()
+
+    TriggerEvent(Events.DELETE_CUFFED_HOSTAGE, {
+        target = PedToNet(PlayerPedId())
+    })
 
     if not HasAnimDictLoaded(Animation.DICTIONARY) then
         RequestAnimDict(Animation.DICTIONARY)
