@@ -3,7 +3,9 @@ Detaining = {}
 PoliceUnit.States[PoliceStates.DETAINING] = Detaining
 
 -- Forward declarations
-local find_player_from_ped
+local find_player_from_ped,
+      sync_approach,
+      sync_detain
 
 function Detaining:new(o)
     o = o or {}
@@ -15,42 +17,33 @@ function Detaining:new(o)
 end
 
 function Detaining:enter()
-    local x, y, z = table.unpack(self.unit.current_target_offset)
-
     SetCurrentPedWeapon(self.unit.entity, Weapons.UNARMED, true)
-    TaskGoStraightToCoord(self.unit.entity, x, y, z, 1.0, -1, 0, 0.0)
+    sync_approach(self)
 end
 
 function Detaining:exit()
 end
 
 function Detaining:update()
-    local task     = GetPedScriptTaskCommand(self.unit.entity)
-    local distance = Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target))
+    local target_loc = GetEntityCoords(self.unit.current_target)
+    local distance   = Dist2d(GetEntityCoords(self.unit.entity), target_loc)
 
-    if distance < 2.0 and not self.timeout then
-        self.timeout = GetGameTimer() + 5000
+    --if distance > 1.5 and GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+    --    sync_approach(self)
+    --    return
+    --end
 
-        local enactor_owner = NetworkGetEntityOwner(self.unit.entity)
-        local target_owner  = NetworkGetEntityOwner(self.unit.current_target)
-        local target_net_id = NetworkGetNetworkIdFromEntity(self.unit.current_target)
+    if distance < 1.5 and not self.is_detaining then
+        self.is_detaining = true
 
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK, enactor_owner, {
-            task_id = Tasks.DETAIN,
-            net_id  = NetworkGetNetworkIdFromEntity(self.unit.entity),
-            target  = target_net_id,
-            ping    = GetPlayerPing(enactor_owner)
-        })
+        sync_detain(self)
 
-        TriggerClientEvent(Events.CREATE_CUFFED_HOSTAGE, target_owner, {
-            target = target_net_id,
-            ping   = GetPlayerPing(target_owner)
-        })
+        local target = self.unit.current_target
+        local player = IsPedAPlayer(target) and find_player_from_ped(target)
+        local call   = self.unit.assigned_call
 
         Citizen.SetTimeout(3000, function()
-            if IsPedAPlayer(self.unit.current_target) then
-                local player = find_player_from_ped(self.unit.current_target)
-
+            if player then
                 SetPlayerWantedLevel(player, 0)
 
                 TriggerClientEvent(Events.CREATE_PRISON_SENTENCE, player)
@@ -60,16 +53,8 @@ function Detaining:update()
                 })
             end
 
-            if self.unit.assigned_call then
-                Dispatcher.cancel(self.unit.assigned_call.id)
-            end
+            Dispatcher.cancel(call)
         end)
-
-        return
-    end
-
-    if task == Tasks.NO_TASK and self.timeout and GetGameTimer() > self.timeout then
-        self.unit:move_to(PoliceStates.SEARCHING)
     end
 end
 
@@ -82,4 +67,34 @@ function find_player_from_ped(ped)
     end
 
     return nil
+end
+
+-- @local
+function sync_approach(state)
+    local owner = NetworkGetEntityOwner(state.unit.entity)
+
+    TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+        task_id = Tasks.GOTO_ENTITY,
+        net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
+        target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
+    })
+end
+
+-- @local
+function sync_detain(state)
+    local entity_owner  = NetworkGetEntityOwner(state.unit.entity)
+    local target_owner  = NetworkGetEntityOwner(state.unit.current_target)
+    local target_net_id = NetworkGetNetworkIdFromEntity(state.unit.current_target)
+
+    TriggerClientEvent(Events.CREATE_POPULATION_TASK, entity_owner, {
+        task_id = Tasks.DETAIN,
+        net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
+        target  = target_net_id,
+        ping    = GetPlayerPing(entity_owner)
+    })
+
+    TriggerClientEvent(Events.CREATE_CUFFED_HOSTAGE, target_owner, {
+        target = target_net_id,
+        ping   = GetPlayerPing(target_owner)
+    })
 end

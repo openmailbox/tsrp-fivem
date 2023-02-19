@@ -7,7 +7,7 @@ function DriveToCoord.begin(entity, args)
     local x, y, z  = table.unpack(location)
     local vehicle  = GetVehiclePedIsIn(entity, false)
 
-    Logging.log(Logging.DEBUG, "Telling ".. entity .. " to drive to " .. location .. ".")
+    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to drive to " .. location .. ".")
 
     TaskVehicleDriveToCoord(entity, vehicle, x, y, z, 30.0, 5.0, GetEntityModel(vehicle), DrivingStyles.RUSHED, 10.0, true)
 end

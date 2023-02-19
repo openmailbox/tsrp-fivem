@@ -13,7 +13,7 @@ function AimAtEntity.begin(entity, args)
 
     Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to aim at " .. target .. ".")
 
-    if IsPedInAnyVehicle(entity, false) then
+    if IsPedInAnyVehicle(entity, false) and not IsPedInFlyingVehicle(entity) then
         TaskLeaveVehicle(entity, GetVehiclePedIsIn(entity, false), 0)
 
         repeat
@@ -25,11 +25,15 @@ function AimAtEntity.begin(entity, args)
 end
 
 function AimAtEntity.update(entity, args)
+    if not NetworkDoesEntityExistWithNetworkId(args.target) then
+        return false
+    end
+
     local target     = NetToPed(args.target)
     local target_loc = GetEntityCoords(target)
     local entity_loc = GetEntityCoords(entity)
 
-    if are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
+    if not IsPedInFlyingVehicle(entity) and are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
             task_id      = Tasks.AIM_AT_ENTITY,
             entity       = PedToNet(entity),

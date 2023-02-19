@@ -8,6 +8,24 @@ local start_updates
 local all_units = {}
 local is_active = false
 
+function PoliceUnit.closest(coords)
+    local closest  = nil
+    local distance = nil
+
+    local d
+
+    for _, unit in ipairs(all_units) do
+        d = Dist2d(GetEntityCoords(unit.entity), coords)
+
+        if not distance or d < distance then
+            distance = d
+            closest  = unit
+        end
+    end
+
+    return closest, distance
+end
+
 function PoliceUnit.for_entity(entity)
     for _, unit in ipairs(all_units) do
         if unit.entity == entity then

@@ -14,6 +14,11 @@ local next_flush_at = 0
 function TaskManager.add(task_id, entity, args)
     local task = TaskManager.Tasks[task_id]
 
+    if not task then
+        Logging.log(Logging.WARN, "Unable to find behavior for task " .. task_id .. ".")
+        return
+    end
+
     task.begin(entity, args)
 
     table.insert(active_tasks, {
