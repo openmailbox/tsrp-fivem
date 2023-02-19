@@ -19,7 +19,7 @@ end
 
 function SearchHated.update(entity, _)
     local target = find_first_visible_enemy(entity)
-    if not target then return end
+    if target == 0 then return end
 
     TaskManager.buffer_update({
         task_id = Tasks.SEARCH_FOR_HATED_IN_AREA,
@@ -33,10 +33,14 @@ end
 -- @local
 function find_first_visible_enemy(entity)
     for _, ped in ipairs(GetGamePool("CPed")) do
-        if GetRelationshipBetweenPeds(entity, ped) >= 4 and HasEntityClearLosToEntity(entity, ped) then
+        if GetPedType(ped) ~= 28 and
+            GetRelationshipBetweenPeds(entity, ped) >= 4 and
+            HasEntityClearLosToEntity(entity, ped, 17) and
+            NetworkGetEntityIsNetworked(entity) then
+
             return ped
         end
     end
 
-    return nil
+    return 0
 end

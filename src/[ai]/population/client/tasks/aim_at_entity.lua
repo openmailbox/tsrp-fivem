@@ -37,7 +37,7 @@ function AimAtEntity.update(entity, args)
         })
     end
 
-    if not HasEntityClearLosToEntity(entity, target) then
+    if not HasEntityClearLosToEntity(entity, target, 17) then
         TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
             entity   = PedToNet(entity),
