@@ -21,7 +21,13 @@ function AimAtEntity.begin(entity, args)
         until not IsPedInAnyVehicle(entity, false)
     end
 
-    TaskAimGunAtEntity(entity, target, -1, 0)
+    -- TODO: Better handling for helicopters
+    if IsPedInFlyingVehicle(entity) then
+        local x, y, z = table.unpack(GetEntityCoords(target))
+        TaskHeliMission(entity, GetVehiclePedIsIn(entity, false), GetVehiclePedIsIn(target, false), target, x, y, z, 9, 1.0, -1.0, -1.0, 10, 10, 5.0, 0)
+    else
+        TaskAimGunAtEntity(entity, target, -1, 0)
+    end
 end
 
 function AimAtEntity.update(entity, args)

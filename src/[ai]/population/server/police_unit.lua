@@ -163,6 +163,7 @@ function start_updates()
 
             if #all_units == 0 then
                 is_active = false
+                break
             end
 
             Citizen.Wait(3000)
