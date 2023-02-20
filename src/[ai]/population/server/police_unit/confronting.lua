@@ -15,6 +15,11 @@ function Confronting:new(o)
 end
 
 function Confronting:enter()
+    if not DoesEntityExist(self.unit.current_target) then
+        self.unit:move_to(PoliceStates.SEARCHING)
+        return
+    end
+
     self.last_target_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
     sync_task(self)
 end

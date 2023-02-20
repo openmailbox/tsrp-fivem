@@ -35,7 +35,7 @@ function Searching:update()
         return
     end
 
-    if self.unit.current_target then
+    if self.unit.current_target and DoesEntityExist(self.unit.current_target) then
         self.unit:move_to(PoliceStates.CONFRONTING)
         return
     end
