@@ -89,7 +89,7 @@ end
 function get_closest_cop(myself, location)
     local closest, distance
 
-    if GetPedType(myself) ~= 6 or GetPedType(myself) ~= 27 then
+    if GetPedType(myself) ~= 6 and GetPedType(myself) ~= 27 then
         return false
     else
         closest  = myself
