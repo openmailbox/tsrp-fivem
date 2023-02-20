@@ -12,7 +12,10 @@ function SearchHated.begin(entity, args)
     Logging.log(Logging.TRACE, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
 
     SetCurrentPedWeapon(entity, GetBestPedWeapon(entity, 0))
-    TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 5.0, 0.0, true, 16, 1, -957453492)
+
+    if not IsPedInFlyingVehicle(entity) then
+        TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 5.0, 0.0, true, 16, 1, -957453492)
+    end
 
     SearchHated.update(entity, args)
 end

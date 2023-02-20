@@ -16,7 +16,6 @@ end
 
 function Confronting:enter()
     self.last_target_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
-
     sync_task(self)
 end
 

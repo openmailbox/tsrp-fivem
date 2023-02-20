@@ -9,23 +9,25 @@ local are_hands_raised,
 local Animation = { DICTIONARY = "ped", NAME = "handsup_base", DOWN = "handsup_exit" }
 
 function AimAtEntity.begin(entity, args)
-    local target = NetToPed(args.target)
-
-    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to aim at " .. target .. ".")
+    local target     = NetToPed(args.target)
+    local my_vehicle = GetVehiclePedIsIn(entity, false)
 
     if IsPedInAnyVehicle(entity, false) and not IsPedInFlyingVehicle(entity) then
-        TaskLeaveVehicle(entity, GetVehiclePedIsIn(entity, false), 0)
+        TaskLeaveVehicle(entity, my_vehicle, 0)
 
         repeat
             Citizen.Wait(10)
         until not IsPedInAnyVehicle(entity, false)
     end
 
-    -- TODO: Better handling for helicopters
-    if IsPedInFlyingVehicle(entity) then
+    if IsPedInFlyingVehicle(entity) and GetPedInVehicleSeat(my_vehicle, -1) == entity then
         local x, y, z = table.unpack(GetEntityCoords(target))
-        TaskHeliMission(entity, GetVehiclePedIsIn(entity, false), GetVehiclePedIsIn(target, false), target, x, y, z, 9, 1.0, -1.0, -1.0, 10, 10, 5.0, 0)
-    else
+
+        Logging.log(Logging.TRACE, "Tasking " .. entity .. " to circle " .. target .. " in helicopter " .. my_vehicle .. ".")
+
+        TaskHeliMission(entity, my_vehicle, GetVehiclePedIsIn(target, false), target, x, y, z, 9, 1.0, -1.0, -1.0, 10, 10, 5.0, 0)
+    elseif not IsPedInFlyingVehicle(entity) then
+        Logging.log(Logging.TRACE, "Tasking ".. entity .. " to aim at " .. target .. ".")
         TaskAimGunAtEntity(entity, target, -1, 0)
     end
 end
@@ -53,9 +55,11 @@ function AimAtEntity.update(entity, args)
         return false
     end
 
+    local flying    = IsPedInFlyingVehicle(entity)
     local max_range = math.ceil(GetMaxRangeOfCurrentPedWeapon(entity) / 3)
+    local in_range  = not flying and HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, entity_loc) < max_range
 
-    if (not HasEntityClearLosToEntity(entity, target, 17) or Vdist(target_loc, entity_loc) > max_range) and not GetIsTaskActive(entity, 230) then
+    if not in_range and not GetIsTaskActive(entity, 230) then
         Logging.log(Logging.TRACE, "Tasking " .. entity .. " to get within " .. max_range .. " of " .. target .. ".")
         TaskGoToEntityWhileAimingAtEntity(entity, target, target, 2.0, false, 2.0, 0.5, false, 0, -957453492)
     end
