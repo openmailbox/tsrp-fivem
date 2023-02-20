@@ -19,6 +19,7 @@ function TaskManager.add(task_id, entity, args)
         return
     end
 
+    SetPedKeepTask(entity, true)
     task.begin(entity, args)
 
     table.insert(active_tasks, {
@@ -56,6 +57,7 @@ function TaskManager.clear(entity)
         end
     end
 
+    SetPedKeepTask(entity, false)
     ClearPedTasks(entity)
 end
 

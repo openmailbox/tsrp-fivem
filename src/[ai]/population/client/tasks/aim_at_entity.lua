@@ -20,14 +20,9 @@ function AimAtEntity.begin(entity, args)
         until not IsPedInAnyVehicle(entity, false)
     end
 
-    if IsPedInFlyingVehicle(entity) and GetPedInVehicleSeat(my_vehicle, -1) == entity then
-        local x, y, z = table.unpack(GetEntityCoords(target))
-
-        Logging.log(Logging.TRACE, "Tasking " .. entity .. " to circle " .. target .. " in helicopter " .. my_vehicle .. ".")
-
-        TaskHeliMission(entity, my_vehicle, GetVehiclePedIsIn(target, false), target, x, y, z, 9, 1.0, -1.0, -1.0, 10, 10, 5.0, 0)
-    elseif not IsPedInFlyingVehicle(entity) then
-        Logging.log(Logging.TRACE, "Tasking ".. entity .. " to aim at " .. target .. ".")
+    -- Only heli drivers should be ineligible
+    if not IsPedInAnyVehicle(entity) or GetPedInVehicleSeat(my_vehicle, -1) ~= entity then
+        Logging.log(Logging.TRACE, "Tasking " .. entity .. " to aim at " .. target .. ".")
         TaskAimGunAtEntity(entity, target, -1, 0)
     end
 end
@@ -41,11 +36,15 @@ function AimAtEntity.update(entity, args)
         return false
     end
 
+    if IsPedInFlyingVehicle(entity) then
+        return true
+    end
+
     local target     = NetToPed(args.target)
     local target_loc = GetEntityCoords(target)
     local entity_loc = GetEntityCoords(entity)
 
-    if not IsPedInFlyingVehicle(entity) and not IsPedInAnyVehicle(target, false) and are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
+    if not IsPedInAnyVehicle(target, false) and are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
             task_id      = Tasks.AIM_AT_ENTITY,
             entity       = PedToNet(entity),
@@ -55,9 +54,8 @@ function AimAtEntity.update(entity, args)
         return false
     end
 
-    local flying    = IsPedInFlyingVehicle(entity)
     local max_range = math.ceil(GetMaxRangeOfCurrentPedWeapon(entity) / 3)
-    local in_range  = not flying and HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, entity_loc) < max_range
+    local in_range  = HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, entity_loc) < max_range
 
     if not in_range and not GetIsTaskActive(entity, 230) then
         Logging.log(Logging.TRACE, "Tasking " .. entity .. " to get within " .. max_range .. " of " .. target .. ".")
@@ -98,3 +96,14 @@ function get_closest_cop(myself, location)
 
     return closest
 end
+
+Citizen.CreateThread(function()
+    while true do
+        for i = 0, 15 do
+            if i ~= 12 then
+                EnableDispatchService(i, false)
+            end
+        end
+        Citizen.Wait(0)
+    end
+end)

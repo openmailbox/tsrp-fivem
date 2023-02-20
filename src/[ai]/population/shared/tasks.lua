@@ -8,6 +8,7 @@ Tasks = {
     FOLLOW_TO_OFFSET_OF_ENTITY = 1056466932,
     GOTO_ENTITY                = 1227113341,
     GOTO_COORD_WHILE_AIMING    = 432954108,
+    HELI_MISSION               = 3,
     OBSERVE_THREAT             = 4,
     NO_TASK                    = -2128726980,  -- Null task
     SEARCH_FOR_HATED_IN_AREA   = 688521916,    -- TaskGoToCoordAndAimAtHatedEntitiesNearCoord

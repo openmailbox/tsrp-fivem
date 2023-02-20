@@ -7,6 +7,10 @@ function DriveToCoord.begin(entity, args)
     local x, y, z  = table.unpack(location)
     local vehicle  = GetVehiclePedIsIn(entity, false)
 
+    if IsPedInFlyingVehicle(entity) then
+        z = z + 10.0
+    end
+
     Logging.log(Logging.TRACE, "Tasking ".. entity .. " to drive to " .. location .. ".")
 
     TaskVehicleDriveToCoord(entity, vehicle, x, y, z, 30.0, 5.0, GetEntityModel(vehicle), DrivingStyles.RUSHED, 10.0, true)

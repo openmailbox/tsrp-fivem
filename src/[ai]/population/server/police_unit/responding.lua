@@ -17,10 +17,11 @@ function Responding:new(o)
 end
 
 function Responding:enter()
-    ClearPedTasks(self.unit.entity)
     SetPedConfigFlag(self.unit.entity, 17, true) -- BlockNonTemporaryEvents
+    ClearPedTasks(self.unit.entity)
 
-    self.unit.vehicle = GetVehiclePedIsIn(self.unit.entity, false)
+    self.unit.vehicle      = GetVehiclePedIsIn(self.unit.entity, false)
+    self.unit.vehicle_type = GetVehicleType(self.unit.vehicle)
 
     if is_driving(self.unit.entity) then
         self.unit.vehicle_driver = true
@@ -39,14 +40,15 @@ function Responding:update()
 
     local location       = find_best_destination(self)
     local target_vehicle = GetVehiclePedIsIn(self.unit.current_target)
-
-    if Dist2d(GetEntityCoords(self.unit.entity), location) < 20.0 and not self.unit.current_target then
-        self.unit:move_to(PoliceStates.SEARCHING)
-        return
-    end
+    local max_distance   = (self.unit.vehicle_type == "heli" and 50.0) or 20.0
 
     if self.unit.current_target and target_vehicle > 0 then
         self.unit:move_to(PoliceStates.CHASING)
+        return
+    end
+
+    if Dist2d(GetEntityCoords(self.unit.entity), location) < max_distance and not self.unit.current_target then
+        self.unit:move_to(PoliceStates.SEARCHING)
         return
     end
 

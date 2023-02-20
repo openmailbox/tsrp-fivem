@@ -31,7 +31,7 @@ local function on_aim(targets, enactor, _)
     local net_id = PedToNet(PlayerPedId())
 
     for _, ped in ipairs(GetGamePool("CPed")) do
-        if GetPedType(ped) == 6 and HasEntityClearLosToEntity(ped, enactor) then -- 6 == PED_TYPE_COP
+        if (GetPedType(ped) == 6 or GetPedType(ped) == 27) and HasEntityClearLosToEntity(ped, enactor) then -- 6 == PED_TYPE_COP, 27 == SWAT
             ReportCrime(PlayerId(), 27, 0)
 
             TaskManager.buffer_update({

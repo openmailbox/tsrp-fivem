@@ -30,7 +30,7 @@ function SearchHated.update(entity, args)
         target  = PedToNet(target)
     })
 
-    return GetIsTaskActive(entity, 230) -- CTaskGoToPointAiming
+    return GetIsTaskActive(entity, 230) -- 230 = CTaskGoToPointAiming
 end
 
 -- @local

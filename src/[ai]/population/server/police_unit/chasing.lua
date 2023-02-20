@@ -96,7 +96,13 @@ end
 function sync_vehicle_drive(state)
     local owner = NetworkGetEntityOwner(state.unit.entity)
 
-    if GetVehiclePedIsIn(state.unit.current_target) > 0 then
+    if state.unit.vehicle_type == "heli" then
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+            net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
+            target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
+            task_id = Tasks.HELI_MISSION
+        })
+    elseif GetVehiclePedIsIn(state.unit.current_target) > 0 then
         TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
             net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
             target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
