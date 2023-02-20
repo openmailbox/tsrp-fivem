@@ -56,8 +56,12 @@ function Chasing:update()
         self.last_move_at = time
     end
 
-    if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK and is_driving(self.unit.entity) then
+    local task = GetPedScriptTaskCommand(self.unit.entity)
+
+    if task == Tasks.NO_TASK and is_driving(self.unit.entity) then
         sync_vehicle_drive(self)
+    elseif vehicle == 0 and task ~= Tasks.FOLLOW_TO_OFFSET_OF_ENTITY then
+        sync_follow_entity(self)
     end
 end
 
@@ -94,25 +98,18 @@ end
 
 -- @local
 function sync_vehicle_drive(state)
-    local owner = NetworkGetEntityOwner(state.unit.entity)
+    local owner   = NetworkGetEntityOwner(state.unit.entity)
+    local task_id = Tasks.DRIVE_TO_COORD
 
     if state.unit.vehicle_type == "heli" then
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-            net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
-            target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
-            task_id = Tasks.HELI_MISSION
-        })
+        task_id = Tasks.HELI_MISSION
     elseif GetVehiclePedIsIn(state.unit.current_target) > 0 then
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-            net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
-            target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
-            task_id = Tasks.VEHICLE_CHASE
-        })
-    else
-        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-            net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
-            location = GetEntityCoords(state.unit.current_target),
-            task_id  = Tasks.DRIVE_TO_COORD
-        })
+        task_id = Tasks.VEHICLE_CHASE
     end
+
+    TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+        net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
+        target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
+        task_id = task_id
+    })
 end

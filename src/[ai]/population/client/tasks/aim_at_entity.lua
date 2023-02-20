@@ -96,14 +96,3 @@ function get_closest_cop(myself, location)
 
     return closest
 end
-
-Citizen.CreateThread(function()
-    while true do
-        for i = 0, 15 do
-            if i ~= 12 then
-                EnableDispatchService(i, false)
-            end
-        end
-        Citizen.Wait(0)
-    end
-end)

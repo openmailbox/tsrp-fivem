@@ -7,10 +7,13 @@ function HeliMission.begin(entity, args)
     local target  = NetToPed(args.target)
     local x, y, z = table.unpack(GetEntityCoords(target))
 
-    Logging.log(Logging.TRACE, "Tasking " .. entity .. " in helicopter " .. vehicle .. " to chase " .. target .. ".")
-
-    TaskHeliChase(entity, target, 10.0, 10.0, 10.0)
-    --TaskHeliMission(entity, vehicle, GetVehiclePedIsIn(target, false), target, x, y, z, 9, 1.0, -1.0, -1.0, 10, 10, 5.0, 0)
+    if IsPedInAnyVehicle(target, false) then
+        Logging.log(Logging.TRACE, "Tasking " .. entity .. " in helicopter " .. vehicle .. " to chase " .. target .. ".")
+        TaskHeliChase(entity, target, 10.0, 10.0, 10.0)
+    else
+        Logging.log(Logging.TRACE, "Tasking " .. entity .. " in helicopter " .. vehicle .. " with heli mission on " .. target .. ".")
+        TaskHeliMission(entity, vehicle, GetVehiclePedIsIn(target, false), target, x, y, z, 9, 1.0, -1.0, -1.0, 10, 10, 5.0, 0)
+    end
 end
 
 function HeliMission.update(entity, args)
