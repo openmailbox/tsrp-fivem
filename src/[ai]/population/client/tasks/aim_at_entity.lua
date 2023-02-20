@@ -8,6 +8,8 @@ local are_hands_raised,
 
 local Animation = { DICTIONARY = "ped", NAME = "handsup_base", DOWN = "handsup_exit" }
 
+local show_help = true
+
 function AimAtEntity.begin(entity, args)
     local target     = NetToPed(args.target)
     local my_vehicle = GetVehiclePedIsIn(entity, false)
@@ -23,6 +25,15 @@ function AimAtEntity.begin(entity, args)
     -- Only heli drivers should be ineligible
     if not IsPedInAnyVehicle(entity) or GetPedInVehicleSeat(my_vehicle, -1) ~= entity then
         Logging.log(Logging.TRACE, "Tasking " .. entity .. " to aim at " .. target .. ".")
+
+        if show_help then
+            show_help = false
+
+            TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
+                message = "Raise your hands ~INPUT_VEH_DUCK~ to surrender to police."
+            })
+        end
+
         TaskAimGunAtEntity(entity, target, -1, 0)
     end
 end
