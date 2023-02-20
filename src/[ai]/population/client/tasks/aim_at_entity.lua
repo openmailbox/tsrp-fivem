@@ -74,7 +74,7 @@ end
 function get_closest_cop(myself, location)
     local closest, distance
 
-    if GetPedType(myself) ~= 6 then
+    if GetPedType(myself) ~= 6 or GetPedType(myself) ~= 27 then
         return false
     else
         closest  = myself
@@ -84,7 +84,7 @@ function get_closest_cop(myself, location)
     local d
 
     for _, ped in ipairs(GetGamePool("CPed")) do
-        if ped ~= myself and GetPedType(ped) == 6 then
+        if ped ~= myself and (GetPedType(ped) == 6 or GetPedType(ped) == 27) then
             d = Vdist2(GetEntityCoords(ped), location)
 
             if d < distance then

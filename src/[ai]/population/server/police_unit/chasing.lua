@@ -108,8 +108,9 @@ function sync_vehicle_drive(state)
     end
 
     TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-        net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
-        target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
-        task_id = task_id
+        net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
+        target   = NetworkGetNetworkIdFromEntity(state.unit.current_target),
+        location = GetEntityCoords(state.unit.current_target),
+        task_id  = task_id
     })
 end
