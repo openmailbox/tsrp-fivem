@@ -2,6 +2,8 @@ HeliMission = {}
 
 TaskManager.Tasks[Tasks.HELI_MISSION] = HeliMission
 
+local next_report_at = 0
+
 function HeliMission.begin(entity, args)
     local vehicle = GetVehiclePedIsIn(entity, false)
     local target  = NetToPed(args.target)
@@ -19,6 +21,18 @@ end
 function HeliMission.update(entity, args)
     if not NetworkDoesEntityExistWithNetworkId(args.target) then
         return false
+    end
+
+    local target = NetToPed(args.target)
+    local time   = GetGameTimer()
+
+    if target == PlayerPedId() and GetPlayerWantedLevel(PlayerId()) > 0 and time > next_report_at and HasEntityClearLosToEntity(entity, target, 17) then
+        next_report_at = time + 10000
+        ReportPoliceSpottedPlayer(PlayerId())
+
+        if IsPedInAnyVehicle(target, false) then
+            SetVehicleIsWanted(GetVehiclePedIsIn(target, false), true)
+        end
     end
 
     return GetIsTaskActive(entity, 12) -- CTaskVehicleMissionBase

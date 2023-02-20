@@ -22,21 +22,27 @@ local function on_aim(targets, enactor, _)
     local time   = GetGameTimer()
 
     -- 28 == PED_TYPE_ANIMAL
-    if time < next_at or IsPedAPlayer(target) or GetPedType == 28 then
+    if time < next_at or GetPedType(target) == 28 then
         return
     end
 
     next_at = time + 2000
 
-    local net_id = PedToNet(PlayerPedId())
+    local net_id = PedToNet(enactor)
+    local is_cop = GetPedType(target) == 6 or GetPedType(target) == 27
+    local crime  = is_cop and 27 or 1
 
-    for _, ped in ipairs(GetGamePool("CPed")) do
-        if (GetPedType(ped) == 6 or GetPedType(ped) == 27) and HasEntityClearLosToEntity(ped, enactor) then -- 6 == PED_TYPE_COP, 27 == SWAT
-            ReportCrime(PlayerId(), 27, 0)
+    local type
+
+    for _, witness in ipairs(GetGamePool("CPed")) do
+        type = GetPedType(witness)
+
+        if not IsPedAPlayer(witness) and (type < 7 or type > 19) and type ~= 28 and HasEntityClearLosToEntity(witness, enactor) then
+            ReportCrime(PlayerId(), crime, 0)
 
             TaskManager.buffer_update({
                 task_id = Tasks.OBSERVE_THREAT,
-                entity  = PedToNet(ped),
+                entity  = PedToNet(witness),
                 threat  = net_id,
             })
         end
