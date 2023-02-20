@@ -92,6 +92,8 @@ end
 
 -- @local
 function flush_buffer()
+    if #buffer == 0 then return end
+
     Logging.log(Logging.TRACE, "Passing " .. #buffer .. " task updates to server.")
 
     next_flush_at = GetGameTimer() + 2000

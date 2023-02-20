@@ -3,7 +3,8 @@ Responding = {}
 PoliceUnit.States[PoliceStates.RESPONDING] = Responding
 
 -- Forward declarations
-local is_driving,
+local find_best_destination,
+      is_driving,
       sync_task
 
 function Responding:new(o)
@@ -23,7 +24,7 @@ function Responding:enter()
 
     if is_driving(self.unit.entity) then
         self.unit.vehicle_driver = true
-        sync_task(self)
+        sync_task(self, find_best_destination(self))
     end
 end
 
@@ -41,8 +42,21 @@ function Responding:update()
         return
     end
 
-    if is_driving(self.unit.entity) and GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
-        sync_task(self)
+    if not is_driving(self.unit.entity) then return end
+
+    local location = find_best_destination(self)
+
+    if location ~= self.last_location or GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+        sync_task(self, location)
+    end
+end
+
+-- @local
+function find_best_destination(state)
+    if state.unit.current_target then
+        return GetEntityCoords(state.unit.current_target)
+    else
+        return state.unit.assigned_call.location
     end
 end
 
@@ -53,12 +67,14 @@ function is_driving(entity)
 end
 
 -- @local
-function sync_task(response)
-    local owner = NetworkGetEntityOwner(response.unit.entity)
+function sync_task(state, location)
+    local owner = NetworkGetEntityOwner(state.unit.entity)
 
     TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-        net_id   = NetworkGetNetworkIdFromEntity(response.unit.entity),
-        location = response.unit.assigned_call.location,
+        net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
+        location = location,
         task_id  = Tasks.DRIVE_TO_COORD
     })
+
+    state.last_location = location
 end

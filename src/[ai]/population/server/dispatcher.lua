@@ -8,6 +8,27 @@ local CALL_RADIUS = 200.0
 local calls   = {}
 local next_id = 1
 
+-- Tell the Dispatcher a unit is available.
+function Dispatcher.available(unit)
+    local closest  = nil
+    local distance = CALL_RADIUS
+
+    for _, call in ipairs(calls) do
+        local dist = Dist2d(GetEntityCoords(unit.entity), call.location)
+
+        if dist < distance then
+            closest  = call
+            distance = dist
+        end
+    end
+
+    if closest then
+        unit:assign_call(closest)
+        table.insert(closest.units, unit)
+    end
+end
+
+
 function Dispatcher.cancel(id)
     for i, call in ipairs(calls) do
         if call.id == id then
@@ -43,7 +64,8 @@ function Dispatcher.new_call(location, details)
         id       = next_id,
         location = location,
         details  = details,
-        units    = {}
+        units    = {},
+        suspects = {}
     }
 
     next_id = next_id + 1
@@ -54,24 +76,25 @@ function Dispatcher.new_call(location, details)
     Logging.log(Logging.INFO, "Dispatcher received new call (" .. call.id .. ") at " .. call.location .. ".")
 end
 
--- Tell the Dispatcher a unit is available.
-function Dispatcher.available(unit)
-    local closest  = nil
-    local distance = CALL_RADIUS
+function Dispatcher.report_suspect(call_id, entity)
+    local call = nil
 
-    for _, call in ipairs(calls) do
-        local dist = Dist2d(GetEntityCoords(unit.entity), call.location)
-
-        if dist < distance then
-            closest  = call
-            distance = dist
+    for _, c in ipairs(calls) do
+        if c.id == call_id then
+            call = c
+            break
         end
     end
 
-    if closest then
-        unit:assign_call(closest)
-        table.insert(closest.units, unit)
+    if not call then return end
+
+    for _, s in ipairs(call.suspects) do
+        if s == entity then
+            return
+        end
     end
+
+    table.insert(call.suspects, entity)
 end
 
 -- @local

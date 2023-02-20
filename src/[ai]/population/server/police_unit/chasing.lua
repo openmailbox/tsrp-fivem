@@ -79,4 +79,12 @@ function sync_vehicle_drive(state)
         location = GetEntityCoords(state.unit.current_target),
         task_id  = Tasks.DRIVE_TO_COORD
     })
+
+    if GetVehiclePedIsIn(state.unit.entity) > 0 then
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+            net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
+            target  = state.unit.current_target,
+            task_id = Tasks.VEHICLE_CHASE
+        })
+    end
 end

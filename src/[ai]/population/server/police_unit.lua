@@ -129,6 +129,11 @@ function PoliceUnit:process_input(data)
 end
 
 function PoliceUnit:update()
+    -- TODO: Assign the closest suspect
+    if self.assigned_call and not self.current_target and #self.assigned_call.suspects > 0 then
+        self.current_target = self.assigned_call.suspects[1]
+    end
+
     if self.state then
         self.state:update()
     end
