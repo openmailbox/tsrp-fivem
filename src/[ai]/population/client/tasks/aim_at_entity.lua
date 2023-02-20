@@ -35,6 +35,10 @@ function AimAtEntity.begin(entity, args)
         end
 
         TaskAimGunAtEntity(entity, target, -1, 0)
+
+        if target == PlayerPedId() then
+            ReportPoliceSpottedPlayer(PlayerId())
+        end
     end
 end
 

@@ -47,9 +47,12 @@ function Responding:update()
         return
     end
 
-    if Dist2d(GetEntityCoords(self.unit.entity), location) < max_distance and not self.unit.current_target then
-        self.unit:move_to(PoliceStates.SEARCHING)
-        return
+    if Dist2d(GetEntityCoords(self.unit.entity), location) < max_distance then
+        if self.unit.current_target then
+            self.unit:move_to(PoliceStates.CONFRONTING)
+        else
+            self.unit:move_to(PoliceStates.SEARCHING)
+        end
     end
 
     if not is_driving(self.unit.entity) then return end
