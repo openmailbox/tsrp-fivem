@@ -60,7 +60,7 @@ function Chasing:update()
 
     if task == Tasks.NO_TASK and is_driving(self.unit.entity) then
         sync_vehicle_drive(self)
-    elseif vehicle == 0 and task ~= Tasks.FOLLOW_TO_OFFSET_OF_ENTITY then
+    elseif vehicle == 0 and not self.unit.vehicle_driver and task ~= Tasks.FOLLOW_TO_OFFSET_OF_ENTITY then
         sync_follow_entity(self)
     end
 end
@@ -79,10 +79,12 @@ function sync_enter_vehicle(state)
         net_id = NetworkGetNetworkIdFromEntity(state.unit.entity)
     })
 
-    Citizen.Wait(GetPlayerPing(owner) + 50)
+    Citizen.Wait(GetPlayerPing(owner) + 100)
 
     Logging.log(Logging.TRACE, "Tasking " .. state.unit.entity .. " to enter vehicle " .. state.unit.vehicle .. ".")
-    TaskEnterVehicle(state.unit.entity, state.unit.vehicle, -1, -1, 2.0, 0, 0)
+
+    -- TODO: Ped seems to lose task after entering vehicle if update to chase doesn't hit fast enough
+    TaskEnterVehicle(state.unit.entity, state.unit.vehicle, -1, -1, 2.0, 8, 0)
 end
 
 -- @local

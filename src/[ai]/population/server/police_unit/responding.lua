@@ -39,7 +39,7 @@ function Responding:update()
     end
 
     local location       = find_best_destination(self)
-    local target_vehicle = GetVehiclePedIsIn(self.unit.current_target)
+    local target_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
     local max_distance   = (self.unit.vehicle_type == "heli" and 50.0) or 20.0
 
     if self.unit.current_target and target_vehicle > 0 then
@@ -76,12 +76,18 @@ end
 
 -- @local
 function sync_task(state, location)
-    local owner = NetworkGetEntityOwner(state.unit.entity)
+    local owner   = NetworkGetEntityOwner(state.unit.entity)
+    local task_id = Tasks.DRIVE_TO_COORD
+
+    if GetVehiclePedIsIn(state.unit.current_target, false) > 0 then
+        task_id = Tasks.VEHICLE_CHASE
+    end
 
     TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
         net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
         location = location,
-        task_id  = Tasks.DRIVE_TO_COORD
+        target   = state.unit.current_target,
+        task_id  = task_id
     })
 
     state.last_location = location

@@ -26,6 +26,8 @@ function Searching:process_input(data)
 
     self.unit.current_target = target
 
+    Dispatcher.report_suspect(self.unit.assigned_call.id, target)
+
     self.unit:move_to(PoliceStates.CONFRONTING)
 end
 
