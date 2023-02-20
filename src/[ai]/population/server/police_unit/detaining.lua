@@ -28,11 +28,6 @@ function Detaining:update()
     local target_loc = GetEntityCoords(self.unit.current_target)
     local distance   = Dist2d(GetEntityCoords(self.unit.entity), target_loc)
 
-    --if distance > 1.5 and GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
-    --    sync_approach(self)
-    --    return
-    --end
-
     if distance < 1.5 and not self.is_detaining then
         self.is_detaining = true
 

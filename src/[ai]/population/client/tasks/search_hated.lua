@@ -9,7 +9,7 @@ function SearchHated.begin(entity, args)
     local location = GetRandomPointInCircle(args.location, 10.0)
     local x, y, z  = table.unpack(location)
 
-    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
+    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
 
     SetCurrentPedWeapon(entity, GetBestPedWeapon(entity, 0))
     TaskGoToCoordAndAimAtHatedEntitiesNearCoord(entity, x, y, z, x, y, z, 2.0, false, 5.0, 0.0, true, 16, 1, -957453492)

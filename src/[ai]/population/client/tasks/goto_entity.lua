@@ -5,7 +5,7 @@ TaskManager.Tasks[Tasks.GOTO_ENTITY] = GotoEntity
 function GotoEntity.begin(entity, args)
     local target = NetToPed(args.target)
 
-    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to go to entity " .. target .. ".")
+    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to go to entity " .. target .. ".")
 
     TaskGoToEntity(entity, target, -1, 1.0, 1.0, 0, 0)
 

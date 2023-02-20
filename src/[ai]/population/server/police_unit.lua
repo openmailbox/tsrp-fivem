@@ -62,7 +62,14 @@ function PoliceUnit:assign_call(call)
 
     self:move_to(PoliceStates.RESPONDING)
 
-    Logging.log(Logging.INFO, "Police unit " .. self.entity .. " assigned call " .. call.id .. " at " .. call.location .. ".")
+    local descriptor = "Police unit " .. self.entity
+    local vehicle    = GetVehiclePedIsIn(self.entity, false)
+
+    if vehicle > 0 then
+        descriptor = descriptor .. " in vehicle " .. vehicle
+    end
+
+    Logging.log(Logging.INFO, descriptor .. " assigned call " .. call.id .. " at " .. call.location .. ".")
 end
 
 function PoliceUnit:clear()
@@ -107,7 +114,7 @@ function PoliceUnit:move_to(state_id)
 
     self.state:enter()
 
-    Logging.log(Logging.DEBUG, "Police unit " .. self.entity .. " moved to state " .. PoliceStates.LABELS[state_id] .. ".")
+    Logging.log(Logging.TRACE, "Police unit " .. self.entity .. " moved to state " .. PoliceStates.LABELS[state_id] .. ".")
 end
 
 function PoliceUnit:process_input(data)

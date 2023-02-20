@@ -53,9 +53,9 @@ function sync_enter_vehicle(state)
         net_id = NetworkGetNetworkIdFromEntity(state.unit.entity)
     })
 
-    Citizen.Wait(GetPlayerPing(owner))
+    Citizen.Wait(GetPlayerPing(owner) + 50)
 
-    Logging.log(Logging.DEBUG, "Tasking " .. state.unit.entity .. " to enter vehicle " .. state.unit.vehicle .. ".")
+    Logging.log(Logging.TRACE, "Tasking " .. state.unit.entity .. " to enter vehicle " .. state.unit.vehicle .. ".")
     TaskEnterVehicle(state.unit.entity, state.unit.vehicle, -1, -1, 2.0, 0, 0)
 end
 

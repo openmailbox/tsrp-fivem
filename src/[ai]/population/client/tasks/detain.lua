@@ -8,7 +8,7 @@ function Detain.begin(entity, args)
     local target = NetToPed(args.target)
     local time   = GetGameTimer()
 
-    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to detain " .. target .. ".")
+    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to detain " .. target .. ".")
 
     if not HasAnimDictLoaded(Animation.DICTIONARY) then
         RequestAnimDict(Animation.DICTIONARY)

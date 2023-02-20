@@ -11,7 +11,7 @@ local Animation = { DICTIONARY = "ped", NAME = "handsup_base", DOWN = "handsup_e
 function AimAtEntity.begin(entity, args)
     local target = NetToPed(args.target)
 
-    Logging.log(Logging.DEBUG, "Tasking ".. entity .. " to aim at " .. target .. ".")
+    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to aim at " .. target .. ".")
 
     if IsPedInAnyVehicle(entity, false) and not IsPedInFlyingVehicle(entity) then
         TaskLeaveVehicle(entity, GetVehiclePedIsIn(entity, false), 0)
@@ -26,6 +26,10 @@ end
 
 function AimAtEntity.update(entity, args)
     if not NetworkDoesEntityExistWithNetworkId(args.target) then
+        return false
+    end
+
+    if not GetIsTaskActive(entity, 4) and not GetIsTaskActive(entity, 230) then
         return false
     end
 
@@ -46,11 +50,11 @@ function AimAtEntity.update(entity, args)
     local max_range = math.ceil(GetMaxRangeOfCurrentPedWeapon(entity) / 3)
 
     if (not HasEntityClearLosToEntity(entity, target, 17) or Vdist(target_loc, entity_loc) > max_range) and not GetIsTaskActive(entity, 230) then
-        Logging.log(Logging.DEBUG, "Tasking " .. entity .. " to get within " .. max_range .. " of " .. target .. ".")
+        Logging.log(Logging.TRACE, "Tasking " .. entity .. " to get within " .. max_range .. " of " .. target .. ".")
         TaskGoToEntityWhileAimingAtEntity(entity, target, target, 2.0, false, 2.0, 0.5, false, 0, -957453492)
     end
 
-    return GetIsTaskActive(entity, 4) or GetIsTaskActive(entity, 230)
+    return true
 end
 
 -- @local
