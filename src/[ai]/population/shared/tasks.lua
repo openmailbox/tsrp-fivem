@@ -11,4 +11,5 @@ Tasks = {
     OBSERVE_THREAT             = 4,
     NO_TASK                    = -2128726980,  -- Null task
     SEARCH_FOR_HATED_IN_AREA   = 688521916,    -- TaskGoToCoordAndAimAtHatedEntitiesNearCoord
+    VEHICLE_CHASE              = 579380604,
 }
