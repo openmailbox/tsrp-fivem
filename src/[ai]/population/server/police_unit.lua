@@ -76,7 +76,9 @@ function PoliceUnit:clear()
     if not self.assigned_call then return end
 
     local id = self.assigned_call.id
-    self.assigned_call = nil
+
+    self.assigned_call  = nil
+    self.current_target = nil
 
     if DoesEntityExist(self.entity) then
         self:move_to(PoliceStates.AVAILABLE)

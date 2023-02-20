@@ -18,9 +18,16 @@ function Chasing:new(o)
 end
 
 function Chasing:enter()
-    if self.unit.vehicle_driver then
+    self.last_move_at = GetGameTimer()
+    self.last_move    = GetEntityCoords(self.unit.current_target)
+
+    local vehicle = GetVehiclePedIsIn(self.unit.entity, false)
+
+    if vehicle > 0 and self.unit.vehicle_driver then
+        sync_vehicle_drive(self)
+    elseif self.unit.vehicle_driver then
         sync_enter_vehicle(self)
-    else
+    elseif vehicle == 0 then
         sync_follow_entity(self)
     end
 end
@@ -29,9 +36,24 @@ function Chasing:exit()
 end
 
 function Chasing:update()
-    if Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target)) < 15.0 then
+    local target_loc = GetEntityCoords(self.unit.current_target)
+    local distance   = Dist2d(GetEntityCoords(self.unit.entity), target_loc)
+    local time       = GetGameTimer()
+    local vehicle    = GetVehiclePedIsIn(self.unit.entity, false)
+
+    if distance > 150.0 and vehicle == 0 then
+        self.unit:clear()
+        return
+    end
+
+    if distance < 15.0 and (vehicle == 0 or (time - self.last_move_at) > 7000) then
         self.unit:move_to(PoliceStates.CONFRONTING)
         return
+    end
+
+    if Dist2d(self.last_move, target_loc) > 1.0 then
+        self.last_move    = target_loc
+        self.last_move_at = time
     end
 
     if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK and is_driving(self.unit.entity) then
@@ -74,17 +96,17 @@ end
 function sync_vehicle_drive(state)
     local owner = NetworkGetEntityOwner(state.unit.entity)
 
-    TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
-        net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
-        location = GetEntityCoords(state.unit.current_target),
-        task_id  = Tasks.DRIVE_TO_COORD
-    })
-
-    if GetVehiclePedIsIn(state.unit.entity) > 0 then
+    if GetVehiclePedIsIn(state.unit.current_target) > 0 then
         TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
             net_id  = NetworkGetNetworkIdFromEntity(state.unit.entity),
-            target  = state.unit.current_target,
+            target  = NetworkGetNetworkIdFromEntity(state.unit.current_target),
             task_id = Tasks.VEHICLE_CHASE
+        })
+    else
+        TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
+            net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
+            location = GetEntityCoords(state.unit.current_target),
+            task_id  = Tasks.DRIVE_TO_COORD
         })
     end
 end

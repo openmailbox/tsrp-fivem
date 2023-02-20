@@ -15,6 +15,8 @@ function Confronting:new(o)
 end
 
 function Confronting:enter()
+    self.last_target_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
+
     sync_task(self)
 end
 
@@ -39,14 +41,16 @@ function Confronting:update()
         return
     end
 
-    if Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target)) > 15.0 then
-        self.unit:move_to(PoliceStates.CHASING)
-        return
-    end
+    local distance = Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target))
+    local vehicle  = GetVehiclePedIsIn(self.unit.current_target, false)
 
-    if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+    if distance > 15.0 or (self.unit.vehicle_driver and vehicle ~= self.last_target_vehicle and vehicle > 0) then
+        self.unit:move_to(PoliceStates.CHASING)
+    elseif GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         sync_task(self)
     end
+
+    self.last_target_vehicle = vehicle
 end
 
 -- @local

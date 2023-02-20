@@ -37,14 +37,20 @@ function Responding:update()
         return
     end
 
-    if Dist2d(GetEntityCoords(self.unit.entity), self.unit.assigned_call.location) < 20.0 then
+    local location       = find_best_destination(self)
+    local target_vehicle = GetVehiclePedIsIn(self.unit.current_target)
+
+    if Dist2d(GetEntityCoords(self.unit.entity), location) < 20.0 and not self.unit.current_target then
         self.unit:move_to(PoliceStates.SEARCHING)
         return
     end
 
-    if not is_driving(self.unit.entity) then return end
+    if self.unit.current_target and target_vehicle > 0 then
+        self.unit:move_to(PoliceStates.CHASING)
+        return
+    end
 
-    local location = find_best_destination(self)
+    if not is_driving(self.unit.entity) then return end
 
     if location ~= self.last_location or GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         sync_task(self, location)
