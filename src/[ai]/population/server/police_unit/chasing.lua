@@ -105,7 +105,7 @@ function sync_vehicle_drive(state)
 
     if state.unit.vehicle_type == "heli" then
         task_id = Tasks.HELI_MISSION
-    elseif GetVehiclePedIsIn(state.unit.current_target) > 0 then
+    elseif GetVehiclePedIsIn(state.unit.current_target, false) > 0 then
         task_id = Tasks.VEHICLE_CHASE
     end
 
