@@ -13,7 +13,7 @@ function Dispatcher.available(unit)
     local closest  = nil
     local distance = CALL_RADIUS
 
-    for _, call in ipairs(calls) do
+    for _, call in pairs(calls) do
         local dist = Dist2d(GetEntityCoords(unit.entity), call.location)
 
         if dist < distance then
@@ -30,24 +30,25 @@ end
 
 
 function Dispatcher.cancel(id)
-    for i, call in ipairs(calls) do
-        if call.id == id then
-            for _, unit in ipairs(call.units) do
-                unit:clear()
-            end
+    local call = calls[id]
 
-            table.remove(calls, i)
-            Logging.log(Logging.INFO, "Dispatcher cancelled call " .. id .. ".")
-
-            return true
-        end
+    if not call then
+        return false
     end
 
-    return false
+    calls[id] = nil
+
+    for _, unit in ipairs(call.units) do
+        unit:clear()
+    end
+
+    Logging.log(Logging.INFO, "Dispatcher cancelled call " .. id .. ".")
+
+    return true
 end
 
 function Dispatcher.find_call(query)
-    for _, call in ipairs(calls) do
+    for _, call in pairs(calls) do
         for key, value in pairs(query) do
             if call[key] == value or call.details[key] == value then
                 return call.id
@@ -70,31 +71,31 @@ function Dispatcher.new_call(location, details)
 
     next_id = next_id + 1
 
-    table.insert(calls, call)
+    calls[call.id] = call
     assign_units(call)
 
     Logging.log(Logging.INFO, "Dispatcher received new call (" .. call.id .. ") at " .. call.location .. ".")
 end
 
-function Dispatcher.report_suspect(call_id, entity)
-    local call = nil
-
-    for _, c in ipairs(calls) do
-        if c.id == call_id then
-            call = c
-            break
-        end
-    end
-
+function Dispatcher.report_suspect(call_id, entity, location)
+    local call = calls[call_id]
     if not call then return end
 
+    call.suspect_last_known = location
+
     for _, s in ipairs(call.suspects) do
-        if s == entity then
+        if s.entity == entity then
+            s.last_known = location
+            s.last_seen  = GetGameTimer()
             return
         end
     end
 
-    table.insert(call.suspects, entity)
+    table.insert(call.suspects, {
+        entity     = entity,
+        last_known = location,
+        last_seen  = GetGameTimer()
+    })
 end
 
 -- @local
