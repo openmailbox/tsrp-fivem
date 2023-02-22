@@ -3,8 +3,7 @@ Chasing = {}
 PoliceUnit.States[PoliceStates.CHASING] = Chasing
 
 -- Forward declarations
-local is_driving,
-      sync_enter_vehicle,
+local sync_enter_vehicle,
       sync_vehicle_drive,
       sync_follow_entity
 
@@ -18,16 +17,14 @@ function Chasing:new(o)
 end
 
 function Chasing:enter()
-    self.last_move_at = GetGameTimer()
-    self.last_move    = GetEntityCoords(self.unit.current_target)
+    local in_vehicle = GetVehiclePedIsIn(self.unit.entity, false) > 0
+    local im_driving = self.unit.vehicle_driver
 
-    local vehicle = GetVehiclePedIsIn(self.unit.entity, false)
-
-    if vehicle > 0 and self.unit.vehicle_driver then
+    if im_driving and in_vehicle then
         sync_vehicle_drive(self)
-    elseif self.unit.vehicle_driver then
+    elseif im_driving or GetVehiclePedIsIn(self.unit.current_target, false) > 0 then
         sync_enter_vehicle(self)
-    elseif vehicle == 0 then
+    else
         sync_follow_entity(self)
     end
 end
@@ -36,39 +33,26 @@ function Chasing:exit()
 end
 
 function Chasing:update()
-    local target_loc = GetEntityCoords(self.unit.current_target)
-    local distance   = Dist2d(GetEntityCoords(self.unit.entity), target_loc)
-    local time       = GetGameTimer()
-    local vehicle    = GetVehiclePedIsIn(self.unit.entity, false)
-
-    if distance > 150.0 and vehicle == 0 then
-        self.unit:clear()
-        return
-    end
-
-    if distance < 15.0 and (vehicle == 0 or (time - self.last_move_at) > 7000) then
+    if self.unit:can_see(self.unit.current_target) then
         self.unit:move_to(PoliceStates.CONFRONTING)
         return
     end
 
-    if Dist2d(self.last_move, target_loc) > 1.0 then
-        self.last_move    = target_loc
-        self.last_move_at = time
-    end
+    local sus_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
+    local foot_chase  = sus_vehicle == 0 and not self.unit.vehicle_driver
+    local task        = GetPedScriptTaskCommand(self.unit.entity)
 
-    local task = GetPedScriptTaskCommand(self.unit.entity)
-
-    if task == Tasks.NO_TASK and is_driving(self.unit.entity) then
-        sync_vehicle_drive(self)
-    elseif vehicle == 0 and not self.unit.vehicle_driver and task ~= Tasks.FOLLOW_TO_OFFSET_OF_ENTITY then
+    if foot_chase and task == Tasks.NO_TASK then
         sync_follow_entity(self)
+        return
     end
-end
 
--- @local
-function is_driving(entity)
-    local vehicle = GetVehiclePedIsIn(entity, false)
-    return vehicle > 0 and GetPedInVehicleSeat(vehicle, -1) == entity
+    local my_vehicle = GetVehiclePedIsIn(self.unit.entity, false)
+    local im_driving = my_vehicle > 0 and GetPedInVehicleSeat(my_vehicle, -1) == self.unit.entity
+
+    if im_driving and task == Tasks.NO_TASK then
+        sync_vehicle_drive(self)
+    end
 end
 
 -- @local
@@ -83,7 +67,6 @@ function sync_enter_vehicle(state)
 
     Logging.log(Logging.TRACE, "Tasking " .. state.unit.entity .. " to enter vehicle " .. state.unit.vehicle .. ".")
 
-    -- TODO: Ped seems to lose task after entering vehicle if update to chase doesn't hit fast enough
     TaskEnterVehicle(state.unit.entity, state.unit.vehicle, -1, -1, 2.0, 8, 0)
 end
 

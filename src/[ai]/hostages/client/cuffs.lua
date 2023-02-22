@@ -54,6 +54,10 @@ function Cuffs.initialize(entity, lag)
 
     Logging.log(Logging.DEBUG, "Cuffing " .. entity .. ".")
 
+    if PlayerPedId() == entity and not is_player_cuffed then
+        start_cuffed_player()
+    end
+
     if not HasAnimDictLoaded(Animations.Enter.DICTIONARY) then
         RequestAnimDict(Animations.Enter.DICTIONARY)
 
@@ -72,10 +76,6 @@ function Cuffs.initialize(entity, lag)
     SetEnableHandcuffs(entity, true)
 
     table.insert(cuffed, entity)
-
-    if PlayerPedId() == entity and not is_player_cuffed then
-        start_cuffed_player()
-    end
 
     if not is_active then
         start_updates()

@@ -72,6 +72,22 @@ function PoliceUnit:assign_call(call)
     Logging.log(Logging.INFO, descriptor .. " assigned call " .. call.id .. " at " .. call.location .. ".")
 end
 
+-- Simple server-side check. Client-side tasks do more granular LOS calculations.
+function PoliceUnit:can_see(entity)
+    if not DoesEntityExist(entity) then
+        return false
+    end
+
+    local distance = Dist2d(GetEntityCoords(self.entity), GetEntityCoords(entity))
+    local range    = 20.0
+
+    if self.vehicle_type == "heli" and GetVehiclePedIsIn(self.entity, false) > 0 then
+        range = 50.0
+    end
+
+    return distance <= range
+end
+
 function PoliceUnit:clear()
     if not self.assigned_call then return end
 

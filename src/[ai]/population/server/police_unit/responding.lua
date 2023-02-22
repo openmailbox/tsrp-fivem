@@ -38,27 +38,33 @@ function Responding:update()
         return
     end
 
-    local location       = find_best_destination(self)
-    local target_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
-    local max_distance   = (self.unit.vehicle_type == "heli" and 50.0) or 20.0
+    local target  = self.unit.current_target
+    local vehicle = (target and GetVehiclePedIsIn(target, false)) or 0
 
-    if self.unit.current_target and target_vehicle > 0 then
+    if vehicle > 0 and GetEntitySpeed(vehicle) > 0 then
         self.unit:move_to(PoliceStates.CHASING)
         return
     end
 
-    if Dist2d(GetEntityCoords(self.unit.entity), location) < max_distance then
-        if self.unit.current_target then
-            self.unit:move_to(PoliceStates.CONFRONTING)
-        else
-            self.unit:move_to(PoliceStates.SEARCHING)
-        end
+    if target and self.unit:can_see(target) then
+        self.unit:move_to(PoliceStates.CONFRONTING)
+        return
+    end
+
+    local destination = find_best_destination(self)
+
+    if Dist2d(GetEntityCoords(self.unit.entity), destination) < 20 then
+        self.unit:move_to(PoliceStates.SEARCHING)
+        return
     end
 
     if not is_driving(self.unit.entity) then return end
 
-    if location ~= self.last_location or GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
-        sync_task(self, location)
+    local new_destination = destination ~= self.last_destination
+    local doing_nothing   = GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK
+
+    if new_destination or doing_nothing then
+        sync_task(self, destination)
     end
 end
 
@@ -79,18 +85,13 @@ end
 
 -- @local
 function sync_task(state, location)
-    local owner   = NetworkGetEntityOwner(state.unit.entity)
-    local task_id = Tasks.DRIVE_TO_COORD
-
-    if GetVehiclePedIsIn(state.unit.current_target, false) > 0 then
-        task_id = Tasks.VEHICLE_CHASE
-    end
+    local owner = NetworkGetEntityOwner(state.unit.entity)
 
     TriggerClientEvent(Events.CREATE_POPULATION_TASK, owner, {
         net_id   = NetworkGetNetworkIdFromEntity(state.unit.entity),
         location = location,
         target   = state.unit.current_target,
-        task_id  = task_id
+        task_id  = Tasks.DRIVE_TO_COORD
     })
 
     state.last_location = location

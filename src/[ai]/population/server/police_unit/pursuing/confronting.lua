@@ -3,7 +3,8 @@ Confronting = {}
 PoliceUnit.States[PoliceStates.CONFRONTING] = Confronting
 
 -- Forward declarations
-local sync_task
+local target_entering_vehicle,
+      sync_task
 
 function Confronting:new(o)
     o = o or {}
@@ -15,12 +16,6 @@ function Confronting:new(o)
 end
 
 function Confronting:enter()
-    if not DoesEntityExist(self.unit.current_target) then
-        self.unit:move_to(PoliceStates.SEARCHING)
-        return
-    end
-
-    self.last_target_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
     sync_task(self)
 end
 
@@ -45,16 +40,24 @@ function Confronting:update()
         return
     end
 
-    local distance = Dist2d(GetEntityCoords(self.unit.entity), GetEntityCoords(self.unit.current_target))
-    local vehicle  = GetVehiclePedIsIn(self.unit.current_target, false)
+    local vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
 
-    if distance > 15.0 or (self.unit.vehicle_driver and vehicle ~= self.last_target_vehicle and vehicle > 0) then
+    -- TODO: Try checking for out of range over multiple ticks to account for server lag in position updates?
+    if target_entering_vehicle(vehicle, self) or not self.unit:can_see(self.unit.curent_target) then
         self.unit:move_to(PoliceStates.CHASING)
-    elseif GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
+        return
+    end
+
+    if GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK then
         sync_task(self)
     end
 
     self.last_target_vehicle = vehicle
+end
+
+-- @local
+function target_entering_vehicle(vehicle, state)
+    return vehicle > 0 and vehicle ~= state.last_target_vehicle
 end
 
 -- @local
