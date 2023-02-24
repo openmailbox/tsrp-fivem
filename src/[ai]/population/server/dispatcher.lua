@@ -81,25 +81,34 @@ function Dispatcher.new_call(location, details)
     Logging.log(Logging.INFO, "Dispatcher received new call (" .. call.id .. ") at " .. call.location .. ".")
 end
 
-function Dispatcher.report_suspect(call_id, entity, location)
+function Dispatcher.report(call_id, data)
     local call = calls[call_id]
     if not call then return end
 
-    call.suspect_last_known = location
+    local suspect = data.target and NetworkGetEntityFromNetworkId(data.target)
+    local exists  = false
 
     for _, s in ipairs(call.suspects) do
-        if s.entity == entity then
-            s.last_known = location
+        if s.entity == suspect then
+            s.last_known = data.location
             s.last_seen  = GetGameTimer()
-            return
+
+            exists = true
+            break
         end
     end
 
-    table.insert(call.suspects, {
-        entity     = entity,
-        last_known = location,
-        last_seen  = GetGameTimer()
-    })
+    if not exists then
+        table.insert(call.suspects, {
+            entity     = suspect,
+            last_known = data.location,
+            last_seen  = GetGameTimer()
+        })
+    end
+
+    for _, cop in ipairs(call.units) do
+        cop:process_input(data)
+    end
 end
 
 -- @local

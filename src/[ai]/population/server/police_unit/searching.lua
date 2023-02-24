@@ -28,7 +28,7 @@ function Searching:process_input(data)
 
     -- Only the unit who witnessed should make the report
     if data.entity == self.unit.entity then
-        Dispatcher.report_suspect(self.unit.assigned_call.id, target, data.location)
+        Dispatcher.report(self.unit.assigned_call.id, data)
     end
 
     self.unit:move_to(PoliceStates.CONFRONTING)

@@ -38,16 +38,13 @@ function Responding:update()
         return
     end
 
-    local target  = self.unit.current_target
-    local vehicle = (target and GetVehiclePedIsIn(target, false)) or 0
-
-    if vehicle > 0 and GetEntitySpeed(vehicle) > 0 then
-        self.unit:move_to(PoliceStates.CHASING)
-        return
-    end
+    local target = self.unit.current_target
 
     if target and self.unit:can_see(target) then
         self.unit:move_to(PoliceStates.CONFRONTING)
+        return
+    elseif target then
+        self.unit:move_to(PoliceStates.CHASING)
         return
     end
 

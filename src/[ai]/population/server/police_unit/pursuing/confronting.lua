@@ -27,11 +27,9 @@ function Confronting:process_input(data)
         self.unit.current_target_offset = data.offset
         self.unit:move_to(PoliceStates.DETAINING)
     elseif data.fleeing then
-        local target = NetworkGetEntityFromNetworkId(self.unit.current_target)
-
         -- Only the unit who witnessed should make the report
         if data.entity == self.unit.entity then
-            Dispatcher.report_suspect(self.unit.assigned_call.id, target, data.location)
+            Dispatcher.report(self.unit.assigned_call.id, data)
         end
 
         self.unit:move_to(PoliceStates.CHASING)
