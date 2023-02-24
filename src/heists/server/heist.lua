@@ -119,7 +119,9 @@ function Heist:reset()
     end
 
     for _, safe in ipairs(self.cracked_safes or {}) do
-        Entity(safe).state.is_cracked = false
+        if DoesEntityExist(safe) then
+            Entity(safe).state.is_cracked = false
+        end
     end
 
     self.available = true

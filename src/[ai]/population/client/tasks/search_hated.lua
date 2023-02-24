@@ -3,7 +3,8 @@ SearchHated = {}
 TaskManager.Tasks[Tasks.SEARCH_FOR_HATED_IN_AREA] = SearchHated
 
 -- Forward declarations
-local find_first_visible_enemy
+local find_best_enemy,
+      is_valid_enemy
 
 function SearchHated.begin(entity, args)
     local location = GetRandomPointInCircle(args.location, 10.0)
@@ -21,7 +22,7 @@ function SearchHated.begin(entity, args)
 end
 
 function SearchHated.update(entity, args)
-    local target = find_first_visible_enemy(entity, args.location)
+    local target = find_best_enemy(entity, args.location)
     if target == 0 then return end
 
     TaskManager.buffer_update({
@@ -35,19 +36,34 @@ function SearchHated.update(entity, args)
 end
 
 -- @local
-function find_first_visible_enemy(entity, destination)
+function find_best_enemy(entity, destination)
+    local locals  = {}
+
     for _, ped in ipairs(GetGamePool("CPed")) do
         if ped > 0 and
-            DoesEntityExist(ped) and
-            GetPedType(ped) ~= 28 and
-            GetRelationshipBetweenPeds(entity, ped) >= 4 and
+            is_valid_enemy(entity, ped) and
             HasEntityClearLosToEntity(entity, ped, 17) and
-            Vdist(destination, GetEntityCoords(ped)) < 20.0 and
-            NetworkGetEntityIsNetworked(entity) then
+            Vdist(destination, GetEntityCoords(ped)) < 20.0 then
 
-            return ped
+            if IsPedAPlayer(ped) then
+                return ped
+            else
+                table.insert(locals, ped)
+            end
         end
     end
 
+    if #locals > 0 then
+        return locals[1]
+    end
+
     return 0
+end
+
+-- @local
+function is_valid_enemy(entity, ped)
+    return DoesEntityExist(ped) and
+        GetPedType(ped) ~= 28 and
+        GetRelationshipBetweenPeds(entity, ped) >= 4 and
+        NetworkGetEntityIsNetworked(entity)
 end
