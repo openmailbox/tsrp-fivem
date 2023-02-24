@@ -49,26 +49,31 @@ function Chasing:update()
         return
     end
 
+    local my_location = GetEntityCoords(self.unit.entity)
+    local sus_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
+
+    if self.unit:can_see(self.unit.current_target) and (sus_vehicle == 0 or my_location == self.last_location) then
+        self.unit:move_to(PoliceStates.CONFRONTING)
+        return
+    end
+
     local my_vehicle = GetVehiclePedIsIn(self.unit.entity, false)
     local im_driving = my_vehicle > 0 and GetPedInVehicleSeat(my_vehicle, -1) == self.unit.entity
     local task       = GetPedScriptTaskCommand(self.unit.entity)
 
-    if im_driving and task == Tasks.NO_TASK and not self.unit:can_see(self.unit.current_target) then
+    if im_driving and task ~= Tasks.DRIVE_TO_COORD and not self.unit:can_see(self.unit.current_target) then
         sync_vehicle_drive(self)
         return
     end
 
-    local sus_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
-    local foot_chase  = sus_vehicle == 0 and not self.unit.vehicle_driver
+    local foot_chase = sus_vehicle == 0 and not self.unit.vehicle_driver
 
     if foot_chase and task == Tasks.NO_TASK then
         sync_follow_entity(self)
         return
     end
 
-    if self.unit:can_see(self.unit.current_target) then
-        self.unit:move_to(PoliceStates.CONFRONTING)
-    end
+    self.last_location = my_location
 end
 
 -- @local
