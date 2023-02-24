@@ -26,6 +26,15 @@ function Confronting:process_input(data)
     if data.surrendering then
         self.unit.current_target_offset = data.offset
         self.unit:move_to(PoliceStates.DETAINING)
+    elseif data.fleeing then
+        local target = NetworkGetEntityFromNetworkId(self.unit.current_target)
+
+        -- Only the unit who witnessed should make the report
+        if data.entity == self.unit.entity then
+            Dispatcher.report_suspect(self.unit.assigned_call.id, target, data.location)
+        end
+
+        self.unit:move_to(PoliceStates.CHASING)
     end
 end
 
@@ -42,8 +51,7 @@ function Confronting:update()
 
     local vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
 
-    -- TODO: Try checking for out of range over multiple ticks to account for server lag in position updates?
-    if target_entering_vehicle(vehicle, self) or not self.unit:can_see(self.unit.curent_target) then
+    if target_entering_vehicle(vehicle, self) or not self.unit:can_see(self.unit.current_target) then
         self.unit:move_to(PoliceStates.CHASING)
         return
     end

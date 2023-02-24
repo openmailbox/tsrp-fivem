@@ -32,26 +32,42 @@ end
 function Chasing:exit()
 end
 
+function Chasing:process_input(data)
+    if data.fleeing then
+        local target = NetworkGetEntityFromNetworkId(self.unit.current_target)
+
+        -- Only the unit who witnessed should make the report
+        if data.entity == self.unit.entity then
+            Dispatcher.report_suspect(self.unit.assigned_call.id, target, data.location)
+        end
+    end
+end
+
 function Chasing:update()
-    if self.unit:can_see(self.unit.current_target) then
-        self.unit:move_to(PoliceStates.CONFRONTING)
+    if not DoesEntityExist(self.unit.current_target) then
+        self.unit:move_to(PoliceStates.SEARCHING)
+        return
+    end
+
+    local my_vehicle = GetVehiclePedIsIn(self.unit.entity, false)
+    local im_driving = my_vehicle > 0 and GetPedInVehicleSeat(my_vehicle, -1) == self.unit.entity
+    local task       = GetPedScriptTaskCommand(self.unit.entity)
+
+    if im_driving and task == Tasks.NO_TASK and not self.unit:can_see(self.unit.current_target) then
+        sync_vehicle_drive(self)
         return
     end
 
     local sus_vehicle = GetVehiclePedIsIn(self.unit.current_target, false)
     local foot_chase  = sus_vehicle == 0 and not self.unit.vehicle_driver
-    local task        = GetPedScriptTaskCommand(self.unit.entity)
 
     if foot_chase and task == Tasks.NO_TASK then
         sync_follow_entity(self)
         return
     end
 
-    local my_vehicle = GetVehiclePedIsIn(self.unit.entity, false)
-    local im_driving = my_vehicle > 0 and GetPedInVehicleSeat(my_vehicle, -1) == self.unit.entity
-
-    if im_driving and task == Tasks.NO_TASK then
-        sync_vehicle_drive(self)
+    if self.unit:can_see(self.unit.current_target) then
+        self.unit:move_to(PoliceStates.CONFRONTING)
     end
 end
 

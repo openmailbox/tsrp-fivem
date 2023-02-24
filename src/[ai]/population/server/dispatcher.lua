@@ -59,6 +59,10 @@ function Dispatcher.find_call(query)
     return nil
 end
 
+function Dispatcher.find_call_by_id(id)
+    return calls[id]
+end
+
 -- Register a new call with the dispatcher
 function Dispatcher.new_call(location, details)
     local call = {

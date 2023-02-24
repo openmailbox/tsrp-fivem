@@ -60,10 +60,9 @@ function Responding:update()
 
     if not is_driving(self.unit.entity) then return end
 
-    local new_destination = destination ~= self.last_destination
-    local doing_nothing   = GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK
+    local doing_nothing = GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK
 
-    if new_destination or doing_nothing then
+    if not self.last_destination or doing_nothing or Dist2d(destination, self.last_destination) > 10.0 then
         sync_task(self, destination)
     end
 end
@@ -94,5 +93,5 @@ function sync_task(state, location)
         task_id  = Tasks.DRIVE_TO_COORD
     })
 
-    state.last_location = location
+    state.last_destination = location
 end

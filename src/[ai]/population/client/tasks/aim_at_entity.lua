@@ -6,6 +6,8 @@ TaskManager.Tasks[Tasks.AIM_AT_ENTITY] = AimAtEntity
 local are_hands_raised,
       get_closest_cop
 
+local CHASE_THRESHOLD = 20.0
+
 local Animation = { DICTIONARY = "ped", NAME = "handsup_base", DOWN = "handsup_exit" }
 
 local show_help = true
@@ -58,6 +60,17 @@ function AimAtEntity.update(entity, args)
     local target     = NetToPed(args.target)
     local target_loc = GetEntityCoords(target)
     local entity_loc = GetEntityCoords(entity)
+    local distance   = Vdist(target_loc, entity_loc)
+
+    if distance > CHASE_THRESHOLD then
+        TaskManager.buffer_update({
+            task_id  = Tasks.AIM_AT_ENTITY,
+            entity   = PedToNet(entity),
+            fleeing  = true,
+            location = target_loc
+        })
+        return true
+    end
 
     if not IsPedInAnyVehicle(target, false) and are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
@@ -70,7 +83,7 @@ function AimAtEntity.update(entity, args)
     end
 
     local max_range = math.ceil(GetMaxRangeOfCurrentPedWeapon(entity) / 3)
-    local in_range  = HasEntityClearLosToEntity(entity, target, 17) and Vdist(target_loc, entity_loc) < max_range
+    local in_range  = HasEntityClearLosToEntity(entity, target, 17) and distance < max_range
 
     if not in_range and not GetIsTaskActive(entity, 230) then
         Logging.log(Logging.TRACE, "Tasking " .. entity .. " to get within " .. max_range .. " of " .. target .. ".")

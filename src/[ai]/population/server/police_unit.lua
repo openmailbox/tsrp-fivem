@@ -78,8 +78,26 @@ function PoliceUnit:can_see(entity)
         return false
     end
 
-    local distance = Dist2d(GetEntityCoords(self.entity), GetEntityCoords(entity))
+    local call     = Dispatcher.find_call_by_id(self.assigned_call.id)
+    local location = nil
+    local suspect  = nil
+
+    for _, sus in ipairs(call.suspects) do
+        if sus.entity == entity then
+            suspect = sus
+            break
+        end
+    end
+
+    -- Server-side location updates lag, so we prefer the cached last_known sent from clients.
+    if suspect then
+        location = suspect.last_known
+    else
+        location = GetEntityCoords(entity)
+    end
+
     local range    = 20.0
+    local distance = Dist2d(GetEntityCoords(self.entity), location)
 
     if self.vehicle_type == "heli" and GetVehiclePedIsIn(self.entity, false) > 0 then
         range = 50.0
@@ -149,7 +167,7 @@ end
 function PoliceUnit:update()
     -- TODO: Assign the closest suspect
     if self.assigned_call and not self.current_target and #self.assigned_call.suspects > 0 then
-        self.current_target = self.assigned_call.suspects[1]
+        self.current_target = self.assigned_call.suspects[1].entity
     end
 
     if self.state then
