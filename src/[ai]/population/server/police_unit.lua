@@ -109,16 +109,12 @@ end
 function PoliceUnit:clear()
     if not self.assigned_call then return end
 
-    local id = self.assigned_call.id
-
     self.assigned_call  = nil
     self.current_target = nil
 
     if DoesEntityExist(self.entity) then
         self:move_to(PoliceStates.AVAILABLE)
     end
-
-    Logging.log(Logging.INFO, "Police unit " .. self.entity .. " cleared call " .. id .. ".")
 end
 
 function PoliceUnit:initialize()
@@ -189,7 +185,10 @@ function start_updates()
                 if DoesEntityExist(unit.entity) then
                     unit:update()
                 else
-                    unit:clear()
+                    if unit.assigned_call then
+                        Dispatcher.clear(unit.assigned_call.id, unit.entity)
+                    end
+
                     table.remove(all_units, i)
                     Logging.log(Logging.DEBUG, "Now tracking " .. #all_units .. " police units.")
                 end

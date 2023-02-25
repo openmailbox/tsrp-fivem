@@ -31,6 +31,7 @@ end
 
 function Dispatcher.cancel(id)
     local call = calls[id]
+    local ids  = {}
 
     if not call then
         return false
@@ -39,12 +40,25 @@ function Dispatcher.cancel(id)
     calls[id] = nil
 
     for _, unit in ipairs(call.units) do
+        table.insert(ids, unit.entity)
         unit:clear()
     end
 
-    Logging.log(Logging.INFO, "Dispatcher cancelled call " .. id .. ".")
+    Logging.log(Logging.INFO, "Dispatcher cancelled call " .. id .. ". Cleared units: " .. table.concat(ids, ", ") .. ".")
 
     return true
+end
+
+function Dispatcher.clear(call_id, entity)
+    local call = calls[call_id]
+
+    for i, unit in ipairs(call.units) do
+        if entity == unit.entity then
+            unit:clear()
+            table.remove(call.units, i)
+            break
+        end
+    end
 end
 
 function Dispatcher.find_call(query)
