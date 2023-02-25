@@ -13,6 +13,7 @@
     "url": "https://github.com/openmailbox/tsrp-fivem/issues"
   },
   "workspaces": [
+    "src\\**\\inventory\\web",
     "src\\**\\wardrobe\\web",
     "src\\atm\\web"
   ]
