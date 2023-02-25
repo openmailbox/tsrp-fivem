@@ -1,8 +1,11 @@
 <script>
+import Container from "./components/container.vue";
+import Equipment from "./components/equipment.vue";
+
 export default {
     data() {
         return {
-            message: 'Hello World!'
+            isActive: false
         }
     },
     methods: {
@@ -10,18 +13,20 @@ export default {
             console.log(`changing message to ${data.message}`);
             this.message = data.message;
         }
-    }
+    },
+    components: { Container, Equipment },
 }
 </script>
 
 <template>
-    <div class="my-component">
-        {{ message }}
+    <div v-show="isActive" id="inventory">
+        <Equipment />
+        <Container />
     </div>
 </template>
 
 <style>
-.my-component {
-    display: inherit;
+#inventory {
+    float: right;
 }
 </style>
