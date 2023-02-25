@@ -9,6 +9,8 @@ local function create(_)
         heading  = HEADING
     })
 
+    Logging.log(Logging.INFO, GetPlayerName(player_id) .. " (" .. player_id .. ") was sent to prison.")
+
     Citizen.SetTimeout(5000, function()
         TriggerClientEvent(Events.CREATE_HUD_NOTIFICATION, player_id, {
             message = "You posted ~g~bail~s~."

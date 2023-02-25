@@ -12,6 +12,6 @@ We often use the [Model-View-Controller pattern](https://en.wikipedia.org/wiki/M
 
 You'll want to check out the [common resource](https://github.com/openmailbox/tsrp-fivem/tree/main/src/common) for global definitions widely used across all other resources.
 
-The contents of `web/` include a skeleton [VueJS](https://vuejs.org/) app which will be built automatically when the server loads the resource. Feel free to strip out some or all of the setup if Vue is overkill for your resource.
+The contents of `web/` include a skeleton [VueJS](https://vuejs.org/) app which will be built automatically when the server loads the resource. Feel free to strip out some or all of the setup if Vue is overkill for your resource. If this resource needs to install node packages, make sure to add it as a workspace to the top-level `package.json` so the CI pipeline picks it up. From there, you can `npm install --workspaces` from the top of the repo.
 
 We typically use [Spectre CSS](https://picturepan2.github.io/spectre/) to maintain a common look and feel.
