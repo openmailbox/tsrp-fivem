@@ -1,9 +1,11 @@
 <script>
 import Item from './item.vue'
+import ItemData from "../test/items";
 
 export default {
     data() {
         return {
+            items: ItemData.items
         }
     },
     methods: {
@@ -18,7 +20,10 @@ export default {
             <div class="panel-title h3">Inventory</div>
         </div>
         <div class="panel-body tsrp-bg-semi-90">
-            <Item />
+            <Item
+                v-for="item in items"
+                :name="item.name"
+            />
         </div>
     </div>
 </template>
