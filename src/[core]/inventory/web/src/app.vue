@@ -1,11 +1,10 @@
 <script>
 import Container from "./components/container.vue";
-import Equipment from "./components/equipment.vue";
 
 export default {
     data() {
         return {
-            isActive: false
+            isActive: true
         }
     },
     methods: {
@@ -14,13 +13,12 @@ export default {
             this.message = data.message;
         }
     },
-    components: { Container, Equipment },
+    components: { Container },
 }
 </script>
 
 <template>
     <div v-show="isActive" id="inventory">
-        <Equipment />
         <Container />
     </div>
 </template>
