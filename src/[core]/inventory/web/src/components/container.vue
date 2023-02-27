@@ -23,6 +23,7 @@ export default {
             <Item
                 v-for="item in items"
                 :name="item.name"
+                :description="item.description"
             />
         </div>
     </div>
