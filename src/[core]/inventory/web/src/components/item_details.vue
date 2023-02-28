@@ -17,6 +17,7 @@ export default {
 
 <style>
 .card {
+    width: 20vw;
 }
 
 .card-title {

@@ -58,7 +58,6 @@ export default {
     margin-top: -2vh;
     margin-left: -24vw;
     pointer-events: none;
-    width: 25vw;
 }
 
 .item-modal {
