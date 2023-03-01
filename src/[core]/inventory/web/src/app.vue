@@ -5,13 +5,16 @@ export default {
     data() {
         return {
             isActive: false,
-            containers: { inventory: [] }
+            containers: {
+                inventory: {
+                    contents: []
+                }
+            }
         }
     },
     methods: {
-        createSession(data) {
-            this.isActive   = true;
-            this.containers = data;
+        createSession() {
+            this.isActive = true;
         },
 
         deleteSession(skipPost) {
@@ -25,9 +28,8 @@ export default {
             this.isActive = false;
         },
 
-        changeMessage(data) {
-            console.log(`changing message to ${data.message}`);
-            this.message = data.message;
+        updateContainers(data) {
+            this.containers = data;
         }
     },
     components: { Container },
@@ -37,7 +39,7 @@ export default {
 <template>
     <div v-show="isActive" id="inventory">
         <Container
-            :contents="containers.inventory"
+            :contents="containers.inventory.contents"
         />
     </div>
 </template>

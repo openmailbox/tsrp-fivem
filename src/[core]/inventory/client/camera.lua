@@ -32,6 +32,14 @@ function Camera:initialize()
     RenderScriptCams(true, true, 1500, true, true)
 end
 
+function Camera:get_location()
+    return GetCamCoord(self.camera)
+end
+
+function Camera:get_matrix()
+    return GetCamMatrix(self.camera)
+end
+
 -- update() is called every frame while inventory session is active
 -- Frequently accessed loop vars
 local _next, _rot
@@ -56,9 +64,9 @@ function get_camera_coords()
         y_offset = y_offset * -1
     end
 
-    local spot     = GetOffsetFromEntityInWorldCoords(PlayerPedId(), x_offset, y_offset, 0.0)
-    local rads     = math.atan2(ploc.y - spot.y, ploc.x - spot.x)
-    local angle    = rads * (180 / math.pi)
+    local spot  = GetOffsetFromEntityInWorldCoords(PlayerPedId(), x_offset, y_offset, 0.0)
+    local rads  = math.atan2(ploc.y - spot.y, ploc.x - spot.x)
+    local angle = rads * (180 / math.pi)
 
     if angle < 0 then
         angle = 360 - (-1 * angle)

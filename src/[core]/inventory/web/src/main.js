@@ -4,16 +4,20 @@ import './assets/index.css'
 import "../../../../common/web/styles/tsrp-theme.css";
 
 const app = createApp(App);
-let vm = app.mount('#app');
+const vm = app.mount('#app');
 
 // Handle messages passed from client-side scripts to NUI
 const handleMessage = function(message) {
     switch (message.type) {
         case "inventory:CreateSession":
-            vm.createSession(message);
+            vm.createSession();
             break;
         case "inventory:DeleteSession":
             vm.deleteSession(true);
+            break;
+        case "inventory:UpdateRefresh":
+            vm.updateContainers(message.containers);
+            vm.$forceUpdate();
             break;
     }
 };

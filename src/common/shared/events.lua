@@ -133,6 +133,9 @@ Events.CREATE_SCANNER_TOGGLE = "interactions:CreateScannerToggle"
 Events.CREATE_INVENTORY_SESSION = "inventory:CreateSession"
 Events.DELETE_INVENTORY_SESSION = "inventory:DeleteSession"
 
+Events.CREATE_INVENTORY_REFRESH = "inventory:CreateRefresh"
+Events.UPDATE_INVENTORY_REFRESH = "inventory:UpdateRefresh"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 
