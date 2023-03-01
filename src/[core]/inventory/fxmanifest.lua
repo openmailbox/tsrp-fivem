@@ -5,24 +5,16 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "This resource does nothing. It's just a template for getting started."
+description "UI for accessing item storage."
 version "0.0.1"
-
-dependencies {
-    -- If you need the database
-    --"mysql-async",
-}
 
 client_scripts {
     "@common/shared/events.lua",
-    "shared/**/*.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
-    --"@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
-    "shared/**/*.lua",
     "server/**/*.lua"
 }
 
@@ -33,13 +25,3 @@ files {
     "web/dist/**/*.js",
     "web/dist/**/*.css"
 }
-
-exports {
-}
-
-server_exports {
-}
-
---  If you uncomment, you cannot require this resource as a dependency for any other
--- resource that has a client-side component.
--- server_only 'yes'

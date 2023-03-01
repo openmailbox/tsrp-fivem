@@ -1,3 +1,4 @@
+// test data for populating the front-end
 export default {
     items: [
         {

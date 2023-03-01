@@ -129,6 +129,10 @@ Events.DELETE_INTERACTIVE_OBJECT = "interactions:DeleteObject"
 
 Events.CREATE_SCANNER_TOGGLE = "interactions:CreateScannerToggle"
 
+-- @resource inventory
+Events.CREATE_INVENTORY_SESSION = "inventory:CreateSession"
+Events.DELETE_INVENTORY_SESSION = "inventory:DeleteSession"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 

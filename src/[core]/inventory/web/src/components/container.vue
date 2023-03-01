@@ -1,16 +1,9 @@
 <script>
 import Item from './item.vue'
-import ItemData from "../test/items";
 
 export default {
-    data() {
-        return {
-            items: ItemData.items
-        }
-    },
-    methods: {
-    },
-    components: { Item }
+    components: { Item },
+    props: [ "contents" ]
 }
 </script>
 
@@ -21,7 +14,7 @@ export default {
         </div>
         <div class="panel-body tsrp-bg-semi-90">
             <Item
-                v-for="item in items"
+                v-for="item in contents"
                 :name="item.name"
                 :description="item.description"
             />
