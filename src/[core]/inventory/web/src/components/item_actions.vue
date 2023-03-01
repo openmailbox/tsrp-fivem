@@ -30,7 +30,7 @@ export default {
 }
 
 .action-icon {
-    text-align: center;
+    text-align: right;
 }
 
 tr, td {

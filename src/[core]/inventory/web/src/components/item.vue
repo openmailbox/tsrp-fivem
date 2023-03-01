@@ -8,6 +8,11 @@ export default {
             hover: false
         }
     },
+    methods: {
+        select(event) {
+            console.log(`selected ${this.name}. shift = ${event.shiftKey}, ctrl = ${event.ctrlKey}`)
+        }
+    },
     props: ["name", "description"],
     components: { ItemActions, ItemDetails }
 }
@@ -17,6 +22,7 @@ export default {
     <div
         @mouseover="hover = true"
         @mouseleave="hover = false"
+        @click="select($event)"
         class="item"
     >
         <div class="title text-light h4 text-center">
@@ -58,6 +64,7 @@ export default {
     margin-top: -2vh;
     margin-left: -24vw;
     pointer-events: none;
+    width: 33vw;
 }
 
 .item-modal {
