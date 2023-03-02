@@ -26,15 +26,11 @@ function Map.reveal_objects()
     if is_active then return end
     is_active = true
 
-    TriggerEvent(Events.LOG_MESSAGE, {
-        level   = Logging.DEBUG,
-        message = "Revealing world objects that restore health."
-    })
+    Logging.log(Logging.DEBUG, "Revealing world objects that restore health.")
 
-    local trash_models = Trash.initialize()
     local vend_models  = Vending.initialize()
 
-    for _, model in ipairs(trash_models) do
+    for _, model in ipairs(Objects.DUMPSTERS) do
         models[model] = true
     end
 
@@ -57,7 +53,6 @@ function Map.reveal_objects()
         end
 
         Map.cleanup()
-        Trash.cleanup()
         Vending.cleanup()
 
         TriggerEvent(Events.LOG_MESSAGE, {
