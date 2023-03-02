@@ -11,7 +11,3 @@ function ItemTemplate.register(name, details)
     templates[name] = details
 end
 exports("RegisterItem", ItemTemplate.register)
-
-ItemTemplate.register("Test Object", {
-    description = "An unremarkable item."
-})

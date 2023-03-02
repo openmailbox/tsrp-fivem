@@ -10,7 +10,19 @@ export default {
     },
     methods: {
         select(event) {
-            console.log(`selected ${this.name}. shift = ${event.shiftKey}, ctrl = ${event.ctrlKey}`)
+            if (!fetch) {
+                console.warn("Unable to find fetch() API for FiveM.")
+                return
+            }
+
+            fetch("https://inventory/inventory:CreateItemUse", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=UTF-8" },
+                body: JSON.stringify({
+                    item: { name: this.name, description: this.description },
+                    modifiers: { shift: event.shiftKey, control: event.ctrlKey }
+                })
+            });
         }
     },
     props: ["name", "description"],

@@ -17,4 +17,4 @@ local function cmd_toggle_hands(_, _, _)
     end
 end
 RegisterCommand("handsup", cmd_toggle_hands, false)
-RegisterKeyMapping("handsup", "Hands Up (toggle)", "keyboard", "X")
+RegisterKeyMapping("handsup", "Hands Up (toggle)", "keyboard", "H")

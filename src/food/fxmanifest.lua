@@ -10,17 +10,22 @@ version "0.0.1"
 
 dependencies {
     "interactions",
-    "map"
+    "inventory",
+    "map",
+    "progress"
 }
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "@common/shared/objects.lua",
+    "shared/**/*.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
     "@common/shared/events.lua",
+    "shared/**/*.lua",
     "server/**/*.lua"
 }

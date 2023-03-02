@@ -23,6 +23,6 @@ files {
 }
 
 exports {
-    "CancelProgressPar",
+    "CancelProgressBar",
     "ShowProgressBar"
 }

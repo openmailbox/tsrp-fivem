@@ -36,7 +36,7 @@ local function cmd_give_item(source, args, raw_command)
     })
 
     tell_player(source, "Gave '" .. template.name .. "' to " .. GetPlayerName(player) .. " (" .. player .. ").")
-    Logging.log(Logging.INFO, GetPlayerName(source) .. "( " .. source .. ") used command '" .. raw_command .. "'.")
+    Logging.log(Logging.INFO, GetPlayerName(source) .. " (" .. source .. ") used command '" .. raw_command .. "'.")
 end
 RegisterCommand("giveitem", cmd_give_item, true)
 

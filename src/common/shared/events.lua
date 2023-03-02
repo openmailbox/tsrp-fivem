@@ -136,6 +136,8 @@ Events.DELETE_INVENTORY_SESSION = "inventory:DeleteSession"
 Events.CREATE_INVENTORY_REFRESH = "inventory:CreateRefresh"
 Events.UPDATE_INVENTORY_REFRESH = "inventory:UpdateRefresh"
 
+Events.CREATE_INVENTORY_ITEM_USE = "inventory:CreateItemUse"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 

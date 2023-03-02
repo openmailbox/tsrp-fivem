@@ -1,6 +1,8 @@
 local function create(resource_name)
     if GetCurrentResourceName() ~= resource_name then return end
 
+    Consuming.initialize()
+
     if GetEntityHealth(PlayerPedId()) < GetEntityMaxHealth(PlayerPedId()) then
         Map.reveal_objects()
     end

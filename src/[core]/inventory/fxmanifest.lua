@@ -27,3 +27,7 @@ files {
     "web/dist/**/*.js",
     "web/dist/**/*.css"
 }
+
+server_exports {
+    "RegisterItem"
+}
