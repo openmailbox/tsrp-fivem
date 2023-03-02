@@ -1,6 +1,6 @@
 <script>
 import Container from "./components/container.vue";
-import ItemData from "./test/items"
+//import ItemData from "./test/items" // for testing
 
 export default {
     data() {
@@ -8,7 +8,7 @@ export default {
             isActive: false,
             containers: {
                 inventory: {
-                    contents: ItemData.items
+                    contents: [] // ItemData.items
                 }
             }
         }
