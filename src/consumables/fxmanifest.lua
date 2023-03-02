@@ -5,8 +5,8 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Provides interactions with world objects so players can regain health by eating food."
-version "0.0.1"
+description "Consumable items (food, drink) and some associated world object behaviors."
+version "0.1.0"
 
 dependencies {
     "interactions",
