@@ -43,8 +43,10 @@ export default {
         @click="select($event)"
         class="item"
     >
-        <div class="title text-light h4 text-center">
-            {{ name[0].toUpperCase() }}
+        <div class="item-icon-outer text-secondary">
+            <div class="item-icon-inner h2">
+                {{ name[0].toUpperCase() }}
+            </div>
         </div>
         <div class="p-absolute item-extras" v-show="hover">
             <div class="container">
@@ -76,6 +78,20 @@ export default {
 
 .item:hover {
     border: 1px solid white;
+}
+
+.item-icon-outer {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.item-icon-inner {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
 }
 
 .item-extras {
