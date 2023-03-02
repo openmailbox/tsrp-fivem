@@ -7,5 +7,8 @@ ConsumableItems = {
     },
     ["Taco"] = {
         description = "Use to restore a small amount of health."
+    },
+    ["Hot Dog"] = {
+        description = "Use to restore a small amount of health."
     }
 }

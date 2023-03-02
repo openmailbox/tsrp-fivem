@@ -30,5 +30,6 @@ files {
 }
 
 server_exports {
+    "GiveItemToPlayer",
     "RegisterItem"
 }

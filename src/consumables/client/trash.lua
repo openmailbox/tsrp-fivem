@@ -62,17 +62,5 @@ function search_trash(object)
     Map.remove(object)
     ClearPedTasks(PlayerPedId())
 
-    local original = GetPlayerHealthRechargeLimit(PlayerId())
-    local target   = math.max(1.0, original + HEALTH_PER_BIN)
-
-    TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-        flash   = false,
-        message = "You found a discarded ~y~" .. FOOD_NAMES[math.random(1, #FOOD_NAMES)] .. "~s~."
-    })
-
-    SetPlayerHealthRechargeLimit(PlayerId(), target)
-
-    Citizen.Wait(COOLDOWN_TIME)
-
-    SetPlayerHealthRechargeLimit(PlayerId(), original)
+    TriggerServerEvent(Events.CREATE_CONSUMABLES_REWARD)
 end

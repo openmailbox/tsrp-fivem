@@ -98,8 +98,10 @@ Events.CREATE_CHOP_VEHICLE_DROPOFF = "chop:CreateVehicleDropoff"
 Events.UPDATE_CHOP_VEHICLE_DROPOFF = "chop:UpdateVehicleDropoff"
 
 -- @resource consumables
-Events.CREATE_FOOD_CHARGE_AUTH = "food:CreateChargeAuth"
-Events.UPDATE_FOOD_CHARGE_AUTH = "food:UpdateChargeAuth"
+Events.CREATE_FOOD_CHARGE_AUTH = "consumables:CreateChargeAuth"
+Events.UPDATE_FOOD_CHARGE_AUTH = "consumables:UpdateChargeAuth"
+
+Events.CREATE_CONSUMABLES_REWARD = "consumables:CreateReward"
 
 -- @resource heists
 Events.GET_HEISTS    = "heists:Get"

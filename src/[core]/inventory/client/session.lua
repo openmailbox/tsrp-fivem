@@ -50,7 +50,6 @@ function Session:initialize()
 
     DisplayRadar(false)
     SetNuiFocus(true, true)
-    TriggerEvent(Events.CLEAR_CHAT)
 
     SendNUIMessage({
         type      = Events.CREATE_INVENTORY_SESSION,
