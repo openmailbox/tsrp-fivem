@@ -138,6 +138,8 @@ Events.UPDATE_INVENTORY_REFRESH = "inventory:UpdateRefresh"
 
 Events.CREATE_INVENTORY_ITEM_USE = "inventory:CreateItemUse"
 
+Events.CREATE_INVENTORY_ITEM_DISCARD = "inventory:CreateItemDiscard"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 

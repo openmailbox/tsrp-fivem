@@ -3,11 +3,11 @@ ItemTemplate = {}
 local templates = {}
 
 function ItemTemplate.for_name(name)
-    return templates[name]
+    return templates[string.lower(name)]
 end
 
 function ItemTemplate.register(name, details)
     details.name = name
-    templates[name] = details
+    templates[string.lower(name)] = details
 end
 exports("RegisterItem", ItemTemplate.register)

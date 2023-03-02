@@ -15,7 +15,13 @@ export default {
                 return
             }
 
-            fetch("https://inventory/inventory:CreateItemUse", {
+            let route = "https://inventory/inventory:CreateItemUse"
+
+            if (event.shiftKey) {
+                route = "https://inventory/inventory:CreateItemDiscard"
+            }
+
+            fetch(route, {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
