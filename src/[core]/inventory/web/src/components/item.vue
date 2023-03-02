@@ -96,7 +96,7 @@ export default {
 
 .item-extras {
     margin-top: -2vh;
-    margin-left: -24vw;
+    margin-left: -29vw;
     pointer-events: none;
     width: 33vw;
 }
