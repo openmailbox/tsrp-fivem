@@ -36,6 +36,10 @@ function Consuming.begin(item)
         multiline = true,
         args      = { "System", "You gained 25 health from eating." }
     })
+
+    TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_USE, {
+        item = item
+    })
 end
 
 function Consuming.can_consume(item)

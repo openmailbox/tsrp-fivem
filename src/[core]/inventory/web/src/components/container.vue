@@ -15,6 +15,7 @@ export default {
         <div class="panel-body tsrp-bg-semi-90">
             <Item
                 v-for="item in contents"
+                :uuid="item.uuid"
                 :name="item.name"
                 :description="item.description"
             />

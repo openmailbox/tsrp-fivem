@@ -19,13 +19,13 @@ export default {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
-                    item: { name: this.name, description: this.description },
+                    item: { uuid: this.uuid, name: this.name, description: this.description },
                     modifiers: { shift: event.shiftKey, control: event.ctrlKey }
                 })
             });
         }
     },
-    props: ["name", "description"],
+    props: ["name", "description", "uuid"],
     components: { ItemActions, ItemDetails }
 }
 </script>
