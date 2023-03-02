@@ -18,7 +18,8 @@ function Camera:cleanup()
 end
 
 function Camera:initialize()
-    local coords, rot = get_camera_coords()
+    local coords = GetGameplayCamCoord()
+    local rot    = GetGameplayCamRot()
 
     self.origin = coords
     self.camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, 75.0, false, 0)
@@ -64,7 +65,7 @@ function get_camera_coords()
         y_offset = y_offset * -1
     end
 
-    local spot  = GetOffsetFromEntityInWorldCoords(PlayerPedId(), x_offset, y_offset, 0.0)
+    local spot  = GetOffsetFromEntityInWorldCoords(PlayerPedId(), x_offset, y_offset, 0.2)
     local rads  = math.atan2(ploc.y - spot.y, ploc.x - spot.x)
     local angle = rads * (180 / math.pi)
 

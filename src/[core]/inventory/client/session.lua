@@ -36,9 +36,6 @@ function Session:finish()
     if not self.hide_radar then
         DisplayRadar(true)
     end
-
-    Citizen.Wait(1000)
-    ClearPedTasks(PlayerPedId())
 end
 
 function Session:initialize()
