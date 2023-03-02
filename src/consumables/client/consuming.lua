@@ -35,12 +35,12 @@ function Consuming.begin(item)
 
     local ped = PlayerPedId()
 
-    SetEntityHealth(ped, math.min(GetEntityMaxHealth(ped), GetEntityHealth(ped) + 25))
+    SetEntityHealth(ped, math.min(GetEntityMaxHealth(ped), GetEntityHealth(ped) + 20))
 
     TriggerEvent(Events.ADD_CHAT_MESSAGE, {
         color     = Colors.RED,
         multiline = true,
-        args      = { "System", "You gain 25 health from eating one " .. item.name .. "." }
+        args      = { "System", "You restore 20 health by eating one " .. item.name .. "." }
     })
 
     TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_USE, {

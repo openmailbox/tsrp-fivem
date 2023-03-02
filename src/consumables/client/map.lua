@@ -28,13 +28,11 @@ function Map.reveal_objects()
 
     Logging.log(Logging.DEBUG, "Revealing world objects that restore health.")
 
-    local vend_models  = Vending.initialize()
-
     for _, model in ipairs(Objects.DUMPSTERS) do
         models[model] = true
     end
 
-    for _, model in ipairs(vend_models) do
+    for _, model in ipairs(Objects.SODA_MACHINES) do
         models[model] = true
     end
 

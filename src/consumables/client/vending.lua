@@ -9,7 +9,6 @@ local approach_machine,
       listen_for_cancel,
       load_model,
       release_resources,
-      restore_health,
       toss_drink
 
 local ANIMATIONS    = { "plyr_buy_drink_pt1", "plyr_buy_drink_pt2", "plyr_buy_drink_pt3" }
@@ -46,8 +45,6 @@ function Vending.initialize()
             prompt = string.lower(INTERACT_NAME),
         }, begin_purchase)
     end
-
-    return models
 end
 
 -- @local
@@ -104,8 +101,15 @@ function begin_purchase(object)
         amount = PRICE
     })
 
-    -- TODO: Kat to implement random chance the machine eats your dollar
-    restore_health()
+    local ped = PlayerPedId()
+
+    SetEntityHealth(ped, math.min(GetEntityMaxHealth(ped), GetEntityHealth(ped) + 35))
+
+    TriggerEvent(Events.ADD_CHAT_MESSAGE, {
+        color     = Colors.RED,
+        multiline = true,
+        args      = { "System", "You restore 35 health by drinking a soda." }
+    })
 end
 
 -- @local
@@ -189,16 +193,6 @@ function release_resources(object, can)
     RemoveAnimDict(DICTIONARY)
 
     exports.interactions:RemoveExclusion(object)
-end
-
--- @local
-function restore_health()
-    local original = GetPlayerHealthRechargeLimit(PlayerId())
-    local target   = math.max(1.0, original + 0.5)
-
-    SetPlayerHealthRechargeLimit(PlayerId(), target)
-    Citizen.Wait(10000)
-    SetPlayerHealthRechargeLimit(PlayerId(), original)
 end
 
 -- @local
