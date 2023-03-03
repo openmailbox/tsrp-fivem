@@ -11,7 +11,8 @@ local function create(data, cb)
 end
 RegisterNUICallback(Events.CREATE_FINISHED_CHARACTER, create)
 
-local function update(_)
+local function update(data)
+    Roster.update(data.new_roster)
     SelectSession.set_new_character(nil)
     SelectSession.resolve()
 end

@@ -10,7 +10,12 @@ local function create(data)
     })
 
     character:save(function(char)
-        TriggerClientEvent(Events.UPDATE_FINISHED_CHARACTER, player_id)
+        Character.for_account(account.id, function(results)
+            TriggerClientEvent(Events.UPDATE_FINISHED_CHARACTER, player_id, {
+                new_roster = results
+            })
+        end)
+
         Logging.log(Logging.INFO, "Created new character '" .. char.first_name .. " " .. char.last_name .. "' (" .. char.id .. ") for " .. GetPlayerName(player_id) .. " (" .. player_id .. ").")
     end)
 end
