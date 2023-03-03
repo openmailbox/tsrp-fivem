@@ -103,6 +103,8 @@ Events.UPDATE_FOOD_CHARGE_AUTH = "consumables:UpdateChargeAuth"
 
 Events.CREATE_CONSUMABLES_REWARD = "consumables:CreateReward"
 
+Events.CREATE_CONSUMED_ITEM = "consumables:CreateConsumed"
+
 -- @resource heists
 Events.GET_HEISTS    = "heists:Get"
 Events.UPDATE_HEISTS = "heists:Update"
@@ -139,8 +141,10 @@ Events.CREATE_INVENTORY_REFRESH = "inventory:CreateRefresh"
 Events.UPDATE_INVENTORY_REFRESH = "inventory:UpdateRefresh"
 
 Events.CREATE_INVENTORY_ITEM_USE = "inventory:CreateItemUse"
+Events.UPDATE_INVENTORY_ITEM_USE = "inventory:UpdateItemUse"
 
 Events.CREATE_INVENTORY_ITEM_DISCARD = "inventory:CreateItemDiscard"
+Events.UPDATE_INVENTORY_ITEM_DISCARD = "inventory:UpdateItemDiscard"
 
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"

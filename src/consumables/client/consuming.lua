@@ -31,7 +31,9 @@ function Consuming.begin(item)
     cancel_emote()
     exports.progress:CancelProgressBar(progress)
 
-    if cancelled then return end
+    if cancelled then
+        return false
+    end
 
     local ped = PlayerPedId()
 
@@ -43,9 +45,11 @@ function Consuming.begin(item)
         args      = { "System", "You restore 20 health by eating one " .. item.name .. "." }
     })
 
-    TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_USE, {
+    TriggerServerEvent(Events.CREATE_CONSUMED_ITEM, {
         item = item
     })
+
+    return true
 end
 
 function Consuming.can_consume(item)

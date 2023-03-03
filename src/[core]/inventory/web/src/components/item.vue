@@ -5,15 +5,15 @@ import ItemDetails from './item_details.vue'
 export default {
     data() {
         return {
-            hover: false
+            hover: false,
+            isDisabled: false,
+            isRemoved: false
         }
     },
     methods: {
         select(event) {
-            if (!fetch) {
-                console.warn("Unable to find fetch() API for FiveM.")
-                return
-            }
+            if (this.isDisabled) return;
+            this.isDisabled = true;
 
             let route = "https://inventory/inventory:CreateItemUse"
 
@@ -28,6 +28,12 @@ export default {
                     item: { uuid: this.uuid, name: this.name, description: this.description },
                     modifiers: { shift: event.shiftKey, control: event.ctrlKey }
                 })
+            }).then(resp => resp.json()).then((resp) => {
+                if (resp.success) {
+                    this.isRemoved = true;
+                } else {
+                    this.isDisabled = false;
+                }
             });
         }
     },
@@ -41,7 +47,9 @@ export default {
         @mouseover="hover = true"
         @mouseleave="hover = false"
         @click="select($event)"
+        v-show="!isRemoved"
         class="item"
+        :class="{ disabled: isDisabled }"
     >
         <div class="item-icon-outer text-secondary">
             <div class="item-icon-inner h2">
@@ -78,6 +86,11 @@ export default {
 
 .item:hover {
     border: 1px solid white;
+}
+
+.item.disabled {
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(42, 42, 42);
 }
 
 .item-icon-outer {
