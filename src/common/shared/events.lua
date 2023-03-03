@@ -82,6 +82,9 @@ Events.UPDATE_CHARACTER_NAME_VALIDATION = "characters:UpdateNameValidation"
 Events.CREATE_CHARACTER_SELECTION = "characters:CreateSelection"
 Events.UPDATE_CHARACTER_SELECTION = "characters:UpdateSelection"
 
+Events.CREATE_CHARACTER_GAME_SESSION = "characters:CreateGameSession"
+Events.UPDATE_CHARACTER_GAME_SESSION = "characters:UpdateGameSession"
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"

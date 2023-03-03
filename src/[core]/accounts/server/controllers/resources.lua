@@ -19,7 +19,7 @@ local function create(resource_name)
     end
 
     if count > 0 then
-        Citizen.Trace("Finished initializing " .. count .. " connected player accounts.\n")
+        Logging.log(Logging.INFO, "Finished initializing " .. count .. " connected player accounts.")
     end
 end
 AddEventHandler(Events.ON_RESOURCE_START, create)

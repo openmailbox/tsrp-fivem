@@ -14,7 +14,7 @@ local function create()
         account:set_player_id(player_id)
         TriggerEvent(Events.ON_ACCOUNT_LOADED, { account = account })
     else
-        Citizen.Trace("Unable to find an account for Player " .. player_id .. ".\n")
+        Logging.log(Logging.WARN, "Unable to find an account for Player " .. player_id .. ".")
     end
 end
 RegisterNetEvent(Events.CREATE_ACCOUNT_SESSION, create)

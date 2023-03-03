@@ -34,6 +34,10 @@ local function update(data, cb)
         Citizen.Wait(100)
     until IsScreenFadedOut()
 
+    TriggerServerEvent(Events.CREATE_CHARACTER_GAME_SESSION, {
+        character = char
+    })
+
     exports.wardrobe:RestoreSnapshot(PlayerPedId(), char.snapshot)
     SelectSession.get_active():finish()
     TriggerEvent(Events.CREATE_RESPAWN)

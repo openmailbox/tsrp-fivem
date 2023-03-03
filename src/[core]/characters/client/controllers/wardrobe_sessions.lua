@@ -1,8 +1,7 @@
 local function delete(data)
     local session = SelectSession.get_active()
-    if not session then return end
 
-    if data.success then
+    if session and data.success then
         local new_char = Character:new({
             snapshot = data.snapshot
         })
@@ -11,9 +10,13 @@ local function delete(data)
         SelectSession.await()
 
         SendNUIMessage({ type = Events.CREATE_CHARACTER_NAME_PROMPT })
-    end
+        SetNuiFocus(true, true)
 
-    SetNuiFocus(true, true)
-    session:initialize()
+        session:initialize()
+    elseif not session and data.success then
+        TriggerServerEvent(Events.UPDATE_CHARACTER_GAME_SESSION, {
+            snapshot = data.snapshot
+        })
+    end
 end
 AddEventHandler(Events.DELETE_WARDROBE_SESSION, delete)

@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Handles the queue and overall player account management in a platform-agnostic way."
-version "0.0.1"
+version "0.1.0"
 
 dependencies {
     "mysql-async",
@@ -20,6 +20,7 @@ client_scripts {
 server_scripts {
     "@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "server/**/*.lua"
 }
 

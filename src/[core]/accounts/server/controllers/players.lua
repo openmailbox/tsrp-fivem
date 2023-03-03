@@ -9,7 +9,7 @@ local function on_connect(name, _, deferrals)
     Account.initialize(player_id, name, function(account, reject_reason)
         if reject_reason then
             deferrals.done(reject_reason)
-            Citizen.Trace("Rejected Account " .. account.id .. " (" .. name .. ") with reason: '" .. reject_reason .. "'.\n")
+            Logging.log(Logging.INFO, "Rejected Account " .. account.id .. " (" .. name .. ") with reason: '" .. reject_reason .. "'.")
             return
         end
 
@@ -24,13 +24,13 @@ local function on_disconnect(reason)
     local account_id = (account and account.id) or 0
 
     if (account ~= nil) then
-        Citizen.Trace("Unloading Account " .. account_id .. " for Player " .. player_id .. " (" .. account.name ..
-                      ") w/ reason: '" .. reason .. "'.\n")
+        Logging.log(Logging.INFO, "Unloading Account " .. account_id .. " for Player " .. player_id .. " (" .. account.name ..
+                                  "). Reason: '" .. reason .. "'.")
 
         Queue.remove(account)
         account:unload()
     else
-        Citizen.Trace("Player " .. player_id .. " disconnected without an account loaded for reason: '" .. reason .. "'.\n")
+        Logging.log(Logging.INFO, "Player " .. player_id .. " disconnected without an account loaded for reason: '" .. reason .. "'.")
     end
 end
 AddEventHandler(Events.ON_PLAYER_DROPPED, on_disconnect)

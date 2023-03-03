@@ -36,7 +36,7 @@ function Queue.add(deferrals, account)
 
     table.insert(queue, position, waiting)
 
-    Citizen.Trace("Adding Account #" .. account.id .. "(" .. tostring(account.name) .. ") to the queue in position " .. position .. ".\n")
+    Logging.log(Logging.TRACE, "Adding Account #" .. account.id .. "(" .. tostring(account.name) .. ") to the queue in position " .. position .. ".")
 
     if not running then Queue.start_check() end
 end
@@ -90,7 +90,7 @@ function process_queue()
             table.remove(queue, 1)
 
             waiting.deferrals.done()
-            Citizen.Trace("Pulling Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) .. ") from queue and connecting.\n")
+            Logging.log(Logging.TRACE, "Pulling Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) .. ") from queue and connecting.")
         end
     end
 
@@ -102,7 +102,7 @@ function process_queue()
         if guid then
             waiting.deferrals.update("You are in queue at position " .. i .. " of " .. #queue .. ellipsis)
         else
-            Citizen.Trace("Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) ..  ") dropped from the queue.\n")
+            Logging.log(Logging.TRACE, "Account #" .. waiting.account.id .. "(" .. tostring(waiting.account.name) ..  ") dropped from the queue.")
             table.insert(removing, i)
         end
     end
