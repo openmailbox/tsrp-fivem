@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Handles character creation, selection, and management."
-version "0.0.1"
+version "0.1.0"
 
 dependencies {
     "accounts",
