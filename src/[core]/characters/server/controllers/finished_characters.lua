@@ -11,11 +11,7 @@ local function create(data)
 
     character:save(function(char)
         TriggerClientEvent(Events.UPDATE_FINISHED_CHARACTER, player_id)
-
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.INFO,
-            message = "Created new character '" .. data.first_name .. " " .. data.last_name .. "' (" .. char.id .. ") for " .. GetPlayerName(player_id) .. " (" .. player_id .. ")."
-        })
+        Logging.log(Logging.INFO, "Created new character '" .. char.first_name .. " " .. char.last_name .. "' (" .. char.id .. ") for " .. GetPlayerName(player_id) .. " (" .. player_id .. ").")
     end)
 end
 RegisterNetEvent(Events.CREATE_FINISHED_CHARACTER, create)

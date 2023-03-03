@@ -11,6 +11,7 @@ version "0.0.1"
 dependencies {
     "accounts",
     "markers",
+    "mysql-async",
     "wardrobe"
 }
 
@@ -21,6 +22,7 @@ client_scripts {
 }
 
 server_scripts {
+    "@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "server/**/*.lua"
