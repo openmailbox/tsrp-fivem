@@ -70,7 +70,7 @@ function Interaction.interact()
     end
 end
 RegisterCommand("interact", Interaction.interact, false)
-RegisterKeyMapping("interact", "Interact with the current target", "keyboard", "E")
+RegisterKeyMapping("interact", "Interact with current target", "keyboard", "E")
 
 -- Used to register a new interaction with a game entity. When player looks at the model type, they will get a crosshair and prompt to interact.
 -- @tparam table options

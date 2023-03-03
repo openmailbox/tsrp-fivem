@@ -8,4 +8,4 @@ local function cmd_inventory(_, _, _)
     })
 end
 RegisterCommand("inventory", cmd_inventory, false)
-RegisterKeyMapping("inventory", "Show/Hide Inventory", "keyboard", "i")
+RegisterKeyMapping("inventory", "Inventory", "keyboard", "i")
