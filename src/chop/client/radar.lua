@@ -17,10 +17,7 @@ function Radar.activate(options)
     BeginTextCommandDisplayHelp(HELP_KEY)
     EndTextCommandDisplayHelp(0, false, true, -1)
 
-    TriggerEvent(Events.LOG_MESSAGE, {
-        level   = Logging.DEBUG,
-        message = "Enabled radar for tracking target vehicles."
-    })
+    Logging.log(Logging.DEBUG, "Enabled radar for tracking target vehicles.")
 
     blip = exports.map:AddBlip(options.spawn, {
         color   = 6,
@@ -38,10 +35,7 @@ function Radar.activate(options)
             Citizen.Wait(2000)
         end
 
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.DEBUG,
-            message = "Disabled vehicle tracking radar."
-        })
+        Logging.log(Logging.DEBUG, "Disabled vehicle tracking radar.")
     end)
 end
 
@@ -56,7 +50,7 @@ function Radar.deactivate()
 end
 
 function Radar.initialize()
-    AddTextEntry(HELP_KEY, "Look for ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ nearby. The ~HUD_COLOUR_REDLIGHT~highlighted area~s~ on your map was the last known hot spot.")
+    AddTextEntry(HELP_KEY, "Look for ~HUD_COLOUR_REDLIGHT~target vehicles ~BLIP_GUNCAR~~s~ nearby. The ~HUD_COLOUR_REDLIGHT~highlighted area~s~ on your map is where you last saw the model.")
 end
 
 -- @local

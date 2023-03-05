@@ -35,20 +35,14 @@ function add_generator(model)
     local has_node, node, nodeh = GetClosestVehicleNodeWithHeading(x, y, z, 1, 3.0, 0)
 
     if not has_node then
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.DEBUG,
-            message = "Unable to find vehicle node near " .. vector3(x, y, z) .. "."
-        })
+        Logging.log(Logging.DEBUG, "Unable to find vehicle node near " .. vector3(x, y, z) .. ".")
         return
     end
 
     local has_road, road = GetPointOnRoadSide(node.x, node.y, node.z)
 
     if not has_road then
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.DEBUG,
-            message = "Unable to find vehicle roadside for node at " .. node .. "."
-        })
+        Logging.log(Logging.DEBUG, "Unable to find vehicle roadside for node at " .. node .. ".")
         return
     end
 
@@ -64,6 +58,8 @@ function add_generator(model)
         id       = generator,
         location = road
     })
+
+    Logging.log(Logging.TRACE, "Created vehicle script generator " .. generator .. " at " .. road .. " for model " .. model .. ".")
 end
 
 -- @local
@@ -81,8 +77,11 @@ function start_updates(model_hash)
 
                 if Vdist(gen.location, ploc) > RADIUS then
                     table.remove(generators, i)
+
                     SetScriptVehicleGenerator(gen, false)
                     DeleteScriptVehicleGenerator(gen)
+
+                    Logging.log(Logging.TRACE, "Removed vehicle script generator " .. i .. ".")
                 end
             end
 
