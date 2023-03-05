@@ -35,3 +35,7 @@ files {
     "web/**/*.js",
     "web/**/*.css",
 }
+
+server_exports {
+    "GetPlayerCharacter"
+}

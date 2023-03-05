@@ -85,6 +85,8 @@ Events.UPDATE_CHARACTER_SELECTION = "characters:UpdateSelection"
 Events.CREATE_CHARACTER_GAME_SESSION = "characters:CreateGameSession"
 Events.UPDATE_CHARACTER_GAME_SESSION = "characters:UpdateGameSession"
 
+Events.ON_CHARACTER_SESSION_START = "characters:OnSessionstart" -- triggered internally as a convenience for other resources
+
 -- @resource chat
 Events.ADD_CHAT_MESSAGE       = "chat:addMessage"
 Events.ADD_CHAT_SUGGESTION    = "chat:addSuggestion"

@@ -5,16 +5,16 @@ local lookup_account,
       save_new_account,
       update_account_balance
 
-function BankAccount.for_player_account(account_id, cb)
-    lookup_account(account_id, function(baccount)
+function BankAccount.for_character(char_id, cb)
+    lookup_account(char_id, function(baccount)
         cb(baccount)
     end)
 end
 
 function BankAccount.for_player(player_id, cb)
-    local account = exports.accounts:GetPlayerAccount(player_id)
+    local character = exports.characters:GetPlayerCharacter(player_id)
 
-    lookup_account(account.id, function(baccount)
+    lookup_account(character.id, function(baccount)
         cb(baccount)
     end)
 end
@@ -41,10 +41,10 @@ function BankAccount:deposit(amount)
 end
 
 -- @local
-function lookup_account(account_id, cb)
+function lookup_account(char_id, cb)
     MySQL.Async.fetchAll(
-        "SELECT * FROM bank_accounts where account_id = @id",
-        { ["@id"] = account_id },
+        "SELECT * FROM bank_accounts where character_id = @id",
+        { ["@id"] = char_id },
         function(results)
             local baccount
 
@@ -52,8 +52,8 @@ function lookup_account(account_id, cb)
                 baccount = BankAccount:new(results[1])
             else
                 baccount = BankAccount:new({
-                    account_id = account_id,
-                    balance    = 0
+                    character_id = char_id,
+                    balance      = 0
                 })
             end
 
@@ -65,9 +65,9 @@ end
 -- @local
 function save_new_account(account)
     MySQL.Async.insert(
-        "INSERT INTO bank_accounts (created_at, account_id, balance) VALUES (NOW(), @id, @balance);",
+        "INSERT INTO bank_accounts (created_at, character_id, balance) VALUES (NOW(), @id, @balance);",
         {
-            ["@id"]      = account.account_id,
+            ["@id"]      = account.character_id,
             ["@balance"] = account.balance
         },
         function(new_id)

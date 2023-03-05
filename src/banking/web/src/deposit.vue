@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         cancel() {
-            fetch("https://atm/atm:DeleteSession", {
+            fetch("https://banking/atm:DeleteSession", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" }
             });
@@ -38,7 +38,7 @@ export default {
 
             this.isLoading = true;
 
-            fetch("https://atm/atm:CreateDeposit", {
+            fetch("https://banking/atm:CreateDeposit", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({ amount: this.depositAmount })

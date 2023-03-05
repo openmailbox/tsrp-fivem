@@ -3,6 +3,11 @@ local function create(data)
     local character = Character:new(data.character)
 
     character:activate(player_id)
+
+    TriggerEvent(Events.ON_CHARACTER_SESSION_START, {
+        player_id = player_id,
+        character = character
+    })
 end
 RegisterNetEvent(Events.CREATE_CHARACTER_GAME_SESSION, create)
 

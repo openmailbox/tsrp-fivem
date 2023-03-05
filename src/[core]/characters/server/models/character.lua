@@ -14,6 +14,7 @@ end
 function Character.for_player(id)
     return characters[id]
 end
+exports("GetPlayerCharacter", Character.for_player)
 
 function Character:new(o)
     o = o or {}
