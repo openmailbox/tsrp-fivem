@@ -15,6 +15,6 @@
   "workspaces": [
     "src\\**\\inventory\\web",
     "src\\**\\wardrobe\\web",
-    "src\\atm\\web"
+    "src\\banking\\web"
   ]
 }

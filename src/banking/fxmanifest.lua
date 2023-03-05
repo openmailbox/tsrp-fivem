@@ -5,7 +5,7 @@ games { "gta5" }
 lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
-description "Allows players to use ATMs in the world to deposit cash."
+description "Stuff related to banking."
 version "0.0.1"
 
 dependencies {
