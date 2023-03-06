@@ -183,6 +183,10 @@ Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 
+-- @resource showroom
+Events.CREATE_SHOWROOM_SESSION = "showroom:CreateSession"
+Events.DELETE_SHOWROOM_SESSION = "showroom:DeleteSession"
+
 -- @resource stashes
 Events.GET_STASHES    = "stashes:UpdateStashes"
 Events.UPDATE_STASHES = "stashes:UpdateStashes"

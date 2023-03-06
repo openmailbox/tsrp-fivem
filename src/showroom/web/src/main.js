@@ -20,3 +20,12 @@ const handleMessage = function(item) {
 window.addEventListener("message", function(event) {
     handleMessage(event.data);
 });
+
+document.addEventListener("keydown", (event) => {
+    if (event.repeat) return;
+    switch (event.key) {
+        case "Escape":
+            vm.deleteSession();
+            break;
+    }
+});

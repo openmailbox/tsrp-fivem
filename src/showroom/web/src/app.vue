@@ -7,7 +7,7 @@ import TestData from './test/default' // data for testing the front-end
 export default {
     data() {
         return {
-            isActive: true,
+            isActive: false,
             categories: TestData.categories,
             selectedModel: {}
         }

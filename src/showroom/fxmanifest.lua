@@ -8,6 +8,7 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Provides the UI for the vehicle model browser."
 version "0.0.1"
 
+
 client_scripts {
     "@common/shared/events.lua",
     "client/**/*.lua"
@@ -15,6 +16,7 @@ client_scripts {
 
 server_scripts {
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "server/**/*.lua"
 }
 
