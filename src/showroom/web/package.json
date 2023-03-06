@@ -1,6 +1,6 @@
 {
-  "name": "template",
-  "version": "1.0.0",
+  "name": "showroom",
+  "version": "0.0.1",
   "description": "",
   "main": "web/src/main.js",
   "private": true,
