@@ -1,6 +1,6 @@
 <script>
 export default {
-
+    props: ["categories"]
 }
 </script>
 
@@ -10,23 +10,19 @@ export default {
             <div class="panel-title h4">Showroom</div>
         </div>
         <div class="panel-body">
-            <details class="accordion" open>
+            <details v-for="category in categories" class="accordion" open>
                 <input type="checkbox" hidden />
                 <summary class="accordion-header">
                     <i class="icon icon-arrow-right"></i>
-                    <div class="title h5">Sedans</div>
-                    <div class="title h5 in-stock-count">(2)</div>
+                    <div class="title h5">{{ category.name }}</div>
+                    <div class="title h5 in-stock-count">({{ category.models.length }})</div>
                 </summary>
                 <div class="accordion-body">
                     <table>
                         <tbody>
-                            <tr>
-                                <td>Asea</td>
-                                <td>$20,000</td>
-                            </tr>
-                            <tr>
-                                <td>Buffalo</td>
-                                <td>$40,000</td>
+                            <tr v-for="vehicle in category.models">
+                                <td>{{ vehicle.name }}</td>
+                                <td>{{ vehicle.price }}</td>
                             </tr>
                         </tbody>
                     </table>

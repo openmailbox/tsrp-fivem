@@ -1,18 +1,13 @@
 <script>
 import ModelTree from './components/model_tree.vue'
 import ModelDetails from './components/model_details.vue'
-import "../../../common/web/styles/tsrp-theme.css";
+import "../../../common/web/styles/tsrp-theme.css"
+import TestData from './test/default' // data for testing the front-end
 
 export default {
     data() {
         return {
-            message: 'Hello World!'
-        }
-    },
-    methods: {
-        changeMessage(data) {
-            console.log(`changing message to ${data.message}`);
-            this.message = data.message;
+            categories: TestData.categories
         }
     },
     components: { ModelTree, ModelDetails }
@@ -21,7 +16,7 @@ export default {
 
 <template>
     <div>
-        <ModelTree />
+        <ModelTree :categories="categories" />
 
         <ModelDetails />
     </div>

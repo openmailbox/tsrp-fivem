@@ -13,7 +13,7 @@ export default {
             <table class="table">
                 <tbody>
                     <tr>
-                        <td>Price</td>
+                        <td>MSRP</td>
                         <td>$20,000</td>
                     </tr>
                     <tr>
