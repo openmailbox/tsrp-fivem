@@ -1,5 +1,10 @@
 <script>
 export default {
+    methods: {
+        toggleCategory(event) {
+            event.target.setAttribute("open", !!event.target.getAttribute("open"))
+        }
+    },
     props: ["categories"]
 }
 </script>
@@ -10,7 +15,7 @@ export default {
             <div class="panel-title h4">Showroom</div>
         </div>
         <div class="panel-body">
-            <details v-for="category in categories" class="accordion" open>
+            <details v-for="category in categories" @click="toggleCategory($event)" class="accordion">
                 <input type="checkbox" hidden />
                 <summary class="accordion-header">
                     <i class="icon icon-arrow-right"></i>
@@ -20,7 +25,7 @@ export default {
                 <div class="accordion-body">
                     <table>
                         <tbody>
-                            <tr v-for="vehicle in category.models">
+                            <tr v-for="vehicle in category.models" @click="$emit('selectModel', vehicle, category.name)">
                                 <td>{{ vehicle.name }}</td>
                                 <td>{{ vehicle.price }}</td>
                             </tr>

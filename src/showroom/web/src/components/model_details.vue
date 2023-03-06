@@ -1,28 +1,28 @@
 <script>
 export default {
-
+    props: ["name", "price", "category", "owned"]
 }
 </script>
 
 <template>
     <div id="panel-details" class="panel tsrp-bg text-secondary">
         <div class="panel-header h5">
-            <div class="panel-title">Asea</div>
+            <div class="panel-title">{{ name }}</div>
         </div>
         <div class="panel-body">
             <table class="table">
                 <tbody>
                     <tr>
                         <td>MSRP</td>
-                        <td>$20,000</td>
+                        <td>{{ price }}</td>
                     </tr>
                     <tr>
                         <td>Category</td>
-                        <td>Sedan</td>
+                        <td>{{ category }}</td>
                     </tr>
                     <tr>
                         <td>Owned</td>
-                        <td>0</td>
+                        <td>{{ owned }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -7,18 +7,36 @@ import TestData from './test/default' // data for testing the front-end
 export default {
     data() {
         return {
-            categories: TestData.categories
+            categories: TestData.categories,
+            selectedModel: {}
         }
     },
-    components: { ModelTree, ModelDetails }
+    components: { ModelTree, ModelDetails },
+    methods: {
+        setModel(model, category) {
+            model.owned    = 0;
+            model.category = category;
+
+            this.selectedModel = model;
+        }
+    }
 }
 </script>
 
 <template>
     <div>
-        <ModelTree :categories="categories" />
+        <ModelTree
+            :categories="categories"
+            @select-model="(model, category) => setModel(model, category)"
+        />
 
-        <ModelDetails />
+        <ModelDetails
+            v-show="selectedModel.name"
+            :name="selectedModel.name"
+            :price="selectedModel.price"
+            :category="selectedModel.category"
+            :owned="selectedModel.owned"
+        />
     </div>
 </template>
 
