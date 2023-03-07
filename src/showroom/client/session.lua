@@ -5,7 +5,8 @@ local setup_camera,
       setup_player,
       teardown_player
 
-local LOCATION = vector3(0, 0, 0)
+local CAM_POSITION = vector4(-45.6331, -1102.1134, 26.4224, 326.5543)
+local VEH_POSITION = vector3(-43.8665, -1098.5597, 26.4224)
 
 local active_session = nil
 local awaiting       = 0
@@ -31,7 +32,7 @@ end
 function Session:finish()
     active_session = nil
 
-    local x, y, z = table.unpack(LOCATION)
+    local x, y, z = table.unpack(VEH_POSITION)
     RequestCollisionAtCoord(x, y, z)
     RequestAdditionalCollisionAtCoord(x, y, z)
 
@@ -61,7 +62,7 @@ function Session:initialize()
 
     self.origin = GetEntityCoords(PlayerPedId())
 
-    local x, y, z = table.unpack(LOCATION)
+    local x, y, z = table.unpack(VEH_POSITION)
     RequestCollisionAtCoord(x, y, z)
     RequestAdditionalCollisionAtCoord(x, y, z)
 
@@ -92,9 +93,9 @@ end
 
 -- @local
 function setup_camera()
-    local x, y, z = table.unpack(LOCATION)
+    local x, y, z = table.unpack(CAM_POSITION)
 
-    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", x, y, z, 0, 0, 120.0, 70.0, false, 0)
+    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", x, y, z, 0, 0, 0, 70.0, false, 0)
 
     SetCamActive(camera, true)
     RenderScriptCams(true, false, 0, true, true)
@@ -103,7 +104,7 @@ end
 -- @local
 function setup_player()
     local ped     = PlayerPedId()
-    local x, y, z = table.unpack(LOCATION)
+    local x, y, z = table.unpack(VEH_POSITION)
 
     ClearPedTasksImmediately(ped)
     SetEntityVisible(ped, false)
