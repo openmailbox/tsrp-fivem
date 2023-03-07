@@ -33,6 +33,7 @@ export default {
 g                               @select-vehicle="(vehicle) => $emit('selectModel', vehicle)"
                                 :category="category.name"
                                 :name="vehicle.name"
+                                :label="vehicle.label"
                                 :price="vehicle.price"
                             />
                         </tbody>

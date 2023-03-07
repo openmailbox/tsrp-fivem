@@ -4,11 +4,13 @@ export default {
             name: "Sedans",
             models: [
                 {
-                    name: "Asea",
+                    name: "asea",
+                    label: "ASEA",
                     price: 20000
                 },
                 {
-                    name: "Emperor",
+                    name: "emperor",
+                    label: "EMPEROR",
                     price: 10000
                 }
             ]

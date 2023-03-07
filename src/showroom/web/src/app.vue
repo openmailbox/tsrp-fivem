@@ -2,20 +2,20 @@
 import ModelTree from './components/model_tree.vue'
 import ModelDetails from './components/model_details.vue'
 import "../../../common/web/styles/tsrp-theme.css"
-import TestData from './test/default' // data for testing the front-end
+//import TestData from './test/default' // data for testing the front-end
 
 export default {
     data() {
         return {
-            isActive: true,
-            categories: TestData.categories,
+            isActive: false,
+            categories: [],
             selectedModel: {}
         }
     },
     components: { ModelTree, ModelDetails },
     methods: {
         createSession() {
-            this.isActive = false;
+            this.isActive = true;
         },
 
         deleteSession(skipPost) {
@@ -27,6 +27,10 @@ export default {
             }
 
             this.isActive = false;
+        },
+
+        setCategories(data) {
+            this.categories = data;
         },
 
         setModel(model) {

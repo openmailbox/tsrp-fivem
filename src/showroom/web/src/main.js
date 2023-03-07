@@ -10,6 +10,7 @@ const handleMessage = function(item) {
     switch (item.type) {
         case "showroom:CreateSession":
             vm.createSession();
+            vm.setCategories(item.categories);
             break;
         case "showroom:DeleteSession":
             vm.deleteSession(true);
