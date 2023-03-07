@@ -7,7 +7,7 @@ import TestData from './test/default' // data for testing the front-end
 export default {
     data() {
         return {
-            isActive: false,
+            isActive: true,
             categories: TestData.categories,
             selectedModel: {}
         }
@@ -15,7 +15,7 @@ export default {
     components: { ModelTree, ModelDetails },
     methods: {
         createSession() {
-            this.isActive = true;
+            this.isActive = false;
         },
 
         deleteSession(skipPost) {
@@ -29,10 +29,7 @@ export default {
             this.isActive = false;
         },
 
-        setModel(model, category) {
-            model.owned    = 0;
-            model.category = category;
-
+        setModel(model) {
             this.selectedModel = model;
         }
     }
@@ -43,7 +40,7 @@ export default {
     <div v-show="isActive">
         <ModelTree
             :categories="categories"
-            @select-model="(model, category) => setModel(model, category)"
+            @select-model="(vehicle) => setModel(vehicle)"
         />
 
         <ModelDetails

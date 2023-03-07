@@ -1,5 +1,8 @@
 <script>
+import VehicleListing from './vehicle_listing.vue'
+
 export default {
+    components: { VehicleListing },
     methods: {
         toggleCategory(event) {
             event.target.setAttribute("open", !!event.target.getAttribute("open"))
@@ -25,10 +28,13 @@ export default {
                 <div class="accordion-body">
                     <table>
                         <tbody>
-                            <tr v-for="vehicle in category.models" @click="$emit('selectModel', vehicle, category.name)">
-                                <td>{{ vehicle.name }}</td>
-                                <td>{{ vehicle.price }}</td>
-                            </tr>
+                            <VehicleListing
+                                v-for="vehicle in category.models"
+g                               @select-vehicle="(vehicle) => $emit('selectModel', vehicle)"
+                                :category="category.name"
+                                :name="vehicle.name"
+                                :price="vehicle.price"
+                            />
                         </tbody>
                     </table>
                 </div>
