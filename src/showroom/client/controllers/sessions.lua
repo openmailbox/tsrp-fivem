@@ -41,6 +41,11 @@ RegisterNetEvent(Events.CREATE_SHOWROOM_SESSION, create)
 
 local function delete(_, cb)
     local session = Session.get_active()
+    local preview = VehiclePreview.get_active()
+
+    if preview then
+        preview:cleanup()
+    end
 
     if session then
         session:finish()

@@ -187,6 +187,8 @@ Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 Events.CREATE_SHOWROOM_SESSION = "showroom:CreateSession"
 Events.DELETE_SHOWROOM_SESSION = "showroom:DeleteSession"
 
+Events.CREATE_SHOWROOM_PREVIEW = "showroom:CreateVehiclePreview"
+
 -- @resource stashes
 Events.GET_STASHES    = "stashes:UpdateStashes"
 Events.UPDATE_STASHES = "stashes:UpdateStashes"

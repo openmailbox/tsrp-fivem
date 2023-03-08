@@ -13,6 +13,12 @@ export default {
                 price: this.price,
                 owned: 0
             })
+
+            fetch("https://showroom/showroom:CreateVehiclePreview", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=UTF-8" },
+                body: JSON.stringify({ name: this.name })
+            });
         }
     },
     props: ["category", "name", "price", "label"]

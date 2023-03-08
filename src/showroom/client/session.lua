@@ -5,8 +5,9 @@ local setup_camera,
       setup_player,
       teardown_player
 
-local CAM_POSITION = vector4(-45.6331, -1102.1134, 26.4224, 326.5543)
-local VEH_POSITION = vector3(-43.8665, -1098.5597, 26.4224)
+local CAM_POSITION = vector3(-946.2092, -2983.9346, 13.9451)
+local CAM_ROTATION = vector3(-10.01, 0, 149.13)
+local VEH_POSITION = vector4(-950.1644, -2992.0737, 13.9451, 61.7015)
 
 local active_session = nil
 local awaiting       = 0
@@ -60,7 +61,8 @@ end
 function Session:initialize()
     active_session = self
 
-    self.origin = GetEntityCoords(PlayerPedId())
+    self.origin           = GetEntityCoords(PlayerPedId())
+    self.vehicle_location = VEH_POSITION
 
     local x, y, z = table.unpack(VEH_POSITION)
     RequestCollisionAtCoord(x, y, z)
@@ -93,9 +95,10 @@ end
 
 -- @local
 function setup_camera()
-    local x, y, z = table.unpack(CAM_POSITION)
+    local x, y, z    = table.unpack(CAM_POSITION)
+    local rx, ry, rz = table.unpack(CAM_ROTATION)
 
-    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", x, y, z, 0, 0, 0, 70.0, false, 0)
+    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", x, y, z, rx, ry, rz, 70.0, false, 0)
 
     SetCamActive(camera, true)
     RenderScriptCams(true, false, 0, true, true)
