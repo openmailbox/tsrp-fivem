@@ -1,13 +1,10 @@
 Session = {}
 
 -- Forward delcarations
-local setup_camera,
-      setup_player,
+local setup_player,
       teardown_player
 
-local CAM_POSITION = vector3(-946.2092, -2983.9346, 13.9451)
-local CAM_ROTATION = vector3(-10.01, 0, 149.13)
-local VEH_POSITION = vector4(-950.1644, -2992.0737, 13.9451, 61.7015)
+local VEH_POSITION = vector4(-964.0110, -2984.2451, 13.9451, 52.9634)
 
 local active_session = nil
 local awaiting       = 0
@@ -77,7 +74,6 @@ function Session:initialize()
     ShutdownLoadingScreen()
 
     setup_player()
-    setup_camera()
 
     DisplayRadar(false)
     TriggerEvent(Events.CLEAR_CHAT)
@@ -91,17 +87,6 @@ function Session:initialize()
     SetNuiFocus(true, true)
 
     SendNUIMessage({ type = Events.CREATE_SHOWROOM_SESSION, categories = self.categories })
-end
-
--- @local
-function setup_camera()
-    local x, y, z    = table.unpack(CAM_POSITION)
-    local rx, ry, rz = table.unpack(CAM_ROTATION)
-
-    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", x, y, z, rx, ry, rz, 70.0, false, 0)
-
-    SetCamActive(camera, true)
-    RenderScriptCams(true, false, 0, true, true)
 end
 
 -- @local

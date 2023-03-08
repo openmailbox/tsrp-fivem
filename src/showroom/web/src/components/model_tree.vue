@@ -47,9 +47,10 @@ g                               @select-vehicle="(vehicle) => $emit('selectModel
 <style>
 #panel-tree.panel {
     float: right;
-    height: 100vh;
+    height: 90vh;
+    margin-top: 2vh;
     user-select: none;
-    width: 33vw;
+    width: 25vw;
 }
 
 #panel-tree .accordion-header .title {

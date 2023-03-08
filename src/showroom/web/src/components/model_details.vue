@@ -46,7 +46,8 @@ export default {
 
 #panel-details.panel {
     float: right;
-    width: 20vw;
+    margin-top: 2vh;
+    width: 18vw;
 }
 
 #panel-details .panel-header {

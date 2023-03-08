@@ -36,7 +36,8 @@ function VehiclePreview:initialize()
         until HasModelLoaded(hash) or GetGameTimer() > timeout
     end
 
-    local vehicle = CreateVehicle(hash, x, y, z, h, false, false)
+    ClearArea(x, y, z, 5.0, true, false, false, false, false)
+    local vehicle = CreateVehicle(hash, x, y, z, h, false, true)
 
     repeat
         Citizen.Wait(100)
@@ -47,7 +48,18 @@ function VehiclePreview:initialize()
         return
     end
 
-    self.vehicle = vehicle
+    SetVehicleEngineOn(vehicle, false, true, true)
+    SetVehHasRadioOverride(vehicle, false)
+    SetPedIntoVehicle(PlayerPedId(), vehicle, -1)
+    SetModelAsNoLongerNeeded(hash)
 
+    repeat
+        Citizen.Wait(250)
+    until IsPedInVehicle(PlayerPedId(), vehicle, false)
+
+    ClampGameplayCamPitch(-5.0, -5.0)
+    ClampGameplayCamYaw(-90.0, -90.0)
+
+    self.vehicle = vehicle
     active_preview = self
 end
