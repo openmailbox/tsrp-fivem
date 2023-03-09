@@ -1,7 +1,8 @@
 Session = {}
 
 -- Forward delcarations
-local setup_player,
+local show_instructions,
+      setup_player,
       teardown_player
 
 local VEH_POSITION = vector4(-964.0110, -2984.2451, 13.9451, 52.9634)
@@ -56,6 +57,7 @@ function Session:finish()
 end
 
 function Session:initialize()
+    if active_session then return end
     active_session = self
 
     self.origin           = GetEntityCoords(PlayerPedId())
@@ -74,6 +76,7 @@ function Session:initialize()
     ShutdownLoadingScreen()
 
     setup_player()
+    show_instructions()
 
     DisplayRadar(false)
     TriggerEvent(Events.CLEAR_CHAT)
@@ -113,4 +116,16 @@ function teardown_player(origin)
     SetEntityCollision(ped, true)
     FreezeEntityPosition(ped, false)
     SetPlayerInvincible(PlayerId(), false)
+end
+
+-- @local
+function show_instructions()
+    Citizen.CreateThread(function()
+        local scaleform = CreateInstructionalDisplay("Turn Left", 34, "Turn Right", 35)
+
+        while active_session do
+            DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
+            Citizen.Wait(0)
+        end
+    end)
 end
