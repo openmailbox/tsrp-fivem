@@ -1,7 +1,8 @@
 Session = {}
 
 -- Forward declarations
-local start_session
+local get_equipment,
+      start_session
 
 local active_session = nil
 
@@ -53,7 +54,8 @@ function Session:initialize()
 
     SendNUIMessage({
         type      = Events.CREATE_INVENTORY_SESSION,
-        inventory = self.inventory
+        inventory = self.inventory,
+        equipment = get_equipment()
     })
 
     start_session(self)
@@ -62,6 +64,22 @@ function Session:initialize()
         local x, y, z = table.unpack(self.camera:get_location())
         TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, 2000)
     end
+end
+
+-- @local
+function get_equipment()
+    local equipment = {}
+
+    for slot, label in pairs(WeaponSlots) do -- defined in @common/shared/weapons
+        local weapon = HudWeaponWheelGetSlotHash(slot)
+
+        equipment[label] = {
+            name  = WeaponLabels[weapon],
+            label = WeaponNames[weapon]
+        }
+    end
+
+    return equipment
 end
 
 -- @local

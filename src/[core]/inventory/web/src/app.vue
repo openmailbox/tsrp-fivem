@@ -1,22 +1,24 @@
 <script>
 import Container from "./components/container.vue";
 import Equipment from "./components/equipment.vue";
-import ItemData from "./test/items" // for testing
+//import ItemData from "./test/items" // for testing
 
 export default {
     data() {
         return {
             isActive: false,
+            equipment: {}, // ItemData.equipment,
             containers: {
                 inventory: {
-                    contents: ItemData.items
+                    contents: {} // ItemData.items
                 }
             }
         }
     },
     methods: {
-        createSession() {
-            this.isActive = true;
+        createSession(equipData) {
+            this.equipment = equipData;
+            this.isActive  = true;
         },
 
         deleteSession(skipPost) {
@@ -44,7 +46,9 @@ export default {
             <div class="columns">
                 <div class="column col-3"></div>
                 <div class="column col-3">
-                    <Equipment />
+                    <Equipment
+                        :equipment="equipment"
+                    />
                 </div>
 
                 <div class="column col-2">
