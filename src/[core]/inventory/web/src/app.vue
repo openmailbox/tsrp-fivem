@@ -1,6 +1,7 @@
 <script>
 import Container from "./components/container.vue";
-//import ItemData from "./test/items" // for testing
+import Equipment from "./components/equipment.vue";
+import ItemData from "./test/items" // for testing
 
 export default {
     data() {
@@ -8,7 +9,7 @@ export default {
             isActive: false,
             containers: {
                 inventory: {
-                    contents: [] // ItemData.items
+                    contents: ItemData.items
                 }
             }
         }
@@ -33,20 +34,32 @@ export default {
             this.containers = data;
         }
     },
-    components: { Container },
+    components: { Equipment, Container },
 }
 </script>
 
 <template>
     <div v-show="isActive" id="inventory">
-        <Container
-            :contents="containers.inventory.contents"
-        />
+        <div class="container">
+            <div class="columns">
+                <div class="column col-3"></div>
+                <div class="column col-3">
+                    <Equipment />
+                </div>
+
+                <div class="column col-2">
+                </div>
+
+                <div class="column col-4">
+                    <Container
+                        :contents="containers.inventory.contents"
+                    />
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
 
 <style>
-#inventory {
-    float: right;
-}
 </style>

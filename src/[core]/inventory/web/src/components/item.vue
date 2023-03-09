@@ -79,9 +79,8 @@ export default {
     background: black;
     border: 1px solid green;
     display: inline-block;
-    margin: 1em 0.5em 1em 0;
-    width: 3vw;
-    height: 3vw;
+    height: 100%;
+    width: 100%
 }
 
 .item:hover {
