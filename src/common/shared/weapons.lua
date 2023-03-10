@@ -311,14 +311,3 @@ WeaponLabels = {
     [Weapons.STICKYBOMB]   = "stickybomb",
     [Weapons.SMOKEGRENADE] = "smokegrenade",
 }
-
-WeaponSlots = {
-    [0] = "Pistol",
-    [1] = "SMG",
-    [2] = "Rifle",
-    [3] = "Sniper",
-    [4] = "Melee",
-    [5] = "Shotgun",
-    [6] = "Heavy",
-    [7] = "Throwable"
-}

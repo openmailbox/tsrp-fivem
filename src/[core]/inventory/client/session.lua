@@ -70,18 +70,16 @@ end
 function get_equipment()
     local equipment = {}
 
-    for slot, label in pairs(WeaponSlots) do -- defined in @common/shared/weapons
-        local weapon = HudWeaponWheelGetSlotHash(slot)
-
-        if weapon > 0 then
-            equipment[label] = {
-                name  = WeaponLabels[weapon],
-                label = WeaponNames[weapon]
-            }
+    for name, weapons in pairs(WeaponSlots) do
+        for _, weap in ipairs(weapons) do
+            if HasPedGotWeapon(PlayerPedId(), weap, false) then
+                equipment[name] = {
+                    name  = WeaponLabels[weap], -- defined in @common/shared/weapons
+                    label = WeaponNames[weap]
+                }
+            end
         end
     end
-
-    print(json.encode(equipment))
 
     return equipment
 end

@@ -6,7 +6,7 @@ export default {
             equipmentGrid: [
                 [-1, "Throwable", "Heavy", "Shotgun", -1],
                 ["Pistol", -1, -1, -1, "Melee"],
-                [-1, "SMG", "Rifle", "Sniper", -1]
+                [-1, "SMG/MG", "Rifle", "Sniper", -1]
             ]
         }
     },
