@@ -18,6 +18,7 @@ export default {
                     :uuid="item.uuid"
                     :name="item.name"
                     :description="item.description"
+                    :actions="item.actions"
                 />
             </div>
         </div>

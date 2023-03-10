@@ -1,21 +1,32 @@
 <script>
 export default {
+    data() {
+        return {
+            clickModifiers: [null, "Shift", "Ctrl", "Alt"]
+        }
+    },
+    methods: {
+        getClickModifier(index) {
+            if (index < 1) {
+                return '';
+            } else {
+                return `${this.clickModifiers[index]} + `;
+            }
+        }
+    },
+    props: ["actions"]
 }
 </script>
 
 <template>
-    <div class="tile tsrp-bg container-border text-light">
+    <div class="item-actions tile tsrp-bg container-border text-light">
         <div class="tile-content">
             <p class="bg-dark tile-title">Actions</p>
             <table class="table text-small">
                 <tbody>
-                    <tr>
-                        <td>Use</td>
-                        <td class="action-icon"><span class="material-symbols-outlined">left_click</span></td>
-                    </tr>
-                    <tr>
-                        <td>Discard</td>
-                        <td class="action-icon">Shift + <span class="material-symbols-outlined">left_click</span></td>
+                    <tr v-for="(action, i) in actions">
+                        <td>{{ action }}</td>
+                        <td class="action-icon">{{ getClickModifier(i) }}<span class="material-symbols-outlined">left_click</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -24,16 +35,20 @@ export default {
 </template>
 
 <style>
-.tile-title {
+.item-actions {
+    width: 8vw;
+}
+
+.item-actions .tile-title {
     padding: 0.1em 0.3em;
     margin-bottom: 0;
 }
 
-.action-icon {
+.item-actions .action-icon {
     text-align: right;
 }
 
-tr, td {
-    padding: 0;
+.item-actions tr, .item-actions td {
+    padding: 0.3em;
 }
 </style>

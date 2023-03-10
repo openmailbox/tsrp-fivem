@@ -11,12 +11,18 @@ export default {
         }
     },
     computed: {
+        hasActions() {
+            return this.actions && this.actions.length > 0;
+        },
+
         iconFromName() {
             return (this.name && this.name[0].toUpperCase()) || '';
         }
     },
     methods: {
         select(event) {
+            if (!this.actions || this.actions.length === 0) return;
+
             if (this.isDisabled) return;
             this.isDisabled = true;
 
@@ -42,7 +48,7 @@ export default {
             });
         }
     },
-    props: ["name", "description", "uuid"],
+    props: ["name", "description", "uuid", "actions"],
     components: { ItemActions, ItemDetails }
 }
 </script>
@@ -62,14 +68,18 @@ export default {
         <div class="p-absolute item-extras" v-show="hover">
             <div class="container">
                 <div class="columns col-gapless">
+                    <div v-show="!hasActions" class="column col-3"></div>
+
                     <ItemDetails
                         class="column col-9 item-modal"
                         :name="name"
                         :description="description"
                     />
 
-                    <div class="column col-3">
-                        <ItemActions class="item-modal" />
+                    <div v-show="hasActions" class="column col-3">
+                        <ItemActions class="item-modal"
+                            :actions="actions"
+                        />
                     </div>
                 </div>
             </div>
@@ -111,9 +121,9 @@ export default {
 
 .item-extras {
     margin-top: -2vh;
-    margin-left: -29vw;
+    margin-left: -26vw;
     pointer-events: none;
-    width: 33vw;
+    width: 25vw;
 }
 
 .item-modal {

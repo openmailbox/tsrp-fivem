@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <div class="card card-bg">
+    <div class="item-details card card-bg">
         <div class="card-header bg-dark">
             <div class="card-title h6">{{ name }}</div>
         </div>
@@ -16,15 +16,11 @@ export default {
 </template>
 
 <style>
-.card {
-    width: 20vw;
-}
-
-.card-title {
+.item-details .card-title {
     padding-bottom: 0.7em;
 }
 
-.card-body p {
+.item-details .card-body p {
     margin: 0;
 }
 </style>
