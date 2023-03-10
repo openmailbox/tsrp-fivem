@@ -10,7 +10,7 @@ export default {
             equipment: {}, // ItemData.equipment,
             containers: {
                 inventory: {
-                    contents: {} // ItemData.items
+                    contents: [] // ItemData.items
                 }
             }
         }

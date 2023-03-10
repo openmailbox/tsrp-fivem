@@ -10,6 +10,11 @@ export default {
             isRemoved: false
         }
     },
+    computed: {
+        iconFromName() {
+            return (this.name && this.name[0].toUpperCase()) || '';
+        }
+    },
     methods: {
         select(event) {
             if (this.isDisabled) return;
@@ -52,9 +57,7 @@ export default {
         :class="{ disabled: isDisabled }"
     >
         <div class="item-icon-outer text-secondary">
-            <div class="item-icon-inner h2">
-                {{ name[0].toUpperCase() }}
-            </div>
+            <div class="item-icon-inner h2">{{ iconFromName }}</div>
         </div>
         <div class="p-absolute item-extras" v-show="hover">
             <div class="container">

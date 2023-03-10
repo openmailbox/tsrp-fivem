@@ -1,7 +1,21 @@
 <script>
 import Item from './item.vue'
 export default {
+    data() {
+        return {
+            equipmentGrid: [
+                [-1, "Throwable", "Heavy", "Shotgun", -1],
+                ["Pistol", -1, -1, -1, "Melee"],
+                [-1, "SMG", "Rifle", "Sniper", -1]
+            ]
+        }
+    },
     components: { Item },
+    methods: {
+        getEquippedItem(slotName) {
+            return this.equipment[slotName]
+        }
+    },
     props: ["equipment"]
 }
 </script>
@@ -9,28 +23,17 @@ export default {
 <template>
     <div id="equipment" class="container">
         <div class="columns">
-            <div class="column col-4">
-                <div class="spacer"></div>
-                <div class="slot"></div>
-                <div class="slot"></div>
-                <div class="slot"></div>
-            </div>
-            <div class="column col-4">
-                <div class="slot p-relative">
-                    <Item :name="equipment['Pistol'].label" :description="equipment['Pistol'].name" />
+            <div class="column col-4" v-for="column in equipmentGrid">
+                <div v-for="gearSlot in column">
+                    <div v-if="gearSlot !== -1" class="slot">
+                        <Item
+                            v-if="getEquippedItem(gearSlot)"
+                            :name="getEquippedItem(gearSlot).label"
+                            :description="getEquippedItem(gearSlot).description"
+                        />
+                    </div>
+                    <div v-else class="spacer"></div>
                 </div>
-                <div class="spacer"></div>
-                <div class="spacer"></div>
-                <div class="spacer"></div>
-                <div class="slot"></div>
-            </div>
-            <div class="column col-4">
-                <div class="spacer"></div>
-                <div class="slot">
-                    <Item :name="equipment['Heavy'].label" :description="equipment['Heavy'].name" />
-                </div>
-                <div class="slot"></div>
-                <div class="slot"></div>
             </div>
         </div>
     </div>
@@ -38,17 +41,18 @@ export default {
 
 <style>
 #equipment {
-    margin-top: 50vh;
+    margin-top: 45vh;
     transform: translateY(-50%);
 }
 
 #equipment .slot, #equipment .spacer {
     height: 4vw;
-    margin: 1vh auto;
+    margin: 2vh auto;
     width: 4vw;
 }
 
-.slot {
-    border: 1px solid black;
+#equipment .slot {
+    border: 2px solid black;
+    background: rgb(69, 69, 69);
 }
 </style>

@@ -13,6 +13,8 @@ export default {
 
     equipment: {
         Pistol: { name: "heavypistol", label: "Heavy Pistol" },
-        Melee: { name: "dagger", label: "Antique Dagger" }
+        Melee: { name: "dagger", label: "Antique Dagger" },
+        Throwable: { name: "grenade", label: "Grenade" },
+        Heavy: { name: "machinegun", label: "Machine Gun" }
     }
 }

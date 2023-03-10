@@ -73,11 +73,15 @@ function get_equipment()
     for slot, label in pairs(WeaponSlots) do -- defined in @common/shared/weapons
         local weapon = HudWeaponWheelGetSlotHash(slot)
 
-        equipment[label] = {
-            name  = WeaponLabels[weapon],
-            label = WeaponNames[weapon]
-        }
+        if weapon > 0 then
+            equipment[label] = {
+                name  = WeaponLabels[weapon],
+                label = WeaponNames[weapon]
+            }
+        end
     end
+
+    print(json.encode(equipment))
 
     return equipment
 end
