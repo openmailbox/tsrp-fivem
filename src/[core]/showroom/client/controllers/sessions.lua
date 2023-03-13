@@ -18,8 +18,7 @@ local function create(data)
 
             table.insert(category.models, {
                 name  = name,
-                label = GetDisplayNameFromVehicleModel(GetHashKey(name)),
-                price = -1
+                label = GetDisplayNameFromVehicleModel(GetHashKey(name))
             })
         end
 

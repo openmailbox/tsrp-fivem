@@ -186,6 +186,10 @@ Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 
+-- @resource rentals
+Events.CREATE_RENTAL_VEHICLE = "rentals:CreateVehicle"
+Events.UPDATE_RENTAL_VEHICLE = "rentals:UpdateVehicle"
+
 -- @resource showroom
 Events.CREATE_SHOWROOM_SESSION = "showroom:CreateSession"
 Events.DELETE_SHOWROOM_SESSION = "showroom:DeleteSession"

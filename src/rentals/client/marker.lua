@@ -1,7 +1,9 @@
 Marker = {}
 
 -- Forward declarations
-local show_offer,
+local get_first_open,
+      init_vehicle_rent,
+      show_offer,
       show_prompt
 
 local ICON       = 810 -- radar_vehicle_for_sale
@@ -83,12 +85,36 @@ function Marker:cleanup()
 end
 
 -- @local
+function get_first_open(points)
+    local pool = GetGamePool("CVehicle")
+
+    local closest
+
+    for _, p in ipairs(points) do
+        closest = nil
+
+        for _, vehicle in ipairs(pool) do
+            if Vdist(p, GetEntityCoords(vehicle)) < 3.0 then
+                closest = vehicle
+                break
+            end
+        end
+
+        if not closest then
+            return p
+        end
+    end
+
+    return nil
+end
+
+-- @local
 function show_offer(name)
     if IsPedDeadOrDying(PlayerPedId(), 1) then return end
 
     if GetPlayerWantedLevel(PlayerId()) > 0 then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-            message = "Unable to rent a vehicle wanted by police."
+            message = "Unable to rent a vehicle while wanted by police."
         })
         return
     end
@@ -99,8 +125,47 @@ function show_offer(name)
         action     = "Rent Vehicle",
         categories = config.categories,
         callback   = function(results)
-            print("selected " .. json.encode(results or {}))
+            if results.action ~= "Rent Vehicle" then
+                Logging.log(Logging.WARN, "Unexpected showroom return result: " .. json.encode(results) .. ".")
+                return
+            end
+
+            init_vehicle_rent(name, results)
         end
+    })
+end
+
+-- @local
+function init_vehicle_rent(loc_name, options)
+    local config = RentLocations[loc_name]
+    local spawn  = get_first_open(config.spawns)
+
+    if not spawn then
+        Logging.log(Logging.WARN, "Unable to find spawn location for rental vehicle at " .. loc_name .. ".")
+        return
+    end
+
+    local hash    = GetHashKey(options.name)
+    local timeout = GetGameTimer() + 3000
+
+    if not HasModelLoaded(hash) then
+        RequestModel(hash)
+
+        repeat
+            Citizen.Wait(100)
+        until HasModelLoaded(hash) or GetGameTimer() > timeout
+    end
+
+    if GetGameTimer() > timeout then
+        Logging.log(Logging.WARN, "Unable to load vehicle model for " .. options.name .. ".")
+        return
+    end
+
+    TriggerServerEvent(Events.CREATE_RENTAL_VEHICLE, {
+        model    = options.name,
+        price    = options.price,
+        name     = loc_name,
+        location = spawn
     })
 end
 
