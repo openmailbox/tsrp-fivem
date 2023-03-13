@@ -17,8 +17,18 @@ end
 function Marker.setup()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to rent a vehicle.")
 
-    for _, loc in ipairs(RentLocations) do
-        local marker = Marker:new({ location = loc })
+    for name, details in pairs(RentLocations) do
+        for _, cat in ipairs(details.categories) do
+            for _, model in ipairs(cat.models) do
+                model.label = GetDisplayNameFromVehicleModel(GetHashKey(model.name))
+            end
+        end
+
+        local marker = Marker:new({
+            name     = name,
+            location = details.location
+        })
+
         marker:initialize()
     end
 end
@@ -57,7 +67,7 @@ function Marker:initialize()
         red            = 141,
         green          = 206,
         blue           = 167,
-        on_interact    = show_offer,
+        on_interact    = function() show_offer(self.name) end,
         on_enter       = show_prompt,
         on_exit        = function()
             is_prompting = false
@@ -73,10 +83,13 @@ function Marker:cleanup()
 end
 
 -- @local
-function show_offer()
+function show_offer(name)
+    local config = RentLocations[name]
+
     exports.showroom:StartSession({
-        callback = function()
-            print("Hello World")
+        categories = config.categories,
+        callback   = function(vehicle)
+            print("selected " .. json.encode(vehicle or {}))
         end
     })
 end
