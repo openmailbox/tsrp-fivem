@@ -6,8 +6,7 @@ export default {
     data() {
         return {
             hover: false,
-            isDisabled: false,
-            isRemoved: false
+            isDisabled: false
         }
     },
     computed: {
@@ -26,26 +25,20 @@ export default {
             if (this.isDisabled) return;
             this.isDisabled = true;
 
-            let route = "https://inventory/inventory:CreateItemUse"
-
-            if (event.shiftKey) {
-                route = "https://inventory/inventory:CreateItemDiscard"
-            }
-
-            fetch(route, {
+            fetch("https://inventory/inventory:CreateItemAction", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
-                    item: { uuid: this.uuid, name: this.name, description: this.description },
-                    modifiers: { shift: event.shiftKey, control: event.ctrlKey }
+                    item: { uuid: this.uuid, name: this.name },
+                    modifiers: { shift: event.shiftKey, control: event.ctrlKey, alt: event.altKey }
                 })
-            }).then(resp => resp.json()).then((resp) => {
+            }).then(resp => resp.json()).then(function(resp) {
                 if (resp.success) {
-                    this.isRemoved = true;
+                    this.$emit('itemRemoved', this.uuid);
                 } else {
                     this.isDisabled = false;
                 }
-            });
+            }.bind(this));
         }
     },
     props: ["name", "description", "uuid", "actions"],
@@ -58,7 +51,6 @@ export default {
         @mouseover="hover = true"
         @mouseleave="hover = false"
         @click="select($event)"
-        v-show="!isRemoved"
         class="item"
         :class="{ disabled: isDisabled }"
     >

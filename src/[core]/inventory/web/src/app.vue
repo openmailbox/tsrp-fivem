@@ -1,16 +1,16 @@
 <script>
 import Container from "./components/container.vue";
 import Equipment from "./components/equipment.vue";
-import ItemData from "./test/items" // for testing
+//import ItemData from "./test/items" // for testing
 
 export default {
     data() {
         return {
-            isActive: true,
-            equipment: ItemData.equipment,
+            isActive: false,
+            equipment: {}, // ItemData.equipment,
             containers: {
                 inventory: {
-                    contents: ItemData.items,
+                    contents: [], // ItemData.items,
                 }
             }
         }

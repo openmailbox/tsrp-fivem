@@ -151,6 +151,9 @@ Events.UPDATE_INVENTORY_ITEM_USE = "inventory:UpdateItemUse"
 Events.CREATE_INVENTORY_ITEM_DISCARD = "inventory:CreateItemDiscard"
 Events.UPDATE_INVENTORY_ITEM_DISCARD = "inventory:UpdateItemDiscard"
 
+Events.CREATE_INVENTORY_ITEM_ACTION = "inventory:CreateItemAction"
+Events.UPDATE_INVENTORY_ITEM_ACTION = "inventory:UpdateItemAction"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 

@@ -3,6 +3,12 @@ import Item from './item.vue'
 
 export default {
     components: { Item },
+    methods: {
+        removeItem(uuid) {
+            let element = this.$el.querySelector(`.item[data-uuid='${uuid}']`);
+            element.parentElement.classList.add("d-none");
+        }
+    },
     props: [ "contents" ]
 }
 </script>
@@ -15,6 +21,8 @@ export default {
         <div class="panel-body tsrp-bg-semi-90">
             <div class="spacer" v-for="item in contents">
                 <Item
+                    @item-removed="removeItem"
+                    :data-uuid="item.uuid"
                     :uuid="item.uuid"
                     :name="item.name"
                     :description="item.description"
@@ -26,20 +34,23 @@ export default {
 </template>
 
 <style>
-.panel {
+.inv-container.panel {
     margin-top: 2vh;
     height: 90vh;
 }
 
-.panel-header {
+.inv-container .panel-header {
     background: #36358f;
+}
+
+.inv-container .panel-body {
+    padding: 0.4rem;
 }
 
 .inv-container .spacer {
     display: inline-block;
     height: 3vw;
-    margin-top: 1vh;
-    margin-right: 1vw;
+    margin: 0.4rem;
     width: 3vw;
 }
 </style>
