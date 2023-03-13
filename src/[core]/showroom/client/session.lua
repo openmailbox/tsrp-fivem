@@ -129,7 +129,7 @@ end
 -- @local
 function show_instructions()
     Citizen.CreateThread(function()
-        local scaleform = CreateInstructionalDisplay("Turn Left", 34, "Turn Right", 35)
+        local scaleform = CreateInstructionalDisplay("Turn Left", 34, "Turn Right", 35, "Exit", 200)
 
         while active_session do
             DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)

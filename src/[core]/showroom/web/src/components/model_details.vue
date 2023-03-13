@@ -19,7 +19,9 @@ export default {
                     price:  this.price,
                     action: this.action
                 })
-            });
+            }).then(function() {
+                this.$emit('closeSession')
+            }.bind(this));
         }
     },
     props: ["name", "price", "category", "action"]

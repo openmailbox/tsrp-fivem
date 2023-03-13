@@ -52,6 +52,7 @@ export default {
 
         <ModelDetails
             v-show="selectedModel.name"
+            @close-session="deleteSession"
             :name="selectedModel.name"
             :price="selectedModel.price"
             :category="selectedModel.category"

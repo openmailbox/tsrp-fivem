@@ -96,9 +96,10 @@ function show_offer(name)
     local config = RentLocations[name]
 
     exports.showroom:StartSession({
+        action     = "Rent Vehicle",
         categories = config.categories,
-        callback   = function(vehicle)
-            print("selected " .. json.encode(vehicle or {}))
+        callback   = function(results)
+            print("selected " .. json.encode(results or {}))
         end
     })
 end
