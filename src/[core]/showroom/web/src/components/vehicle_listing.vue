@@ -1,6 +1,14 @@
 <script>
 export default {
     computed: {
+        formatMoney() {
+            return this.price && new Intl.NumberFormat('en-US', {
+                style:               'currency',
+                currency:            'USD',
+                trailingZeroDisplay: 'stripIfInteger'
+            }).format(this.price);
+        },
+
         formatVehicleLabel() {
             return `${this.label[0].toUpperCase()}${this.label.slice(1).toLowerCase()} (${this.name})`
         }
@@ -28,7 +36,7 @@ export default {
 <template>
     <tr class="vehicle-listing" @click="selectVehicle()">
         <td>{{ formatVehicleLabel }}</td>
-        <td>{{ price }}</td>
+        <td>{{ formatMoney }}</td>
     </tr>
 </template>
 

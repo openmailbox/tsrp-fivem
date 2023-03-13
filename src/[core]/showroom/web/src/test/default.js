@@ -17,7 +17,12 @@ export default {
         },
         {
             name: "Sport",
-            models: []
+            models: [
+                {
+                    name: "banshee",
+                    label: "BANSHEE",
+                }
+            ]
         },
         {
             name: "Utility",

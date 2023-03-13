@@ -84,6 +84,15 @@ end
 
 -- @local
 function show_offer(name)
+    if IsPedDeadOrDying(PlayerPedId(), 1) then return end
+
+    if GetPlayerWantedLevel(PlayerId()) > 0 then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "Unable to rent a vehicle wanted by police."
+        })
+        return
+    end
+
     local config = RentLocations[name]
 
     exports.showroom:StartSession({

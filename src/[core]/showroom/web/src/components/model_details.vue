@@ -1,5 +1,14 @@
 <script>
 export default {
+    computed: {
+        formatMoney() {
+            return this.price && new Intl.NumberFormat('en-US', {
+                style:               'currency',
+                currency:            'USD',
+                trailingZeroDisplay: 'stripIfInteger'
+            }).format(this.price);
+        }
+    },
     props: ["name", "price", "category", "owned"]
 }
 </script>
@@ -12,9 +21,9 @@ export default {
         <div class="panel-body">
             <table class="table">
                 <tbody>
-                    <tr>
+                    <tr v-show="price">
                         <td>MSRP</td>
-                        <td>{{ price }}</td>
+                        <td>{{ formatMoney }}</td>
                     </tr>
                     <tr>
                         <td>Category</td>
