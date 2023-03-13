@@ -11,7 +11,8 @@ export default {
                 {
                     name: "emperor",
                     label: "EMPEROR",
-                    price: 10000
+                    price: 10000,
+                    action: "Rent Vehicle"
                 }
             ]
         },

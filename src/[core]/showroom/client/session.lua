@@ -93,7 +93,11 @@ function Session:initialize()
     DoScreenFadeIn(1500)
     SetNuiFocus(true, true)
 
-    SendNUIMessage({ type = Events.CREATE_SHOWROOM_SESSION, categories = self.categories })
+    SendNUIMessage({
+        type       = Events.CREATE_SHOWROOM_SESSION,
+        categories = self.categories,
+        action     = self.action
+    })
 end
 
 -- @local

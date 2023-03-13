@@ -9,7 +9,20 @@ export default {
             }).format(this.price);
         }
     },
-    props: ["name", "price", "category", "owned"]
+    methods: {
+        doAction() {
+            fetch("https://showroom/showroom:CreateVehicleAction", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=UTF-8" },
+                body: JSON.stringify({
+                    name:   this.name,
+                    price:  this.price,
+                    action: this.action
+                })
+            });
+        }
+    },
+    props: ["name", "price", "category", "action"]
 }
 </script>
 
@@ -29,12 +42,11 @@ export default {
                         <td>Category</td>
                         <td>{{ category }}</td>
                     </tr>
-                    <tr>
-                        <td>Owned</td>
-                        <td>{{ owned }}</td>
-                    </tr>
                 </tbody>
             </table>
+        </div>
+        <div @click="doAction" class="panel-footer text-center" v-show="action">
+            <div class="btn btn-primary">{{ action }}</div>
         </div>
     </div>
 </template>

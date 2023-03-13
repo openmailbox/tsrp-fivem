@@ -195,6 +195,8 @@ Events.CREATE_SHOWROOM_PREVIEW = "showroom:CreateVehiclePreview"
 Events.CREATE_SHOWROOM_ROTATION = "showroom:CreateVehicleRotation"
 Events.DELETE_SHOWROOM_ROTATION = "showroom:DeleteVehicleRotation"
 
+Events.CREATE_SHOWROOM_VEHICLE_ACTION = "showroom:CreateVehicleAction"
+
 -- @resource stashes
 Events.GET_STASHES    = "stashes:UpdateStashes"
 Events.UPDATE_STASHES = "stashes:UpdateStashes"

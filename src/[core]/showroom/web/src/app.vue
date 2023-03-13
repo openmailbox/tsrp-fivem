@@ -7,6 +7,7 @@ import "../../../../common/web/styles/tsrp-theme.css"
 export default {
     data() {
         return {
+            action: null,
             isActive: false,
             categories: [],
             selectedModel: {}
@@ -14,7 +15,8 @@ export default {
     },
     components: { ModelTree, ModelDetails },
     methods: {
-        createSession() {
+        createSession(actionText) {
+            this.action   = actionText || null;
             this.isActive = true;
         },
 
@@ -26,7 +28,8 @@ export default {
                 });
             }
 
-            this.isActive = false;
+            this.selectedModel = {};
+            this.isActive      = false;
         },
 
         setCategories(data) {
@@ -52,7 +55,7 @@ export default {
             :name="selectedModel.name"
             :price="selectedModel.price"
             :category="selectedModel.category"
-            :owned="selectedModel.owned"
+            :action="action"
         />
     </div>
 </template>
