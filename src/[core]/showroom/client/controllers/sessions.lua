@@ -39,7 +39,7 @@ local function create(data)
 end
 RegisterNetEvent(Events.CREATE_SHOWROOM_SESSION, create)
 
-local function delete(_, cb)
+local function delete(data, cb)
     local session = Session.get_active()
     local preview = VehiclePreview.get_active()
 
@@ -48,7 +48,7 @@ local function delete(_, cb)
     end
 
     if session then
-        session:finish()
+        session:finish(data)
     end
 
     cb({})

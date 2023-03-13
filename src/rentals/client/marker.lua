@@ -74,6 +74,11 @@ end
 
 -- @local
 function show_offer()
+    exports.showroom:StartSession({
+        callback = function()
+            print("Hello World")
+        end
+    })
 end
 
 -- @local

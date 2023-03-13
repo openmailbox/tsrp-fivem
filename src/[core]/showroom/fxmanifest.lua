@@ -8,10 +8,6 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Provides the UI for the vehicle model browser."
 version "0.0.1"
 
-dependencies {
-    "instances"
-}
-
 client_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
@@ -31,4 +27,8 @@ files {
     "web/dist/**/*.html",
     "web/dist/**/*.js",
     "web/dist/**/*.css"
+}
+
+exports {
+    "StartSession"
 }

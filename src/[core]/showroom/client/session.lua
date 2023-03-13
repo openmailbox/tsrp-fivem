@@ -28,7 +28,7 @@ function Session:new(o)
     return o
 end
 
-function Session:finish()
+function Session:finish(data)
     active_session = nil
 
     local x, y, z = table.unpack(VEH_POSITION)
@@ -54,6 +54,10 @@ function Session:finish()
     until HasCollisionLoadedAroundEntity(PlayerPedId()) or GetGameTimer() > timeout
 
     DoScreenFadeIn(1500)
+
+    if self.callback then
+        self.callback(data)
+    end
 end
 
 function Session:initialize()
