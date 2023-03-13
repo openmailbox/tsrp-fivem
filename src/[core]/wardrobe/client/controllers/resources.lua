@@ -3,7 +3,7 @@ local function create(resource_name)
 
     Store.initialize()
 
-    for type, details in pairs(Locations) do
+    for type, details in pairs(RentLocations) do
         for _, loc in ipairs(details.locations) do
             Store.add({
                 category = type,

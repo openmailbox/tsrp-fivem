@@ -1,5 +1,5 @@
 -- Places to put an invisible marker (Store) that opens a wardrobe session in various contexts i.e. clothing stores.
-Locations = {
+RentLocations = {
     ["Clothing Store"] = {
         blip      = { icon = 73, color = 17 },
         locations = {
