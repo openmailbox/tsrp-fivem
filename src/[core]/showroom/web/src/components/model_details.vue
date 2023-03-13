@@ -24,14 +24,14 @@ export default {
             }.bind(this));
         }
     },
-    props: ["name", "price", "category", "action"]
+    props: ["name", "price", "category", "action", "label"]
 }
 </script>
 
 <template>
     <div id="panel-details" class="panel tsrp-bg text-secondary">
         <div class="panel-header h5">
-            <div class="panel-title">{{ name }}</div>
+            <div class="panel-title">{{ label }}</div>
         </div>
         <div class="panel-body">
             <table class="table">

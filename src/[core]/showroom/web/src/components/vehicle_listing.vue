@@ -17,7 +17,8 @@ export default {
         selectVehicle() {
             this.$emit('selectVehicle', {
                 category: this.category,
-                name: this.formatVehicleLabel,
+                label: this.formatVehicleLabel,
+                name: this.name,
                 price: this.price,
                 owned: 0
             })

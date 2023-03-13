@@ -1,10 +1,6 @@
 RentLocations = {
     ["Bus Depot"] = {
         location   = vector3(434.3948, -654.2921, 28.7572),
-        spawns     = {
-            vector4(-812.1029, -2350.0952, 14.5706, 333.6624),
-            vector4(-830.0966, -2331.7759, 14.5706, 327.5406)
-        },
         categories = {
             {
                 name   = "Compacts",
@@ -43,6 +39,10 @@ RentLocations = {
 
     ["Airport"] = {
         location   = vector3(-832.8307, -2351.1672, 14.5706),
+        spawns     = {
+            vector4(-812.1029, -2350.0952, 14.5706, 333.6624),
+            vector4(-830.0966, -2331.7759, 14.5706, 327.5406)
+        },
         categories = {
             {
                 name   = "Compacts",
