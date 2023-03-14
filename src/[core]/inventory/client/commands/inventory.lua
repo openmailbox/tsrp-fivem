@@ -3,9 +3,7 @@ local function cmd_inventory(_, _, _)
 
     TriggerServerEvent(Events.CREATE_INVENTORY_REFRESH)
 
-    TriggerEvent(Events.CREATE_INVENTORY_SESSION, {
-        inventory = {}
-    })
+    TriggerEvent(Events.CREATE_INVENTORY_SESSION)
 end
 RegisterCommand("inventory", cmd_inventory, false)
 RegisterKeyMapping("inventory", "Inventory", "keyboard", "i")

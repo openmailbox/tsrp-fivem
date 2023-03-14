@@ -1,5 +1,5 @@
-local function create(data)
-    local session = Session:new(data)
+local function create(_)
+    local session = Session:new()
     session:initialize()
 end
 RegisterNetEvent(Events.CREATE_INVENTORY_SESSION, create)

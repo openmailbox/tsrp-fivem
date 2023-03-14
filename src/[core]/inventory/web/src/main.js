@@ -10,14 +10,14 @@ const vm = app.mount('#app');
 const handleMessage = function(message) {
     switch (message.type) {
         case "inventory:CreateSession":
-            vm.createSession(message.equipment);
-            vm.$forceUpdate();
+            vm.createSession();
             break;
         case "inventory:DeleteSession":
             vm.deleteSession(true);
             break;
         case "inventory:UpdateRefresh":
             vm.updateContainers(message.containers);
+            vm.updateEquipment(message.equipment);
             vm.$forceUpdate();
             break;
     }

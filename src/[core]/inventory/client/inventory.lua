@@ -1,7 +1,8 @@
 Inventory = {}
 
 -- Forward declarations
-local get_action
+local get_action,
+      get_equipment
 
 local ItemActions = {
     USE     = 1,
@@ -58,7 +59,8 @@ function Inventory.refresh(data)
 
     SendNUIMessage({
         type       = Events.UPDATE_INVENTORY_REFRESH,
-        containers = data
+        containers = data,
+        equipment  = get_equipment()
     })
 end
 
@@ -89,4 +91,22 @@ function get_action(inputs)
     end
 
     return nil
+end
+
+-- @local
+function get_equipment()
+    local equipment = {}
+
+    for name, weapons in pairs(WeaponSlots) do
+        for _, weap in ipairs(weapons) do
+            if HasPedGotWeapon(PlayerPedId(), weap, false) then
+                equipment[name] = {
+                    name  = WeaponLabels[weap], -- defined in @common/shared/weapons
+                    label = WeaponNames[weap]
+                }
+            end
+        end
+    end
+
+    return equipment
 end

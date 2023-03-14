@@ -1,8 +1,7 @@
 Session = {}
 
 -- Forward declarations
-local get_equipment,
-      start_session
+local start_session
 
 local active_session = nil
 
@@ -52,11 +51,7 @@ function Session:initialize()
     DisplayRadar(false)
     SetNuiFocus(true, true)
 
-    SendNUIMessage({
-        type      = Events.CREATE_INVENTORY_SESSION,
-        inventory = self.inventory,
-        equipment = get_equipment()
-    })
+    SendNUIMessage({ type = Events.CREATE_INVENTORY_SESSION })
 
     start_session(self)
 
@@ -64,24 +59,6 @@ function Session:initialize()
         local x, y, z = table.unpack(self.camera:get_location())
         TaskTurnPedToFaceCoord(PlayerPedId(), x, y, z, 2000)
     end
-end
-
--- @local
-function get_equipment()
-    local equipment = {}
-
-    for name, weapons in pairs(WeaponSlots) do
-        for _, weap in ipairs(weapons) do
-            if HasPedGotWeapon(PlayerPedId(), weap, false) then
-                equipment[name] = {
-                    name  = WeaponLabels[weap], -- defined in @common/shared/weapons
-                    label = WeaponNames[weap]
-                }
-            end
-        end
-    end
-
-    return equipment
 end
 
 -- @local

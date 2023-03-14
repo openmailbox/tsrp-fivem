@@ -16,9 +16,8 @@ export default {
         }
     },
     methods: {
-        createSession(equipData) {
-            this.equipment = equipData;
-            this.isActive  = true;
+        createSession() {
+            this.isActive = true;
         },
 
         deleteSession(skipPost) {
@@ -34,6 +33,10 @@ export default {
 
         updateContainers(data) {
             this.containers = data;
+        },
+
+        updateEquipment(data) {
+            this.equipment = data;
         }
     },
     components: { Equipment, Container },
