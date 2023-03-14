@@ -56,13 +56,12 @@ function Marker:initialize()
         icon    = ICON,
         color   = 11, -- forest green
         display = 2,
-        scale   = 0.8,
+        scale   = vector3(0.7, 0.7, 0.7)
     })
 
     self.marker = exports.markers:AddMarker({
         coords         = self.location,
         icon           = 36,
-        scale          = vector3(0.3, 0.3, 0.3),
         interact_range = 1.0,
         draw_range     = 15.0,
         face_camera    = true,
