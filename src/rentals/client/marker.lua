@@ -69,7 +69,7 @@ function Marker:initialize()
         red            = 141,
         green          = 206,
         blue           = 167,
-        on_interact    = function() show_offer(self.name) end,
+        on_interact    = function() show_offer(self) end,
         on_enter       = show_prompt,
         on_exit        = function()
             is_prompting = false
@@ -94,7 +94,7 @@ function get_first_open(points)
         closest = nil
 
         for _, vehicle in ipairs(pool) do
-            if Vdist(p, GetEntityCoords(vehicle)) < 3.0 then
+            if Vdist(vector3(p.x, p.y, p.z), GetEntityCoords(vehicle)) < 3.0 then
                 closest = vehicle
                 break
             end
@@ -109,7 +109,7 @@ function get_first_open(points)
 end
 
 -- @local
-function show_offer(name)
+function show_offer(session)
     if IsPedDeadOrDying(PlayerPedId(), 1) then return end
 
     if GetPlayerWantedLevel(PlayerId()) > 0 then
@@ -119,7 +119,8 @@ function show_offer(name)
         return
     end
 
-    local config = RentLocations[name]
+    local config = RentLocations[session.name]
+    session:cleanup()
 
     exports.showroom:StartSession({
         action     = "Rent Vehicle",
@@ -130,7 +131,11 @@ function show_offer(name)
                 return
             end
 
-            init_vehicle_rent(name, results)
+            init_vehicle_rent(session.name, results)
+
+            Citizen.Wait(5000)
+
+            session:initialize()
         end
     })
 end
@@ -141,7 +146,13 @@ function init_vehicle_rent(loc_name, options)
     local spawn  = get_first_open(config.spawns)
 
     if not spawn then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "Unexpected error. Please try again or contact support.",
+            flash   = true
+        })
+
         Logging.log(Logging.WARN, "Unable to find spawn location for rental vehicle at " .. loc_name .. ".")
+
         return
     end
 

@@ -137,4 +137,8 @@ function initialize_blip(blip, options)
         AddTextComponentSubstringPlayerName(options.label)
         EndTextCommandSetBlipName(blip)
     end
+
+    if options.flash then
+        SetBlipFlashTimer(blip, tonumber(options.flash) or 3000)
+    end
 end

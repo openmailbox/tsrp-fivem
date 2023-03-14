@@ -12,7 +12,8 @@ dependencies {
     "characters",
     "map",
     "markers",
-    "showroom"
+    "showroom",
+    "wallet"
 }
 
 client_scripts {
