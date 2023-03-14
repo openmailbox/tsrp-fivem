@@ -64,6 +64,7 @@ function Marker:initialize()
         icon           = 36,
         interact_range = 1.0,
         draw_range     = 15.0,
+        scale          = vector3(0.2, 0.2, 0.2),
         face_camera    = true,
         red            = 141,
         green          = 206,
