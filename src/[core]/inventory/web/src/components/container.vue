@@ -6,7 +6,7 @@ export default {
     methods: {
         removeItem(uuid) {
             let element = this.$el.querySelector(`.item[data-uuid='${uuid}']`);
-            element.parentElement.classList.add("d-none");
+            if (element) element.parentElement.classList.add("d-none");
         }
     },
     props: [ "contents" ]

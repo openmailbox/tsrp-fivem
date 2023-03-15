@@ -25,12 +25,18 @@ export default {
             if (this.isDisabled) return;
             this.isDisabled = true;
 
+            let actionIndex = 0;
+
+            if (event.shiftKey) actionIndex += 1;
+            if (event.ctrlKey) actionIndex += 1;
+            if (event.altKey) actionIndex += 1;
+
             fetch("https://inventory/inventory:CreateItemAction", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
                     item: { uuid: this.uuid, name: this.name },
-                    modifiers: { shift: event.shiftKey, control: event.ctrlKey, alt: event.altKey }
+                    action: this.actions[actionIndex]
                 })
             }).then(resp => resp.json()).then(function(resp) {
                 if (resp.success) {

@@ -14,6 +14,11 @@ export default {
     methods: {
         getEquippedItem(slotName) {
             return this.equipment[slotName]
+        },
+
+        removeItem(uuid) {
+            let element = this.$el.querySelector(`.item[data-uuid='${uuid}']`);
+            if (element) element.classList.add("d-none");
         }
     },
     props: ["equipment"]
@@ -28,8 +33,12 @@ export default {
                     <div v-if="gearSlot !== -1" class="slot">
                         <Item
                             v-if="getEquippedItem(gearSlot)"
+                            @item-removed="removeItem"
+                            :data-uuid="getEquippedItem(gearSlot).uuid"
+                            :uuid="getEquippedItem(gearSlot).uuid"
                             :name="getEquippedItem(gearSlot).label"
                             :description="getEquippedItem(gearSlot).description"
+                            :actions="getEquippedItem(gearSlot).actions"
                         />
                     </div>
                     <div v-else class="spacer"></div>

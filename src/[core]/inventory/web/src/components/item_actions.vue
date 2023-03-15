@@ -6,6 +6,10 @@ export default {
         }
     },
     methods: {
+        formatName(name) {
+            return name[0].toUpperCase() + name.slice(1);
+        },
+
         getClickModifier(index) {
             if (index < 1) {
                 return '';
@@ -25,7 +29,7 @@ export default {
             <table class="table text-small">
                 <tbody>
                     <tr v-for="(action, i) in actions">
-                        <td>{{ action }}</td>
+                        <td>{{ formatName(action) }}</td>
                         <td class="action-icon">{{ getClickModifier(i) }}<span class="material-symbols-outlined">left_click</span></td>
                     </tr>
                 </tbody>

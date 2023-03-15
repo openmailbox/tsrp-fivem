@@ -1,18 +1,8 @@
 Inventory = {}
 
 -- Forward declarations
-local get_action,
+local find_weapon_hash,
       get_equipment
-
-local ItemActions = {
-    USE     = 1,
-    DISCARD = 2
-}
-
-local ACTION_LABELS = {
-    [ItemActions.USE]     = "Use",
-    [ItemActions.DISCARD] = "Discard"
-}
 
 local pending_actions = {}
 
@@ -26,34 +16,47 @@ function Inventory.process_action(data, callback)
         return
     end
 
-    local action = get_action(data.modifiers)
+    local action = nil
+
+    for k, v in pairs(ItemActions) do
+        if string.lower(k) == string.lower(data.action) then
+            action = v
+            break
+        end
+    end
 
     if not action then
         Logging.log(Logging.WARN, "Inventory has no handler for action: " .. json.encode(data) .. ".")
         return
     end
 
-    pending_actions[data.item.uuid] = callback
-
     if action == ItemActions.USE then
         TriggerEvent(Events.CREATE_INVENTORY_ITEM_USE, { item = data.item })
     elseif action == ItemActions.DISCARD then
-        TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_DISCARD, data)
+        TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_DISCARD, { item = data.item })
+    elseif action == ItemActions.EQUIP then
+        TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_EQUIP, {
+            item        = data.item,
+            weapon_hash = find_weapon_hash(data.item.name)
+        })
+    elseif action == ItemActions.UNEQUIP then
+        TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_UNEQUIP, {
+            item        = data.item,
+            weapon_hash = find_weapon_hash(data.item.name)
+        })
     end
 
-    Logging.log(Logging.TRACE, "Initiated action " .. ACTION_LABELS[action] .. " on item " .. data.item.name .. " (" .. data.item.uuid .. ").")
+    pending_actions[data.item.uuid] = callback
+
+    Logging.log(Logging.TRACE, "Initiated action '" .. data.action .. "' on item " .. data.item.name .. " (" .. data.item.uuid .. ").")
 end
 
 function Inventory.refresh(data)
-    local labels = {}
-
-    for _, label in pairs(ACTION_LABELS) do
-        table.insert(labels, label)
-    end
+    local actions = { "use", "discard" }
 
     for _, container in pairs(data) do
         for _, item in ipairs(container.contents) do
-            item.actions = labels
+            item.actions = actions
         end
     end
 
@@ -64,29 +67,22 @@ function Inventory.refresh(data)
     })
 end
 
-function Inventory.resolve(data)
-    local callback = pending_actions[data.item_uuid]
+function Inventory.resolve(item, action, success)
+    local callback = pending_actions[item.uuid]
     if not callback then return end
 
-    Logging.log(Logging.TRACE, "Resolved action for item " .. data.item_uuid .. ".")
+    Logging.log(Logging.TRACE, "Resolved action " .. action .. " for item " .. item.uuid .. ".")
 
-    pending_actions[data.item_uuid] = nil
-    callback(data)
+    pending_actions[item.uuid] = nil
+
+    callback({ success = success })
 end
 
 -- @local
-function get_action(inputs)
-    local index = 1
-
-    for _, v in pairs(inputs) do
-        if v then
-            index = index + 1
-        end
-    end
-
-    for _, v in pairs(ItemActions) do
-        if v == index then
-            return v
+function find_weapon_hash(name)
+    for hash, wname in pairs(WeaponLabels) do
+        if wname == name then
+            return hash
         end
     end
 
@@ -96,13 +92,16 @@ end
 -- @local
 function get_equipment()
     local equipment = {}
+    local actions   = { "unequip" }
 
     for name, weapons in pairs(WeaponSlots) do
         for _, weap in ipairs(weapons) do
             if HasPedGotWeapon(PlayerPedId(), weap, false) then
                 equipment[name] = {
-                    name  = WeaponLabels[weap], -- defined in @common/shared/weapons
-                    label = WeaponNames[weap]
+                    name    = WeaponLabels[weap], -- defined in @common/shared/weapons
+                    label   = WeaponNames[weap],
+                    actions = actions,
+                    uuid    = GenerateUUID()
                 }
             end
         end
