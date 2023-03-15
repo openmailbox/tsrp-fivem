@@ -2,7 +2,8 @@ Inventory = {}
 
 -- Forward declarations
 local find_weapon_hash,
-      get_equipment
+      get_equipment,
+      is_member
 
 local pending_actions = {}
 
@@ -56,7 +57,13 @@ function Inventory.refresh(data)
 
     for _, container in pairs(data) do
         for _, item in ipairs(container.contents) do
-            item.actions = actions
+            local template = ItemTemplate.for_name(item.name)
+
+            if template and is_member(template.tags or {}, "equipment") then
+                item.actions = { "equip", "discard" }
+            else
+                item.actions = actions
+            end
         end
     end
 
@@ -116,4 +123,15 @@ function get_equipment()
     end
 
     return equipment
+end
+
+-- @local
+function is_member(list, target)
+    for _, element in ipairs(list) do
+        if element == target then
+            return true
+        end
+    end
+
+    return false
 end

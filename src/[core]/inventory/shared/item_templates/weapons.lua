@@ -8,7 +8,10 @@ local TEMPLATES = {
 local function create(resource_name)
     if GetCurrentResourceName() ~= resource_name then return end
 
+    local tags = { "equipment" }
+
     for _, t in ipairs(TEMPLATES) do
+        t.tags = tags
         ItemTemplate.register(t.name, t)
     end
 end
