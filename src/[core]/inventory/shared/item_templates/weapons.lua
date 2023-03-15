@@ -1,12 +1,32 @@
 local TEMPLATES = {
     {
+        name        = WeaponNames[Weapons.DAGGER],
+        description = "An antique-style cavalry dagger with a hand guard."
+    },
+    {
         name        = WeaponNames[Weapons.PISTOL],
-        description = "Your basic pea shooter."
+        description = "A basic double action semi-automatic pistol."
+    },
+    {
+        name        = WeaponNames[Weapons.SMG],
+        description = "Compact, lightweight, small caliber, fully automatic."
     },
     {
         name        = WeaponNames[Weapons.PUMPSHOTGUN],
-        description = "A shotgun."
-    }
+        description = "A pump action heavy gauge shotgun."
+    },
+    {
+        name        = WeaponNames[Weapons.ASSAULTRIFLE],
+        description = "Standard assault rifle used by militaries around the world."
+    },
+    {
+        name        = WeaponNames[Weapons.RPG],
+        description = "Shoulder mounted, manually aimed rocket propelled grenade launcher."
+    },
+    {
+        name        = WeaponNames[Weapons.SNIPERRIFLE],
+        description = "Magnified zoom, large caliber, bolt-action sniper rifle."
+    },
 }
 
 local function create(resource_name)
