@@ -1,6 +1,6 @@
 local TEMPLATES = {
     {
-        name        = "Pistol",
+        name        = WeaponNames[Weapons.PISTOL],
         description = "Your basic pea shooter."
     }
 }
@@ -13,3 +13,4 @@ local function create(resource_name)
     end
 end
 AddEventHandler(Events.ON_RESOURCE_START, create)
+AddEventHandler(Events.ON_CLIENT_RESOURCE_START, create)

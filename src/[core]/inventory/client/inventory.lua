@@ -94,14 +94,22 @@ function get_equipment()
     local equipment = {}
     local actions   = { "unequip" }
 
-    for name, weapons in pairs(WeaponSlots) do
+    for slot, weapons in pairs(WeaponSlots) do
         for _, weap in ipairs(weapons) do
             if HasPedGotWeapon(PlayerPedId(), weap, false) then
-                equipment[name] = {
-                    name    = WeaponLabels[weap], -- defined in @common/shared/weapons
-                    label   = WeaponNames[weap],
-                    actions = actions,
-                    uuid    = GenerateUUID()
+                local name     = WeaponNames[weap] -- defined in @common/shared/weapons
+                local template = ItemTemplate.for_name(name)
+
+                if not template then
+                    Logging.log(Logging.WARN, "Unable to find item template for weapon '" .. name .. "'.")
+                end
+
+                equipment[slot] = {
+                    name        = WeaponLabels[weap],
+                    description = (template and template.description) or '',
+                    label       = name,
+                    actions     = actions,
+                    uuid        = GenerateUUID()
                 }
             end
         end
