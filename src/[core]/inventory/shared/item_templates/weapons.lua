@@ -2,6 +2,10 @@ local TEMPLATES = {
     {
         name        = WeaponNames[Weapons.PISTOL],
         description = "Your basic pea shooter."
+    },
+    {
+        name        = WeaponNames[Weapons.PUMPSHOTGUN],
+        description = "A shotgun."
     }
 }
 

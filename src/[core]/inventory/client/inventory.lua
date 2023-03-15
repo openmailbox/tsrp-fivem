@@ -87,7 +87,7 @@ end
 
 -- @local
 function find_weapon_hash(name)
-    for hash, wname in pairs(WeaponLabels) do
+    for hash, wname in pairs(WeaponNames) do
         if wname == name then
             return hash
         end
