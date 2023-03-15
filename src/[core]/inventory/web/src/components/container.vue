@@ -19,7 +19,7 @@ export default {
             <div class="panel-title h3">Inventory</div>
         </div>
         <div class="panel-body tsrp-bg-semi-90">
-            <div class="spacer" v-for="item in contents">
+            <div class="spacer" v-for="item in contents" :key="item.uuid">
                 <Item
                     @item-removed="removeItem"
                     :data-uuid="item.uuid"
