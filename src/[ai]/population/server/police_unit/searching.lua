@@ -22,9 +22,9 @@ function Searching:exit()
 end
 
 function Searching:process_input(data)
-    local target = NetworkGetEntityFromNetworkId(data.target)
+    if not data.target or data.target == 0 then return end
 
-    self.unit.current_target = target
+    self.unit.current_target = data.target
 
     -- Only the unit who witnessed should make the report
     if data.entity == self.unit.entity then

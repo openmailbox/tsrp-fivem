@@ -34,6 +34,14 @@ end
 function Responding:exit()
 end
 
+function Responding:process_input(data)
+    if not data.target or data.target == 0 then return end
+
+    self.unit.current_target = data.target
+
+    self.unit:move_to(PoliceStates.CHASING)
+end
+
 function Responding:update()
     if not self.unit.assigned_call then
         self.unit:move_to(PoliceStates.AVAILABLE)

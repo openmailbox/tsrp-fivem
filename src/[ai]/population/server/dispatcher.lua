@@ -102,6 +102,8 @@ function Dispatcher.report(call_id, data)
     local suspect = data.target and NetworkGetEntityFromNetworkId(data.target)
     local exists  = false
 
+    if not suspect or suspect == 0 then return end
+
     for _, s in ipairs(call.suspects) do
         if s.entity == suspect then
             s.last_known = data.location
@@ -113,6 +115,8 @@ function Dispatcher.report(call_id, data)
     end
 
     if not exists then
+        Logging.log(Logging.INFO, "Police unit " .. data.entity .. " located new suspect (" .. suspect .. ") on call " .. call_id .. ".")
+
         table.insert(call.suspects, {
             entity     = suspect,
             last_known = data.location,
@@ -121,7 +125,9 @@ function Dispatcher.report(call_id, data)
     end
 
     for _, cop in ipairs(call.units) do
-        cop:process_input(data)
+        if cop.entity ~= data.entity then
+            cop:process_input(data)
+        end
     end
 end
 

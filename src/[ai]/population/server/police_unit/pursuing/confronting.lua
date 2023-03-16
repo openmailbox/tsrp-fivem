@@ -26,12 +26,8 @@ function Confronting:process_input(data)
     if data.surrendering then
         self.unit.current_target_offset = data.offset
         self.unit:move_to(PoliceStates.DETAINING)
-    elseif data.fleeing then
-        -- Only the unit who witnessed should make the report
-        if data.entity == self.unit.entity then
-            Dispatcher.report(self.unit.assigned_call.id, data)
-        end
-
+    elseif data.fleeing and data.entity == self.unit.entity then
+        Dispatcher.report(self.unit.assigned_call.id, data)
         self.unit:move_to(PoliceStates.CHASING)
     end
 end

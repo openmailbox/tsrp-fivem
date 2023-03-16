@@ -6,11 +6,12 @@ TaskManager.Tasks[Tasks.AIM_AT_ENTITY] = AimAtEntity
 local are_hands_raised,
       get_closest_cop
 
-local CHASE_THRESHOLD = 20.0
+local CHASE_THRESHOLD = 25.0
 
 local Animation = { DICTIONARY = "ped", NAME = "handsup_base", DOWN = "handsup_exit" }
 
-local show_help = true
+local last_report = 0
+local show_help   = true
 
 function AimAtEntity.begin(entity, args)
     local target     = NetToPed(args.target)
@@ -28,7 +29,7 @@ function AimAtEntity.begin(entity, args)
     if not IsPedInAnyVehicle(entity) or GetPedInVehicleSeat(my_vehicle, -1) ~= entity then
         Logging.log(Logging.TRACE, "Tasking " .. entity .. " to aim at " .. target .. ".")
 
-        if show_help then
+        if show_help and target == PlayerPedId() then
             show_help = false
 
             TriggerEvent(Events.CREATE_HUD_HELP_MESSAGE, {
@@ -66,16 +67,22 @@ function AimAtEntity.update(entity, args)
         TaskManager.buffer_update({
             task_id  = Tasks.AIM_AT_ENTITY,
             entity   = PedToNet(entity),
+            target   = PedToNet(target),
             fleeing  = true,
             location = target_loc
         })
         return true
     end
 
+    if IsPedInAnyVehicle(entity, false) then
+        TaskLeaveAnyVehicle(entity, 0)
+    end
+
     if not IsPedInAnyVehicle(target, false) and are_hands_raised(target) and get_closest_cop(entity, target_loc) == entity then
         TaskManager.buffer_update({
             task_id      = Tasks.AIM_AT_ENTITY,
             entity       = PedToNet(entity),
+            target       = PedToNet(target),
             surrendering = true,
             offset       = target_loc + (GetEntityForwardVector(target) * 1.2)
         })
@@ -88,6 +95,11 @@ function AimAtEntity.update(entity, args)
     if not in_range and not GetIsTaskActive(entity, 230) then
         Logging.log(Logging.TRACE, "Tasking " .. entity .. " to get within " .. max_range .. " of " .. target .. ".")
         TaskGoToEntityWhileAimingAtEntity(entity, target, target, 2.0, false, 2.0, 0.5, false, 0, -957453492)
+    end
+
+    if target == PlayerPedId() and GetGameTimer() > (last_report + 5000) then
+        last_report = GetGameTimer()
+        ReportPoliceSpottedPlayer(PlayerId())
     end
 
     return true

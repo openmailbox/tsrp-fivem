@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Handles spawning and tracking of NPCs for a specific purpose, loot tables, and related."
-version "0.1.0"
+version "0.1.1"
 
 client_scripts {
     "@common/shared/driving_styles.lua",

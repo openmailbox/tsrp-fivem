@@ -24,7 +24,7 @@ function Chasing:enter()
         sync_vehicle_drive(self)
     elseif im_driving or GetVehiclePedIsIn(self.unit.current_target, false) > 0 then
         sync_enter_vehicle(self)
-    else
+    elseif not in_vehicle then
         sync_follow_entity(self)
     end
 end
