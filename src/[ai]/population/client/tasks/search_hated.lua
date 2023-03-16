@@ -7,10 +7,9 @@ local find_best_enemy,
       is_valid_enemy
 
 function SearchHated.begin(entity, args)
-    local location = GetRandomPointInCircle(args.location, 10.0)
-    local x, y, z  = table.unpack(location)
+    local x, y, z  = table.unpack(args.location)
 
-    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to search for hated entities near " .. location .. ".")
+    Logging.log(Logging.TRACE, "Tasking ".. entity .. " to search for hated entities near " .. args.location .. ".")
 
     SetCurrentPedWeapon(entity, GetBestPedWeapon(entity, 0))
 

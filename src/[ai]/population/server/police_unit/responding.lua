@@ -23,9 +23,11 @@ function Responding:enter()
     self.unit.vehicle      = GetVehiclePedIsIn(self.unit.entity, false)
     self.unit.vehicle_type = GetVehicleType(self.unit.vehicle)
 
+    self.destination = find_best_destination(self)
+
     if is_driving(self.unit.entity) then
         self.unit.vehicle_driver = true
-        sync_task(self, find_best_destination(self))
+        sync_task(self, self.destination)
     end
 end
 
@@ -48,9 +50,7 @@ function Responding:update()
         return
     end
 
-    local destination = find_best_destination(self)
-
-    if Dist2d(GetEntityCoords(self.unit.entity), destination) < 20 then
+    if Dist2d(GetEntityCoords(self.unit.entity), self.destination) < 20 then
         self.unit:move_to(PoliceStates.SEARCHING)
         return
     end
@@ -59,8 +59,8 @@ function Responding:update()
 
     local doing_nothing = GetPedScriptTaskCommand(self.unit.entity) == Tasks.NO_TASK
 
-    if not self.last_destination or doing_nothing or Dist2d(destination, self.last_destination) > 10.0 then
-        sync_task(self, destination)
+    if not self.last_destination or doing_nothing or Dist2d(self.destination, self.last_destination) > 10.0 then
+        sync_task(self, self.destination)
     end
 end
 

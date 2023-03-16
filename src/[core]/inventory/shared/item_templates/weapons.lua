@@ -5,7 +5,7 @@ local TEMPLATES = {
     },
     {
         name        = WeaponNames[Weapons.BAT],
-        description = "A classic Louisville Slugger-style baseball bat."
+        description = "A large metal cylinder with obvious applications."
     },
     {
         name        = WeaponNames[Weapons.BOTTLE],
