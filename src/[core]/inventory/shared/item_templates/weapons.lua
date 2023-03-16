@@ -4,6 +4,14 @@ local TEMPLATES = {
         description = "An antique-style cavalry dagger with a hand guard."
     },
     {
+        name        = WeaponNames[Weapons.BAT],
+        description = "A classic Louisville Slugger-style baseball bat."
+    },
+    {
+        name        = WeaponNames[Weapons.BOTTLE],
+        description = "A broken bottle with plenty of sharp edges."
+    },
+    {
         name        = WeaponNames[Weapons.PISTOL],
         description = "A basic double action semi-automatic pistol."
     },

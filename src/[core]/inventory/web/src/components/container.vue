@@ -5,8 +5,12 @@ export default {
     components: { Item },
     methods: {
         removeItem(uuid) {
-            let element = this.$el.querySelector(`.item[data-uuid='${uuid}']`);
-            if (element) element.parentElement.classList.add("d-none");
+            this.contents.forEach((item, i) => {
+                if (item.uuid === uuid) {
+                    this.contents.splice(i, 1)
+                    return;
+                }
+            })
         }
     },
     props: [ "contents" ]

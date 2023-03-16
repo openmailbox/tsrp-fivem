@@ -17,8 +17,12 @@ export default {
         },
 
         removeItem(uuid) {
-            let element = this.$el.querySelector(`.item[data-uuid='${uuid}']`);
-            if (element) element.classList.add("d-none");
+            for (const [slot, item] of Object.entries(this.equipment)) {
+                if (item.uuid === uuid) {
+                    this.equipment[slot] = null;
+                    return;
+                }
+            }
         }
     },
     props: ["equipment"]
