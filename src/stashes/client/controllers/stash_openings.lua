@@ -14,6 +14,7 @@ RegisterNetEvent(Events.CREATE_STASH_OPENING, create)
 
 local function update(data, cb)
     TriggerServerEvent(Events.UPDATE_STASH_OPENING, {
+        stash   = data.stash.stash_name,
         rewards = { data.selected }
     })
 

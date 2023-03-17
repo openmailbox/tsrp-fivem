@@ -35,7 +35,12 @@ local function update(data)
         end
 
         if item.weapon then
-            GiveWeaponToPed(ped, item.weapon, 50, false, false)
+            local success = exports.inventory:GiveItemToPlayer(player_id, WeaponNames[item.weapon])
+
+            if not success then
+                Logging.log(Logging.WARN, "Failed to give weapon " .. item.weapon .. " from stash " .. data.stash .. " to " .. GetPlayerName(player_id) .. " (" .. player_id .. ").")
+            end
+
             table.insert(contents, item.label)
         end
 
@@ -50,6 +55,6 @@ local function update(data)
         location = GetEntityCoords(GetPlayerPed(player_id))
     })
 
-    Citizen.Trace("Player " .. player_id .. " (" .. GetPlayerName(player_id) .. ") opened a stash containing " .. table.concat(contents, ", ") .. ".\n")
+    Logging.log(Logging.INFO, "Player " .. player_id .. " (" .. GetPlayerName(player_id) .. ") opened a stash containing " .. table.concat(contents, ", ") .. ".")
 end
 RegisterNetEvent(Events.UPDATE_STASH_OPENING, update)
