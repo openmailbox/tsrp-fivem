@@ -132,7 +132,7 @@ WeaponNames = {
     [Weapons.WRENCH]        = "Wrench",
     [Weapons.BATTLEAXE]     = "Axe",
     [Weapons.POOLCUE]       = "Pool Cue",
-    [Weapons.STONE_HATCHET] = "Hatchet",
+    [Weapons.STONE_HATCHET] = "Stone Hatchet",
 
     [Weapons.PISTOL]         = "Pistol",
     [Weapons.PISTOL_MK2]     = "Advanced Pistol",
