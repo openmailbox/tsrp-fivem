@@ -6,8 +6,6 @@ TaskManager.Tasks[Tasks.SEARCH_FOR_HATED_IN_AREA] = SearchHated
 local find_best_enemy,
       is_valid_enemy
 
-local target = 0
-
 local targets = {}
 
 function SearchHated.begin(entity, args)

@@ -14,6 +14,7 @@ Events.ON_RESOURCE_STOP         = "onResourceStop"
 
 -- Low-level game events
 Events.CLIENT_PLAYER_COLLECT_AMBIENT_PICKUP = "CEventNetworkPlayerCollectedAmbientPickup"
+Events.CLIENT_PLAYER_COLLECT_PICKUP         = "CEventNetworkPlayerCollectedPickup"
 Events.CLIENT_ENTITY_DAMAGE                 = "CEventNetworkEntityDamage"
 Events.CLIENT_GUN_AIMED_AT                  = "CEventGunAimedAt"
 Events.CLIENT_CRIME_REPORTED                = "CEventCrimeReported"
@@ -158,6 +159,8 @@ Events.CREATE_INVENTORY_ITEM_UNEQUIP = "inventory:CreateItemUnequip"
 Events.UPDATE_INVENTORY_ITEM_UNEQUIP = "inventory:UpdateItemUnequip"
 
 Events.CREATE_INVENTORY_ITEM_EQUIP = "inventory:CreateItemEquip"
+
+Events.CREATE_INVENTORY_WEAPON_PICKUP = "inventory:CreateWeaponPickup"
 
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
