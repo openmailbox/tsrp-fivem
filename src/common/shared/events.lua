@@ -162,6 +162,9 @@ Events.CREATE_INVENTORY_ITEM_EQUIP = "inventory:CreateItemEquip"
 
 Events.CREATE_INVENTORY_WEAPON_PICKUP = "inventory:CreateWeaponPickup"
 
+-- @resource keyring
+Events.UPDATE_PLAYER_KEYRING = "keyring:UpdatePlayer"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 

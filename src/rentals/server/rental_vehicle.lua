@@ -18,6 +18,8 @@ function RentalVehicle:new(o)
 end
 
 function RentalVehicle:cleanup()
+    exports.keyring:RemoveKey(self.player_id, self.lock_id)
+
     if DoesEntityExist(self.entity) then
         DeleteEntity(self.entity)
     end
@@ -39,7 +41,9 @@ function RentalVehicle:initialize()
         return
     end
 
-    self.entity = vehicle
+    self.entity  = vehicle
+    self.lock_id = exports.keyring:GiveKey(vehicle, self.player_id)
+
     table.insert(rentals, self)
 
     TriggerClientEvent(Events.UPDATE_RENTAL_VEHICLE, self.player_id, {
