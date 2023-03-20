@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css" />
-    <link rel="stylesheet" type="text/css" href="nui://welcome/web/styles/index.css" />
+    <link rel="stylesheet" type="text/css" href="https://cfx-nui-common/web/styles/tsrp-theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cfx-nui-welcome/web/styles/index.css" />
 </head>
 
-<body>
-    <div class="modal modal-lg">
+<body class="d-none">
+    <main>
+        <div id="title">
+            <img class="img-responsive" src="https://cfx-nui-welcome/web/images/ts-title.png" />
+        </div>
+
+        <div id="main-menu">
+            <div class="title h1">
+                <a id="link-play" class="text-light" href="#">Play</a>
+            </div>
+            <div class="title h1">
+                <a id="link-settings" class="text-light" href="#">Settings</a>
+            </div>
+            <div class="title h1">
+                <a id="link-support" class="text-light" href="#">Support</a>
+            </div>
+            <div class="title h1">
+                <a id="link-quit" class="text-light" href="#">Quit</a>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal text-large" id="modal-support">
         <a href="#close" class="modal-overlay"></a>
         <div class="modal-container bg-dark">
-            <div class="modal-header text-light">
-                <div class="modal-title h3">Welcome</div>
+            <div class="modal-header">
+                <div class="modal-title h4 text-light">Support</div>
             </div>
-            <div class="modal-body text-large">
-                <p>Gear up by using your map to find and open <span class="text-warning text-bold">stashes</span>. Better loot may be found in <span class="text-error text-bold">restricted areas</span>.</p>
-
-                <p>Find ATMs in the world to deposit your cash. <span class="text-bold">The only thing that survives a respawn is the cash you bank</span>.</p>
+            <div class="modal-body">
+                <p>
+                    Join our Discord at <span class="text-bold text-warning" href="https://www.timeservedrp.com">www.timeservedrp.com</span> to connect with the community.
+                </p>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-lg btn-primary p-centered">Dismiss</button>
+            <div class="modal-footer text-center">
+                <button class="btn btn-primary text-center">Close</button>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        window.Welcome = {};
-    </script>
 
-    <script type="text/javascript" src="nui://welcome/web/scripts/events.js"></script>
+    <script type="text/javascript" src="https://cfx-nui-welcome/web/scripts/events.js"></script>
 </body>
-
 </html>

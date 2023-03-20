@@ -1,16 +1,18 @@
 ---@diagnostic disable: undefined-global
-
 fx_version "cerulean"
 games { "gta5" }
 lua54 "yes"
 
-author "open_mailbox <dev@open-mailbox.com>"
-description "Displays a simple welcome message."
-version "0.0.1"
+description "Provides the main menu that loads automatically after a player connects."
 
 client_scripts {
     "@common/shared/events.lua",
     "client/**/*.lua"
+}
+
+server_scripts {
+    "@common/shared/events.lua",
+    "server/**/*.lua"
 }
 
 ui_page "web/index.html"
@@ -19,4 +21,5 @@ files {
     "web/**/*.html",
     "web/**/*.js",
     "web/**/*.css",
+    "web/**/*.png"
 }

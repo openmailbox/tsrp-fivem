@@ -246,6 +246,7 @@ Events.CREATE_WARDROBE_PED_UPDATE = "wardrobe:CreatePedUpdate"
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"
 Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"
+Events.UPDATE_WELCOME_SESSION = "welcome:UpdateSession"
 
 -- @resource zones
 Events.CREATE_ZONES = "zones:CreateZones"

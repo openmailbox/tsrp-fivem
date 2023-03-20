@@ -1,7 +1,21 @@
 body {
     background: transparent;
+    overflow: hidden;
 }
 
 .modal-overlay {
-    background: rgba(0, 0, 0, 0.3) !important;
+    background-color: rgba(8, 12, 17, 0.9) !important;
+}
+
+#title {
+    margin: 5vh 5vw;
+    width: 40vw;
+}
+
+#main-menu {
+    margin: 20vh 6vw 10vh 6vw;
+}
+
+#main-menu .title {
+    margin-top: 1em;
 }
