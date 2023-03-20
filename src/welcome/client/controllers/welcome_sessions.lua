@@ -40,14 +40,5 @@ local function update(data, cb)
 
         return
     end
-
-    exports.utility:ShowConfirmation({
-        title    = "Support",
-        message  = [[<p class="text-large">Join the Discord at <span class="text-bold text-warning">
-                     discord.gg/3ZbD9MP</span> to open a support ticket.</p>]],
-        callback = function()
-            SetNuiFocus(true, true)
-        end
-    })
 end
 RegisterNUICallback(Events.UPDATE_WELCOME_SESSION, update)
