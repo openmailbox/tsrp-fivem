@@ -79,11 +79,11 @@ function get_entity_lock_id(entity)
     end
 
     local vstate = Entity(entity).state
-    local id     = vstate.vlock_id
+    local id     = vstate.keyring_lock_id
 
     if not id then
         id = GenerateUUID()
-        vstate.vlock_id = id
+        vstate.keyring_lock_id = id
     end
 
     return id

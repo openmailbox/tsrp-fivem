@@ -26,10 +26,7 @@ function PlayerMap:update(force_update)
     local cell, cx, cy = WorldMap.current():get_cell(self.ploc)
 
     if force_update or not self.active_cell or self.active_cell ~= cell then
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.DEBUG,
-            message = "Updating active player map cell to " .. cx .. ", " .. cy .. "."
-        })
+        Logging.log(Logging.TRACE, "Updating active player map cell to " .. cx .. ", " .. cy .. ".")
 
         TriggerEvent(Events.MAP_UPDATE_PLAYER, {
             coords = self.ploc,
