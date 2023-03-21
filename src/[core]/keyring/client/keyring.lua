@@ -41,6 +41,14 @@ function init_key(key)
             prompt = "toggle locks"
         },
         function(entity)
+            if IsPedTryingToEnterALockedVehicle(PlayerPedId()) then
+                TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+                    message = "You can't do that right now.",
+                    flash   = true
+                })
+                return
+            end
+
             TriggerServerEvent(Events.CREATE_KEYRING_LOCK_TOGGLE, {
                 entity = NetworkGetNetworkIdFromEntity(entity)
             })
