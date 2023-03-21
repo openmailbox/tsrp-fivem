@@ -28,6 +28,7 @@ function Keyring.give(entity, player)
 
     local lock_id = get_entity_lock_id(entity)
     local keyring = keyrings[player]
+    local net_id  = NetworkGetNetworkIdFromEntity(entity)
 
     if not keyring then
         keyring = {}
@@ -36,12 +37,12 @@ function Keyring.give(entity, player)
 
     table.insert(keyring, {
         lock_id = lock_id,
-        net_id  = NetworkGetNetworkIdFromEntity(entity)
+        net_id  = net_id
     })
 
     sync_player_keys(player)
 
-    Logging.log(Logging.TRACE, "Gave key for " .. entity .. " to " .. GetPlayerName(player) .. " (" .. player .. ") as " .. name .. ".")
+    Logging.log(Logging.TRACE, "Gave key for " .. net_id .. " to " .. GetPlayerName(player) .. " (" .. player .. ") as " .. name .. ".")
 
     return lock_id
 end
