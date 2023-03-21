@@ -41,7 +41,9 @@ function init_key(key)
             prompt = "toggle locks"
         },
         function(entity)
-            print("attempt lock change for " .. entity)
+            TriggerServerEvent(Events.CREATE_KEYRING_LOCK_TOGGLE, {
+                entity = NetworkGetNetworkIdFromEntity(entity)
+            })
         end
     )
 end

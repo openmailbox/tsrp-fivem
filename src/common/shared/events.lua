@@ -165,6 +165,9 @@ Events.CREATE_INVENTORY_WEAPON_PICKUP = "inventory:CreateWeaponPickup"
 -- @resource keyring
 Events.UPDATE_PLAYER_KEYRING = "keyring:UpdatePlayer"
 
+Events.CREATE_KEYRING_LOCK_TOGGLE = "keyring:CreateLockToggle"
+Events.UPDATE_KEYRING_LOCK_TOGGLE = "keyring:UpdateLockToggle"
+
 -- @resource life
 Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 

@@ -36,6 +36,8 @@ function RentalVehicle:initialize()
         Citizen.Wait(10)
     until DoesEntityExist(vehicle) or GetGameTimer() > timeout
 
+    SetVehicleDoorsLocked(vehicle, 2)
+
     if GetGameTimer() > timeout then
         Logging.log(Logging.WARN, "Timed out trying to create rental vehicle for " .. self.model .. ".")
         return

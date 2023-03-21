@@ -66,7 +66,6 @@ end
 exports("HasKey", Keyring.check)
 
 function Keyring.initialize(player_id)
-    print("init " .. player_id)
     keyrings[player_id] = {}
 end
 

@@ -9,7 +9,8 @@ description "Generic locking system for vehicles and any other entities."
 version "0.0.1"
 
 dependencies {
-    "characters"
+    "characters",
+    "interactions"
 }
 
 client_scripts {
