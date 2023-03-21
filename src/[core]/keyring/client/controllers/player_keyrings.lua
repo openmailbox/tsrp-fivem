@@ -1,4 +1,4 @@
 local function update(data)
-    -- update interactions to nearby entities player has keys for
+    Keyring.update(data.keys)
 end
-AddEventHandler(Events.UPDATE_PLAYER_KEYRING, update)
+RegisterNetEvent(Events.UPDATE_PLAYER_KEYRING, update)

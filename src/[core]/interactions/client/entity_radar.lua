@@ -81,7 +81,7 @@ end
 
 -- @local
 function raycast_camera(ped, target_type)
-    target_type = target_type or 24 -- Bitmask 16 (objects) + 8 (peds)
+    target_type = target_type or 26 -- Bitmask 16 (objects) + 8 (peds) + 2 (vehicles)
 
     local crot      = GetGameplayCamRot()
     local cloc      = GetGameplayCamCoord()
@@ -132,7 +132,7 @@ function show_target(entity_id, _, prompt)
     if showing_entity > 0 then
         SendNUIMessage({ type = Events.DELETE_INTERACTIVE_OBJECT })
 
-        if GetEntityType(showing_entity) == 3 then
+        if GetEntityType(showing_entity) > 1 then
             SetEntityDrawOutline(showing_entity, false)
         end
     end
@@ -140,7 +140,7 @@ function show_target(entity_id, _, prompt)
     SendNUIMessage({ type = Events.CREATE_INTERACTIVE_OBJECT, item = {} })
     showing_entity = entity_id
 
-    if GetEntityType(showing_entity) == 3 then
+    if GetEntityType(showing_entity) > 1 then
         SetEntityDrawOutline(showing_entity, true)
     end
 
@@ -156,7 +156,7 @@ function show_target(entity_id, _, prompt)
             Citizen.Wait(0)
         end
 
-        if GetEntityType(entity_id) == 3 then
+        if GetEntityType(entity_id) > 1 then
             SetEntityDrawOutline(entity_id, false)
         end
 

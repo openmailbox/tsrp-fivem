@@ -20,6 +20,7 @@ function Keyring.give(entity, player)
     end
 
     local character = exports.characters:GetPlayerCharacter(player)
+    local name      = character.first_name .. " " .. character.last_name
 
     if not character then
         return nil
@@ -28,12 +29,19 @@ function Keyring.give(entity, player)
     local lock_id = get_entity_lock_id(entity)
     local keyring = keyrings[player]
 
+    if not keyring then
+        keyring = {}
+        keyrings[player] = keyring
+    end
+
     table.insert(keyring, {
         lock_id = lock_id,
         net_id  = NetworkGetNetworkIdFromEntity(entity)
     })
 
     sync_player_keys(player)
+
+    Logging.log(Logging.TRACE, "Gave key for " .. entity .. " to " .. GetPlayerName(player) .. " (" .. player .. ") as " .. name .. ".")
 
     return lock_id
 end
@@ -57,6 +65,7 @@ end
 exports("HasKey", Keyring.check)
 
 function Keyring.initialize(player_id)
+    print("init " .. player_id)
     keyrings[player_id] = {}
 end
 
@@ -78,12 +87,14 @@ function get_entity_lock_id(entity)
         return nil
     end
 
-    local vstate = Entity(entity).state
-    local id     = vstate.keyring_lock_id
+    local estate = Entity(entity).state
+    local id     = estate.keyring_lock_id
 
     if not id then
         id = GenerateUUID()
-        vstate.keyring_lock_id = id
+
+        estate.keyring_lock_id     = id
+        estate.keyring_lock_status = false -- unlocked by default
     end
 
     return id
@@ -101,7 +112,7 @@ function sync_player_keys(player_id)
         updates[player_id] = nil
 
         TriggerClientEvent(Events.UPDATE_PLAYER_KEYRING, player_id, {
-            keys = keyrings[player_id] or {}
+            keys = keyrings[player_id]
         })
     end)
 end

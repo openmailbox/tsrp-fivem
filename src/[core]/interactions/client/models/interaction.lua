@@ -117,6 +117,8 @@ function Interaction.register(options, callback)
     -- An entity can have multiple behaviors as long as they have unique names
     interactions[options.name] = interaction
 
+    Logging.log(Logging.TRACE, "Registered new interaction '" .. interaction.name .. "' as " .. key .. ".")
+
     return true
 end
 exports("RegisterInteraction", Interaction.register)
@@ -151,6 +153,7 @@ function Interaction.unregister(model, name, entity)
 
     if empty and key then
         registrations[key] = nil
+        Logging.log(Logging.TRACE, "Removed interaction '" .. name .. "' from " .. key .. ".")
     end
 end
 exports("UnregisterInteraction", Interaction.unregister)
