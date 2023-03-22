@@ -3,9 +3,20 @@ local function create(entity)
     if GetEntityType(entity) ~= 1 then return end
 
     local x, y, _ = table.unpack(GetEntityCoords(entity))
-    local events  = Zone.from_point(x, y)
+    local zones   = Zone.from_point(x, y)
 
-    if #events == 0 then return end
+    if #zones == 0 then return end
+
+    local restricted = false
+
+    for _, zone in ipairs(zones) do
+        if zone.restricted then
+            restricted = true
+            break
+        end
+    end
+
+    if not restricted then return end
 
     local owner  = NetworkGetEntityOwner(entity)
     local net_id = NetworkGetNetworkIdFromEntity(entity)

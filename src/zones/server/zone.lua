@@ -6,7 +6,7 @@ function Zone.all()
     return zones
 end
 
-function Zone.initialize()
+function Zone.setup()
     local count = 0
 
     for name, data in pairs(Zones) do
@@ -17,14 +17,14 @@ function Zone.initialize()
         count = count + 1
     end
 
-    Citizen.Trace("Created " .. count .. " zones.\n")
+    Logging.log(Logging.DEBUG, "Initialized " .. count .. " zones.")
 
     TriggerClientEvent(Events.UPDATE_ZONES, -1, {
         zones = zones
     })
 end
 
-function Zone.cleanup()
+function Zone.teardown()
     zones = {}
 end
 

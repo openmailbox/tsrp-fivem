@@ -14,7 +14,7 @@ function Zone.add(data)
     end
 end
 
-function Zone.cleanup()
+function Zone.teardown()
     for _, z in ipairs(zones) do
         z:hide()
     end
@@ -22,7 +22,7 @@ function Zone.cleanup()
     zones = {}
 end
 
-function Zone.initialize()
+function Zone.setup()
     is_active = true
 
     Citizen.CreateThread(function()
@@ -35,14 +35,22 @@ function Zone.initialize()
                 for i, zone in ipairs(zones) do
                     if zone:contains(new_location.x, new_location.y) then
                         if zone ~= current_zone then
+                            TriggerEvent(Events.ON_NEW_PLAYER_ZONE, {
+                                zone     = zone,
+                                old_zone = current_zone
+                            })
+
                             current_zone = zone
-                            TriggerEvent(Events.ON_NEW_PLAYER_ZONE, { zone = zone })
                         end
 
                         break
                     elseif i == #zones and current_zone then
+                        TriggerEvent(Events.ON_NEW_PLAYER_ZONE, {
+                            zone     = nil,
+                            old_zone = current_zone
+                        })
+
                         current_zone = nil
-                        TriggerEvent(Events.ON_NEW_PLAYER_ZONE, { zone = nil })
                     end
                 end
 

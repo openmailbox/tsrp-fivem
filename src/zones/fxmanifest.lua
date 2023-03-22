@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Allows definition of geometric map zones that may provide some special behavior."
-version "0.0.1"
+version "0.1.0"
 
 client_scripts {
     "@common/shared/events.lua",
@@ -16,5 +16,6 @@ client_scripts {
 
 server_scripts {
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "server/**/*.lua"
 }

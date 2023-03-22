@@ -6,7 +6,7 @@ end
 RegisterNetEvent(Events.CREATE_ZONES, create)
 
 local function update(data)
-    Zone.cleanup()
+    Zone.teardown()
 
     for _, z in pairs(data.zones) do
         Zone.add(z)
