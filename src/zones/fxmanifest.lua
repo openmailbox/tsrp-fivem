@@ -9,13 +9,16 @@ description "Allows definition of geometric map zones that may provide some spec
 version "0.1.0"
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "shared/**/*.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "shared/**/*.lua",
     "server/**/*.lua"
 }

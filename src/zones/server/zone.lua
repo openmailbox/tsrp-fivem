@@ -11,6 +11,7 @@ function Zone.setup()
 
     for name, data in pairs(Zones) do
         local zone = Zone:new(data)
+        zone.name = name
 
         zones[name] = zone
 
@@ -50,19 +51,5 @@ function Zone:new(o)
 end
 
 function Zone:contains(x, y)
-    local x_min = self.center.x - (self.width / 2)
-    local x_max = self.center.x + (self.width / 2)
-
-    if x < x_min or x > x_max then
-        return false
-    end
-
-    local y_min = self.center.y - (self.height / 2)
-    local y_max = self.center.y + (self.height / 2)
-
-    if y < y_min or y > y_max then
-        return false
-    end
-
-    return true
+    return DoesZoneContain(self, vector2(x, y)) -- shared/support
 end

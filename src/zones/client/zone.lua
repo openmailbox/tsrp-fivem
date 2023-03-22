@@ -5,17 +5,12 @@ local is_active    = false
 local location     = vector3(0, 0, 0) -- player's cached position
 local zones        = {}               -- all zones this player knows about
 
-function Zone.add(data)
-    local zone = Zone:new(data)
-    table.insert(zones, zone)
-
-    if GetConvarInt("LOG_LEVEL", 4) >= Logging.DEBUG then
-        zone:show()
-    end
+function Zone.all()
+    return zones
 end
 
 function Zone.teardown()
-    for _, z in ipairs(zones) do
+    for _, z in pairs(zones) do
         z:hide()
     end
 
@@ -32,26 +27,22 @@ function Zone.setup()
             new_location = GetEntityCoords(PlayerPedId())
 
             if Vdist(new_location, location) > 1.0 then
-                for i, zone in ipairs(zones) do
+                local new_zone = nil
+
+                for _, zone in pairs(zones) do
                     if zone:contains(new_location.x, new_location.y) then
-                        if zone ~= current_zone then
-                            TriggerEvent(Events.ON_NEW_PLAYER_ZONE, {
-                                zone     = zone,
-                                old_zone = current_zone
-                            })
-
-                            current_zone = zone
-                        end
-
+                        new_zone = zone
                         break
-                    elseif i == #zones and current_zone then
-                        TriggerEvent(Events.ON_NEW_PLAYER_ZONE, {
-                            zone     = nil,
-                            old_zone = current_zone
-                        })
-
-                        current_zone = nil
                     end
+                end
+
+                if new_zone ~= current_zone then
+                    TriggerEvent(Events.ON_NEW_PLAYER_ZONE, {
+                        zone     = new_zone,
+                        old_zone = current_zone
+                    })
+
+                    current_zone = new_zone
                 end
 
                 location = new_location
@@ -60,6 +51,14 @@ function Zone.setup()
             Citizen.Wait(1000)
         end
     end)
+end
+
+function Zone.update(data)
+    local zone = Zone:new(data)
+
+    zones[data.name] = zone
+
+    Logging.log(Logging.TRACE, "Updated zone definition for '" .. zone.name .. "'.")
 end
 
 function Zone:new(o)
@@ -72,21 +71,7 @@ function Zone:new(o)
 end
 
 function Zone:contains(x, y)
-    local x_min = self.center.x - (self.width / 2)
-    local x_max = self.center.x + (self.width / 2)
-
-    if x < x_min or x > x_max then
-        return false
-    end
-
-    local y_min = self.center.y - (self.height / 2)
-    local y_max = self.center.y + (self.height / 2)
-
-    if y < y_min or y > y_max then
-        return false
-    end
-
-    return true
+    return DoesZoneContain(self, vector2(x, y)) -- shared/support
 end
 
 function Zone:hide()

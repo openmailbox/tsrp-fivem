@@ -255,8 +255,10 @@ Events.DELETE_WELCOME_SESSION = "welcome:DeleteSession"
 Events.UPDATE_WELCOME_SESSION = "welcome:UpdateSession"
 
 -- @resource zones
-Events.CREATE_ZONES = "zones:CreateZones"
 Events.GET_ZONES    = "zones:GetZones"
 Events.UPDATE_ZONES = "zones:UpdateZones"
+
+Events.CREATE_VISIBLE_ZONES = "zones:CreateVisible"
+Events.DELETE_VISIBLE_ZONES = "zones:DeleteVisible"
 
 Events.ON_NEW_PLAYER_ZONE = "zones:OnNewPlayerZone" -- triggered when a player's zone changes
