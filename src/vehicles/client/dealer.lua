@@ -1,7 +1,8 @@
 Dealer = {}
 
 -- Forwad declarations
-local use_dealer
+local pick_inventory,
+      use_dealer
 
 local BLIP_SCALE = vector3(0.7, 0.7, 0.7)
 local HELP_KEY   = "ShowroomDealerHelp"
@@ -19,9 +20,7 @@ function Dealer.setup()
 
     for name, details in pairs(Dealers) do
         local new_dealer = Dealer:new(details)
-
-        new_dealer.name       = name
-        new_dealer.categories = {} -- TODO
+        new_dealer.name = name
 
         dealers[name] = new_dealer
 
@@ -93,13 +92,54 @@ function Dealer:show()
 end
 
 -- @local
+function pick_inventory()
+    local categories = {}
+    local results    = {}
+
+    --local count       = 1
+    --local day_of_week = math.floor((GetCloudTimeAsInt() / 86400) + 4) % 7
+
+    for name, price in pairs(VehiclePrices) do
+        local cat_name = VehicleClasses[GetVehicleClassFromName(GetHashKey(name))] or "Other"
+        local category = categories[cat_name]
+
+        if not category then
+            category = {
+                name   = cat_name,
+                models = {}
+            }
+
+            categories[cat_name] = category
+        end
+
+        table.insert(category.models, {
+            name  = name,
+            label = GetDisplayNameFromVehicleModel(GetHashKey(name)),
+            price = price
+        })
+    end
+
+    for _, v in pairs(categories) do
+        table.insert(results, v)
+    end
+
+    table.sort(results, function(a, b)
+        return a.name < b.name
+    end)
+
+    return results
+end
+
+-- @local
 function use_dealer(dealer)
     show_prompt = false
 
     exports.showroom:StartSession({
         action     = "Buy Vehicle",
-        categories = dealer.categories,
+        categories = pick_inventory(),
         callback   = function(results)
+            if not results then return end
+
             if results.action ~= "Buy Vehicle" then
                 Logging.log(Logging.WARN, "Unexpected showroom return result: " .. json.encode(results) .. ".")
                 return

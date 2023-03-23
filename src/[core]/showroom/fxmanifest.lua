@@ -11,6 +11,7 @@ version "0.0.1"
 client_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "@common/shared/vehicle_classes.lua",
     "@common/client/scaleform.lua",
     "client/**/*.lua"
 }

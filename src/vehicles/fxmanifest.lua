@@ -21,6 +21,7 @@ dependencies {
 client_scripts {
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
+    "@common/shared/vehicle_classes.lua",
     "client/**/*.lua"
 }
 
