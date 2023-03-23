@@ -1,4 +1,4 @@
-Marker = {}
+Renter = {}
 
 -- Forward declarations
 local get_first_open,
@@ -10,13 +10,13 @@ local ICON       = 810 -- radar_vehicle_for_sale
 local PROMPT_KEY = "RentalVehiclePrompt"
 
 local is_prompting = false
-local markers      = {}
+local renters      = {}
 
-function Marker.all()
-    return markers
+function Renter.all()
+    return renters
 end
 
-function Marker.setup()
+function Renter.setup()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to rent a vehicle.")
 
     for name, details in pairs(RentLocations) do
@@ -26,22 +26,22 @@ function Marker.setup()
             end
         end
 
-        local marker = Marker:new({
+        local renter = Renter:new({
             name     = name,
             location = details.location
         })
 
-        marker:initialize()
+        renter:initialize()
     end
 end
 
-function Marker.teardown()
-    for _, marker in ipairs(Marker.all()) do
-        marker:cleanup()
+function Renter.teardown()
+    for _, renter in ipairs(Renter.all()) do
+        renter:cleanup()
     end
 end
 
-function Marker:new(o)
+function Renter:new(o)
     o = o or {}
 
     setmetatable(o, self)
@@ -50,7 +50,7 @@ function Marker:new(o)
     return o
 end
 
-function Marker:initialize()
+function Renter:initialize()
     self.blip = exports.map:AddBlip(self.location, {
         label   = "Vehicle Rental",
         icon    = ICON,
@@ -59,7 +59,7 @@ function Marker:initialize()
         scale   = vector3(0.7, 0.7, 0.7)
     })
 
-    self.marker = exports.markers:AddMarker({
+    self.renter = exports.markers:AddMarker({
         coords         = self.location,
         icon           = 36,
         interact_range = 1.0,
@@ -76,12 +76,12 @@ function Marker:initialize()
         end
     })
 
-    table.insert(markers, self)
+    table.insert(renters, self)
 end
 
-function Marker:cleanup()
+function Renter:cleanup()
     exports.map:RemoveBlip(self.blip)
-    exports.markers:RemoveMarker(self.marker)
+    exports.markers:RemoveMarker(self.renter)
 end
 
 -- @local
@@ -126,6 +126,11 @@ function show_offer(session)
         action     = "Rent Vehicle",
         categories = config.categories,
         callback   = function(results)
+            if not results then
+                session:initialize()
+                return
+            end
+
             if results.action ~= "Rent Vehicle" then
                 Logging.log(Logging.WARN, "Unexpected showroom return result: " .. json.encode(results) .. ".")
                 return

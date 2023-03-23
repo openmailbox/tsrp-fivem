@@ -1,13 +1,15 @@
 local function create(resource_name)
     if GetCurrentResourceName() ~= resource_name then return end
-    Marker.setup()
+    Dealer.setup()
+    Renter.setup()
     RentalVehicle.setup()
 end
 AddEventHandler(Events.ON_CLIENT_RESOURCE_START, create)
 
 local function delete(resource_name)
     if GetCurrentResourceName() ~= resource_name then return end
-    Marker.teardown()
+    Dealer.teardown()
+    Renter.teardown()
     RentalVehicle.teardown()
 end
 AddEventHandler(Events.ON_RESOURCE_STOP, delete)

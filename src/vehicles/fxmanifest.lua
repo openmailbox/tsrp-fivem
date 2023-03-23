@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Provides rental vehicles."
-version "0.0.1"
+version "0.1.0"
 
 dependencies {
     "characters",
@@ -14,7 +14,8 @@ dependencies {
     "map",
     "markers",
     "showroom",
-    "wallet"
+    "wallet",
+    "zones"
 }
 
 client_scripts {
