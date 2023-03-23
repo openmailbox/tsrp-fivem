@@ -1,5 +1,21 @@
 -- Static pricing that can be considered MSRP based on real-world equivalents.
 VehiclePrices = {
+    -- Compacts
+    asbo       = 11330,
+    blista     = 23000,
+    blista2    = 11000,
+    brioso     = 16000,
+    brioso2    = 16245,
+    club       = 14250,
+    dilettante = 24000,
+    issi2      = 23000,
+    issi3      = 19400,
+    kanjo      = 73000,
+    panto      = 12000,
+    prairie    = 17000,
+    rhapsody   = 12000,
+    weevil     = 16300,
+
     -- Sedans
     asea        = 12700,
     asterope    = 23600,

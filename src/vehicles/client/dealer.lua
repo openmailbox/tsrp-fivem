@@ -93,30 +93,44 @@ end
 
 -- @local
 function pick_inventory()
-    local categories = {}
-    local results    = {}
+    local categories   = {}
+    local results      = {}
+    local sorted_names = {}
+    local count        = 0
+    local day_of_week  = math.floor((GetCloudTimeAsInt() / 86400) + 4) % 7
 
-    --local count       = 1
-    --local day_of_week = math.floor((GetCloudTimeAsInt() / 86400) + 4) % 7
+    for name, _ in pairs(VehiclePrices) do
+        table.insert(sorted_names, name)
+    end
 
-    for name, price in pairs(VehiclePrices) do
-        local cat_name = VehicleClasses[GetVehicleClassFromName(GetHashKey(name))] or "Other"
-        local category = categories[cat_name]
+    table.sort(sorted_names)
 
-        if not category then
-            category = {
-                name   = cat_name,
-                models = {}
-            }
+    for _, name in ipairs(sorted_names) do
+        if count == day_of_week then
+            local cat_name = VehicleClasses[GetVehicleClassFromName(GetHashKey(name))] or "Other"
+            local category = categories[cat_name]
 
-            categories[cat_name] = category
+            if not category then
+                category = {
+                    name   = cat_name,
+                    models = {}
+                }
+
+                categories[cat_name] = category
+            end
+
+            table.insert(category.models, {
+                name  = name,
+                label = GetDisplayNameFromVehicleModel(GetHashKey(name)),
+                price = VehiclePrices[name]
+            })
         end
 
-        table.insert(category.models, {
-            name  = name,
-            label = GetDisplayNameFromVehicleModel(GetHashKey(name)),
-            price = price
-        })
+        if count >= 6 then
+            count = 0
+        else
+            count = count + 1
+        end
     end
 
     for _, v in pairs(categories) do
@@ -132,6 +146,13 @@ end
 
 -- @local
 function use_dealer(dealer)
+    if IsPedDeadOrDying(PlayerPedId(), 1) then return end
+
+    if GetPlayerWantedLevel(PlayerId()) > 0 then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, { message = "Can't do that while wanted by police." })
+        return
+    end
+
     show_prompt = false
 
     exports.showroom:StartSession({
