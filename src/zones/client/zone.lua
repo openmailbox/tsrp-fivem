@@ -17,6 +17,24 @@ function Zone.teardown()
     zones = {}
 end
 
+function Zone.remove(name)
+    if not zones[name] then
+        return false
+    end
+
+    if current_zone == zones[name] then
+        TriggerEvent(Events.ON_NEW_PLAYER_ZONE, {
+            zone     = nil,
+            old_zone = current_zone
+        })
+    end
+
+    zones[name] = nil
+
+    return true
+end
+exports("RemoveZone", Zone.remove)
+
 function Zone.setup()
     is_active = true
 
@@ -60,6 +78,7 @@ function Zone.update(data)
 
     Logging.log(Logging.TRACE, "Updated zone definition for '" .. zone.name .. "'.")
 end
+exports("AddZone", Zone.update)
 
 function Zone:new(o)
     o = o or {}
@@ -84,6 +103,12 @@ function Zone:show()
     SetBlipAsShortRange(self.blip, true)
     SetBlipDisplay(self.blip, 3)
     SetBlipRotation(self.blip, 0)
-    SetBlipColour(self.blip, 1)
+
+    if self.restricted then
+        SetBlipColour(self.blip, 1)
+    else
+        SetBlipColour(self.blip, 3)
+    end
+
     SetBlipAlpha(self.blip, 128)
 end

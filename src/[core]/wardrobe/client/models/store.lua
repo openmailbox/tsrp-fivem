@@ -2,7 +2,6 @@
 
  -- Forward declarations
  local enter_store,
-       exit_store,
        use_store
 
  local BLIP_SCALE = vector3(0.8, 0.8, 0.8)
@@ -19,22 +18,37 @@
     table.insert(stores, store)
  end
 
- function Store.cleanup()
-    for _, store in ipairs(stores) do
-        store:hide()
-    end
- end
-
  function Store.enter(store)
     enter_store(store)
+ end
+
+ function Store.exit()
+    active_store = nil
+    show_prompt  = false
+ end
+
+ function Store.find_by_name(name)
+    for _, store in ipairs(stores) do
+        if store.name == name then
+            return store
+        end
+    end
+
+    return nil
  end
 
  function Store.get_active()
     return active_store
  end
 
- function Store.initialize()
-    AddTextEntry(HELP_KEY, "Press ~INPUT_CONTEXT~ to customize your appearance.")
+ function Store.setup()
+    AddTextEntry(HELP_KEY, "Press ~INPUT_REPLAY_START_STOP_RECORDING~ to customize your appearance.")
+ end
+
+ function Store.teardown()
+    for _, store in ipairs(stores) do
+        store:hide()
+    end
  end
 
  function Store:new(o)
@@ -48,7 +62,7 @@
 
  function Store:hide()
     exports.map:RemoveBlip(self.blip_id)
-    exports.markers:RemoveMarker(self.marker_id)
+    exports.zones:RemoveZone(self.name)
  end
 
  function Store:show()
@@ -60,14 +74,11 @@
         label   = self.category
     })
 
-    self.marker_id = exports.markers:AddMarker({
-        coords         = self.location,
-        alpha          = 0,
-        draw_range     = self.radius,
-        interact_range = self.radius - 0.5,
-        on_enter       = function() enter_store(self) end,
-        on_exit        = function() exit_store() end,
-        on_interact    = function() use_store(self) end
+    exports.zones:AddZone({
+        name   = self.name,
+        center = self.location,
+        width  = self.radius * 2,
+        height = self.radius * 2
     })
  end
 
@@ -79,15 +90,14 @@ function enter_store(store)
     Citizen.CreateThread(function()
         while show_prompt do
             DisplayHelpTextThisFrame(HELP_KEY, 0)
+
+            if IsControlJustPressed(0, 288) then -- F1
+                use_store(active_store)
+            end
+
             Citizen.Wait(0)
         end
     end)
-end
-
--- @local
-function exit_store()
-    active_store = nil
-    show_prompt  = false
 end
 
 -- @local

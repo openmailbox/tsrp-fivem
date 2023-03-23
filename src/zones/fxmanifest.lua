@@ -22,3 +22,8 @@ server_scripts {
     "shared/**/*.lua",
     "server/**/*.lua"
 }
+
+exports {
+    "AddZone",
+    "RemoveZone"
+}

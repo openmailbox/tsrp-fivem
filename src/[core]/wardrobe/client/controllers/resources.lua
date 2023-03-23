@@ -1,7 +1,7 @@
 local function create(resource_name)
     if GetCurrentResourceName() ~= resource_name then return end
 
-    Store.initialize()
+    Store.setup()
 
     for type, details in pairs(Locations) do
         for _, loc in ipairs(details.locations) do
@@ -19,7 +19,7 @@ AddEventHandler(Events.ON_CLIENT_RESOURCE_START, create)
 
 local function delete(resource_name)
     if GetCurrentResourceName() ~= resource_name then return end
-    Store.cleanup()
+    Store.teardown()
 end
 AddEventHandler(Events.ON_RESOURCE_STOP, delete)
 AddEventHandler(Events.ON_CLIENT_RESOURCE_STOP, delete)
