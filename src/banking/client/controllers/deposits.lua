@@ -10,7 +10,10 @@ local function update(data)
     callback(data)
     callback = nil
 
-    if not data.success then return end
+    if not data.success then
+        Logging.log(Logging.WARN, "Something went wrong. Contact Support.")
+        return
+    end
 
     BeginTextCommandThefeedPost("STRING")
     AddTextComponentSubstringPlayerName("You deposited ~g~$" .. data.amount .. "~s~.")

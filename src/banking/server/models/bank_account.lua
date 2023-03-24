@@ -28,7 +28,7 @@ function BankAccount:new(o)
     return o
 end
 
-function BankAccount:deposit(amount)
+function BankAccount:adjust(amount)
     self.balance = self.balance + amount
 
     if self.id then

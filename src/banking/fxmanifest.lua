@@ -16,12 +16,14 @@ dependencies {
 
 client_scripts {
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "client/**/*.lua"
 }
 
 server_scripts {
     "@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "server/**/*.lua"
 }
 
@@ -31,4 +33,9 @@ files {
     "web/dist/**/*.html",
     "web/dist/**/*.js",
     "web/dist/**/*.css",
+}
+
+server_exports {
+    "Deposit",
+    "Withdraw"
 }

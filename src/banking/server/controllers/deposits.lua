@@ -19,15 +19,17 @@ local function create(data)
         return
     end
 
-    BankAccount.for_player(player_id, function(account)
-        exports.wallet:AdjustCash(player_id, -1 * data.amount)
-
-        account:deposit(data.amount)
+    Exports.deposit(player_id, data.amount, function(new_balance, err)
+        if err then
+            Logging.log("Unable to complete ATM deposit for " .. GetPlayerName(player_id) .. " (" .. player_id .. "): " .. err .. ".")
+        else
+            exports.wallet:AdjustCash(player_id, -1 * data.amount)
+        end
 
         TriggerClientEvent(Events.UPDATE_ATM_DEPOSIT, player_id, {
-            success     = true,
+            success     = not err,
             amount      = data.amount,
-            new_balance = account.balance
+            new_balance = new_balance
         })
     end)
 end
