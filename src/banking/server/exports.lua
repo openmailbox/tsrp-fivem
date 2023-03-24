@@ -8,7 +8,12 @@ function Exports.deposit(player_id, amount, callback)
 
     BankAccount.for_player(player_id, function(account)
         account:adjust(amount)
+
         callback(account.balance)
+
+        TriggerClientEvent(Events.UPDATE_BANK_BALANCE, player_id, {
+            new_balance = account.balance
+        })
     end)
 end
 exports("Deposit", Exports.deposit)
@@ -21,7 +26,12 @@ function Exports.withdraw(player_id, amount, callback)
 
     BankAccount.for_player(player_id, function(account)
         account:adjust(amount * -1)
+
         callback(account.balance)
+
+        TriggerClientEvent(Events.UPDATE_BANK_BALANCE, player_id, {
+            new_balance = account.balance
+        })
     end)
 end
 exports("Withdraw", Exports.withdraw)
