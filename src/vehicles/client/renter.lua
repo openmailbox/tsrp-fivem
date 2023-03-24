@@ -1,8 +1,7 @@
 Renter = {}
 
 -- Forward declarations
-local get_first_open,
-      init_vehicle_rent,
+local init_vehicle_rent,
       show_offer,
       show_prompt
 
@@ -85,30 +84,6 @@ function Renter:cleanup()
 end
 
 -- @local
-function get_first_open(points)
-    local pool = GetGamePool("CVehicle")
-
-    local closest
-
-    for _, p in ipairs(points) do
-        closest = nil
-
-        for _, vehicle in ipairs(pool) do
-            if Vdist(vector3(p.x, p.y, p.z), GetEntityCoords(vehicle)) < 3.0 then
-                closest = vehicle
-                break
-            end
-        end
-
-        if not closest then
-            return p
-        end
-    end
-
-    return nil
-end
-
--- @local
 function show_offer(session)
     if IsPedDeadOrDying(PlayerPedId(), 1) then return end
 
@@ -148,7 +123,7 @@ end
 -- @local
 function init_vehicle_rent(loc_name, options)
     local config = RentLocations[loc_name]
-    local spawn  = get_first_open(config.spawns)
+    local spawn  = GetFirstAvailable(config.spawns) -- defined in client/support.lua
 
     if not spawn then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {

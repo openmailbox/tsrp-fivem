@@ -200,10 +200,6 @@ Events.DELETE_PROGRESS_BAR = "progress:DeleteBar"
 -- @resource relationships
 Events.UPDATE_ENTITY_RELGROUP = "relationships:UpdateEntityRelgroup"
 
--- @resource rentals
-Events.CREATE_RENTAL_VEHICLE = "rentals:CreateVehicle"
-Events.UPDATE_RENTAL_VEHICLE = "rentals:UpdateVehicle"
-
 -- @resource showroom
 Events.CREATE_SHOWROOM_SESSION = "showroom:CreateSession"
 Events.DELETE_SHOWROOM_SESSION = "showroom:DeleteSession"
@@ -226,6 +222,13 @@ Events.CREATE_STASH_OPENING = "stashes:CreateOpening"
 Events.UPDATE_STASH_OPENING = "stashes:UpdateOpening"
 
 Events.CREATE_STASH_SCORE_EVENT = "stashes:CreateScoreEvent"
+
+-- @resource vehicles
+Events.CREATE_RENTAL_VEHICLE = "vehicles:CreateRentalVehicle"
+Events.UPDATE_RENTAL_VEHICLE = "vehicles:UpdateRentalVehicle"
+
+Events.CREATE_VEHICLE_PURCHASE = "vehicles:CreatePurchase"
+Events.UPDATE_VEHICLE_PURCHASE = "vehicles:UpdatePurchase"
 
 -- @resource wallets
 Events.CREATE_WALLET_RESET = "wallet:CreateReset"

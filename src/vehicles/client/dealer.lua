@@ -1,7 +1,8 @@
 Dealer = {}
 
 -- Forwad declarations
-local pick_inventory,
+local init_vehicle_buy,
+      pick_inventory,
       use_dealer
 
 local BLIP_SCALE = vector3(0.7, 0.7, 0.7)
@@ -92,6 +93,44 @@ function Dealer:show()
 end
 
 -- @local
+function init_vehicle_buy(dealer, options)
+    local spawn = GetFirstAvailable(dealer.spawns)
+
+    if not spawn then
+        TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+            message = "Unexpected error. Please try again or contact support.",
+            flash   = true
+        })
+
+        Logging.log(Logging.WARN, "Unable to find spawn location for vehicle '" .. options.name .. "' at " .. dealer.name .. ".")
+
+        return
+    end
+
+    local hash    = GetHashKey(options.name)
+    local timeout = GetGameTimer() + 3000
+
+    if not HasModelLoaded(hash) then
+        RequestModel(hash)
+
+        repeat
+            Citizen.Wait(100)
+        until HasModelLoaded(hash) or GetGameTimer() > timeout
+    end
+
+    if GetGameTimer() > timeout then
+        Logging.log(Logging.WARN, "Unable to load vehicle model for " .. options.name .. ".")
+        return
+    end
+
+    TriggerServerEvent(Events.CREATE_VEHICLE_PURCHASE, {
+        model    = options.name,
+        price    = options.price,
+        location = spawn
+    })
+end
+
+-- @local
 function pick_inventory()
     local categories   = {}
     local results      = {}
@@ -166,7 +205,7 @@ function use_dealer(dealer)
                 return
             end
 
-            print("buy vehicle: " .. json.encode(results))
+            init_vehicle_buy(dealer, results)
         end
     })
 end
