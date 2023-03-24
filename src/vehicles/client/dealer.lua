@@ -126,7 +126,8 @@ function init_vehicle_buy(dealer, options)
     TriggerServerEvent(Events.CREATE_VEHICLE_PURCHASE, {
         model    = options.name,
         price    = options.price,
-        location = spawn
+        location = spawn,
+        dealer   = dealer.name
     })
 end
 

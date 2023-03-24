@@ -53,7 +53,7 @@ function Renter:initialize()
     self.blip = exports.map:AddBlip(self.location, {
         label   = "Vehicle Rental",
         icon    = ICON,
-        color   = 11, -- forest green
+        color   = 15, -- cyan
         display = 2,
         scale   = vector3(0.7, 0.7, 0.7)
     })

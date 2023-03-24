@@ -25,6 +25,11 @@ function Exports.withdraw(player_id, amount, callback)
     end
 
     BankAccount.for_player(player_id, function(account)
+        if account.balance < amount then
+            callback(false, "Insufficient funds.")
+            return
+        end
+
         account:adjust(amount * -1)
 
         callback(account.balance)

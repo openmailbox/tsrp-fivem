@@ -12,13 +12,19 @@ function Keyring.update(data)
     local new_keys = {}
 
     for _, k in ipairs(data) do
-        new_keys[k.lock_id] = k
+        local existing = keys[k.lock_id]
+
+        if existing and existing.net_id == k.net_id then
+            new_keys[k.lock_id] = existing
+        else
+            new_keys[k.lock_id] = k
+        end
     end
 
     for lock_id, key in pairs(keys) do
-        if new_keys[lock_id] and DoesEntityExist(new_keys[lock_id]) then
-            new_keys[lock_id].entity = key.entity
-        else
+        local new_key = new_keys[lock_id]
+
+        if not new_key or new_key.net_id ~= key.net_id then
             remove_key(key)
         end
     end

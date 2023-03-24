@@ -9,6 +9,7 @@ description "Provides rental vehicles."
 version "0.1.0"
 
 dependencies {
+    "banking",
     "characters",
     "keyring",
     "map",

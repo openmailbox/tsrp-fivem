@@ -1,20 +1,20 @@
-RentalVehicle = {}
+PlayerVehicle = {}
 
-local HELP_KEY = "RentalsHelpMessage"
+local HELP_KEY = "PlayerVehiclesHelpMessage"
 
 local vehicles = {}
 
-function RentalVehicle.setup()
-    AddTextEntry(HELP_KEY, "Your ~HUD_COLOUR_GREENLIGHT~rental ~BLIP_VAN_KEYS~~s~ is ready for pickup.")
+function PlayerVehicle.setup()
+    AddTextEntry(HELP_KEY, "Your ~HUD_COLOUR_GREENLIGHT~vehicle ~BLIP_VAN_KEYS~~s~ is ready for pickup.")
 end
 
-function RentalVehicle.teardown()
+function PlayerVehicle.teardown()
     for _, vehicle in ipairs(vehicles) do
         vehicle:cleanup()
     end
 end
 
-function RentalVehicle:new(o)
+function PlayerVehicle:new(o)
     o = o or {}
 
     setmetatable(o, self)
@@ -23,16 +23,24 @@ function RentalVehicle:new(o)
     return o
 end
 
-function RentalVehicle:cleanup()
+function PlayerVehicle:cleanup()
     exports.map:StopEntityTracking(self.entity)
     exports.map:RemoveBlip(self.blip_id)
 end
 
-function RentalVehicle:initialize()
+function PlayerVehicle:initialize()
+    local label = "Owned Vehicle"
+    local color = 11
+
+    if self.renter then
+        label = "Rented Vehicle"
+        color = 15
+    end
+
     self.blip_id = exports.map:StartEntityTracking(self.entity, {
-        color   = 11,
+        color   = color,
         icon    = 811,
-        label   = "Rental Vehicle",
+        label   = label,
         display = 2,
         flash   = 7000
     })

@@ -1,7 +1,7 @@
 Dealers = {
     ["Premium Deluxe Motorsports"] = {
         location = vector3(-39.5713, -1096.9794, 26.4224),
-        blip     = { icon = 810, color = 15 },
+        blip     = { icon = 810, color = 11 },
         width    = 25.0,
         height   = 17.0,
         spawns   = {
