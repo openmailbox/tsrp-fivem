@@ -4,12 +4,17 @@ Keyring = {}
 local get_entity_lock_id,
       sync_player_keys
 
-
-local keyrings = {} -- in-memory keyrings for connected players
+local keyrings = {} -- in-memory CharacterID->Keyring map
 local updates  = {}
 
 function Keyring.cleanup(player_id)
-    keyrings[player_id] = nil
+    local character = exports.characters:GetPlayerCharacter(player_id)
+    local keyring   = keyrings[character.id]
+
+    -- TODO: Better cleanup over time so we don't hold memory for irrelevant locks.
+    if #keyring == 0 then
+        keyrings[character.id] = {}
+    end
 end
 
 function Keyring.give(entity, player)
@@ -27,12 +32,12 @@ function Keyring.give(entity, player)
     end
 
     local lock_id = get_entity_lock_id(entity)
-    local keyring = keyrings[player]
+    local keyring = keyrings[character.id]
     local net_id  = NetworkGetNetworkIdFromEntity(entity)
 
     if not keyring then
         keyring = {}
-        keyrings[player] = keyring
+        keyrings[character.id] = keyring
     end
 
     table.insert(keyring, {
@@ -55,7 +60,9 @@ function Keyring.check(entity, player)
         return false
     end
 
-    for _, key in ipairs(keyrings[player] or {}) do
+    local character = exports.characters:GetPlayerCharacter(player)
+
+    for _, key in ipairs(keyrings[character.id] or {}) do
         if key.lock_id == lock_id then
             return true
         end
@@ -66,7 +73,14 @@ end
 exports("HasKey", Keyring.check)
 
 function Keyring.initialize(player_id)
-    keyrings[player_id] = {}
+    local character = exports.characters:GetPlayerCharacter(player_id)
+    local keyring   = keyrings[character.id]
+
+    if keyring and #keyring > 0 then
+        sync_player_keys(player_id)
+    else
+        keyrings[character.id] = {}
+    end
 end
 
 function Keyring.remove(player, lock_id)
@@ -109,10 +123,12 @@ function sync_player_keys(player_id)
     updates[player_id] = true
 
     Citizen.SetTimeout(1000, function()
+        local character = exports.characters:GetPlayerCharacter(player_id)
+
         updates[player_id] = nil
 
         TriggerClientEvent(Events.UPDATE_PLAYER_KEYRING, player_id, {
-            keys = keyrings[player_id]
+            keys = keyrings[character.id]
         })
     end)
 end

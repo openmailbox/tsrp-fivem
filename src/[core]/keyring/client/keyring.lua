@@ -64,6 +64,7 @@ end
 
 -- @local
 function remove_key(key)
+    if not key.entity then return end
     exports.interactions:UnregisterInteraction(nil, "Toggle Locks", key.entity)
     key.entity = nil
 end
