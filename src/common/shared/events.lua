@@ -230,6 +230,12 @@ Events.CREATE_VEHICLE_PURCHASE = "vehicles:CreatePurchase"
 
 Events.UPDATE_PLAYER_VEHICLES = "vehicles:UpdatePlayer"
 
+Events.GET_IMPOUNDED_VEHICLES    = "vehicles:GetImpounded"
+Events.UPDATE_IMPOUNDED_VEHICLES = "vehicles:UpdateImpounded"
+
+Events.CREATE_VEHICLE_IMPOUND_SESSION = "vehicles:CreateImpoundSession"
+Events.DELETE_VEHICLE_IMPOUND_SESSION = "vehicles:DeleteImpoundSession"
+
 -- @resource wallets
 Events.CREATE_WALLET_RESET = "wallet:CreateReset"
 

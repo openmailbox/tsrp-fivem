@@ -2,9 +2,13 @@ PlayerVehicle = {}
 
 local vehicles = {}
 
+function PlayerVehicle.active()
+    return vehicles
+end
+
 function PlayerVehicle.teardown()
-    for _, rental in ipairs(vehicles) do
-        rental:cleanup()
+    for _, vehicle in ipairs(vehicles) do
+        vehicle:cleanup()
     end
 end
 

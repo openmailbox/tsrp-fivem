@@ -15,6 +15,7 @@ dependencies {
     "map",
     "markers",
     "mysql-async",
+    "progress",
     "showroom",
     "wallet",
     "zones"

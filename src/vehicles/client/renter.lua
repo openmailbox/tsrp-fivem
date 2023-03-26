@@ -30,6 +30,8 @@ function Renter.setup()
             location = details.location
         })
 
+        table.insert(renters, renter)
+
         renter:initialize()
     end
 end
@@ -74,8 +76,6 @@ function Renter:initialize()
             is_prompting = false
         end
     })
-
-    table.insert(renters, self)
 end
 
 function Renter:cleanup()
