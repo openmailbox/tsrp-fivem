@@ -52,3 +52,21 @@ function PlayerVehicle:initialize()
         vehicle = self
     })
 end
+
+function PlayerVehicle:save()
+    if self.renter then return end
+    if self.id then return end
+
+    local character = exports.characters:GetPlayerCharacter(self.player_id)
+
+    MySQL.Async.insert(
+        "INSERT INTO VEHICLES (created_at, last_seen_at, character_id, model) VALUES (NOW(), NOW(), @char_id, @model);",
+        {
+            ["@char_id"] = character.id,
+            ["@model"]   = self.model
+        },
+        function(new_id)
+            self.id = new_id
+        end
+    )
+end

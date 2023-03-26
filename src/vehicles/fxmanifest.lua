@@ -14,6 +14,7 @@ dependencies {
     "keyring",
     "map",
     "markers",
+    "mysql-async",
     "showroom",
     "wallet",
     "zones"
@@ -27,6 +28,7 @@ client_scripts {
 }
 
 server_scripts {
+    "@mysql-async/lib/MySQL.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "server/**/*.lua"

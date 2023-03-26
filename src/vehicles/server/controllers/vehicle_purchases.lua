@@ -14,6 +14,7 @@ local function create(data)
         })
 
         vehicle:initialize()
+        vehicle:save()
 
         TriggerClientEvent(Events.CREATE_HUD_NOTIFICATION, player_id, { message = "Your ~g~vehicle~s~ is ready." })
 
