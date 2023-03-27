@@ -49,6 +49,12 @@ function PlayerVehicle:initialize()
     self.entity  = vehicle
     self.lock_id = exports.keyring:GiveKey(vehicle, self.player_id)
 
+    if self.plate then
+        SetVehicleNumberPlateText(vehicle, self.plate)
+    else
+        self.plate = GetVehicleNumberPlateText(vehicle)
+    end
+
     table.insert(vehicles, self)
 
     TriggerClientEvent(Events.UPDATE_PLAYER_VEHICLES, self.player_id, {
@@ -64,10 +70,11 @@ function PlayerVehicle:save()
     local character = exports.characters:GetPlayerCharacter(self.player_id)
 
     MySQL.Async.insert(
-        "INSERT INTO VEHICLES (created_at, last_seen_at, character_id, model) VALUES (NOW(), NOW(), @char_id, @model);",
+        "INSERT INTO VEHICLES (created_at, last_seen_at, character_id, model, plate) VALUES (NOW(), NOW(), @char_id, @model, @plate);",
         {
             ["@char_id"] = character.id,
-            ["@model"]   = self.model
+            ["@model"]   = self.model,
+            ["@plate"]   = self.plate
         },
         function(new_id)
             self.id = new_id

@@ -6,7 +6,8 @@ local function create(data)
             id        = record.id,
             player_id = player_id,
             model     = record.model,
-            spawn     = data.location
+            spawn     = data.location,
+            plate     = record.plate
         })
 
         vehicle:initialize()

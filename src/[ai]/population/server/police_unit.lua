@@ -122,7 +122,7 @@ function PoliceUnit:initialize()
 
     self:move_to(PoliceStates.AVAILABLE)
 
-    Logging.log(Logging.DEBUG, "Now tracking " .. #all_units .. " police units.")
+    Logging.log(Logging.TRACE, "Now tracking " .. #all_units .. " police units.")
 
     if not is_active then
         start_updates()
@@ -175,7 +175,7 @@ end
 function start_updates()
     is_active = true
 
-    Logging.log(Logging.DEBUG, "Starting police unit updates.")
+    Logging.log(Logging.TRACE, "Starting police unit updates.")
 
     Citizen.CreateThread(function()
         while is_active do
@@ -190,7 +190,7 @@ function start_updates()
                     end
 
                     table.remove(all_units, i)
-                    Logging.log(Logging.DEBUG, "Now tracking " .. #all_units .. " police units.")
+                    Logging.log(Logging.TRACE, "Now tracking " .. #all_units .. " police units.")
                 end
             end
 
@@ -202,6 +202,6 @@ function start_updates()
             Citizen.Wait(3000)
         end
 
-        Logging.log(Logging.DEBUG, "Stopping police unit updates.")
+        Logging.log(Logging.TRACE, "Stopping police unit updates.")
     end)
 end

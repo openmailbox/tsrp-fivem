@@ -21,7 +21,7 @@ local function create(data)
         local character = exports.characters:GetPlayerCharacter(player_id)
 
         Logging.log(Logging.INFO, GetPlayerName(player_id) .. " (" .. player_id .. ") as " .. character.first_name .. " " .. character.last_name ..
-                                  " purchased a " .. data.model .. " for $" .. tostring(data.price or 0) .. " at " .. data.dealer .. ".")
+                                  " purchased a " .. data.model .. " (" .. vehicle.plate .. ") for $" .. tostring(data.price or 0) .. " at " .. data.dealer .. ".")
     end)
 end
 RegisterNetEvent(Events.CREATE_VEHICLE_PURCHASE, create)
