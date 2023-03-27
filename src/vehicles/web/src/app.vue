@@ -14,10 +14,17 @@ export default {
     methods: {
         exit() {
             this.isActive = false;
+
+            fetch("https://vehicles/vehicles:DeleteImpoundSession", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=UTF-8" },
+                body: JSON.stringify({})
+            });
         },
 
         updateImpoundedVehicles(data) {
             this.impoundVehicles = data;
+            this.isActive = true;
         }
     }
 }

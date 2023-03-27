@@ -76,6 +76,10 @@ function Impound:initialize()
 end
 
 function Impound:show_vehicles(vehicles)
+    for _, vehicle in ipairs(vehicles) do
+        vehicle.owner = vehicle.first_name .. " " .. vehicle.last_name
+    end
+
     SendNUIMessage({
         type     = Events.CREATE_VEHICLE_IMPOUND_SESSION,
         vehicles = vehicles

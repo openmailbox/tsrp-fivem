@@ -1,6 +1,6 @@
 local function update(data)
     local active = Impound.active()
-    local lag    = GetCloudTimeAsInt() - data.ui_target - data.ping
+    local lag    = data.ui_target - GetCloudTimeAsInt() - data.ping
 
     if lag > 0 then
         Citizen.Wait(lag)

@@ -25,7 +25,7 @@ export default {
                         <td>{{ vehicle.plate }}</td>
                         <td>{{ vehicle.model }}</td>
                         <td>{{ vehicle.owner }}</td>
-                        <td>${{ vehicle.fees }}</td>
+                        <td>${{ vehicle.fees || 0 }}</td>
                         <td>
                             <button class="btn btn-primary">Retrieve</button>
                         </td>
