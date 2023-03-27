@@ -12,6 +12,10 @@ export default {
         }
     },
     methods: {
+        exit() {
+            this.isActive = false;
+        },
+
         updateImpoundedVehicles(data) {
             this.impoundVehicles = data;
         }
@@ -22,6 +26,7 @@ export default {
 <template>
     <main v-show="isActive" class="tsrp-bg-semi-90 text-light">
         <Impound
+            @on-close="exit"
             :vehicles="impoundVehicles"
         />
     </main>

@@ -33,6 +33,9 @@ export default {
                 </tbody>
             </table>
         </div>
+        <div class="panel-footer text-right">
+            <button @click="this.$emit('on-close')" class="btn btn-secondary text-dark">Close</button>
+        </div>
     </div>
 </template>
 
