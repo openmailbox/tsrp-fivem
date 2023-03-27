@@ -57,7 +57,7 @@ function Impound:initialize()
     self.blip = exports.map:AddBlip(self.location, {
         label   = "Impound",
         icon    = 380,
-        color   = 6,
+        color   = 27,
         display = 2
     })
 
@@ -68,9 +68,9 @@ function Impound:initialize()
         draw_range     = 15.0,
         scale          = vector3(0.2, 0.2, 0.2),
         face_camera    = true,
-        red            = 194,
-        green          = 80,
-        blue           = 80,
+        red            = 171,
+        green          = 60,
+        blue           = 230,
         on_interact    = function() show_offer(self) end,
         on_enter       = show_prompt,
         on_exit        = function()

@@ -1,47 +1,4 @@
 RentLocations = {
-    ["Bus Depot"] = {
-        location   = vector3(434.3948, -654.2921, 28.7572),
-        spawns     = {
-            vector4(416.0175, -651.9574, 28.5003, 89.3267),
-            vector4(393.5267, -649.5768, 28.5003, 88.6606),
-            vector4(408.4593, -636.1716, 28.5001, 269.0850),
-            vector4(432.0027, -616.2574, 28.5000, 263.6984)
-        },
-        categories = {
-            {
-                name   = "Cycles",
-                models = {
-                    { name = "fixter",  price = 25 },
-                    { name = "bmx",     price = 25 }
-                }
-            },
-            {
-                name   = "Compacts",
-                models = {
-                    { name = "blista", price = 50 },
-                    { name = "club",   price = 50 },
-                    { name = "kanjo",  price = 50 }
-                }
-            },
-            {
-                name   = "Sedans",
-                models = {
-                    { name = "asea",     price = 100 },
-                    { name = "intruder", price = 100 },
-                    { name = "primo",    price = 100 }
-                }
-            },
-            {
-                name   = "SUVs",
-                models = {
-                    { name = "baller", price = 150 },
-                    { name = "mesa",   price = 150 },
-                    { name = "xls",    price = 150 }
-                }
-            },
-        }
-    },
-
     ["Airport"] = {
         location   = vector3(-832.8307, -2351.1672, 14.5706),
         spawns     = {
@@ -51,6 +8,14 @@ RentLocations = {
             vector4(-801.8856, -2337.4504, 14.5706, 311.2072)
         },
         categories = {
+            {
+                name   = "Compacts",
+                models = {
+                    { name = "blista", price = 50 },
+                    { name = "club",   price = 50 },
+                    { name = "kanjo",  price = 50 }
+                }
+            },
             {
                 name   = "Motorcycles",
                 models = {
@@ -68,19 +33,19 @@ RentLocations = {
                 }
             },
             {
-                name   = "SUVs",
-                models = {
-                    { name = "baller", price = 150 },
-                    { name = "mesa",   price = 150 },
-                    { name = "xls",    price = 150 }
-                }
-            },
-            {
                 name   = "Sports",
                 models = {
                     { name = "massacro", price = 200 },
                     { name = "banshee",  price = 200 },
                     { name = "coquette", price = 200 }
+                }
+            },
+            {
+                name   = "SUVs",
+                models = {
+                    { name = "baller", price = 150 },
+                    { name = "mesa",   price = 150 },
+                    { name = "xls",    price = 150 }
                 }
             },
         }

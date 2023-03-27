@@ -12,7 +12,7 @@ local function create(data)
         vehicle:initialize()
 
         TriggerClientEvent(Events.UPDATE_PARKED_VEHICLE_RETRIEVAL, player_id, {
-            success = true;
+            success = true
         })
     end)
 end
