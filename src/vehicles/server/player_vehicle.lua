@@ -70,7 +70,7 @@ function PlayerVehicle:save()
     local character = exports.characters:GetPlayerCharacter(self.player_id)
 
     MySQL.Async.insert(
-        "INSERT INTO VEHICLES (created_at, last_seen_at, character_id, model, plate) VALUES (NOW(), NOW(), @char_id, @model, @plate);",
+        "INSERT INTO vehicles (created_at, last_seen_at, character_id, model, plate) VALUES (NOW(), NOW(), @char_id, @model, @plate);",
         {
             ["@char_id"] = character.id,
             ["@model"]   = self.model,
