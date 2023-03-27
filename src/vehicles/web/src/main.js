@@ -8,9 +8,9 @@ let vm = app.mount('#app');
 // Handle messages passed from client-side scripts to NUI
 const handleMessage = function(item) {
     switch (item.type) {
-        case "someResourceEvent":
-            // call a method in the Vue app via the vm object
-            vm.changeMessage(item);
+        case "vehicles:CreateImpoundSession":
+            vm.updateImpoundedVehicles(item.vehicles);
+            vm.$forceUpdate();
             break;
     }
 };
