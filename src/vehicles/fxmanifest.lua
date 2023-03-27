@@ -34,3 +34,11 @@ server_scripts {
     "@common/shared/logging.lua",
     "server/**/*.lua"
 }
+
+ui_page "web/dist/index.html"
+
+files {
+    "web/dist/**/*.html",
+    "web/dist/**/*.js",
+    "web/dist/**/*.css",
+}
