@@ -8,10 +8,14 @@ local HELP_KEY = "VehiclesImpoundHelp"
 
 local active_impound = nil
 local impounds       = {}
-local is_prompting   = true
+local is_prompting   = false
 
-function Impound.active()
+function Impound.get_active()
     return active_impound
+end
+
+function Impound.set_active(impound)
+    active_impound = impound
 end
 
 function Impound.setup()
@@ -99,7 +103,7 @@ function show_offer(impound)
         return
     end
 
-    active_impound = impound
+    Impound.set_active(impound)
 
     impound:cleanup()
 

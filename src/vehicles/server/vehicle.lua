@@ -1,5 +1,15 @@
 Vehicle = {}
 
+function Vehicle.from_id(id, callback)
+    MySQL.Async.fetchAll(
+        "SELECT * FROM vehicles WHERE id = @id",
+        { ["@id"] = id },
+        function(results)
+            callback(results and results[1])
+        end
+    )
+end
+
 function Vehicle.from_impound(player_id, callback)
     local character = exports.characters:GetPlayerCharacter(player_id)
 

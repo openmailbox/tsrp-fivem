@@ -1,5 +1,8 @@
 <script>
+import ParkedVehicle from './parked_vehicle.vue'
+
 export default {
+    components: { ParkedVehicle },
     props: ["vehicles"]
 }
 </script>
@@ -16,20 +19,17 @@ export default {
                         <th>Plate</th>
                         <th>Model</th>
                         <th>Owner</th>
-                        <th>Fees</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="vehicle in vehicles">
-                        <td>{{ vehicle.plate }}</td>
-                        <td>{{ vehicle.model }}</td>
-                        <td>{{ vehicle.owner }}</td>
-                        <td>${{ vehicle.fees || 0 }}</td>
-                        <td>
-                            <button class="btn btn-primary">Retrieve</button>
-                        </td>
-                    </tr>
+                    <ParkedVehicle v-for="vehicle in vehicles"
+                        @on-close="this.$emit('on-close')"
+                        :id="vehicle.id"
+                        :plate="vehicle.plate"
+                        :model="vehicle.model"
+                        :owner="vehicle.owner"
+                    />
                 </tbody>
             </table>
         </div>

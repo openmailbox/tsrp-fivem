@@ -17,8 +17,7 @@ export default {
 
             fetch("https://vehicles/vehicles:DeleteImpoundSession", {
                 method: "POST",
-                headers: { "Content-Type": "application/json; charset=UTF-8" },
-                body: JSON.stringify({})
+                headers: { "Content-Type": "application/json; charset=UTF-8" }
             });
         },
 

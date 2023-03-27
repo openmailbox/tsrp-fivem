@@ -1,5 +1,5 @@
 local function update(data)
-    local active = Impound.active()
+    local active = Impound.get_active()
     local lag    = data.ui_target - GetCloudTimeAsInt() - data.ping
 
     if lag > 0 then

@@ -1,8 +1,9 @@
-local function delete(data, cb)
-    print(json.encode(data))
+local function delete(_, cb)
+    local impound = Impound.get_active()
 
-    local impound = Impound.active()
-    impound:initialize()
+    if impound then
+        impound:initialize()
+    end
 
     SetNuiFocus(false, false)
     cb({})

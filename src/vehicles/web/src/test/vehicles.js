@@ -4,26 +4,22 @@ export default {
         {
             plate: 'ABC123',
             model: 'asea',
-            owner: 'John Doe',
-            fees: 0
+            owner: 'John Doe'
         },
         {
             plate: 'SDJ023',
             model: 'buffalo',
-            owner: 'Jane Smith',
-            fees: 42
+            owner: 'Jane Smith'
         },
         {
             plate: 'KS0SD2',
             model: 'sanchez',
-            owner: 'Walter White',
-            fees: 33
+            owner: 'Walter White'
         },
         {
             plate: '02OSD5',
             model: 'tampa',
-            owner: 'Frank Castle',
-            fees: 412
+            owner: 'Frank Castle'
         },
     ]
 }

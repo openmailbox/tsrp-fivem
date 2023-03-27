@@ -236,6 +236,9 @@ Events.UPDATE_IMPOUNDED_VEHICLES = "vehicles:UpdateImpounded"
 Events.CREATE_VEHICLE_IMPOUND_SESSION = "vehicles:CreateImpoundSession"
 Events.DELETE_VEHICLE_IMPOUND_SESSION = "vehicles:DeleteImpoundSession"
 
+Events.CREATE_PARKED_VEHICLE_RETRIEVAL = "vehicles:CreateParkedRetrieval"
+Events.UPDATE_PARKED_VEHICLE_RETRIEVAL = "vehicles:UpdateParkedRetrieval"
+
 -- @resource wallets
 Events.CREATE_WALLET_RESET = "wallet:CreateReset"
 
