@@ -25,10 +25,15 @@ function Vehicle.from_impound(player_id, callback)
             local impounded = {}
             local active    = PlayerVehicle.active()
 
+            -- remove any active vehicles from the list
             for _, vehicle in ipairs(active) do
-                if not vehicle.renter and not map[vehicle.id] then
-                    table.insert(impounded, vehicle)
+                if vehicle.id and map[vehicle.id] then
+                    map[vehicle.id] = nil
                 end
+            end
+
+            for _, vehicle in pairs(map) do
+                table.insert(impounded, vehicle)
             end
 
             callback(impounded)
