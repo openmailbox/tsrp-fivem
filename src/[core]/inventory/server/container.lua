@@ -1,5 +1,8 @@
 Container = {}
 
+-- Forward declarations
+local can_stack_items
+
 -- player inventories
 local players = {}
 
@@ -24,18 +27,48 @@ function Container:new(o)
     return o
 end
 
-function Container:add_item(item)
-    item.uuid = GenerateUUID()
-    table.insert(self.contents, item)
+function Container:add_item(new_item)
+    for _, item in ipairs(self.contents) do
+        if can_stack_items(item, new_item) then
+            item.quantity = item.quantity + new_item.quantity
+            return
+        end
+    end
+
+    new_item.uuid = GenerateUUID()
+
+    table.insert(self.contents, new_item)
 end
 
-function Container:remove_item(uuid)
+function Container:remove_item(uuid, quantity)
+    quantity = quantity or 1
+
     for i, item in ipairs(self.contents) do
         if item.uuid == uuid then
-            table.remove(self.contents, i)
+            if quantity < (item.quantity or 1) then
+                item.quantity = item.quantity - 1
+            else
+                table.remove(self.contents, i)
+            end
+
             return item
         end
     end
 
     return nil
+end
+
+-- @local
+function can_stack_items(first_item, second_item)
+    if first_item.name ~= second_item.name then
+        return false
+    end
+
+    for _, tag in ipairs(first_item.tags or {}) do
+        if tag == "equipment" then
+            return false
+        end
+    end
+
+    return true
 end

@@ -7,7 +7,12 @@ export default {
         removeItem(uuid) {
             this.contents.forEach((item, i) => {
                 if (item.uuid === uuid) {
-                    this.contents.splice(i, 1)
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                    } else {
+                        this.contents.splice(i, 1)
+                    }
+
                     return;
                 }
             })
@@ -31,6 +36,7 @@ export default {
                     :name="item.name"
                     :description="item.description"
                     :actions="item.actions"
+                    :quantity="item.quantity"
                 />
             </div>
         </div>

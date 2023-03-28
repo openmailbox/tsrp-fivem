@@ -4,12 +4,20 @@ export default {
         {
             name: "Energy Drink",
             description: "Use to regain a small amount of health over time.",
-            actions: [ "Use", "Discard" ]
+            actions: [ "Use", "Discard" ],
+            quantity: 1
         },
         {
             name: "Body Armor",
             description: "Use to refill your body armor.",
-            actions: [ "Use", "Discard" ]
+            actions: [ "Use", "Discard" ],
+            quantity: 1
+        },
+        {
+            name: "Coffee",
+            description: "Drink for a boost",
+            actions: [ "Use", "Discard" ],
+            quantity: 3
         }
     ],
 

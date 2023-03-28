@@ -39,15 +39,15 @@ export default {
                     action: this.actions[actionIndex]
                 })
             }).then(resp => resp.json()).then(function(resp) {
+                this.isDisabled = false;
+
                 if (resp.success) {
                     this.$emit('itemRemoved', this.uuid);
-                } else {
-                    this.isDisabled = false;
                 }
             }.bind(this));
         }
     },
-    props: ["name", "description", "uuid", "actions"],
+    props: ["name", "description", "uuid", "actions", "quantity"],
     components: { ItemActions, ItemDetails }
 }
 </script>
@@ -62,6 +62,7 @@ export default {
     >
         <div class="item-icon-outer text-secondary">
             <div class="item-icon-inner h2">{{ iconFromName }}</div>
+            <div v-show="quantity > 1" class="item-icon-quantity">{{ quantity || '' }}</div>
         </div>
         <div class="p-absolute item-extras" v-show="hover">
             <div class="container">
@@ -115,6 +116,15 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     user-select: none;
+}
+
+.item-icon-quantity {
+    bottom: 0;
+    font-size: 1.5em;
+    padding-right: 0.15em;
+    position: absolute;
+    right: 0;
+    z-index: 1;
 }
 
 .item-extras {

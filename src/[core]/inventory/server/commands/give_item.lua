@@ -29,11 +29,9 @@ local function cmd_give_item(source, args, raw_command)
     end
 
     local container = Container.for_player(player)
+    local new_item  = Item.from_template(template)
 
-    container:add_item({
-        name        = template.name,
-        description = template.description
-    })
+    container:add_item(new_item)
 
     tell_player(source, "Gave '" .. template.name .. "' to " .. GetPlayerName(player) .. " (" .. player .. ").")
     Logging.log(Logging.INFO, GetPlayerName(source) .. " (" .. source .. ") used command '" .. raw_command .. "'.")
