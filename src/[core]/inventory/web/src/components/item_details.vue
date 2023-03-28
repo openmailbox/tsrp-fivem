@@ -16,6 +16,10 @@ export default {
 </template>
 
 <style>
+.item-details {
+    z-index: 2
+}
+
 .item-details .card-title {
     padding-bottom: 0.7em;
 }

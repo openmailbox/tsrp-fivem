@@ -40,6 +40,7 @@ export default {
 
 <style>
 .item-actions {
+    z-index: 2;
     width: 8vw;
 }
 
