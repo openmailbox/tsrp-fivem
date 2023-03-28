@@ -1,12 +1,18 @@
 <script>
 import ItemActions from './item_actions.vue'
 import ItemDetails from './item_details.vue'
+import QuantitySelect from './quantity_select.vue'
 
 export default {
+    props: ["name", "description", "uuid", "actions", "quantity"],
+    components: { ItemActions, ItemDetails, QuantitySelect },
+    emits: ["itemRemoved"],
     data() {
         return {
             hover: false,
-            isDisabled: false
+            isDisabled: false,
+            pendingAction: null,
+            waitingForQuantity: false
         }
     },
     computed: {
@@ -19,36 +25,57 @@ export default {
         }
     },
     methods: {
-        select(event) {
-            if (!this.actions || this.actions.length === 0) return;
-
-            if (this.isDisabled) return;
-            this.isDisabled = true;
-
+        getActionFromEvent(event) {
             let actionIndex = 0;
 
             if (event.shiftKey) actionIndex += 1;
             if (event.ctrlKey) actionIndex += 1;
             if (event.altKey) actionIndex += 1;
 
+            return this.actions[actionIndex];
+        },
+
+        performAction(action, quantity) {
             fetch("https://inventory/inventory:CreateItemAction", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
                     item: { uuid: this.uuid, name: this.name },
-                    action: this.actions[actionIndex]
+                    action: action,
+                    quantity: quantity || 1
                 })
             }).then(resp => resp.json()).then(function(resp) {
                 this.isDisabled = false;
 
                 if (resp.success) {
-                    this.$emit('itemRemoved', this.uuid);
+                    this.$emit('itemRemoved', this.uuid, quantity);
                 }
             }.bind(this));
+        },
+
+        selectItem(event) {
+            if (!this.actions || this.actions.length === 0) return;
+
+            if (this.isDisabled) return;
+            this.isDisabled = true;
+
+            const action        = this.getActionFromEvent(event);
+            const isFirstAction = action === this.actions[0];
+
+            if (!isFirstAction && this.quantity > 1) {
+                this.pendingAction = event;
+                this.waitingForQuantity = true;
+            } else {
+                this.performAction(action)
+            }
+        },
+
+        selectQuantity(amount) {
+            this.performAction(this.getActionFromEvent(this.pendingAction), parseInt(amount));
+            this.waitingForQuantity = false;
+            this.pendingAction = null;
         }
-    },
-    props: ["name", "description", "uuid", "actions", "quantity"],
-    components: { ItemActions, ItemDetails }
+    }
 }
 </script>
 
@@ -56,13 +83,13 @@ export default {
     <div
         @mouseover="hover = true"
         @mouseleave="hover = false"
-        @click="select($event)"
+        @click="selectItem($event)"
         class="item"
         :class="{ disabled: isDisabled }"
     >
         <div class="item-icon-outer text-secondary">
             <div class="item-icon-inner h2">{{ iconFromName }}</div>
-            <div v-show="quantity > 1" class="item-icon-quantity">{{ quantity || '' }}</div>
+            <div v-show="quantity > 1" class="item-icon-quantity">{{ quantity }}</div>
         </div>
         <div class="p-absolute item-extras" v-show="hover">
             <div class="container">
@@ -83,6 +110,12 @@ export default {
                 </div>
             </div>
         </div>
+
+        <QuantitySelect
+            v-show="waitingForQuantity"
+            :maximum="quantity"
+            @quantity-selected="(n) => selectQuantity(n)"
+        />
     </div>
 </template>
 

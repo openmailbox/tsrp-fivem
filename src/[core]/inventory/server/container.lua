@@ -46,7 +46,7 @@ function Container:remove_item(uuid, quantity)
     for i, item in ipairs(self.contents) do
         if item.uuid == uuid then
             if quantity < (item.quantity or 1) then
-                item.quantity = item.quantity - 1
+                item.quantity = item.quantity - quantity
             else
                 table.remove(self.contents, i)
             end

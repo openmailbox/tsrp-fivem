@@ -34,7 +34,7 @@ function Inventory.process_action(data, callback)
     if action == ItemActions.USE then
         TriggerEvent(Events.CREATE_INVENTORY_ITEM_USE, { item = data.item })
     elseif action == ItemActions.DISCARD then
-        TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_DISCARD, { item = data.item })
+        TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_DISCARD, { item = data.item, quantity = data.quantity })
     elseif action == ItemActions.EQUIP then
         TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_EQUIP, {
             item        = data.item,

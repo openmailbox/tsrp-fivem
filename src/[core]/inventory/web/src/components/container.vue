@@ -4,11 +4,13 @@ import Item from './item.vue'
 export default {
     components: { Item },
     methods: {
-        removeItem(uuid) {
+        removeItem(uuid, amountRemoved) {
+            amountRemoved ||= 1;
+
             this.contents.forEach((item, i) => {
                 if (item.uuid === uuid) {
-                    if (item.quantity > 1) {
-                        item.quantity -= 1;
+                    if (item.quantity > amountRemoved) {
+                        item.quantity -= amountRemoved;
                     } else {
                         this.contents.splice(i, 1)
                     }
