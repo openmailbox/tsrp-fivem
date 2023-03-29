@@ -3,6 +3,7 @@ Inventory = {}
 -- Forward declarations
 local find_weapon_hash,
       get_equipment,
+      get_weapon_details,
       is_member
 
 local pending_actions = {}
@@ -106,9 +107,14 @@ function get_equipment()
             if HasPedGotWeapon(PlayerPedId(), weap, false) then
                 local name     = WeaponNames[weap] -- defined in @common/shared/weapons
                 local template = ItemTemplate.for_name(name)
+                local details  = {}
 
                 if not template then
                     Logging.log(Logging.WARN, "Unable to find item template for weapon '" .. name .. "'.")
+                end
+
+                if slot ~= "Melee" and slot ~= "Throwable" then
+                    details = get_weapon_details(weap)
                 end
 
                 equipment[slot] = {
@@ -116,13 +122,40 @@ function get_equipment()
                     description = (template and template.description) or '',
                     label       = name,
                     actions     = actions,
-                    uuid        = GenerateUUID()
+                    uuid        = GenerateUUID(),
+                    details     = details
                 }
             end
         end
     end
 
     return equipment
+end
+
+-- @local
+function get_weapon_details(hash)
+    local ammo        = GetAmmoInPedWeapon(PlayerPedId(), hash)
+    local _, max_ammo = GetMaxAmmo(PlayerPedId(), hash)
+    local _, current  = GetCurrentPedWeapon(PlayerPedId(), 1)
+    local details     = {}
+
+    -- GetAmmoInClip() returns 0 if player isn't wielding. Maybe add a cache so we can always show.
+    if current == hash then
+        local _, in_clip = GetAmmoInClip(PlayerPedId(), hash)
+        local max_clip   = GetMaxAmmoInClip(PlayerPedId(), hash, 1)
+
+        table.insert(details, {
+            label = "Magazine",
+            text  = in_clip .. " / " .. max_clip
+        })
+    end
+
+    table.insert(details, {
+        label = "Ammunition",
+        text  = ammo .. " / " .. max_ammo
+    })
+
+    return details
 end
 
 -- @local
