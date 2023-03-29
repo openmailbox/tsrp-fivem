@@ -29,6 +29,21 @@ local TEMPLATES = {
         description = "Large caliber ammunition used in sniper rifles.",
         hash        = 1285032059
     },
+    {
+        name        = "Railgun Ammo",
+        description = "Large metal rounds designed for use in a railgun.",
+        hash        = 2034517757
+    },
+    {
+        name        = "Launcher Ammo",
+        description = "Large fragmentation rounds used in grenade launchers.",
+        hash        = 1003267566
+    },
+    {
+        name        = "Unknown Ammo",
+        description = "It looks a bit like ammunition, but for some kind of otherwordly gun.",
+        hash        = 1950175060
+    },
 }
 
 local function create(resource_name)

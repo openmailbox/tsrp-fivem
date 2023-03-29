@@ -101,10 +101,7 @@ function WorldMap:add_object(coords, label, object)
     object.world_id = uuid
     table.insert(storage, object)
 
-    TriggerEvent(Events.LOG_MESSAGE, {
-        level   = Logging.DEBUG,
-        message = "Added new '" .. label .. "' map object " ..uuid .. " at cell " .. cx .. ", " .. cy .. "."
-    })
+    Logging.log(Logging.TRACE, "Added new '" .. label .. "' map object " ..uuid .. " at cell " .. cx .. ", " .. cy .. ".")
 
     return object.world_id
 end
@@ -160,10 +157,7 @@ function WorldMap:remove_object(coords, label, world_id)
         if object.world_id == world_id then
             table.remove(storage, i)
 
-            TriggerEvent(Events.LOG_MESSAGE, {
-                level   = Logging.DEBUG,
-                message = "Removed '" .. label .. "' map object " .. world_id .. " at cell " .. cx .. ", " .. cy .. "."
-            })
+            Logging.log(Logging.TRACE, "Removed '" .. label .. "' map object " .. world_id .. " at cell " .. cx .. ", " .. cy .. ".")
 
             return true
         end
