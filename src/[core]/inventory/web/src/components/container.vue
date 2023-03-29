@@ -39,6 +39,7 @@ export default {
                     :description="item.description"
                     :actions="item.actions"
                     :quantity="item.quantity"
+                    :details="item.details"
                 />
             </div>
         </div>

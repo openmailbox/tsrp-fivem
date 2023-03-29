@@ -4,7 +4,7 @@ import ItemDetails from './item_details.vue'
 import QuantitySelect from './quantity_select.vue'
 
 export default {
-    props: ["name", "description", "uuid", "actions", "quantity"],
+    props: ["name", "description", "uuid", "actions", "quantity", "details"],
     components: { ItemActions, ItemDetails, QuantitySelect },
     emits: ["itemRemoved"],
     data() {
@@ -100,6 +100,7 @@ export default {
                         class="column col-9 item-modal"
                         :name="name"
                         :description="description"
+                        :details="details"
                     />
 
                     <div v-show="hasActions" class="column col-3">

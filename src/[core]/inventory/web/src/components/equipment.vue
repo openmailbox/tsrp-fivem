@@ -42,6 +42,7 @@ export default {
                             :uuid="getEquippedItem(gearSlot).uuid"
                             :name="getEquippedItem(gearSlot).label"
                             :description="getEquippedItem(gearSlot).description"
+                            :details="getEquippedItem(gearSlot).details"
                             :actions="getEquippedItem(gearSlot).actions"
                         />
                     </div>
