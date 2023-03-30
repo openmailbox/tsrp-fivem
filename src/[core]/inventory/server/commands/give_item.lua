@@ -3,7 +3,7 @@ local tell_player
 
 local function cmd_give_item(source, args, raw_command)
     if not args[1] then
-        tell_player(source, "Syntax: /giveitem <player_id> <name> - Give an item to a player.")
+        tell_player(source, "Syntax: /giveitem <player_id> <name> [amount] - Give items to a player.")
         return
     end
 
@@ -30,10 +30,13 @@ local function cmd_give_item(source, args, raw_command)
 
     local container = Container.for_player(player)
     local new_item  = Item.from_template(template)
+    local amount    = math.abs((args[3] and tonumber(args[3])) or 1)
+
+    new_item.quantity = amount
 
     container:add_item(new_item)
 
-    tell_player(source, "Gave '" .. template.name .. "' to " .. GetPlayerName(player) .. " (" .. player .. ").")
+    tell_player(source, "Gave " .. amount .. "x '" .. template.name .. "' to " .. GetPlayerName(player) .. " (" .. player .. ").")
     Logging.log(Logging.INFO, GetPlayerName(source) .. " (" .. source .. ") used command '" .. raw_command .. "'.")
 
     TriggerClientEvent(Events.UPDATE_INVENTORY_REFRESH, source, {
