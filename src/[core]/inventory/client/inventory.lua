@@ -62,6 +62,7 @@ function Inventory.refresh(data)
 
             if template and is_member(template.tags or {}, "equipment") then
                 item.actions = { "equip", "discard" }
+                item.details = get_weapon_details(template.hash)
             else
                 item.actions = actions
             end
@@ -107,14 +108,9 @@ function get_equipment()
             if HasPedGotWeapon(PlayerPedId(), weap, false) then
                 local name     = WeaponNames[weap] -- defined in @common/shared/weapons
                 local template = ItemTemplate.for_name(name)
-                local details  = {}
 
                 if not template then
                     Logging.log(Logging.WARN, "Unable to find item template for weapon '" .. name .. "'.")
-                end
-
-                if slot ~= "Melee" and slot ~= "Throwable" then
-                    details = get_weapon_details(weap)
                 end
 
                 equipment[slot] = {
@@ -123,7 +119,7 @@ function get_equipment()
                     label       = name,
                     actions     = actions,
                     uuid        = GenerateUUID(),
-                    details     = details
+                    details     = get_weapon_details(template and template.hash)
                 }
             end
         end
@@ -134,25 +130,16 @@ end
 
 -- @local
 function get_weapon_details(hash)
-    local ammo        = GetAmmoInPedWeapon(PlayerPedId(), hash)
-    local _, max_ammo = GetMaxAmmo(PlayerPedId(), hash)
-    local _, current  = GetCurrentPedWeapon(PlayerPedId(), 1)
-    local details     = {}
+    if not IsWeaponValid(hash) then return end
 
-    -- GetAmmoInClip() returns 0 if player isn't wielding. Maybe add a cache so we can always show.
-    if current == hash then
-        local _, in_clip = GetAmmoInClip(PlayerPedId(), hash)
-        local max_clip   = GetMaxAmmoInClip(PlayerPedId(), hash, 1)
+    local max_clip = GetMaxAmmoInClip(PlayerPedId(), hash, 1)
+    local details  = {}
 
-        table.insert(details, {
-            label = "Magazine",
-            text  = in_clip .. " / " .. max_clip
-        })
-    end
+    if max_clip == 0 then return end
 
     table.insert(details, {
-        label = "Ammunition",
-        text  = ammo .. " / " .. max_ammo
+        label = "Magazine",
+        text  = max_clip
     })
 
     return details
