@@ -2,6 +2,7 @@ Inventory = {}
 
 -- Forward declarations
 local find_weapon_hash,
+      get_ammo_details,
       get_equipment,
       get_weapon_details,
       is_member
@@ -63,6 +64,9 @@ function Inventory.refresh(data)
             if template and is_member(template.tags or {}, "equipment") then
                 item.actions = { "equip", "discard" }
                 item.details = get_weapon_details(template.hash)
+            elseif template and is_member(template.tags or {}, "ammunition") then
+                item.actions = actions
+                item.details = get_ammo_details(template.hash)
             else
                 item.actions = actions
             end
@@ -126,6 +130,25 @@ function get_equipment()
     end
 
     return equipment
+end
+
+-- @local
+function get_ammo_details(hash)
+    local ammo    = GetPedAmmoByType(PlayerPedId(), hash)
+    local _, max  = GetMaxAmmoByType(PlayerPedId(), hash)
+    local details = {}
+
+    table.insert(details, {
+        label = "Current",
+        text  = tostring(ammo)
+    })
+
+    table.insert(details, {
+        label = "Maximum",
+        text  = tostring(max)
+    })
+
+    return details
 end
 
 -- @local
