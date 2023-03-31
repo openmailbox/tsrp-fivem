@@ -155,9 +155,22 @@ function get_weapon_details(hash)
 
     if max_clip == 0 then return end
 
+    local text      = "? / " .. max_clip
+    local _, weapon = GetCurrentPedWeapon(PlayerPedId(), 1)
+
+    if weapon == hash then
+        -- there's a small delay b/w giving player a weapon and when GetAmmoInClip will return a value
+        Citizen.Wait(250)
+
+        local _, in_clip = GetAmmoInClip(PlayerPedId(), hash)
+
+        text = in_clip .. " / " .. max_clip
+    end
+
+
     table.insert(details, {
         label = "Magazine",
-        text  = max_clip
+        text  = text
     })
 
     return details

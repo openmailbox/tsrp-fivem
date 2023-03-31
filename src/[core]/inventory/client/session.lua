@@ -82,7 +82,17 @@ function start_session(sesh)
                 end
             end
 
+            DisplayAmmoThisFrame(true)
+            ShowHudComponentThisFrame(3)
+            ShowHudComponentThisFrame(4)
+
             Citizen.Wait(0)
         end
+
+        Citizen.Wait(1000)
+
+        DisplayAmmoThisFrame(false)
+        HideHudComponentThisFrame(3)
+        HideHudComponentThisFrame(4)
     end)
 end

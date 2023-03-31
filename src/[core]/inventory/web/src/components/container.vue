@@ -49,8 +49,8 @@ export default {
 
 <style>
 .inv-container.panel {
-    margin-top: 2vh;
-    height: 90vh;
+    margin-top: 12vh;
+    height: 80vh;
 }
 
 .inv-container .panel-header {
