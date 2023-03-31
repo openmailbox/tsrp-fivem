@@ -40,6 +40,7 @@ export default {
                     :actions="item.actions"
                     :quantity="item.quantity"
                     :details="item.details"
+                    :tags="item.tags"
                 />
             </div>
         </div>

@@ -5,7 +5,7 @@ local find_weapon_hash,
       get_ammo_details,
       get_equipment,
       get_weapon_details,
-      is_member
+      has_tag
 
 local pending_actions = {}
 
@@ -34,7 +34,7 @@ function Inventory.process_action(data, callback)
     end
 
     if action == ItemActions.USE then
-        TriggerEvent(Events.CREATE_INVENTORY_ITEM_USE, { item = data.item })
+        TriggerEvent(Events.CREATE_INVENTORY_ITEM_USE, { item = data.item, quantity = data.quantity })
     elseif action == ItemActions.DISCARD then
         TriggerServerEvent(Events.CREATE_INVENTORY_ITEM_DISCARD, { item = data.item, quantity = data.quantity })
     elseif action == ItemActions.EQUIP then
@@ -61,10 +61,10 @@ function Inventory.refresh(data)
         for _, item in ipairs(container.contents) do
             local template = ItemTemplate.for_name(item.name)
 
-            if template and is_member(template.tags or {}, "equipment") then
+            if has_tag(template, "equipment") then
                 item.actions = { "equip", "discard" }
                 item.details = get_weapon_details(template.hash)
-            elseif template and is_member(template.tags or {}, "ammunition") then
+            elseif has_tag(template, "ammunition") then
                 item.actions = actions
                 item.details = get_ammo_details(template.hash)
             else
@@ -169,9 +169,13 @@ function get_weapon_details(hash)
 end
 
 -- @local
-function is_member(list, target)
-    for _, element in ipairs(list) do
-        if element == target then
+function has_tag(item, target)
+    if not item then
+        return false
+    end
+
+    for _, tag in ipairs(item.tags or {}) do
+        if tag == target then
             return true
         end
     end

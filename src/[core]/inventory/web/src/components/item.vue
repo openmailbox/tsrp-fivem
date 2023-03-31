@@ -4,7 +4,7 @@ import ItemDetails from './item_details.vue'
 import QuantitySelect from './quantity_select.vue'
 
 export default {
-    props: ["name", "description", "uuid", "actions", "quantity", "details"],
+    props: ["name", "description", "uuid", "actions", "quantity", "details", "tags"],
     components: { ItemActions, ItemDetails, QuantitySelect },
     emits: ["itemRemoved"],
     data() {
@@ -35,12 +35,22 @@ export default {
             return this.actions[actionIndex];
         },
 
+        hasTag(tagName) {
+            (this.tags || []).forEach(element => {
+                if (element === tagName) {
+                    return true
+                }
+            });
+
+            return false;
+        },
+
         performAction(action, quantity) {
             fetch("https://inventory/inventory:CreateItemAction", {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
-                    item: { uuid: this.uuid, name: this.name },
+                    item: { uuid: this.uuid, name: this.name, tags: this.tags },
                     action: action,
                     quantity: quantity || 1
                 })
@@ -59,11 +69,10 @@ export default {
             if (this.isDisabled) return;
             this.isDisabled = true;
 
-            const action        = this.getActionFromEvent(event);
-            const isFirstAction = action === this.actions[0];
+            const action = this.getActionFromEvent(event);
 
-            if (!isFirstAction && this.quantity > 1) {
-                this.pendingAction = event;
+            if (this.quantity > 1 && (action !== "use" || !this.hasTag("singleuse"))) {
+                this.pendingAction      = event;
                 this.waitingForQuantity = true;
             } else {
                 this.performAction(action)
@@ -72,8 +81,9 @@ export default {
 
         selectQuantity(amount) {
             this.performAction(this.getActionFromEvent(this.pendingAction), parseInt(amount));
+
             this.waitingForQuantity = false;
-            this.pendingAction = null;
+            this.pendingAction      = null;
         }
     }
 }
