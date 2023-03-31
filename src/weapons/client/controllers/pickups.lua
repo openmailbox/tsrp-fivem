@@ -18,9 +18,7 @@ local function on_event(ename, args)
         return
     end
 
-    local template = ItemTemplate.for_name(name)
-
-    if not template then
+    if not exports.inventory:IsValidItem(name) then
         Logging.log(Logging.WARN, "Picked up weapon hash without item template for " .. name .. ".")
         return
     end
@@ -28,7 +26,7 @@ local function on_event(ename, args)
     -- We want picked up weapons to go straight to inventory not equipment.
     RemoveWeaponFromPed(PlayerPedId(), weapon)
 
-    TriggerServerEvent(Events.CREATE_INVENTORY_WEAPON_PICKUP, {
+    TriggerServerEvent(Events.CREATE_WEAPON_PICKUP, {
         weapon = name
     })
 

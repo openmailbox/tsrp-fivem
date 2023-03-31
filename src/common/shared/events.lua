@@ -160,8 +160,6 @@ Events.UPDATE_INVENTORY_ITEM_UNEQUIP = "inventory:UpdateItemUnequip"
 
 Events.CREATE_INVENTORY_ITEM_EQUIP = "inventory:CreateItemEquip"
 
-Events.CREATE_INVENTORY_WEAPON_PICKUP = "inventory:CreateWeaponPickup"
-
 -- @resource keyring
 Events.UPDATE_PLAYER_KEYRING = "keyring:UpdatePlayer"
 
@@ -260,6 +258,9 @@ Events.CREATE_WARDROBE_CAMERA_ZOOM = "wardrobe:CreateCameraZoom"
 Events.DELETE_WARDROBE_CAMERA_ZOOM = "wardrobe:DeleteCameraZoom"
 
 Events.CREATE_WARDROBE_PED_UPDATE = "wardrobe:CreatePedUpdate"
+
+-- @resource weapons
+Events.CREATE_WEAPON_PICKUP = "inventory:CreateWeaponPickup"
 
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"

@@ -39,4 +39,4 @@ local function create(data)
         ToggleUsePickupsForPlayer(PlayerId(), hash, true)
     end)
 end
-RegisterNetEvent(Events.CREATE_INVENTORY_WEAPON_PICKUP, create)
+RegisterNetEvent(Events.CREATE_WEAPON_PICKUP, create)

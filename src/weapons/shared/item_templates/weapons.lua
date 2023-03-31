@@ -165,7 +165,7 @@ local function create(resource_name)
         t.name = WeaponNames[t.hash]
         t.tags = tags
 
-        ItemTemplate.register(t.name, t)
+        exports.inventory:RegisterItem(t.name, t)
     end
 end
 AddEventHandler(Events.ON_RESOURCE_START, create)

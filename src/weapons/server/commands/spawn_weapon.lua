@@ -3,7 +3,7 @@ local tell_player
 
 local function cmd_spawn_weapon(source, args, raw_command)
     if not args[1] or not args[2] then
-        tell_player(source, "Syntax: /spawnweapon <player ID> <amount> - Spawn a pickup weapon at player's location.")
+        tell_player(source, "Syntax: /spawnweapon <player ID> <name> - Spawn a pickup weapon at player's location.")
         return
     end
 
@@ -29,7 +29,7 @@ local function cmd_spawn_weapon(source, args, raw_command)
         return
     end
 
-    TriggerClientEvent(Events.CREATE_INVENTORY_WEAPON_PICKUP, player, {
+    TriggerClientEvent(Events.CREATE_WEAPON_PICKUP, player, {
         weapon   = weapon,
         location = GetEntityCoords(GetPlayerPed(source))
     })

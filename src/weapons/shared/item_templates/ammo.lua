@@ -53,7 +53,7 @@ local function create(resource_name)
 
     for _, t in ipairs(TEMPLATES) do
         t.tags = tags
-        ItemTemplate.register(t.name, t)
+        exports.inventory:RegisterItem(t.name, t)
     end
 end
 AddEventHandler(Events.ON_RESOURCE_START, create)
