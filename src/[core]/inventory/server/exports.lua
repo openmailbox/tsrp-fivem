@@ -17,8 +17,8 @@ function Exports.give_item_to_player(player_id, item_name)
 end
 exports("GiveItemToPlayer", Exports.give_item_to_player)
 
-function Exports.remove_item_from_player(player_id, item_uuid)
+function Exports.remove_item_from_player(player_id, item_uuid, quantity)
     local container = Container.for_player(player_id)
-    return container and container:remove_item(item_uuid)
+    return container and container:remove_item(item_uuid, quantity)
 end
 exports("RemoveItemFromPlayer", Exports.remove_item_from_player)

@@ -260,7 +260,10 @@ Events.DELETE_WARDROBE_CAMERA_ZOOM = "wardrobe:DeleteCameraZoom"
 Events.CREATE_WARDROBE_PED_UPDATE = "wardrobe:CreatePedUpdate"
 
 -- @resource weapons
-Events.CREATE_WEAPON_PICKUP = "inventory:CreateWeaponPickup"
+Events.CREATE_WEAPON_PICKUP = "weapons:CreateWeaponPickup"
+
+Events.CREATE_AMMO_RESUPPLY = "weapons:CreateAmmoResupply"
+Events.UPDATE_AMMO_RESUPPLY = "weapons:UpdateAmmoResupply"
 
 -- @resource welcome
 Events.CREATE_WELCOME_SESSION = "welcome:CreateSession"

@@ -139,13 +139,8 @@ function get_ammo_details(hash)
     local details = {}
 
     table.insert(details, {
-        label = "Current",
-        text  = tostring(ammo)
-    })
-
-    table.insert(details, {
-        label = "Maximum",
-        text  = tostring(max)
+        label = "Equipped",
+        text  = tostring(ammo) .. " / " .. max
     })
 
     return details

@@ -9,10 +9,12 @@ description "Makes in-game weapons/ammo available to the inventory system."
 version "0.0.1"
 
 dependencies {
-    "inventory"
+    "inventory",
+    "progress"
 }
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "@common/shared/weapons.lua",
