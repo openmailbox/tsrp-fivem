@@ -50,3 +50,15 @@ function Vehicle.from_impound(player_id, callback)
         end
     )
 end
+
+function Vehicle.touch(id)
+    MySQL.Async.execute(
+        "UPDATE vehicles SET last_seen_at = NOW() WHERE id = @id",
+        { ["@id"] = id },
+        function(rows_changed)
+            if rows_changed == 0 then
+                Logging.log(Logging.WARN, "Unable to update last_seen_at for vehicle " .. id .. ".")
+            end
+        end
+    )
+end
