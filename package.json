@@ -17,6 +17,7 @@
     "src\\**\\wardrobe\\web",
     "src\\**\\showroom\\web",
     "src\\banking\\web",
+    "src\\phone\\web",
     "src\\vehicles\\web"
   ]
 }

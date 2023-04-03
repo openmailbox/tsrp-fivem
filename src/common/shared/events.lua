@@ -180,6 +180,10 @@ Events.MAP_UPDATE_PLAYER = "map:UpdatePlayer"
 
 Events.CREATE_MAP_VSPAWN_RESULT = "map:CreateVspawnResult"
 
+-- @resource phone
+Events.CREATE_PHONE_SESSION = "phone:CreateSession"
+Events.DELETE_PHONE_SESSION = "phone:DeleteSession"
+
 -- @resource population
 Events.UPDATE_POPULATION_PED = "population:UpdatePed"
 
