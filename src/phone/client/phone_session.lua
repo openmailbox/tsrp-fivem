@@ -7,7 +7,7 @@ local init_prop,
 local PED_RIGHT_HAND = 28422 -- bone index
 local PHONE_MODEL    = "prop_amb_phone"
 
-local Animation = { DICTIONARY = "cellphone@" }
+local Animation = { DICTIONARY = "cellphone@", CAR_DICTIONARY = "anim@cellphone@in_car@ps" }
 
 local current_session = nil
 
@@ -27,8 +27,7 @@ end
 function PhoneSession:cleanup()
     current_session = nil
 
-    play_anim(Animation.DICTIONARY, "cellphone_text_out")
-
+    play_anim("cellphone_text_out")
 
     Citizen.SetTimeout(500, function()
         ClearPedTasks(PlayerPedId())
@@ -40,7 +39,7 @@ end
 function PhoneSession:initialize()
     current_session = self
 
-    play_anim(Animation.DICTIONARY, "cellphone_text_in")
+    play_anim("cellphone_text_in")
 
     Citizen.SetTimeout(500, function()
         self.prop = init_prop()
@@ -70,7 +69,13 @@ function init_prop()
 end
 
 -- @local
-function play_anim(dictionary, anim)
+function play_anim(anim)
+    local dictionary = Animation.DICTIONARY
+
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
+        dictionary = Animation.CAR_DICTIONARY
+    end
+
     if not HasAnimDictLoaded(dictionary) then
         RequestAnimDict(dictionary)
 
