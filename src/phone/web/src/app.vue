@@ -2,7 +2,7 @@
 export default {
     data() {
         return {
-            isActive: false
+            isActive: true
         }
     },
     methods: {
@@ -29,12 +29,14 @@ export default {
 
 <style>
 main {
-    background: gray;
+    aspect-ratio: 9 / 16;
+    background: url("https://images.pexels.com/photos/1723637/pexels-photo-1723637.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
     bottom: 0;
-    height: 60vh;
     margin: 0 1em 1em 0;
     position: absolute;
     right: 0;
-    width: 18vw;
+    width: 20vw;
 }
 </style>
