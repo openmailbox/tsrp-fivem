@@ -1,5 +1,8 @@
 <script>
+import HomeScreen from './apps/home_screen.vue'
+
 export default {
+    components: { HomeScreen },
     data() {
         return {
             isActive: true
@@ -24,6 +27,7 @@ export default {
 
 <template>
     <main v-show="isActive">
+        <HomeScreen />
     </main>
 </template>
 
@@ -34,6 +38,7 @@ main {
     background-size: cover;
     background-repeat: no-repeat;
     bottom: 0;
+    border: 1vw solid gray;
     margin: 0 1em 1em 0;
     position: absolute;
     right: 0;
