@@ -38,7 +38,7 @@ main {
     background-size: cover;
     background-repeat: no-repeat;
     bottom: 0;
-    border: 1vw solid gray;
+    border: 0.8vw solid gray;
     margin: 0 1em 1em 0;
     position: absolute;
     right: 0;

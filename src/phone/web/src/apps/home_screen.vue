@@ -13,7 +13,7 @@ export default {
         <div class="app-icon">
             <img src="@/assets/icon-settings.png" class="img-responsive" />
         </div>
-        <div class="app-name text-light text-center text-small">
+        <div class="app-name text-light text-center">
             <p>Settings</p>
         </div>
     </div>
@@ -22,16 +22,16 @@ export default {
 <style>
 .app {
     display: inline-block;
-    margin: 0.5em;
+    margin: 0.5em 0;
+    width: 20%;
 }
 
 .app-icon {
     margin: auto;
-    width: 3em;
+    width: 85%;
 }
 
 .app p {
-    font-size: 0.8em;
     margin: 0;
 }
 </style>

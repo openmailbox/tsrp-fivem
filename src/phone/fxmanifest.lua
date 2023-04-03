@@ -18,5 +18,6 @@ ui_page "web/dist/index.html"
 files {
     "web/dist/**/*.html",
     "web/dist/**/*.js",
-    "web/dist/**/*.css"
+    "web/dist/**/*.css",
+    "web/dist/**/*.png"
 }
