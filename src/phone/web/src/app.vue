@@ -1,11 +1,20 @@
 <script>
 import 'spectre.css'
+
 import HomeScreen from './apps/home/main.vue'
+import Settings from './apps/settings/main.vue'
+
+// all apps need to be imported and registered here
+const APPS = {
+    HomeScreen,
+    Settings
+}
 
 export default {
-    components: { HomeScreen },
+    components: APPS,
     data() {
         return {
+            currentApp: "HomeScreen",
             isActive: true
         }
     },
@@ -22,6 +31,19 @@ export default {
                 headers: { "Content-Type": "application/json; charset=UTF-8" }
             });
         }
+    },
+    computed: {
+        appRegistry() {
+            let registry = [];
+
+            for (const [name, _] of Object.entries(APPS)) {
+                if (name !== "HomeScreen") {
+                    registry.push(name)
+                }
+            }
+
+            return registry;
+        }
     }
 }
 </script>
@@ -31,7 +53,10 @@ export default {
         <img class="img-responsive" src="@/assets/phone.png" />
         <div id="phone-inner">
             <main>
-                <HomeScreen />
+                <component :is="currentApp"
+                    :installed-apps="appRegistry"
+                    @open-app="(name) => currentApp = name"
+                ></component>
             </main>
         </div>
     </div>
@@ -48,6 +73,7 @@ export default {
 
 #phone-outer img {
     height: 100%;
+    pointer-events: none;
     position: absolute;
     width: 100%;
     z-index: 1;

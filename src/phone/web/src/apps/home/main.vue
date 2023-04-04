@@ -3,17 +3,17 @@ import App from './installed_app.vue'
 
 export default {
     components: { App },
-    data() {
-        return {
-            apps: [ {} ]
-        }
-    }
+    props: ["installed-apps"]
 }
 </script>
 
 <template>
     <div class="container">
-        <App v-for="app in apps" class="app" />
+        <App v-for="appName in installedApps"
+            class="app"
+            :name="appName"
+            @open-app="(name) => $emit('openApp', name)"
+        />
     </div>
 </template>
 
