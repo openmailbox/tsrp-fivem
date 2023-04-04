@@ -1,4 +1,5 @@
 <script>
+import 'spectre.css'
 import HomeScreen from './apps/home_screen.vue'
 
 export default {
@@ -26,22 +27,44 @@ export default {
 </script>
 
 <template>
-    <main v-show="isActive">
-        <HomeScreen />
-    </main>
+    <div v-show="isActive" id="phone-outer">
+        <img class="img-responsive" src="@/assets/phone.png" />
+        <div id="phone-inner">
+            <main>
+                <HomeScreen />
+            </main>
+        </div>
+    </div>
 </template>
 
 <style>
-main {
-    aspect-ratio: 9 / 16;
+#phone-outer {
+    bottom: 0;
+    margin: 0 1em 1em 0;
+    position: fixed;
+    right: 0;
+    width: 18vw;
+}
+
+#phone-outer img {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+#phone-inner {
+    padding: 0.65em;
+    position: relative;
+    transform: translateX(-0.15em);
+}
+
+#phone-inner main {
+    aspect-ratio: 9 / 19.5;
     background: url("https://images.pexels.com/photos/1723637/pexels-photo-1723637.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
-    bottom: 0;
-    border: 0.8vw solid gray;
-    margin: 0 1em 1em 0;
-    position: absolute;
-    right: 0;
-    width: 20vw;
+    height: 100%;
+    width: 100%;
 }
 </style>

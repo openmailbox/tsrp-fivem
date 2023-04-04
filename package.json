@@ -19,5 +19,8 @@
     "src\\banking\\web",
     "src\\phone\\web",
     "src\\vehicles\\web"
-  ]
+  ],
+  "dependencies": {
+    "spectre.css": "^0.5.9"
+  }
 }
