@@ -20,7 +20,8 @@ export default {
     },
     methods: {
         createSession() {
-            this.isActive = true;
+            this.currentApp = "HomeScreen";
+            this.isActive   = true;
         },
 
         deleteSession() {
@@ -30,6 +31,10 @@ export default {
                 method: "POST",
                 headers: { "Content-Type": "application/json; charset=UTF-8" }
             });
+        },
+
+        goHome() {
+            this.currentApp = "HomeScreen";
         }
     },
     computed: {

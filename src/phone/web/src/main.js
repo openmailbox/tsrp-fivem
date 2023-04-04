@@ -26,5 +26,8 @@ document.addEventListener("keydown", (event) => {
         case "Escape":
             vm.deleteSession();
             break;
+        case "Home":
+            vm.goHome();
+            break;
     }
 });

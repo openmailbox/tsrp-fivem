@@ -4,6 +4,7 @@ export default {
     emits: ["openApp"],
     computed: {
         imageUrl() {
+            // TODO: doesn't work when assets are built
             return `/src/assets/icon-${this.name.toLowerCase()}.png`
         }
     }
