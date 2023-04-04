@@ -1,6 +1,6 @@
 <script>
 import 'spectre.css'
-import HomeScreen from './apps/home_screen.vue'
+import HomeScreen from './apps/home/main.vue'
 
 export default {
     components: { HomeScreen },
@@ -54,7 +54,7 @@ export default {
 }
 
 #phone-inner {
-    padding: 0.9em 0.75em;
+    padding: 0.9em 0.7em;
     position: relative;
     transform: translateX(-0.1em);
 }
