@@ -54,9 +54,9 @@ export default {
 }
 
 #phone-inner {
-    padding: 0.65em;
+    padding: 0.9em 0.75em;
     position: relative;
-    transform: translateX(-0.15em);
+    transform: translateX(-0.1em);
 }
 
 #phone-inner main {
