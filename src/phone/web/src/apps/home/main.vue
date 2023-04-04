@@ -9,9 +9,10 @@ export default {
 
 <template>
     <div class="container">
-        <App v-for="appName in installedApps"
+        <App v-for="app in installedApps"
             class="app"
-            :name="appName"
+            :name="app.name"
+            :icon="app.icon"
             @open-app="(name) => $emit('openApp', name)"
         />
     </div>

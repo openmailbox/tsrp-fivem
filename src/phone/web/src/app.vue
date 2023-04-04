@@ -2,16 +2,16 @@
 import 'spectre.css'
 
 import HomeScreen from './apps/home/main.vue'
-import Settings from './apps/settings/main.vue'
+import AppRegistry from './apps/registry.js'
 
-// all apps need to be imported and registered here
-const APPS = {
-    HomeScreen,
-    Settings
-}
+let components = { HomeScreen };
+
+AppRegistry.installed.forEach((app) => {
+    components[app.name] = app.component;
+});
 
 export default {
-    components: APPS,
+    components: components,
     data() {
         return {
             currentApp: "HomeScreen",
@@ -39,15 +39,7 @@ export default {
     },
     computed: {
         appRegistry() {
-            let registry = [];
-
-            for (const [name, _] of Object.entries(APPS)) {
-                if (name !== "HomeScreen") {
-                    registry.push(name)
-                }
-            }
-
-            return registry;
+            return AppRegistry.installed;
         }
     }
 }

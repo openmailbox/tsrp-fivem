@@ -1,20 +1,14 @@
 <script>
 export default {
-    props: ["name"],
-    emits: ["openApp"],
-    computed: {
-        imageUrl() {
-            // TODO: doesn't work when assets are built
-            return `/src/assets/icon-${this.name.toLowerCase()}.png`
-        }
-    }
+    props: ["name", "icon"],
+    emits: ["openApp"]
 }
 </script>
 
 <template>
     <div>
         <div @click="$emit('openApp', name)" class="app-icon">
-            <img :src="imageUrl" class="img-responsive" />
+            <img :src="icon" class="img-responsive" />
         </div>
         <div class="app-name text-light text-center">
             <p>{{ name }}</p>
