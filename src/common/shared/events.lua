@@ -184,6 +184,8 @@ Events.CREATE_MAP_VSPAWN_RESULT = "map:CreateVspawnResult"
 Events.CREATE_PHONE_SESSION = "phone:CreateSession"
 Events.DELETE_PHONE_SESSION = "phone:DeleteSession"
 
+Events.GET_PHONE_GAME_TIME = "phone:GetGameTime"
+
 -- @resource population
 Events.UPDATE_POPULATION_PED = "population:UpdatePed"
 

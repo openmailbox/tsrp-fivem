@@ -15,18 +15,26 @@ export default {
     components: components,
     data() {
         return {
+            clockTimer: 0,
             currentApp: "HomeScreen",
-            isActive: true
+            gameTime: { hours: 0, minutes: 0 },
+            isActive: false
         }
     },
     methods: {
-        createSession() {
+        createSession(data) {
+            if (this.isActive) return;
+
+            this.gameTime   = data.time;
+            this.clockTimer = setInterval(this.syncTime, 10000)
             this.currentApp = "HomeScreen";
             this.isActive   = true;
         },
 
         deleteSession() {
             this.isActive = false;
+
+            clearInterval(this.clockTimer);
 
             fetch("https://phone/phone:DeleteSession", {
                 method: "POST",
@@ -36,11 +44,24 @@ export default {
 
         goHome() {
             this.currentApp = "HomeScreen";
+        },
+
+        syncTime() {
+            fetch("https://phone/phone:GetGameTime", {
+                method: "POST",
+                headers: { "Content-Type": "application/json; charset=UTF-8" }
+            }).then(resp => resp.json()).then(function (resp) {
+                this.gameTime = resp;
+            }.bind(this))
         }
     },
     computed: {
         appRegistry() {
             return AppRegistry.installed;
+        },
+
+        displayTime() {
+            return `${String(this.gameTime.hours).padStart(2, "0")}:${String(this.gameTime.minutes).padStart(2, "0")}`;
         }
     }
 }
@@ -52,7 +73,7 @@ export default {
         <div id="phone-inner">
             <main>
                 <StatusBar class="status-bar"
-                    :time="'09:22'"
+                    :time="displayTime"
                 />
                 <component :is="currentApp"
                     :installed-apps="appRegistry"

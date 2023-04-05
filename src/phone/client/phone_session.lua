@@ -45,7 +45,11 @@ function PhoneSession:initialize()
         self.prop = init_prop()
     end)
 
-    SendNUIMessage({ type = Events.CREATE_PHONE_SESSION })
+    SendNUIMessage({
+        type = Events.CREATE_PHONE_SESSION,
+        time = { hours = GetClockHours(), minutes = GetClockMinutes() }
+    })
+
     SetNuiFocus(true, true)
 end
 

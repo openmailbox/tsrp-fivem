@@ -10,7 +10,7 @@ const handleMessage = function(item) {
     switch (item.type) {
         case "phone:CreateSession":
             // call a method in the Vue app via the vm object
-            vm.createSession();
+            vm.createSession(item);
             break;
     }
 };
