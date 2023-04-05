@@ -18,7 +18,7 @@ export default {
             clockTimer: 0,
             currentApp: "HomeScreen",
             gameTime: { hours: 0, minutes: 0 },
-            isActive: false
+            isActive: true
         }
     },
     methods: {
