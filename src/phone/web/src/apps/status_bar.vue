@@ -3,6 +3,7 @@ export default {
     props: ["time"]
 }
 </script>
+
 <template>
     <div id="phone-status" class="text-light text-small container">
         <div id="status-left">{{ time }}</div>
@@ -18,10 +19,13 @@ export default {
 
 #status-left, #status-right {
     display: inline-block;
+    top: 50%;
+    transform: translateY(-50%);
     padding: 0 0.2em;
+    position: absolute;
 }
 
 #phone-status #status-right {
-    float: right;
+    right: 2%;
 }
 </style>

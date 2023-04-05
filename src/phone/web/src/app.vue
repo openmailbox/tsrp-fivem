@@ -18,7 +18,7 @@ export default {
             clockTimer: 0,
             currentApp: "HomeScreen",
             gameTime: { hours: 0, minutes: 0 },
-            isActive: true
+            isActive: false
         }
     },
     methods: {
@@ -72,10 +72,11 @@ export default {
         <img class="img-responsive" src="@/assets/phone.png" />
         <div id="phone-inner">
             <main>
-                <StatusBar :time="displayTime" />
+                <StatusBar :time="displayTime" class="status-bar" />
                 <component :is="currentApp"
                     :installed-apps="appRegistry"
                     @open-app="(name) => currentApp = name"
+                    class="current-app"
                 ></component>
             </main>
         </div>
@@ -112,5 +113,14 @@ export default {
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
+}
+
+#phone-inner .status-bar {
+    height: 5%;
+    position: relative;
+}
+
+#phone-inner .current-app {
+    height: 95%;
 }
 </style>
