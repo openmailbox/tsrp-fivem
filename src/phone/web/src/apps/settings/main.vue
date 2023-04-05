@@ -1,27 +1,36 @@
 <script>
 import Input from './input.vue'
+import { PhoneSettings } from './settings.js'
 
 export default {
     components: { Input },
     data() {
         return {
-            currentSetting: "",
-            settings: {
-                wallpaper: {
-                    label: "Image URL",
-                    value: "https://images.pexels.com/photos/1723637/pexels-photo-1723637.jpeg"
-                }
-            }
+            PhoneSettings,
+            currentSettingKey: ""
         }
     },
     methods: {
         formatName(name) {
-            return String(name).toUpperCase()[0] + String(name).slice(1);
+            return name.toUpperCase()[0] + name.slice(1);
         },
 
         updateSetting(newValue) {
-            this.settings[this.currentSetting].value = newValue;
-            this.currentSetting = "";
+            PhoneSettings.set(this.currentSettingKey, newValue);
+            this.currentSettingKey = "";
+        }
+    },
+    computed: {
+        currentSetting() {
+            if (this.currentSettingKey.length > 0) {
+                return PhoneSettings.current[this.currentSettingKey];
+            } else {
+                return {};
+            }
+        },
+
+        currentSettingTitle() {
+            return this.formatName(this.currentSettingKey);
         }
     }
 }
@@ -34,17 +43,17 @@ export default {
         </div>
         <div class="panel-body">
             <ul class="menu bg-gray">
-                <li v-for="(_, name) in settings" class="menu-item">
-                    <a @click="currentSetting = name" href="#">
-                        <i class="icon icon-link"></i> {{ formatName(name) }}
+                <li v-for="(_, key) in PhoneSettings.current" class="menu-item">
+                    <a @click="currentSettingKey = key" href="#">
+                        <i class="icon icon-link"></i> {{ formatName(key) }}
                     </a>
                 </li>
             </ul>
 
-            <Input v-show="currentSetting"
-                :title="currentSetting"
-                :label="currentSetting && settings[currentSetting].label"
-                :value="currentSetting && settings[currentSetting].value"
+            <Input v-show="currentSettingKey.length > 0"
+                :title="currentSettingTitle"
+                :label="currentSetting.label"
+                :value="currentSetting.value"
                 @update-setting="(value) => updateSetting(value)"
             />
         </div>

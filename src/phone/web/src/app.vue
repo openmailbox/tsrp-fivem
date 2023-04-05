@@ -4,6 +4,7 @@ import 'spectre.css'
 import HomeScreen from './apps/home/main.vue'
 import StatusBar from './apps/status_bar.vue'
 import AppRegistry from './apps/registry.js'
+import { PhoneSettings } from './apps/settings/settings.js'
 
 let components = { HomeScreen, StatusBar };
 
@@ -15,10 +16,11 @@ export default {
     components: components,
     data() {
         return {
+            PhoneSettings,
             clockTimer: 0,
             currentApp: "HomeScreen",
             gameTime: { hours: 0, minutes: 0 },
-            isActive: true
+            isActive: false,
         }
     },
     methods: {
@@ -60,6 +62,12 @@ export default {
             return AppRegistry.installed;
         },
 
+        currentWallpaper() {
+            return  {
+                'background-image': `url(${PhoneSettings.current.wallpaper.value})`
+            }
+        },
+
         displayTime() {
             return `${String(this.gameTime.hours).padStart(2, "0")}:${String(this.gameTime.minutes).padStart(2, "0")}`;
         }
@@ -71,7 +79,7 @@ export default {
     <div v-show="isActive" id="phone-outer">
         <img class="img-responsive" src="@/assets/phone.png" />
         <div id="phone-inner">
-            <main>
+            <main :style="currentWallpaper">
                 <StatusBar :time="displayTime" class="status-bar" />
                 <component :is="currentApp"
                     :installed-apps="appRegistry"
@@ -108,7 +116,6 @@ export default {
 
 #phone-inner main {
     aspect-ratio: 9 / 19.5;
-    background: url("https://images.pexels.com/photos/1723637/pexels-photo-1723637.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
