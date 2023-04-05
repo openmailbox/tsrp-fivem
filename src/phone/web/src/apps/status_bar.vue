@@ -5,27 +5,23 @@ export default {
 </script>
 <template>
     <div id="phone-status" class="text-light text-small container">
-        <div class="columns">
-            <div class="column col-2">
-                <p>{{ time }}</p>
-            </div>
-            <div class="column col-8"></div>
-            <div class="column col-2 text-right">
-                <p>iFruit</p>
-            </div>
-        </div>
+        <div id="status-left">{{ time }}</div>
+        <div id="status-right">iFruit</div>
     </div>
 </template>
 
 <style>
 #phone-status {
     background-color: transparent;
-    padding: 0.4em 0.8em 0 0.8em;
+    padding: 0.4em 0.8em;
 }
 
-#phone-status p {
-    margin-bottom: 0;
-    margin-left: 0.2em;
-    margin-right: 0.2em;
+#status-left, #status-right {
+    display: inline-block;
+    padding: 0 0.2em;
+}
+
+#phone-status #status-right {
+    float: right;
 }
 </style>
