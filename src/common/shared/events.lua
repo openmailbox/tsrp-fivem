@@ -11,6 +11,8 @@ Events.ON_PLAYER_DROPPED        = "playerDropped"
 Events.ON_PLAYER_SPAWNED        = "playerSpawned"
 Events.ON_RESOURCE_START        = "onResourceStart"
 Events.ON_RESOURCE_STOP         = "onResourceStop"
+Events.ON_MUMBLE_CONNECT        = "mumbleConnected"
+Events.ON_MUMBLE_DISCONNECT     = "mumbleDisconnected"
 
 -- Low-level game events
 Events.CLIENT_PLAYER_COLLECT_AMBIENT_PICKUP = "CEventNetworkPlayerCollectedAmbientPickup"
