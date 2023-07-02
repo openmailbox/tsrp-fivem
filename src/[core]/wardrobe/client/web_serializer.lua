@@ -63,7 +63,7 @@ function apply_filters(filters)
         local allowed = nil
 
         for rtype, rules in pairs(filters) do
-            allowed = not rtype == allowed -- default case
+            allowed = rtype == allowed -- default case
 
             for _, rule in ipairs(rules) do
                 if rule.labels then
