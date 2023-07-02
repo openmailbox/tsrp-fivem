@@ -28,6 +28,10 @@ function handle_component(attribute, data)
     if data.control == "Style" then
         SetPedComponentVariation(ped, attribute.index, index, 0, 0)
 
+        if attribute.label == "Face" then
+            SetPedHeadBlendData(ped, index, index, index, index, index, index, 0.5, 0.5, 0, false)
+        end
+
         local current_texture = GetPedTextureVariation(ped, attribute.index)
 
         table.insert(updates, {

@@ -108,6 +108,11 @@ end
 function set_current_value(ped, attrib)
     if attrib.type == AttributeTypes.COMPONENT then
         SetPedComponentVariation(ped, attrib.index, attrib.value.drawable, attrib.value.texture, 0)
+
+        if attrib.label == "Face" then
+            local face = attrib.value.drawable
+            SetPedHeadBlendData(ped, face, face, face, face, face, face, 0.5, 0.5, 0, false)
+        end
     elseif attrib.type == AttributeTypes.PROP then
         if attrib.value.drawable > -1 then
             SetPedPropIndex(ped, attrib.index, attrib.value.drawable, attrib.value.texture, true)
