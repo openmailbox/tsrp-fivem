@@ -177,6 +177,9 @@ Events.CREATE_WANTED_STATUS_CHANGE = "life:CreateWantedStatusChange"
 Events.CREATE_LOCKPICK_SESSION = "lockpicking:CreateSession"
 Events.DELETE_LOCKPICK_SESSION = "lockpicking:DeleteSession"
 
+-- @resource logging
+Events.CREATE_DISCORD_LOG = "logging:CreateDiscordLog"
+
 -- @resource map
 Events.MAP_UPDATE_PLAYER = "map:UpdatePlayer"
 
