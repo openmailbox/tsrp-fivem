@@ -112,10 +112,13 @@ function start_session(sesh)
 
                 if new_model ~= last_model then
                     local serializer = WebSerializer:new({ ped = PlayerPedId() })
+
                     SendNUIMessage({
                         type  = Events.CREATE_WARDROBE_SESSION,
                         state = serializer:serialize(sesh.filters or {})
                     })
+
+                    last_model = new_model
                 end
 
                 if Vdist(last_xyz, new_xyz) > 1.0 or
