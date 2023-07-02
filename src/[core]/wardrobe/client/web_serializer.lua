@@ -60,31 +60,26 @@ function apply_filters(filters)
     local results = {}
 
     for name, details in pairs(Attributes) do
-        local allowed = true
+        local allowed = nil
 
         for rtype, rules in pairs(filters) do
-            for _, rule in ipairs(rules) do
-                if not rule.labels then
-                    if rule.type == details.type and rtype == "block" then
-                        allowed = false
-                    elseif rule.type ~= details.type and rtype == "allow" then
-                        allowed = false
-                    end
-                end
+            allowed = not rtype == allowed -- default case
 
+            for _, rule in ipairs(rules) do
                 if rule.labels then
                     for _, label in ipairs(rule.labels) do
-                        if rtype == "block" and label == details.label and rule.type == details.type then
-                            allowed = false
-                        elseif rtype == "allow" and (label ~= details.label or rule.type ~= details.type) then
-                            allowed = false
+                        if label == details.label and rule.type == details.type then
+                            allowed = not allowed
+                            break
                         end
                     end
+                elseif rule.type == details.type then
+                    allowed = not allowed
                 end
             end
         end
 
-        if allowed then
+        if allowed or allowed == nil then
             results[name] = details
         end
     end

@@ -13,5 +13,12 @@ Filters = {
         allow = {
             { type = AttributeTypes.COMPONENT, labels = { "Hair" } }
         }
+    },
+
+    Surgeon = {
+        allow = {
+            { type = AttributeTypes.MODEL },
+            { type = AttributeTypes.COMPONENT, labels = { "Face" } }
+        },
     }
 }
