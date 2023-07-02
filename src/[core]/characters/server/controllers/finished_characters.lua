@@ -16,7 +16,7 @@ local function create(data)
             })
         end)
 
-        Logging.log(Logging.INFO, "Created new character '" .. char.first_name .. " " .. char.last_name .. "' (" .. char.id .. ") for " .. GetPlayerName(player_id) .. " (" .. player_id .. ").")
+        Logging.log(Logging.INFO, "Created new character '" .. char.first_name .. " " .. char.last_name .. "' (" .. char.id .. ") for " .. GetPlayerName(player_id) .. " (" .. player_id .. ").", true)
     end)
 end
 RegisterNetEvent(Events.CREATE_FINISHED_CHARACTER, create)

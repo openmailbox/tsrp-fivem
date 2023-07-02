@@ -33,10 +33,10 @@ function Logging.log(level, message, net_send)
         timestamp = GetGameTimer()
     end
 
-    local formatted = "[" .. timestamp .. "] [" .. LABELS[level] .. "] " .. message .. "\n"
+    local formatted = "[" .. LABELS[level] .. "] " .. message .. "\n"
 
     if level <= current then
-        Citizen.Trace(formatted)
+        Citizen.Trace("[" .. timestamp .. "] " .. formatted)
 
         if net_send then
             TriggerEvent(Events.CREATE_DISCORD_LOG, formatted)
