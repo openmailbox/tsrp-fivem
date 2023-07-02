@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Provides heists at various locations."
-version "0.0.1"
+version "0.0.2"
 
 dependencies {
     "hostages",
