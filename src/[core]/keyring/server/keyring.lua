@@ -9,7 +9,9 @@ local updates  = {}
 
 function Keyring.cleanup(player_id)
     local character = exports.characters:GetPlayerCharacter(player_id)
-    local keyring   = keyrings[character.id]
+    if not character then return end
+
+    local keyring = keyrings[character.id]
 
     -- TODO: Better cleanup over time so we don't hold memory for irrelevant locks.
     if #keyring == 0 then
