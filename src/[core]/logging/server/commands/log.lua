@@ -9,9 +9,7 @@ local function cmd_log(source, args, raw_command)
         return
     end
 
-    Logging.log(Logging.INFO, message)
-
-    TriggerEvent(Events.CREATE_DISCORD_LOG, message)
+    Logging.log(Logging.INFO, message, true)
 
     if source > 0 then
         Logging.log(Logging.INFO, GetPlayerName(source) .. " (" .. source .. ") used command '" .. raw_command .. "'.")

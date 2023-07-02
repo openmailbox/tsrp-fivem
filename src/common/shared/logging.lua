@@ -20,7 +20,8 @@ local LABELS = {
     [Logging.TRACE] = "TRACE"
 }
 
-function Logging.log(level, message)
+-- @tparam boolean net_send true if this should be echoed over the network (i.e. to Discord if configured)
+function Logging.log(level, message, net_send)
     level = level or Logging.INFO
 
     local timestamp = ""
@@ -32,7 +33,13 @@ function Logging.log(level, message)
         timestamp = GetGameTimer()
     end
 
+    local formatted = "[" .. timestamp .. "] [" .. LABELS[level] .. "] " .. message .. "\n"
+
     if level <= current then
-        Citizen.Trace("[" .. timestamp .. "] [" .. LABELS[level] .. "] " .. message .. "\n")
+        Citizen.Trace(formatted)
+
+        if net_send then
+            TriggerEvent(Events.CREATE_DISCORD_LOG, formatted)
+        end
     end
 end

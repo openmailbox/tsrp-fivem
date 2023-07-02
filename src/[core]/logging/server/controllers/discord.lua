@@ -17,7 +17,7 @@ local function create(message)
 
     PerformHttpRequest(url, function(status, data, _)
         if status == 200 or status == 204 then
-            Logging.log(Logging.INFO, "Discord logging webhook responded " .. status .. " " .. tostring(data))
+            Logging.log(Logging.TRACE, "Discord logging webhook responded " .. status .. " " .. tostring(data))
         else
             Logging.log(Logging.WARN, "Discord API Error: " .. tostring(url) .. "\n")
             Logging.log(Logging.WARN, "Params: " .. table.concat(params, ", ") .. "\n")
