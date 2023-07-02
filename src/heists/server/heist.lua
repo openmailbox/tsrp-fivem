@@ -127,10 +127,7 @@ function Heist:reset()
     self.available = true
     self.objects   = {}
 
-    TriggerEvent(Events.LOG_MESSAGE, {
-        level   = Logging.INFO,
-        message = "Heist " .. self.id .. " at " .. self.name .. " is available."
-    })
+    Logging.log(Logging.TRACE, "Heist " .. self.id .. " at " .. self.name .. " is available.")
 end
 
 -- @treturns boolean true if internal state changed during the update

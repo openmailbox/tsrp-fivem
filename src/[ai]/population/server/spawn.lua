@@ -12,11 +12,7 @@ end
 function Spawn:cleanup()
     if self.entity then
         DeleteEntity(self.entity)
-
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.DEBUG,
-            message = "Removing entity for " .. self.model .. " at " .. self.location .. "."
-        })
+        Logging.log(Logging.DEBUG, "Removing entity for " .. self.model .. " at " .. self.location .. ".")
     end
 end
 
@@ -43,16 +39,9 @@ function Spawn:initialize()
     end
 
     if DoesEntityExist(self.entity) then
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.INFO,
-            message = "Spawned " .. self.model .. " at " .. self.location .. "."
-        })
-
+        Logging.log(Logging.TRACE, "Spawned " .. self.model .. " at " .. self.location .. ".")
         TriggerEvent(Events.ON_ENTITY_CREATED, self.entity) -- doesn't happen normally for server-spawned peds it seems
     else
-        TriggerEvent(Events.LOG_MESSAGE, {
-            level   = Logging.WARN,
-            message = "Unable to spawn " .. self.model .. " at " .. self.location .. "."
-        })
+        Logging.log(Logging.WARN, "Unable to spawn " .. self.model .. " at " .. self.location .. ".")
     end
 end

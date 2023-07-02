@@ -25,4 +25,4 @@ local function create(message)
         end
     end, "POST", table.concat(params, "&"))
 end
-AddEventHandler(Events.CREATE_DISCORD_LOG, create)
+RegisterNetEvent(Events.CREATE_DISCORD_LOG, create)
