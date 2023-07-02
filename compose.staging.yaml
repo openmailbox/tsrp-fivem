@@ -1,6 +1,6 @@
 services:
   fivem:
-    image: brice/tsrp-fivem:latest
+    image: ghcr.io/openmailbox/tsrp-fivem
     stdin_open: false
     network_mode: "host"
     tty: false
