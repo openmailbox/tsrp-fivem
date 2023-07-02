@@ -114,7 +114,7 @@ function save_new_account(account, cb)
         "INSERT INTO accounts (created_at, last_connect_at, name) VALUES (NOW(), NOW(), @name);",
         { ["@name"] = account.name },
         function(new_id)
-            Logging.log(Logging.INFO, "Created new Account (" .. new_id .. ") for Player " .. account.player_id .. "(" .. account.name .. ").", true)
+            Logging.log(Logging.INFO, "Created new Account (" .. new_id .. ") for Player " .. account.player_id .. " (" .. account.name .. ").", true)
             account.id = new_id
             cb(account)
         end
