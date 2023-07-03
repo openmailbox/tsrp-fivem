@@ -10,11 +10,18 @@ version "0.0.1"
 
 dependencies {
     "map",
-    "markers"
+    "markers",
+    "vehicles"
 }
 
 client_scripts {
     "@common/shared/events.lua",
     "shared/**/*.lua",
     "client/**/*.lua"
+}
+
+server_scripts {
+    "@common/shared/events.lua",
+    "shared/**/*.lua",
+    "server/**/*.lua"
 }

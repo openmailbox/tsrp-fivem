@@ -23,6 +23,34 @@ function PlayerVehicle.for_entity(entity)
     return nil
 end
 
+function PlayerVehicle.rent(player_id, options)
+    local rental = PlayerVehicle:new({
+        player_id = player_id,
+        model     = options.model,
+        spawn     = options.location,
+        renter    = options.name
+    })
+
+    rental:initialize()
+
+    local character = exports.characters:GetPlayerCharacter(player_id)
+
+    Logging.log(Logging.INFO, GetPlayerName(player_id) .. " (" .. player_id .. ") as " .. character.first_name .. " " .. character.last_name ..
+                              " rented a " .. options.model .. " for $" .. tostring(options.price or 0) .. " at the " .. options.name .. ".")
+
+    return rental.entity
+end
+exports("RentVehicle", PlayerVehicle.rent)
+
+function PlayerVehicle.return_rental(entity)
+    local vehicle = PlayerVehicle.for_entity(entity)
+    if not vehicle then return false end
+
+    vehicle:cleanup()
+    return true
+end
+exports("ReturnRental", PlayerVehicle.return_rental)
+
 function PlayerVehicle.teardown()
     for _, vehicle in ipairs(vehicles) do
         vehicle:cleanup()

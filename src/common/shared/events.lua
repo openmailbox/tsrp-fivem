@@ -115,6 +115,8 @@ Events.CREATE_CONSUMED_ITEM = "consumables:CreateConsumed"
 
 -- @resource delivery
 Events.CREATE_DELIVERY_VEHICLE = "delivery:CreateVehicle"
+Events.DELETE_DELIVERY_VEHICLE = "delivery:DeleteVehicle"
+Events.UPDATE_DELIVERY_VEHICLE = "delivery:UpdateVehicle"
 
 -- @resource heists
 Events.GET_HEISTS    = "heists:Get"
