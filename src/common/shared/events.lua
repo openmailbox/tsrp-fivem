@@ -113,6 +113,9 @@ Events.CREATE_CONSUMABLES_REWARD = "consumables:CreateReward"
 
 Events.CREATE_CONSUMED_ITEM = "consumables:CreateConsumed"
 
+-- @resource delivery
+Events.CREATE_DELIVERY_VEHICLE = "delivery:CreateVehicle"
+
 -- @resource heists
 Events.GET_HEISTS    = "heists:Get"
 Events.UPDATE_HEISTS = "heists:Update"
@@ -250,6 +253,8 @@ Events.UPDATE_PARKED_VEHICLE_RETRIEVAL = "vehicles:UpdateParkedRetrieval"
 
 Events.CREATE_VEHICLE_SNAPSHOT = "vehicles:CreateSnapshot"
 Events.UPDATE_VEHICLE_SNAPSHOT = "vehicles:UpdateSnapshot"
+
+Events.UPDATE_VEHICLE_LIVERY = "vehicles:UpdateLivery"
 
 -- @resource wallets
 Events.CREATE_WALLET_RESET = "wallet:CreateReset"

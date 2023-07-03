@@ -22,6 +22,7 @@ dependencies {
 }
 
 client_scripts {
+    "@common/shared/colors.lua",
     "@common/shared/events.lua",
     "@common/shared/logging.lua",
     "@common/shared/vehicle_classes.lua",
