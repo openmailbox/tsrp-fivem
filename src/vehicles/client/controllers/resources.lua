@@ -5,6 +5,14 @@ local function create(resource_name)
     Impound.setup()
     PlayerVehicle.setup()
     Renter.setup()
+
+    TriggerEvent(Events.ADD_CHAT_SUGGESTION, "/dopen", "Open a vehicle door.", {
+        { name = "door", help = "number of the door starting at 0 for driver or 'all'" }
+    })
+
+    TriggerEvent(Events.ADD_CHAT_SUGGESTION, "/dclose", "Close a vehicle door.", {
+        { name = "door", help = "number of the door starting at 0 for driver or 'all'" }
+    })
 end
 AddEventHandler(Events.ON_CLIENT_RESOURCE_START, create)
 
