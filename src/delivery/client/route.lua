@@ -3,6 +3,7 @@ Route = {}
 -- Forward declarations
 local activate_deliveries,
       get_first_available,
+      pick_random,
       start_updates
 
 local active_route = nil
@@ -84,6 +85,7 @@ end
 function Route:initialize()
     local model    = self.depot.vehicle.model
     local location = get_first_available(self.depot.vehicle.spawns)
+    local progress = exports.progress:ShowProgressBar(3000, "Finding Route")
 
     TriggerServerEvent(Events.CREATE_DELIVERY_VEHICLE, {
         model    = model,
@@ -91,21 +93,30 @@ function Route:initialize()
         name     = self.depot.name
     })
 
-    self.dropoffs = {}
-
-    for _, coords in ipairs(self.depot.dropoffs) do
-        local dropoff = Dropoff:new({
-            route     = self,
-            coords    = coords,
-            completed = false
-        })
-
-        dropoff:initialize()
-
-        table.insert(self.dropoffs, dropoff)
-    end
-
     start_updates(self)
+
+    -- Construct the delivery route
+    Citizen.CreateThread(function()
+        local indices = pick_random(7, #self.depot.dropoffs)
+
+        self.dropoffs = {}
+
+        for _, i in ipairs(indices) do
+            local coords = self.depot.dropoffs[i]
+
+            local dropoff = Dropoff:new({
+                route     = self,
+                coords    = coords,
+                completed = false
+            })
+
+            dropoff:initialize()
+
+            table.insert(self.dropoffs, dropoff)
+        end
+
+        exports.progress:CancelProgressBar(progress)
+    end)
 end
 
 -- @local
@@ -151,6 +162,36 @@ function get_first_available(points)
     end
 
     return nil
+end
+
+-- Return a list of n random unique integers from 1 to m.
+-- @local
+function pick_random(n, m)
+    local remaining = {}
+    local results   = {}
+
+    for i = 1, m do
+        table.insert(remaining, i)
+    end
+
+    if n >= m then
+        return remaining
+    end
+
+    while #results < n do
+        local next = remaining[math.random(#remaining)]
+
+        table.insert(results, next)
+
+        for i, num in ipairs(remaining) do
+            if num == next then
+                table.remove(remaining, i)
+                break
+            end
+        end
+    end
+
+    return results
 end
 
 -- @local
