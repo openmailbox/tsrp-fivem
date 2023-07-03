@@ -1,26 +1,15 @@
 Route = {}
 
 -- Forward declarations
-local activate_package_search,
-      attach_package,
-      play_emote,
+local activate_deliveries,
       get_first_available,
       start_updates
 
-local active_route       = nil
-local is_polling         = false
-local is_holding_package = false
+local active_route = nil
+local is_active    = false
 
 function Route.get_active()
     return active_route
-end
-
-function Route.has_package()
-    return is_holding_package
-end
-
-function Route.remove_package()
-    is_holding_package = false
 end
 
 function Route.setup(depot)
@@ -52,6 +41,28 @@ function Route:new(o)
     return o
 end
 
+-- Called after a successful package dropoff
+function Route:checkpoint()
+    local completed = true
+
+    for _, dropoff in ipairs(self.dropoffs) do
+        if not dropoff.completed then
+            completed = false
+            break
+        end
+    end
+
+    if not completed then return end
+
+    Route.teardown()
+
+    self.depot:initialize()
+
+    TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+        message = "You completed the delivery route."
+    })
+end
+
 function Route:cleanup()
     if self.vehicle then
         TriggerServerEvent(Events.DELETE_DELIVERY_VEHICLE, {
@@ -79,7 +90,11 @@ function Route:initialize()
     self.dropoffs = {}
 
     for _, coords in ipairs(self.depot.dropoffs) do
-        local dropoff = Dropoff:new({ coords = coords })
+        local dropoff = Dropoff:new({
+            route     = self,
+            coords    = coords,
+            completed = false
+        })
 
         dropoff:initialize()
 
@@ -87,6 +102,27 @@ function Route:initialize()
     end
 
     start_updates(self)
+end
+
+-- @local
+function activate_deliveries()
+    if is_active then return end
+    is_active = true
+
+    Citizen.CreateThread(function()
+        while is_active do
+            if IsControlJustPressed(0, 47) then -- G
+                if GetEntitySpeed(PlayerPedId()) == 0.0 then
+                    is_active = false
+                    Dropoff.activate()
+                else
+                    Tutorial.show_instructions()
+                end
+            end
+
+            Citizen.Wait(0)
+        end
+    end)
 end
 
 -- @local
@@ -114,52 +150,6 @@ function get_first_available(points)
 end
 
 -- @local
-function activate_package_search()
-    if is_polling then return end
-    is_polling = true
-
-    Citizen.CreateThread(function()
-        while is_polling do
-            if IsControlJustPressed(0, 47) then -- G
-                if GetEntitySpeed(PlayerPedId()) == 0.0 then
-                    is_polling = false
-                    attach_package()
-                else
-                    Tutorial.show_instructions()
-                end
-            end
-
-            Citizen.Wait(0)
-        end
-    end)
-end
-
--- @local
-function attach_package()
-    TaskLeaveVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false), 256)
-
-    Citizen.CreateThread(function()
-        repeat
-            Citizen.Wait(100)
-        until not IsPedInAnyVehicle(PlayerPedId(), false)
-
-        is_holding_package = true
-
-        play_emote()
-    end)
-end
-
--- @local
-function play_emote()
-    -- Avoid making the emote resource a hard dependency so we can easily swap out for whatever emote provider.
-    if exports["rpemotes"] then
-        exports["rpemotes"]:EmoteCommandStart("box")
-    else
-        Logging.log(Logging.WARN, "Unable to attach box via emote.")
-    end
-end
-
--- @local
 function start_updates(route)
     Citizen.CreateThread(function()
         local last_vehicle = 0
@@ -168,20 +158,20 @@ function start_updates(route)
             local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 
             if vehicle > 0 and last_vehicle == 0 then -- when entering a vehicle
-                if is_holding_package then
-                    is_holding_package = false
+                if Dropoff.is_active() then
+                    Dropoff.deactivate()
                 end
 
                 if vehicle == route.vehicle then
-                    activate_package_search()
+                    activate_deliveries()
                     Tutorial.show_instructions()
                 end
             elseif vehicle == 0 then
-                if is_polling then
-                    is_polling = false
+                if is_active then
+                    is_active = false
                 end
 
-                if is_holding_package then
+                if Dropoff.is_active() then
                     Tutorial.drop_package()
                 else
                     Tutorial.enter_vehicle()

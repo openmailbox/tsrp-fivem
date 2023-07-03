@@ -3,10 +3,25 @@ Dropoff = {}
 local PROMPT_KEY = "DeliveryDropoffPrompt"
 
 -- Forward declarations
-local attempt_delivery,
+local attach_package,
+      attempt_delivery,
+      play_emote,
       show_prompt
 
+local is_active    = false
 local is_prompting = false
+
+function Dropoff.activate()
+    attach_package()
+end
+
+function Dropoff.deactivate()
+    is_active = false
+end
+
+function Dropoff.is_active()
+    return is_active
+end
 
 function Dropoff.setup()
     AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to deliver the package.")
@@ -52,7 +67,7 @@ end
 
 -- @local
 function attempt_delivery(dropoff)
-    if not Route.has_package() then
+    if not is_active then
         TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
             message   = "You are not carrying a package. Return to your delivery vehicle.",
             important = true
@@ -60,10 +75,11 @@ function attempt_delivery(dropoff)
         return
     end
 
-    Route.remove_package()
-    dropoff:cleanup()
+    is_active = false
 
-    -- TODO: If it's the last dropoff, finish route
+    dropoff.completed = true
+    dropoff:cleanup()
+    dropoff.route:checkpoint()
 
     if exports["rpemotes"] then
         exports["rpemotes"]:EmoteCancel()
@@ -83,4 +99,29 @@ function show_prompt()
             Citizen.Wait(0)
         end
     end)
+end
+
+-- @local
+function attach_package()
+    TaskLeaveVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false), 256)
+
+    Citizen.CreateThread(function()
+        repeat
+            Citizen.Wait(100)
+        until not IsPedInAnyVehicle(PlayerPedId(), false)
+
+        is_active = true
+
+        play_emote()
+    end)
+end
+
+-- @local
+function play_emote()
+    -- Avoid making the emote resource a hard dependency so we can easily swap out for whatever emote provider.
+    if exports["rpemotes"] then
+        exports["rpemotes"]:EmoteCommandStart("box")
+    else
+        Logging.log(Logging.WARN, "Unable to attach box via emote.")
+    end
 end
