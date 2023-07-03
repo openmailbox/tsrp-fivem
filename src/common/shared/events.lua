@@ -118,6 +118,8 @@ Events.CREATE_DELIVERY_VEHICLE = "delivery:CreateVehicle"
 Events.DELETE_DELIVERY_VEHICLE = "delivery:DeleteVehicle"
 Events.UPDATE_DELIVERY_VEHICLE = "delivery:UpdateVehicle"
 
+Events.CREATE_DELIVERY_PACKAGE_DROPOFF = "delivery:CreatePackageDropoff"
+
 -- @resource heists
 Events.GET_HEISTS    = "heists:Get"
 Events.UPDATE_HEISTS = "heists:Update"

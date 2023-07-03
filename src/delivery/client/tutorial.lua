@@ -1,5 +1,12 @@
 Tutorial = {}
 
+function Tutorial.drop_package()
+    ClearPrints()
+    BeginTextCommandPrint("STRING")
+    AddTextComponentString("Deliver the package at the dropoff.")
+    EndTextCommandPrint(1000, 0)
+end
+
 function Tutorial.enter_vehicle()
     ClearPrints()
     BeginTextCommandPrint("STRING")

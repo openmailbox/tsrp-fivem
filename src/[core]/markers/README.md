@@ -20,8 +20,10 @@ local handle = exports.markers:AddMarker({
     draw_range     = 7.0,
     interact_range = 2.0
     data           = {},    -- any arbitrary data to be associated with the marker
-    color          = { red = 255, green = 255, blue = 255, alpha = 255 },
-    }
+    red            = 255,
+    green          = 255,
+    blue           = 255,
+    alpha          = 255
 })
 
 exports.markers:RemoveMarker(handle)

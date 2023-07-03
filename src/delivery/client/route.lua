@@ -7,11 +7,20 @@ local activate_package_search,
       get_first_available,
       start_updates
 
-local active_route = nil
-local is_polling   = false
+local active_route       = nil
+local is_polling         = false
+local is_holding_package = false
 
 function Route.get_active()
     return active_route
+end
+
+function Route.has_package()
+    return is_holding_package
+end
+
+function Route.remove_package()
+    is_holding_package = false
 end
 
 function Route.setup(depot)
@@ -51,7 +60,7 @@ function Route:cleanup()
     end
 
     for _, dropoff in ipairs(self.dropoffs) do
-        exports.map:RemoveBlip(dropoff.blip_id)
+        dropoff:cleanup()
     end
 
     self.dropoffs = {}
@@ -70,17 +79,11 @@ function Route:initialize()
     self.dropoffs = {}
 
     for _, coords in ipairs(self.depot.dropoffs) do
-        local blip_id = exports.map:AddBlip(coords, {
-            icon    = 478,
-            display = 2,
-            color   = 10,
-            label   = "Package Dropoff",
-        })
+        local dropoff = Dropoff:new({ coords = coords })
 
-        table.insert(self.dropoffs, {
-            coords  = coords,
-            blip_id = blip_id
-        })
+        dropoff:initialize()
+
+        table.insert(self.dropoffs, dropoff)
     end
 
     start_updates(self)
@@ -140,6 +143,8 @@ function attach_package()
             Citizen.Wait(100)
         until not IsPedInAnyVehicle(PlayerPedId(), false)
 
+        is_holding_package = true
+
         play_emote()
     end)
 end
@@ -162,15 +167,25 @@ function start_updates(route)
         while Route.get_active() == route do
             local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 
-            if vehicle > 0 and last_vehicle == 0 then -- when entering the vehicle
-                activate_package_search()
-                Tutorial.show_instructions()
-            elseif vehicle == 0 and last_vehicle > 0 then -- when leaving the vehicle
-                is_polling = false
-            end
+            if vehicle > 0 and last_vehicle == 0 then -- when entering a vehicle
+                if is_holding_package then
+                    is_holding_package = false
+                end
 
-            if vehicle == 0 then
-                Tutorial.enter_vehicle()
+                if vehicle == route.vehicle then
+                    activate_package_search()
+                    Tutorial.show_instructions()
+                end
+            elseif vehicle == 0 then
+                if is_polling then
+                    is_polling = false
+                end
+
+                if is_holding_package then
+                    Tutorial.drop_package()
+                else
+                    Tutorial.enter_vehicle()
+                end
             end
 
             last_vehicle = vehicle

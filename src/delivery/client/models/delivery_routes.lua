@@ -10,8 +10,8 @@ DeliveryRoutes = {
             }
         },
         dropoffs = {
-            vector3(3.3956, 36.5355, 71.5304),  -- 0605 Laguna Pl, West Vinewood
-            vector3(114.7869, -5.9946, 67.8104) -- Pop's Pills pharmacy, Alta St, Vinewood
+            vector3(3.3956, 36.5355, 70.6304),  -- 0605 Laguna Pl, West Vinewood
+            vector3(114.7869, -5.9946, 66.9104) -- Pop's Pills pharmacy, Alta St, Vinewood
         }
     }
 }
