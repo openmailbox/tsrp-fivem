@@ -1,7 +1,6 @@
 Depot = {}
 
-local POSTAL_DEPOT = vector4(68.7993, 127.2573, 79.2058, 156.0530)
-local PROMPT_KEY   = "DeliveryOfferPrompt"
+local PROMPT_KEY = "DeliveryOfferPrompt"
 
 local depots = {}
 
@@ -35,14 +34,33 @@ end
 
 function Depot:cleanup()
     exports.map:RemoveBlip(self.blip_id)
+    exports.markers:RemoveMarker(self.marker_id)
 end
 
 function Depot:initialize()
-    self.blip_id = exports.map:AddBlip(POSTAL_DEPOT, {
+    local x, y, z, _ = table.unpack(self.origin)
+    local location   = vector3(x, y, z)
+
+    self.blip_id = exports.map:AddBlip(location, {
         icon    = 478,
         display = 2,
         color   = 10,
         label   = "Delivery Depot",
         scale   = vector3(1.2, 1.2, 1.2)
+    })
+
+    self.marker_id = exports.markers:AddMarker({
+        icon           = 32,
+        coords         = location,
+        red            = 255,
+        green          = 255,
+        face_camera    = true,
+        scale          = vector3(0.2, 0.2, 0.2),
+        blue           = 0,
+        interact_range = 1.0,
+        draw_range     = 20.0,
+        on_interact    = function() print("interact") end,
+        on_enter       = function() print("enter") end,
+        on_exit        = function() print("exit") end
     })
 end

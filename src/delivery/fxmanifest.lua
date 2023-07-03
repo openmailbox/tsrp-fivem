@@ -8,6 +8,11 @@ author "open_mailbox <dev@open-mailbox.com>"
 description "Provides a configurable job allowing players to deliver packages."
 version "0.0.1"
 
+dependencies {
+    "map",
+    "markers"
+}
+
 client_scripts {
     "@common/shared/events.lua",
     "shared/**/*.lua",
