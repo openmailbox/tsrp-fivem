@@ -2,10 +2,15 @@ Depot = {}
 
 local PROMPT_KEY = "DeliveryOfferPrompt"
 
-local depots = {}
+-- Forward declarations
+local show_prompt,
+      start_route
+
+local depots       = {}    -- list of all in-memory depots
+local is_prompting = false -- loop control variable
 
 function Depot.setup()
-    AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to check the list.")
+    AddTextEntry(PROMPT_KEY, "Press ~INPUT_CONTEXT~ to deliver packages for money.")
 
     for name, details in pairs(DeliveryRoutes) do
         local depot = Depot:new(details)
@@ -59,8 +64,27 @@ function Depot:initialize()
         blue           = 0,
         interact_range = 1.0,
         draw_range     = 20.0,
-        on_interact    = function() print("interact") end,
-        on_enter       = function() print("enter") end,
-        on_exit        = function() print("exit") end
+        on_interact    = function() start_route(self) end,
+        on_enter       = show_prompt,
+        on_exit        = function() is_prompting = false end
     })
+end
+
+-- @local
+function show_prompt()
+    if is_prompting then return end
+    is_prompting = true
+
+    Citizen.CreateThread(function()
+        while is_prompting do
+            DisplayHelpTextThisFrame(PROMPT_KEY, 0)
+            Citizen.Wait(0)
+        end
+    end)
+end
+
+-- @local
+function start_route(depot)
+    Route.setup(depot)
+    depot:cleanup()
 end
