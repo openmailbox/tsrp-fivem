@@ -58,8 +58,12 @@ function Route:checkpoint()
 
     self.depot:initialize()
 
+    TriggerServerEvent(Events.CREATE_DELIVERY_PACKAGE_DROPOFF, {
+        finished_route = true
+    })
+
     TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-        message = "You completed the delivery route."
+        message = "You receive a bonus for completing the delivery route."
     })
 end
 

@@ -9,9 +9,11 @@ description "Provides a configurable job allowing players to deliver packages."
 version "0.0.1"
 
 dependencies {
+    "characters",
     "map",
     "markers",
-    "vehicles"
+    "vehicles",
+    "wallet"
 }
 
 client_scripts {
@@ -22,6 +24,7 @@ client_scripts {
 
 server_scripts {
     "@common/shared/events.lua",
+    "@common/shared/logging.lua",
     "shared/**/*.lua",
     "server/**/*.lua"
 }

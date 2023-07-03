@@ -85,7 +85,7 @@ function attempt_delivery(dropoff)
         exports["rpemotes"]:EmoteCancel()
     end
 
-    TriggerServerEvent(Events.CREATE_DELIVERY_PACKAGE_DROPOFF)
+    TriggerServerEvent(Events.CREATE_DELIVERY_PACKAGE_DROPOFF, {})
 end
 
 -- @local
