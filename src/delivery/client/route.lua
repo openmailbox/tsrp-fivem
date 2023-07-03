@@ -10,6 +10,10 @@ function Route.get_active()
 end
 
 function Route.setup(depot)
+    if active_route then
+        active_route:cleanup()
+    end
+
     local route = Route:new({ depot = depot })
     route:initialize()
 
@@ -40,7 +44,11 @@ function Route:cleanup()
         })
     end
 
-    -- clear dropoff markers
+    for _, dropoff in ipairs(self.dropoffs) do
+        exports.map:RemoveBlip(dropoff.blip_id)
+    end
+
+    self.dropoffs = {}
 end
 
 function Route:initialize()
@@ -53,8 +61,23 @@ function Route:initialize()
         name     = self.depot.name
     })
 
-    -- mark dropoffs
-    -- show instructions
+    self.dropoffs = {}
+
+    for _, coords in ipairs(self.depot.dropoffs) do
+        local blip_id = exports.map:AddBlip(coords, {
+            icon    = 478,
+            display = 2,
+            color   = 10,
+            label   = "Package Dropoff",
+        })
+
+        table.insert(self.dropoffs, {
+            coords  = coords,
+            blip_id = blip_id
+        })
+    end
+
+    Tutorial.initialize(self)
 end
 
 -- @local
