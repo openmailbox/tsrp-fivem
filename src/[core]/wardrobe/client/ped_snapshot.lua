@@ -36,6 +36,8 @@ exports("RecordSnapshot", PedSnapshot.record)
 
 -- Restores a previously recorded snapshot to the given ped.
 function PedSnapshot.restore(ped, snapshot)
+    local is_self = ped == PlayerPedId()
+
     -- It's important to update the ped in a specific order to make sure i.e. the model is set before the model's components.
     table.sort(snapshot.attributes, function(a, b)
         if a.type == b.type then
@@ -52,6 +54,11 @@ function PedSnapshot.restore(ped, snapshot)
             -- Always force face update for freemode models to make sure we apply head blend. There's prolly a better way to do this.
             if v ~= attribute.value[k] or (attribute.name == "face" and is_freemode_model(ped)) then
                 set_current_value(ped, attribute)
+
+                -- Entity ID changes if model changed. We shouldn't ever need to change models on non-player peds. Just recreate them.
+                if attribute.name == "model" and is_self then
+                    ped = PlayerPedId()
+                end
             end
         end
     end
