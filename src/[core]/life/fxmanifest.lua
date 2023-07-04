@@ -9,6 +9,7 @@ description "Life, death, and respawn things."
 version "0.0.1"
 
 dependencies {
+    "characters",
     "map"
 }
 
@@ -22,6 +23,7 @@ server_scripts {
     "@common/shared/events.lua",
     "@common/shared/colors.lua",
     "@common/shared/logging.lua",
+    "@common/shared/weapons.lua",
     "server/**/*.lua"
 }
 

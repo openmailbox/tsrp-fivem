@@ -180,6 +180,8 @@ Events.CREATE_RESPAWN = "respawn:CreateSpawn"
 
 Events.CREATE_WANTED_STATUS_CHANGE = "life:CreateWantedStatusChange"
 
+Events.CREATE_DEATH_EVENT = "life:CreateDeathEvent"
+
 -- @resource lockpicking
 Events.CREATE_LOCKPICK_SESSION = "lockpicking:CreateSession"
 Events.DELETE_LOCKPICK_SESSION = "lockpicking:DeleteSession"
