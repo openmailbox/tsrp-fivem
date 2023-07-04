@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Provides a configurable job allowing players to deliver packages."
-version "0.1.0"
+version "0.2.0"
 
 dependencies {
     "characters",
