@@ -12,7 +12,7 @@ DeliveryRoutes = {
         dropoffs = {
             vector3(3.3956, 36.5355, 70.6304),       -- 0605 Laguna Pl, West Vinewood
             vector3(114.7869, -5.9946, 66.9104),     -- Pop's Pills pharmacy, Alta St, Vinewood
-            vector3(172.7878, -26.5904, 68.3455),    -- Vinewood Institute, Hawick
+            vector3(172.7878, -26.5904, 67.4455),    -- Vinewood Institute, Hawick
             vector3(252.4337, -47.2144, 69.9410),    -- Ammunation, Hawick
             vector3(335.1068, 119.4046, 103.4074),   -- Fred's Store, Vinewood Blvd, Downtown Vinewood
             vector3(321.5246, 182.3366, 102.6865),   -- Tattoo Shop, Vinewood Blvd, Downtown Vinewood
