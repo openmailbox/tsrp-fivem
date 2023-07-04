@@ -33,6 +33,11 @@ Locations = {
                 name     = "Herr Kutz Paleto",
                 location = vector3(-278.533, 6228.525, 30.796),
                 radius     = 4.5
+            },
+            {
+                name     = "Hair on Hawick",
+                location = vector3(-32.7563, -152.0461, 57.0765),
+                radius   = 4.5
             }
         }
     }
