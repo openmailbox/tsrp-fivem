@@ -6,7 +6,7 @@ lua54 "yes"
 
 author "open_mailbox <dev@open-mailbox.com>"
 description "Provides user interface for character customization."
-version "0.2.1"
+version "0.2.2"
 
 dependencies {
     "map",
