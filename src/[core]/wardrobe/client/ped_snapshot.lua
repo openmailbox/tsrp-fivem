@@ -3,6 +3,7 @@ PedSnapshot = {}
 -- Forward declarations
 local get_current_value,
       get_model_label,
+      is_freemode_model,
       set_current_value,
       set_model
 
@@ -35,27 +36,21 @@ exports("RecordSnapshot", PedSnapshot.record)
 
 -- Restores a previously recorded snapshot to the given ped.
 function PedSnapshot.restore(ped, snapshot)
-    local ordering = {}
-    local names    = {}
-
-    for name, _ in pairs(Attributes) do
-        table.insert(names, name)
-    end
-
-    for i, name in ipairs(names) do
-        ordering[name] = i
-    end
-
     -- It's important to update the ped in a specific order to make sure i.e. the model is set before the model's components.
     table.sort(snapshot.attributes, function(a, b)
-        return ordering[a.name] < ordering[b.name]
+        if a.type == b.type then
+            return a.index < b.index
+        else
+            return a.type < b.type
+        end
     end)
 
     for _, attribute in ipairs(snapshot.attributes) do
         local current = get_current_value(ped, attribute) or {}
 
         for k, v in pairs(current) do
-            if v ~= attribute.value[k] then
+            -- Always force face update for freemode models to make sure we apply head blend. There's prolly a better way to do this.
+            if v ~= attribute.value[k] or (attribute.name == "face" and is_freemode_model(ped)) then
                 set_current_value(ped, attribute)
             end
         end
@@ -89,13 +84,13 @@ end
 
 -- @local
 function get_model_label(hash)
-    for _, label in ipairs(PedModels) do
+    for _, label in ipairs(FreemodeModels) do
         if GetHashKey(label) == hash then
             return label
         end
     end
 
-    for _, label in ipairs(FreemodeModels) do
+    for _, label in ipairs(PedModels) do
         if GetHashKey(label) == hash then
             return label
         end
@@ -105,11 +100,17 @@ function get_model_label(hash)
 end
 
 -- @local
+function is_freemode_model(ped)
+    local label = get_model_label(GetEntityModel(ped))
+    return label and string.match(label, "freemode") and true
+end
+
+-- @local
 function set_current_value(ped, attrib)
     if attrib.type == AttributeTypes.COMPONENT then
         SetPedComponentVariation(ped, attrib.index, attrib.value.drawable, attrib.value.texture, 0)
 
-        if attrib.label == "Face" then
+        if attrib.name == "face" then
             local face = attrib.value.drawable
             SetPedHeadBlendData(ped, face, face, face, face, face, face, 0.5, 0.5, 0, false)
         end

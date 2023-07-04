@@ -1,7 +1,7 @@
 local function create(message)
-    local env     = GetConvar("FIVEM_ENVIRONMENT")
-    local webhook = GetConvar("DISCORD_LOGGING_WEBHOOK")
-    local token   = GetConvar("DISCORD_LOGGING_TOKEN")
+    local env     = GetConvar("FIVEM_ENVIRONMENT", "development")
+    local webhook = GetConvar("DISCORD_LOGGING_WEBHOOK", "")
+    local token   = GetConvar("DISCORD_LOGGING_TOKEN", "")
 
     if string.len(webhook) < 1 or string.len(token) < 1 then
         Logging.log(Logging.WARN, "Unable to log to Discord without a configured webhook and token.")
