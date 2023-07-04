@@ -47,10 +47,10 @@ function Depot:initialize()
     local location   = vector3(x, y, z)
 
     self.blip_id = exports.map:AddBlip(location, {
-        icon    = 478,
+        icon    = self.blip.icon,
         display = 2,
-        color   = 10,
-        label   = "Delivery Depot",
+        color   = self.blip.color,
+        label   = self.blip.label,
         scale   = vector3(1.2, 1.2, 1.2)
     })
 
@@ -85,6 +85,16 @@ end
 
 -- @local
 function start_route(depot)
-    Route.setup(depot)
+    if depot.vehicle.required then
+        local vehicle = GetVehiclePedIsIn(PlayerPedId())
+
+        if vehicle == 0 or GetVehicleClass(vehicle) ~= depot.vehicle.class then
+            Tutorial.show_vehicle_requirement(depot.vehicle.class)
+            return
+        end
+    end
+
     depot:cleanup()
+
+    Route.setup(depot)
 end

@@ -11,8 +11,8 @@ local attach_package,
 local is_active    = false
 local is_prompting = false
 
-function Dropoff.activate()
-    attach_package()
+function Dropoff.activate(route)
+    attach_package(route)
 end
 
 function Dropoff.deactivate()
@@ -43,9 +43,9 @@ end
 
 function Dropoff:initialize()
     self.blip_id = exports.map:AddBlip(self.coords, {
-        icon    = 478,
+        icon    = self.route.depot.blip.icon,
         display = 2,
-        color   = 10,
+        color   = self.route.depot.blip.color,
         label   = "Package Dropoff",
     })
 
@@ -102,7 +102,7 @@ function show_prompt()
 end
 
 -- @local
-function attach_package()
+function attach_package(route)
     TaskLeaveVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false), 256)
 
     Citizen.CreateThread(function()
@@ -112,16 +112,16 @@ function attach_package()
 
         is_active = true
 
-        play_emote()
+        play_emote(route.depot.emote)
     end)
 end
 
 -- @local
-function play_emote()
+function play_emote(name)
     -- Avoid making the emote resource a hard dependency so we can easily swap out for whatever emote provider.
     if exports["rpemotes"] then
-        exports["rpemotes"]:EmoteCommandStart("box")
+        exports["rpemotes"]:EmoteCommandStart(name)
     else
-        Logging.log(Logging.WARN, "Unable to attach box via emote.")
+        Logging.log(Logging.WARN, "Unable play emote '" .. name .. "' for deliveries.")
     end
 end

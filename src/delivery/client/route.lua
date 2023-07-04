@@ -83,15 +83,17 @@ function Route:cleanup()
 end
 
 function Route:initialize()
-    local model    = self.depot.vehicle.model
-    local location = get_first_available(self.depot.vehicle.spawns)
     local progress = exports.progress:ShowProgressBar(3000, "Finding Route")
 
-    TriggerServerEvent(Events.CREATE_DELIVERY_VEHICLE, {
-        model    = model,
-        location = location,
-        name     = self.depot.name
-    })
+    if not self.depot.vehicle.required then
+        TriggerServerEvent(Events.CREATE_DELIVERY_VEHICLE, {
+            model    = self.depot.vehicle.model,
+            location = get_first_available(self.depot.vehicle.spawns),
+            name     = self.depot.name
+        })
+    else
+        self.vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    end
 
     start_updates(self)
 
@@ -120,16 +122,16 @@ function Route:initialize()
 end
 
 -- @local
-function activate_deliveries()
+function activate_deliveries(route)
     if is_active then return end
     is_active = true
 
     Citizen.CreateThread(function()
         while is_active do
             if IsControlJustPressed(0, 47) then -- G
-                if GetEntitySpeed(PlayerPedId()) == 0.0 then
+                if IsVehicleStopped(GetVehiclePedIsIn(PlayerPedId(), false)) then
                     is_active = false
-                    Dropoff.activate()
+                    Dropoff.activate(route)
                 else
                     Tutorial.show_instructions()
                 end
@@ -208,7 +210,7 @@ function start_updates(route)
                 end
 
                 if vehicle == route.vehicle then
-                    activate_deliveries()
+                    activate_deliveries(route)
                     Tutorial.show_instructions()
                 end
             elseif vehicle == 0 then

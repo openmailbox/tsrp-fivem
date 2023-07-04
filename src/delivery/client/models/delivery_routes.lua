@@ -1,7 +1,9 @@
 DeliveryRoutes = {
     ["Go Postal"] = {
-        origin   = vector4(68.7993, 127.2573, 79.2058, 156.0530),
-        vehicle  = {
+        origin  = vector4(68.7993, 127.2573, 79.2058, 156.0530),
+        blip    = { icon = 478, color = 10, label = "Delivery Job" },
+        emote   = "box", -- if supported, the emote that will play when player is "delivering"
+        vehicle = {
             model  = "boxville2",
             spawns = {
                 vector4(58.6648, 120.6847, 79.2320, 156.5412),
@@ -36,6 +38,39 @@ DeliveryRoutes = {
             vector3(-51.8963, -213.1119, 44.9042),   -- LS Office Supply, Burton
             vector3(314.6724, -226.8774, 53.1262),   -- Pink Cage, Alta
             vector3(526.1160, -151.0222, 56.8634),   -- Fake 24/7, Hawick
+        }
+    },
+
+    ["Post Op Couriers"] = {
+        origin  = vector4(-231.4501, -912.8694, 32.3109, 289.8804),
+        blip    = { icon = 501, color = 16, label = "Courier Job" },
+        emote   = "backpack",
+        vehicle = {
+            required = true, -- player must bring their own vehicle
+            class    = 13    -- bicycles
+        },
+        dropoffs = {
+            vector3(-267.0710, -959.2544, 30.3231), -- 3 Alta St, Pillbox Hill
+            vector3(-194.0519, -831.7274, 29.8941), -- Gruppe Sechs, Pillbox Hill
+            vector3(-6.8534, -661.2135, 32.5805),   -- Union Depository Loading Dock, Pillbox Hill
+            vector3(111.4326, -749.7087, 44.8547),  -- FIB Lobby, Pillbox Hill
+            vector3(6.2310, -709.3139, 45.0730),    -- Union Depository main entrance, Pillbox Hill
+            vector3(-70.2461, -798.2324, 43.3273),  -- Maze Bank main entrance, Pillbox Hill
+            vector3(309.5430, -590.8304, 42.3840),  -- Pillbox lobby
+            vector3(-112.2790, -605.7161, 35.3807), -- Arcadius Business Center main entrance, Pillbox Hill
+            vector3(-59.8214, -616.0707, 36.4568),  -- 4 Integrity Way, Pillbox Hill
+            vector3(267.6771, -638.9748, 41.1197),  -- Integrity Towers, Pillbox Hill
+            vector3(55.1683, -797.8290, 30.6840),   -- G&P Restaurant, Pillbox Hill
+            vector3(-240.0576, -776.9979, 33.1917), -- Cafe Redemption, Pillbox Hill
+            vector3(167.2720, -566.9451, 42.9729),  -- Penris Building, Pillbox Hill
+            vector3(-269.7897, -706.8718, 37.3770), -- Slaughter, Slaughter, & Slaughter office, Pillbox Hill
+            vector3(-214.4060, -727.4740, 32.6715), -- Schlongberg Sachs, Pillbox Hill
+            vector3(5.4970, -934.8519, 29.0050),    -- Lombank, Pillbox Hill
+            vector3(6.0519, -984.2795, 28.4685),    -- Hookah Palace, Vespucci Blvd, Pillbox Hill
+            vector3(68.5676, -959.7261, 28.9038),   -- The Emissary, Vespucci Blvd, Pillbox Hill
+            vector3(150.4702, -1039.6237, 28.4689), -- Fleeca, Pillbox Hill
+            vector3(122.3492, -879.8928, 30.2231),  -- Escapism Travel, Pillbox Hill
+            vector3(-295.9993, -829.3188, 31.5158), -- Quikhouse, Peaceful St, Pillbox Hill
         }
     }
 }

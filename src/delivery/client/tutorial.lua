@@ -20,7 +20,16 @@ function Tutorial.show_instructions()
     })
 
     TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
-        message   = "You can only prepare packages while inside your ~h~parked~h~ delivery vehicle.",
+        message   = "You can only prepare packages while inside your ~r~~h~parked~h~~s~ delivery vehicle.",
+        important = true
+    })
+end
+
+function Tutorial.show_vehicle_requirement(vehicle_class)
+    local label = GetLabelText("VEH_CLASS_" .. vehicle_class)
+
+    TriggerEvent(Events.CREATE_HUD_NOTIFICATION, {
+        message   = "This job requires a specific vehicle type: ~y~" .. label .. "~s~.",
         important = true
     })
 end
